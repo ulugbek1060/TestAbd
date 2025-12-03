@@ -52,7 +52,6 @@ class RegisterCubit extends Cubit<RegisterState> {
 
   // ---- Register action ----
   Future<void> register() async {
-    // Validate fields
     if (state.username.isEmpty) {
       emit(state.copyWith(error: "Foydalanuvchi nomi kiritilmadi"));
       return;
@@ -69,8 +68,14 @@ class RegisterCubit extends Cubit<RegisterState> {
       );
       return;
     }
+
     if (state.password != state.confirmPassword) {
       emit(state.copyWith(error: "Parollar mos emas"));
+      return;
+    }
+
+    if (state.hasReferral && state.referralCode.isEmpty) {
+      emit(state.copyWith(error: "Referral kod kiritilmadi"));
       return;
     }
 
@@ -90,5 +95,4 @@ class RegisterCubit extends Cubit<RegisterState> {
       },
     );
   }
-
 }

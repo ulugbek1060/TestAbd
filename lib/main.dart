@@ -29,7 +29,6 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   late SessionService _sessionService;
-
   late StreamSubscription _sub;
 
   @override
