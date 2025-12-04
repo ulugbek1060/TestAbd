@@ -20,6 +20,7 @@ import '../core/utils/dio_interceptor.dart' as _i900;
 import '../data/remote_source/account/account_source.dart' as _i65;
 import '../data/repository/auth_repository_impl.dart' as _i461;
 import '../domain/auth/auth_repository.dart' as _i893;
+import '../features/auth/forgotpswd/forgot_pswd_cubit.dart' as _i36;
 import '../features/auth/login/login_cubit.dart' as _i958;
 import '../features/auth/register/register_cubit.dart' as _i163;
 import '../features/profile/profile_cubit.dart' as _i760;
@@ -63,6 +64,8 @@ extension GetItInjectableX on _i174.GetIt {
         ));
     gh.factory<_i760.ProfileCubit>(
         () => _i760.ProfileCubit(gh<_i893.AuthRepository>()));
+    gh.factory<_i36.ForgotPswdCubit>(
+        () => _i36.ForgotPswdCubit(gh<_i893.AuthRepository>()));
     gh.factory<_i958.LoginCubit>(
         () => _i958.LoginCubit(gh<_i893.AuthRepository>()));
     gh.factory<_i163.RegisterCubit>(

@@ -26,11 +26,14 @@ class AccountSource {
           "username": username,
           "email": email,
           "password": password,
-          "referral_code": referralCode,
+          if (referralCode != null) "referral_code": referralCode,
         },
       );
       return UserRegisterResponse.fromJson(response.data);
     } on DioException catch (e) {
+      if (e.response?.statusCode == 400) {
+        throw BadRequestException(e.response?.data['username'].toString() ?? "Unknown error");
+      }
       throw e.handleDioException();
     } catch (e) {
       throw UnknownException(e.toString());
@@ -58,7 +61,7 @@ class AccountSource {
       final response = await _dio.post("/accounts/logout/");
       return response.data;
     } on DioException catch (e) {
-      if (e.response?.statusCode == 403){
+      if (e.response?.statusCode == 403) {
         // TODO: handle error
         throw BadRequestException(e.response?.data['detail']);
       }

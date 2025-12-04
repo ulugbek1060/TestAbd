@@ -18,6 +18,15 @@ class RegisterState extends Equatable {
   final bool hasReferral;
   final String referralCode;
 
+  /// errors
+  final bool usernameError;
+  final bool emailError;
+  final bool passwordError;
+  final bool confirmPasswordError;
+  final bool referralCodeError;
+
+
+
   const RegisterState({
     this.isLoading = false,
     this.isSuccess = false,
@@ -30,6 +39,13 @@ class RegisterState extends Equatable {
     this.isConfirmPswdVisible = false,
     this.hasReferral = false,
     this.referralCode = "",
+
+    // errors
+    this.usernameError = false,
+    this.emailError = false,
+    this.passwordError = false,
+    this.confirmPasswordError = false,
+    this.referralCodeError = false,
   });
 
   RegisterState copyWith({
@@ -45,6 +61,11 @@ class RegisterState extends Equatable {
     bool? isConfirmPswdVisible,
     bool? hasReferral,
     String? referralCode,
+    bool? usernameError,
+    bool? emailError,
+    bool? passwordError,
+    bool? confirmPasswordError,
+    bool? referralCodeError,
   }) {
     return RegisterState(
       isLoading: isLoading ?? this.isLoading,
@@ -58,6 +79,11 @@ class RegisterState extends Equatable {
       isConfirmPswdVisible: isConfirmPswdVisible ?? this.isConfirmPswdVisible,
       hasReferral: hasReferral ?? this.hasReferral,
       referralCode: referralCode ?? this.referralCode,
+      usernameError: usernameError ?? this.usernameError,
+      emailError: emailError ?? this.emailError,
+      passwordError: passwordError ?? this.passwordError,
+      confirmPasswordError: confirmPasswordError ?? this.confirmPasswordError,
+      referralCodeError: referralCodeError ?? this.referralCodeError,
     );
   }
 
@@ -74,5 +100,10 @@ class RegisterState extends Equatable {
     isConfirmPswdVisible,
     hasReferral,
     referralCode,
+    usernameError,
+    emailError,
+    passwordError,
+    confirmPasswordError,
+    referralCodeError,
   ];
 }

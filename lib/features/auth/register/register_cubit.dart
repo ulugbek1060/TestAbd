@@ -14,22 +14,27 @@ class RegisterCubit extends Cubit<RegisterState> {
   // ---- Field updaters ----
   void setUsername(String value) {
     if (state.isLoading) return;
-    emit(state.copyWith(username: value));
+    emit(state.copyWith(username: value, usernameError: false));
   }
 
   void setEmail(String value) {
     if (state.isLoading) return;
-    emit(state.copyWith(email: value));
+    emit(state.copyWith(email: value, emailError: false));
   }
 
   void setPassword(String value) {
     if (state.isLoading) return;
-    emit(state.copyWith(password: value));
+    emit(state.copyWith(password: value, passwordError: false));
   }
 
   void setConfirmPassword(String value) {
     if (state.isLoading) return;
-    emit(state.copyWith(confirmPassword: value));
+    emit(
+      state.copyWith(
+        confirmPassword: value,
+        confirmPasswordError: state.password != value,
+      ),
+    );
   }
 
   void toggleReferral(bool? value) {
@@ -52,32 +57,36 @@ class RegisterCubit extends Cubit<RegisterState> {
 
   // ---- Register action ----
   Future<void> register() async {
+    int counter = 0;
     if (state.username.isEmpty) {
-      emit(state.copyWith(error: "Foydalanuvchi nomi kiritilmadi"));
-      return;
+      emit(state.copyWith(usernameError: true));
+      counter++;
     }
     if (state.email.isEmpty) {
-      emit(state.copyWith(error: "Email manzili kiritilmadi"));
-      return;
+      emit(state.copyWith(emailError: true));
+      counter++;
     }
     if (state.password.length < 6) {
-      emit(
-        state.copyWith(
-          error: "Parol kamida 6 ta belgidan iborat bo‘lishi kerak",
-        ),
-      );
-      return;
+      emit(state.copyWith(passwordError: true));
+      counter++;
     }
 
-    if (state.password != state.confirmPassword) {
-      emit(state.copyWith(error: "Parollar mos emas"));
-      return;
+    if (state.password != state.confirmPassword || state.confirmPassword.isEmpty) {
+      emit(state.copyWith(confirmPasswordError: true));
+      counter++;
     }
 
     if (state.hasReferral && state.referralCode.isEmpty) {
-      emit(state.copyWith(error: "Referral kod kiritilmadi"));
+      emit(state.copyWith(referralCodeError: true));
+      counter++;
+    }
+
+    if (counter > 0){
+      emit(state.copyWith(error: "Maydonlarni to'ldiring"));
       return;
     }
+
+    emit(state.copyWith(isLoading: true));
 
     final result = await repository.register(
       username: state.username,
