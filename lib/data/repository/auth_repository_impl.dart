@@ -6,7 +6,7 @@ import 'package:testabd/core/services/token_service.dart';
 import 'package:testabd/data/mappers.dart';
 import 'package:testabd/data/remote_source/account/account_source.dart';
 import 'package:testabd/domain/auth/auth_repository.dart';
-import 'package:testabd/domain/auth/entity/register_model.dart';
+import 'package:testabd/domain/auth/entities/register_model.dart';
 
 @Singleton(as: AuthRepository)
 class AuthRepositoryImpl implements AuthRepository {
@@ -22,9 +22,9 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Either<AppException, RegisterModel>> register({
-  required  String username,
-   required String email,
-  required  String password,
+    required String username,
+    required String email,
+    required String password,
     String? referralCode,
   }) async {
     try {
@@ -50,10 +50,10 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       final result = await _accountSource.login(username, password);
       final tokenData = TokenData(
-        access: result.access,
-        refresh: result.refresh,
+        access: result.access ?? '',
+        refresh: result.refresh ?? '',
       );
-      await _tokenService.saveToken(tokenData.toJson());
+      await _tokenService.saveToken(tokenData);
       await _sessionService.saveSessionStatus(SessionStatus.authenticated);
       return Right(unit);
     } on AppException catch (e) {

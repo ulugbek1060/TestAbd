@@ -5,26 +5,24 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:testabd/main.dart';
 
 class TokenData {
-  final String? access;
-  final String? refresh;
+  final String access;
+  final String refresh;
 
-  TokenData({this.access, this.refresh});
+  TokenData({this.access = '', this.refresh = ''});
 
   factory TokenData.fromJson(String json) {
     final data = jsonDecode(json);
-    return TokenData(
-      access: data['access'],
-      refresh: data['refresh'],
-    );
+    return TokenData(access: data['access'], refresh: data['refresh']);
   }
+
   String toJson() {
     return '{"access": "$access", "refresh": "$refresh"}';
   }
 }
 
 abstract class TokenService {
-  Future<bool> saveToken(String token);
-  Future<String?> getToken();
+  Future<bool> saveToken(TokenData data);
+  Future<TokenData?> getToken();
   Future<bool> clear();
 }
 
@@ -37,9 +35,9 @@ class SharedPrefsTokenService implements TokenService {
   SharedPrefsTokenService(this._prefs);
 
   @override
-  Future<bool> saveToken(String token) async {
+  Future<bool> saveToken(TokenData data) async {
     try {
-      return await _prefs.setString(_key, token);
+      return await _prefs.setString(_key, data.toJson());
     } catch (e, stackTrace) {
       logger.d(e.toString(), stackTrace: stackTrace);
       return false;
@@ -47,10 +45,10 @@ class SharedPrefsTokenService implements TokenService {
   }
 
   @override
-  Future<String?> getToken() async {
+  Future<TokenData?> getToken() async {
     final token = _prefs.getString(_key);
     if (token != null && token.isNotEmpty) {
-      return token;
+      return TokenData.fromJson(token);
     }
     return null;
   }

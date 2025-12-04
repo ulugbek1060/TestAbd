@@ -1,12 +1,12 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'me_response.freezed.dart';
-part 'me_response.g.dart';
+part 'my_info_response.freezed.dart';
+part 'my_info_response.g.dart';
 
 @freezed
-class MeResponse with _$MeResponse {
-  const factory MeResponse({
+class MyInfoResponse with _$MyInfoResponse {
+  const factory MyInfoResponse({
     required int id,
     String? country,
     String? region,
@@ -48,8 +48,8 @@ class MeResponse with _$MeResponse {
     @Default([]) List<String> userPermissions,
   }) = _MeResponse;
 
-  factory MeResponse.fromJson(Map<String, dynamic> json) =>
-      _$MeResponseFromJson(json);
+  factory MyInfoResponse.fromJson(Map<String, dynamic> json) =>
+      _$MyInfoResponseFromJson(json);
 }
 
 @freezed

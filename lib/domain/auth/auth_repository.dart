@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:testabd/core/errors/app_exception.dart';
-import 'package:testabd/domain/auth/entity/register_model.dart';
+import 'package:testabd/domain/auth/entities/register_model.dart';
 
 abstract class AuthRepository {
   Future<Either<AppException, RegisterModel>> register({

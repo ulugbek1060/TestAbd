@@ -1,27 +1,27 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
+import 'package:testabd/core/services/token_service.dart';
 
 @singleton
 class DioInterceptor extends Interceptor {
+  final TokenService _tokenService;
+
+  DioInterceptor(this._tokenService);
 
   @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    // TODO: implement onRequest
+  void onRequest(
+    RequestOptions options,
+    RequestInterceptorHandler handler,
+  ) async {
+    final token = await _tokenService.getToken();
+    options.headers['Content-Type'] = 'application/json';
+    if (token != null) options.headers['Authorization'] = token.access;
     super.onRequest(options, handler);
   }
 
   @override
-  void onResponse(
-    Response<dynamic> response,
-    ResponseInterceptorHandler handler,
-  ) {
-    // TODO: implement onResponse
-    super.onResponse(response, handler);
-  }
-
-  @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
-    // TODO: implement onError
+    // refresh token
     super.onError(err, handler);
   }
 }

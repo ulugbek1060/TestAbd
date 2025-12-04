@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:testabd/core/errors/app_exception.dart';
 import 'package:testabd/data/remote_source/account/model/login_response.dart';
-import 'package:testabd/data/remote_source/account/model/me_response.dart';
+import 'package:testabd/data/remote_source/account/model/my_info_response.dart';
 import 'package:testabd/data/remote_source/account/model/notifications_response.dart';
 import 'package:testabd/data/remote_source/account/model/user_register_response.dart';
 
@@ -72,10 +72,10 @@ class AccountSource {
   }
 
   /// /accounts/me/
-  Future<MeResponse> getUserInfo() async {
+  Future<MyInfoResponse> getUserInfo() async {
     try {
       final response = await _dio.get("/accounts/me/");
-      return MeResponse.fromJson(response.data);
+      return MyInfoResponse.fromJson(response.data);
     } on DioException catch (e) {
       throw e.handleDioException();
     } catch (e) {

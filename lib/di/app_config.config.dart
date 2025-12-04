@@ -42,21 +42,22 @@ extension GetItInjectableX on _i174.GetIt {
       () => appModule.getSharedPrefs(),
       preResolve: true,
     );
-    gh.singleton<_i900.DioInterceptor>(() => _i900.DioInterceptor());
     gh.lazySingleton<_i361.BaseOptions>(
         () => appModule.provideDioBaseOptions());
     gh.lazySingleton<_i528.PrettyDioLogger>(
         () => appModule.providePrettyDioLogger());
     gh.singleton<_i792.TokenService>(
         () => _i792.SharedPrefsTokenService(gh<_i460.SharedPreferences>()));
+    gh.singleton<_i371.SessionService>(
+        () => _i371.SessionServiceImpl(gh<_i460.SharedPreferences>()));
+    gh.singleton<_i900.DioInterceptor>(
+        () => _i900.DioInterceptor(gh<_i792.TokenService>()));
     gh.factory<_i361.Dio>(() => appModule.provideDio(
           gh<_i361.BaseOptions>(),
           gh<_i900.DioInterceptor>(),
           gh<_i528.PrettyDioLogger>(),
         ));
     gh.factory<_i65.AccountSource>(() => _i65.AccountSource(gh<_i361.Dio>()));
-    gh.singleton<_i371.SessionService>(
-        () => _i371.SessionServiceImpl(gh<_i460.SharedPreferences>()));
     gh.singleton<_i893.AuthRepository>(() => _i461.AuthRepositoryImpl(
           gh<_i65.AccountSource>(),
           gh<_i371.SessionService>(),
