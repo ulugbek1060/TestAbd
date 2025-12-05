@@ -37,8 +37,8 @@ class AuthRepositoryImpl implements AuthRepository {
       return Right(result.toDomain());
     } on AppException catch (e) {
       return Left(e);
-    } catch (e) {
-      return Left(e.toAppException());
+    } catch (e, stackTrace) {
+      return Left(UnauthorizedException(e.toString(), stackTrace: stackTrace));
     }
   }
 
@@ -58,8 +58,8 @@ class AuthRepositoryImpl implements AuthRepository {
       return Right(unit);
     } on AppException catch (e) {
       return Left(e);
-    } catch (e) {
-      return Left(e.toAppException());
+    } catch (e, stackTrace) {
+      return Left(UnauthorizedException(e.toString(), stackTrace: stackTrace));
     }
   }
 
@@ -72,8 +72,20 @@ class AuthRepositoryImpl implements AuthRepository {
       return Right(unit);
     } on AppException catch (e) {
       return Left(e);
-    } catch (e) {
-      return Left(e.toAppException());
+    } catch (e, stackTrace) {
+      return Left(UnauthorizedException(e.toString(), stackTrace: stackTrace));
+    }
+  }
+
+  @override
+  Future<Either<AppException, Unit>> forgotPassword(String email) async {
+    try {
+      await _accountSource.resendVerificationEmail(email);
+      return Right(unit);
+    } on AppException catch (e) {
+      return Left(e);
+    } catch (e, stackTrace) {
+      return Left(UnauthorizedException(e.toString(), stackTrace: stackTrace));
     }
   }
 }

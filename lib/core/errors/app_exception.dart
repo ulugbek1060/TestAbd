@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:dio/dio.dart';
 
 extension DioExceptionTypeX on DioException {
@@ -8,10 +6,10 @@ extension DioExceptionTypeX on DioException {
       case DioExceptionType.connectionTimeout:
       case DioExceptionType.sendTimeout:
       case DioExceptionType.receiveTimeout:
-        return TimeoutException("Connection timed out");
+        return TimeoutException("Connection timed out", stackTrace: stackTrace);
 
       case DioExceptionType.connectionError:
-        return NetworkException("No internet connection");
+        return NetworkException("No internet connection", stackTrace: stackTrace);
 
       case DioExceptionType.badResponse:
         final status = response?.statusCode;
@@ -20,70 +18,72 @@ extension DioExceptionTypeX on DioException {
           return BadRequestException(
             response?.data.toString() ?? "Bad request",
             code: status,
+            stackTrace: stackTrace,
           );
         } else if (status == 401) {
-          return UnauthorizedException("Unauthorized access", code: status);
+          return UnauthorizedException("Unauthorized access", code: status, stackTrace: stackTrace);
         } else if (status == 404) {
-          return NotFoundException("Resource not found", code: status);
+          return NotFoundException("Resource not found");
         } else if (status != null && status >= 500) {
-          return ServerException("Server error", code: status);
+          return ServerException("Server error", code: status, stackTrace: stackTrace);
         }
 
-        return ServerException("Unexpected server error", code: status);
+        return ServerException("Unexpected server error", code: status, stackTrace: stackTrace);
 
       case DioExceptionType.cancel:
-        return UnknownException("Request cancelled");
+        return UnknownException("Request cancelled", stackTrace: stackTrace);
 
       case DioExceptionType.badCertificate:
-        return UnknownException("Bad SSL Certificate");
+        return UnknownException("Bad SSL Certificate", stackTrace: stackTrace);
 
       case DioExceptionType.unknown:
         if (message?.contains("SocketException") ?? false) {
-          return NetworkException("No Internet connection");
+          return NetworkException("No Internet connection", stackTrace: stackTrace);
         }
-        return UnknownException(message ?? "Unknown error");
+        return UnknownException(message ?? "Unknown error", stackTrace: stackTrace);
+      default:
+        return UnknownException("Unknown error", stackTrace: stackTrace);
     }
   }
 }
 
-extension ObjectX on Object {
-  AppException toAppException() => UnauthorizedException(toString());
-}
-
 abstract class AppException implements Exception {
   final String message;
-  final int? code;
+  final StackTrace? stackTrace;
 
-  const AppException(this.message, {this.code});
+  const AppException(this.message, {this.stackTrace});
 
   @override
-  String toString() => "$runtimeType: $message (code: $code)";
+  String toString() => "$runtimeType: $message (stack trace: $stackTrace)";
 }
 
 class NetworkException extends AppException {
-  const NetworkException(super.message);
+  const NetworkException(super.message, {super.stackTrace});
 }
 
 class TimeoutException extends AppException {
-  const TimeoutException(super.message);
+  const TimeoutException(super.message, {super.stackTrace});
 }
 
 class ServerException extends AppException {
-  const ServerException(super.message, {super.code});
+  final int? code;
+  const ServerException(super.message, {this.code, super.stackTrace});
 }
 
 class BadRequestException extends AppException {
-  const BadRequestException(super.message, {super.code});
+  final int? code;
+  const BadRequestException(super.message, {this.code, super.stackTrace});
 }
 
 class UnauthorizedException extends AppException {
-  const UnauthorizedException(super.message, {super.code});
+  final int? code;
+  const UnauthorizedException(super.message, {this.code, super.stackTrace});
 }
 
 class NotFoundException extends AppException {
-  const NotFoundException(super.message, {super.code});
+  const NotFoundException(super.message, {super.stackTrace});
 }
 
 class UnknownException extends AppException {
-  const UnknownException(super.message);
+  const UnknownException(super.message, {super.stackTrace});
 }

@@ -32,11 +32,13 @@ class AccountSource {
       return UserRegisterResponse.fromJson(response.data);
     } on DioException catch (e) {
       if (e.response?.statusCode == 400) {
-        throw BadRequestException(e.response?.data['username'].toString() ?? "Unknown error");
+        throw BadRequestException(
+          e.response?.data['username'].toString() ?? "Unknown error",
+        );
       }
       throw e.handleDioException();
-    } catch (e) {
-      throw UnknownException(e.toString());
+    } catch (e, stackTrace) {
+      throw UnknownException(e.toString(), stackTrace: stackTrace);
     }
   }
 
@@ -50,8 +52,20 @@ class AccountSource {
       return LoginResponse.fromJson(response.data);
     } on DioException catch (e) {
       throw e.handleDioException();
-    } catch (e) {
-      throw UnknownException(e.toString());
+    } catch (e, stackTrace) {
+      throw UnknownException(e.toString(), stackTrace: stackTrace);
+    }
+  }
+
+  /// /accounts/resend-verification-email/{email}/
+  Future<dynamic> resendVerificationEmail(String email) async {
+    try {
+      final response = await _dio.post("/accounts/resend-verification-email/$email/");
+      return response.data;
+    } on DioException catch (e) {
+      throw e.handleDioException();
+    } catch (e, stackTrace) {
+      throw UnknownException(e.toString(), stackTrace: stackTrace);
     }
   }
 
@@ -66,8 +80,8 @@ class AccountSource {
         throw BadRequestException(e.response?.data['detail']);
       }
       throw e.handleDioException();
-    } catch (e) {
-      throw UnknownException(e.toString());
+    } catch (e, stackTrace) {
+      throw UnknownException(e.toString(), stackTrace: stackTrace);
     }
   }
 
@@ -78,8 +92,8 @@ class AccountSource {
       return MyInfoResponse.fromJson(response.data);
     } on DioException catch (e) {
       throw e.handleDioException();
-    } catch (e) {
-      throw UnknownException(e.toString());
+    } catch (e, stackTrace) {
+      throw UnknownException(e.toString(), stackTrace: stackTrace);
     }
   }
 
@@ -90,8 +104,20 @@ class AccountSource {
       return NotificationsResponse.fromJson(response.data);
     } on DioException catch (e) {
       throw e.handleDioException();
-    } catch (e) {
-      throw UnknownException(e.toString());
+    } catch (e, stackTrace) {
+      throw UnknownException(e.toString(), stackTrace: stackTrace);
+    }
+  }
+
+  /// /account/stories/
+  Future<dynamic> getStories() async {
+    try {
+      final response = await _dio.get("/account/stories/");
+      return response.data;
+    } on DioException catch (e) {
+      throw e.handleDioException();
+    } catch (e, stackTrace) {
+      throw UnknownException(e.toString(), stackTrace: stackTrace);
     }
   }
 }

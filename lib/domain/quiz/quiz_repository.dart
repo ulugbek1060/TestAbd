@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:testabd/core/errors/app_exception.dart';
+import 'package:testabd/domain/quiz/entities/followed_quiz_model.dart';
 
 abstract class QuizRepository {
-  Future<Either<AppException, Unit>> getFollowedQuestions();
-  Future<Either<AppException, Unit>> getStories();
+  Future<Either<AppException, FollowedQuizModel>> getFollowedQuestions();
 }

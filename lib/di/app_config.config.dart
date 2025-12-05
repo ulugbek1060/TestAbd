@@ -18,7 +18,10 @@ import '../core/services/session_service.dart' as _i371;
 import '../core/services/token_service.dart' as _i792;
 import '../core/utils/dio_interceptor.dart' as _i900;
 import '../data/remote_source/account/account_source.dart' as _i65;
+import '../data/remote_source/quiz/quiz_source.dart' as _i792;
+import '../data/repository/account_repository_impl.dart' as _i317;
 import '../data/repository/auth_repository_impl.dart' as _i461;
+import '../domain/account/account_repository.dart' as _i575;
 import '../domain/auth/auth_repository.dart' as _i893;
 import '../features/auth/forgotpswd/forgot_pswd_cubit.dart' as _i36;
 import '../features/auth/login/login_cubit.dart' as _i958;
@@ -58,6 +61,7 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i528.PrettyDioLogger>(),
         ));
     gh.factory<_i65.AccountSource>(() => _i65.AccountSource(gh<_i361.Dio>()));
+    gh.factory<_i792.QuizSource>(() => _i792.QuizSource(gh<_i361.Dio>()));
     gh.singleton<_i893.AuthRepository>(() => _i461.AuthRepositoryImpl(
           gh<_i65.AccountSource>(),
           gh<_i371.SessionService>(),
@@ -67,6 +71,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i760.ProfileCubit(gh<_i893.AuthRepository>()));
     gh.factory<_i36.ForgotPswdCubit>(
         () => _i36.ForgotPswdCubit(gh<_i893.AuthRepository>()));
+    gh.lazySingleton<_i575.AccountRepository>(
+        () => _i317.AccountRepositoryImpl(gh<_i65.AccountSource>()));
     gh.factory<_i958.LoginCubit>(
         () => _i958.LoginCubit(gh<_i893.AuthRepository>()));
     gh.factory<_i163.RegisterCubit>(
