@@ -21,11 +21,14 @@ import '../data/remote_source/account/account_source.dart' as _i65;
 import '../data/remote_source/quiz/quiz_source.dart' as _i792;
 import '../data/repository/account_repository_impl.dart' as _i317;
 import '../data/repository/auth_repository_impl.dart' as _i461;
+import '../data/repository/quiz_repository_impl.dart' as _i75;
 import '../domain/account/account_repository.dart' as _i575;
 import '../domain/auth/auth_repository.dart' as _i893;
+import '../domain/quiz/quiz_repository.dart' as _i156;
 import '../features/auth/forgotpswd/forgot_pswd_cubit.dart' as _i36;
 import '../features/auth/login/login_cubit.dart' as _i958;
 import '../features/auth/register/register_cubit.dart' as _i163;
+import '../features/home/followed_quiz_cubit.dart' as _i1041;
 import '../features/profile/profile_cubit.dart' as _i760;
 import 'app_module.dart' as _i460;
 
@@ -67,6 +70,10 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i371.SessionService>(),
           gh<_i792.TokenService>(),
         ));
+    gh.lazySingleton<_i156.QuizRepository>(
+        () => _i75.QuizRepositoryImpl(gh<_i792.QuizSource>()));
+    gh.factory<_i1041.FollowedQuizCubit>(
+        () => _i1041.FollowedQuizCubit(gh<_i156.QuizRepository>()));
     gh.factory<_i760.ProfileCubit>(
         () => _i760.ProfileCubit(gh<_i893.AuthRepository>()));
     gh.factory<_i36.ForgotPswdCubit>(

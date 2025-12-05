@@ -15,7 +15,7 @@ class DioInterceptor extends Interceptor {
   ) async {
     final token = await _tokenService.getToken();
     options.headers['Content-Type'] = 'application/json';
-    if (token != null) options.headers['Authorization'] = token.access;
+    if (token != null) options.headers['Authorization'] = 'Bearer ${token.access}';
     super.onRequest(options, handler);
   }
 

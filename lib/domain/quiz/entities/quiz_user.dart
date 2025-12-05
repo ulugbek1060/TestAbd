@@ -6,7 +6,7 @@ class QuizUser extends Equatable {
   final String? profileImage;
   final bool? isBadged;
   final bool? isPremium;
-  final String? isFollowing;
+  final bool? isFollowing;
 
   const QuizUser({
     this.id,

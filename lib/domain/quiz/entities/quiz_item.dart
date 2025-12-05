@@ -1,6 +1,7 @@
 
 import 'package:equatable/equatable.dart';
-import 'package:testabd/data/remote_source/quiz/responses/followed_quiz_response.dart';
+import 'package:testabd/data/remote_source/quiz/responses/followed_questions_response.dart';
+import 'package:testabd/domain/quiz/entities/answer_model.dart';
 import 'package:testabd/domain/quiz/entities/quiz_user.dart';
 
 class QuizItem extends Equatable {
@@ -15,15 +16,15 @@ class QuizItem extends Equatable {
   final String? testDescription;
   final String? correctAnswerText;
   final String? answerLanguage;
-  final String? correctCount;
-  final String? wrongCount;
+  final int? correctCount;
+  final int? wrongCount;
   final double? difficultyPercentage;
-  final String? userAttemptCount;
+  final int? userAttemptCount;
   final QuizUser? user;
   final DateTime? createdAt;
   final String? roundImage;
-  final String? isBookmarked;
-  final String? isFollowing;
+  final bool? isBookmarked;
+  final bool? isFollowing;
   final int? category;
 
   const QuizItem({

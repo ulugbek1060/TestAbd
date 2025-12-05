@@ -4,12 +4,13 @@ import 'package:testabd/data/remote_source/account/model/user_register_response.
 import 'package:testabd/domain/account/entities/my_info_model.dart';
 import 'package:testabd/domain/account/entities/notification_model.dart';
 import 'package:testabd/domain/auth/entities/register_model.dart';
+import 'package:testabd/domain/quiz/entities/answer_model.dart';
 import 'package:testabd/domain/quiz/entities/followed_quiz_model.dart';
 import 'package:testabd/domain/quiz/entities/quiz_item.dart';
 import 'package:testabd/domain/quiz/entities/quiz_user.dart';
 
 import 'remote_source/account/model/notifications_response.dart';
-import 'remote_source/quiz/responses/followed_quiz_response.dart';
+import 'remote_source/quiz/responses/followed_questions_response.dart';
 
 extension UserMapper on UserRegisterResponse {
   RegisterModel toDomain() => RegisterModel(
@@ -90,7 +91,7 @@ extension NotificationMapper on NotificationsResponse {
   }
 }
 
-extension FollowedQuizMapper on FollowedQuizResponse {
+extension FollowedQuizMapper on FollowedQuestionsResponse {
   FollowedQuizModel toDomain() {
     return FollowedQuizModel(
       count: count,
@@ -101,42 +102,42 @@ extension FollowedQuizMapper on FollowedQuizResponse {
             (e) => QuizItem(
               id: e.id,
               test: e.test,
-              testTitle: e.testTitle,
-              questionText: e.questionText,
-              questionType: e.questionType,
-              orderIndex: e.orderIndex,
+              testTitle: e.test_title,
+              questionText: e.question_text,
+              questionType: e.question_type,
+              orderIndex: e.order_index,
               media: e.media,
               answers: e.answers
                   .map(
                     (a) => AnswerModel(
                       id: a.id,
                       letter: a.letter,
-                      answerText: a.answerText,
-                      isCorrect: a.isCorrect,
+                      answerText: a.answer_text,
+                      isCorrect: a.is_correct,
                     ),
                   )
                   .toList(),
-              testDescription: e.testDescription,
-              correctAnswerText: e.correctAnswerText,
-              answerLanguage: e.answerLanguage,
-              correctCount: e.correctCount,
-              wrongCount: e.wrongCount,
-              difficultyPercentage: e.difficultyPercentage,
-              userAttemptCount: e.userAttemptCount,
+              testDescription: e.test_description,
+              correctAnswerText: e.correct_answer_text,
+              answerLanguage: e.answer_language,
+              correctCount: e.correct_count,
+              wrongCount: e.wrong_count,
+              difficultyPercentage: e.difficulty_percentage,
+              userAttemptCount: e.user_attempt_count,
               user: e.user != null
                   ? QuizUser(
                       id: e.user!.id,
                       username: e.user!.username,
-                      profileImage: e.user!.profileImage,
-                      isBadged: e.user!.isBadged,
-                      isPremium: e.user!.isPremium,
-                      isFollowing: e.user!.isFollowing,
+                      profileImage: e.user!.profile_image,
+                      isBadged: e.user!.is_badged,
+                      isPremium: e.user!.is_premium,
+                      isFollowing: e.user!.is_following,
                     )
                   : null,
-              createdAt: e.createdAt,
-              roundImage: e.roundImage,
-              isBookmarked: e.isBookmarked,
-              isFollowing: e.isFollowing,
+              createdAt: e.created_at,
+              roundImage: e.round_image,
+              isBookmarked: e.is_bookmarked,
+              isFollowing: e.is_following,
               category: e.category,
             ),
           )
