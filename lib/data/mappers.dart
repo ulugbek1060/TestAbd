@@ -104,7 +104,7 @@ extension FollowedQuizMapper on FollowedQuestionsResponse {
               test: e.test,
               testTitle: e.test_title,
               questionText: e.question_text,
-              questionType: e.question_type,
+              questionType: QuestionType.fromString(e.question_type),
               orderIndex: e.order_index,
               media: e.media,
               answers: e.answers

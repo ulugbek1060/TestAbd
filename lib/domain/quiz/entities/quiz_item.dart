@@ -1,15 +1,32 @@
 
 import 'package:equatable/equatable.dart';
-import 'package:testabd/data/remote_source/quiz/responses/followed_questions_response.dart';
 import 'package:testabd/domain/quiz/entities/answer_model.dart';
 import 'package:testabd/domain/quiz/entities/quiz_user.dart';
+
+enum QuestionType {
+  multiple,
+  single,
+  trueFalse;
+
+  static QuestionType fromString(String? type) {
+    if (type == 'multiple') {
+      return multiple;
+    } else if (type == 'single') {
+      return single;
+    } else if (type == 'true_false') {
+      return trueFalse;
+    } else {
+      return multiple;
+    }
+  }
+}
 
 class QuizItem extends Equatable {
   final int? id;
   final int? test;
   final String? testTitle;
   final String? questionText;
-  final String? questionType;
+  final QuestionType? questionType;
   final int? orderIndex;
   final String? media;
   final List<AnswerModel> answers;
