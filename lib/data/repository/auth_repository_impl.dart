@@ -4,18 +4,18 @@ import 'package:testabd/core/errors/app_exception.dart';
 import 'package:testabd/core/services/session_service.dart';
 import 'package:testabd/core/services/token_service.dart';
 import 'package:testabd/data/mappers.dart';
-import 'package:testabd/data/remote_source/account/account_source.dart';
+import 'package:testabd/data/remote_source/auth/auth_source.dart';
 import 'package:testabd/domain/auth/auth_repository.dart';
 import 'package:testabd/domain/auth/entities/register_model.dart';
 
 @Singleton(as: AuthRepository)
 class AuthRepositoryImpl implements AuthRepository {
-  final AccountSource _accountSource;
+  final AuthSource _authSource;
   final SessionService _sessionService;
   final TokenService _tokenService;
 
   AuthRepositoryImpl(
-    this._accountSource,
+    this._authSource,
     this._sessionService,
     this._tokenService,
   );
@@ -28,7 +28,7 @@ class AuthRepositoryImpl implements AuthRepository {
     String? referralCode,
   }) async {
     try {
-      final result = await _accountSource.register(
+      final result = await _authSource.register(
         username,
         email,
         password,
@@ -48,7 +48,7 @@ class AuthRepositoryImpl implements AuthRepository {
     String password,
   ) async {
     try {
-      final result = await _accountSource.login(username, password);
+      final result = await _authSource.login(username, password);
       final tokenData = TokenData(
         access: result.access ?? '',
         refresh: result.refresh ?? '',
@@ -80,7 +80,7 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<Either<AppException, Unit>> forgotPassword(String email) async {
     try {
-      await _accountSource.resendVerificationEmail(email);
+      await _authSource.resendVerificationEmail(email);
       return Right(unit);
     } on AppException catch (e) {
       return Left(e);

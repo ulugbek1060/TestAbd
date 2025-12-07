@@ -1,15 +1,17 @@
 import 'package:testabd/data/remote_source/account/model/my_info_response.dart'
     hide WeeklyTestCount;
-import 'package:testabd/data/remote_source/account/model/user_register_response.dart';
+import 'package:testabd/data/remote_source/auth/model/user_register_response.dart';
 import 'package:testabd/domain/account/entities/my_info_model.dart';
 import 'package:testabd/domain/account/entities/notification_model.dart';
 import 'package:testabd/domain/auth/entities/register_model.dart';
+import 'package:testabd/domain/quiz/entities/answer_item.dart';
 import 'package:testabd/domain/quiz/entities/answer_model.dart';
 import 'package:testabd/domain/quiz/entities/followed_quiz_model.dart';
 import 'package:testabd/domain/quiz/entities/quiz_item.dart';
 import 'package:testabd/domain/quiz/entities/quiz_user.dart';
 
 import 'remote_source/account/model/notifications_response.dart';
+import 'remote_source/quiz/responses/answer_response.dart';
 import 'remote_source/quiz/responses/followed_questions_response.dart';
 
 extension UserMapper on UserRegisterResponse {
@@ -109,11 +111,11 @@ extension FollowedQuizMapper on FollowedQuestionsResponse {
               media: e.media,
               answers: e.answers
                   .map(
-                    (a) => AnswerModel(
+                    (a) => AnswerItem(
                       id: a.id,
                       letter: a.letter,
                       answerText: a.answer_text,
-                      isCorrect: a.is_correct,
+                      isCorrect: a.is_correct ?? false,
                     ),
                   )
                   .toList(),
@@ -142,6 +144,20 @@ extension FollowedQuizMapper on FollowedQuestionsResponse {
             ),
           )
           .toList(),
+    );
+  }
+}
+
+extension AnswerMapper on AnswerResponse {
+  AnswerModel toDomain() {
+    return AnswerModel(
+      id: id,
+      questionId: questionId,
+      writtenAnswer: writtenAnswer,
+      isCorrect: isCorrect,
+      duration: duration,
+      feedback: feedback,
+      createdAt: createdAt,
     );
   }
 }

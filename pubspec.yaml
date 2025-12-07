@@ -46,6 +46,7 @@ dependencies:
   pretty_dio_logger: ^1.4.0
   logger: ^2.6.2
   flutter_bloc: ^9.1.1
+  web_socket_channel: ^3.0.3
 
 dev_dependencies:
   flutter_test:

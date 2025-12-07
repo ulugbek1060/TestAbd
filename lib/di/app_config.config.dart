@@ -18,6 +18,8 @@ import '../core/services/session_service.dart' as _i371;
 import '../core/services/token_service.dart' as _i792;
 import '../core/utils/dio_interceptor.dart' as _i900;
 import '../data/remote_source/account/account_source.dart' as _i65;
+import '../data/remote_source/account/ws_notifications_source.dart' as _i1067;
+import '../data/remote_source/auth/auth_source.dart' as _i142;
 import '../data/remote_source/quiz/quiz_source.dart' as _i792;
 import '../data/repository/account_repository_impl.dart' as _i317;
 import '../data/repository/auth_repository_impl.dart' as _i461;
@@ -56,6 +58,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i792.SharedPrefsTokenService(gh<_i460.SharedPreferences>()));
     gh.singleton<_i371.SessionService>(
         () => _i371.SessionServiceImpl(gh<_i460.SharedPreferences>()));
+    gh.factory<_i1067.WSNotificationsSource>(
+        () => _i1067.WSNotificationsSourceImpl());
     gh.singleton<_i900.DioInterceptor>(
         () => _i900.DioInterceptor(gh<_i792.TokenService>()));
     gh.factory<_i361.Dio>(() => appModule.provideDio(
@@ -63,15 +67,17 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i900.DioInterceptor>(),
           gh<_i528.PrettyDioLogger>(),
         ));
-    gh.factory<_i65.AccountSource>(() => _i65.AccountSource(gh<_i361.Dio>()));
-    gh.factory<_i792.QuizSource>(() => _i792.QuizSource(gh<_i361.Dio>()));
+    gh.factory<_i792.QuizSource>(() => _i792.QuizSourceImpl(gh<_i361.Dio>()));
+    gh.factory<_i142.AuthSource>(() => _i142.AuthSourceImpl(gh<_i361.Dio>()));
+    gh.factory<_i65.AccountSource>(
+        () => _i65.AccountSourceImpl(gh<_i361.Dio>()));
+    gh.lazySingleton<_i156.QuizRepository>(
+        () => _i75.QuizRepositoryImpl(gh<_i792.QuizSource>()));
     gh.singleton<_i893.AuthRepository>(() => _i461.AuthRepositoryImpl(
-          gh<_i65.AccountSource>(),
+          gh<_i142.AuthSource>(),
           gh<_i371.SessionService>(),
           gh<_i792.TokenService>(),
         ));
-    gh.lazySingleton<_i156.QuizRepository>(
-        () => _i75.QuizRepositoryImpl(gh<_i792.QuizSource>()));
     gh.factory<_i1041.FollowedQuizCubit>(
         () => _i1041.FollowedQuizCubit(gh<_i156.QuizRepository>()));
     gh.factory<_i760.ProfileCubit>(

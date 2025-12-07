@@ -1,6 +1,5 @@
-
 import 'package:equatable/equatable.dart';
-import 'package:testabd/domain/quiz/entities/answer_model.dart';
+import 'package:testabd/domain/quiz/entities/answer_item.dart';
 import 'package:testabd/domain/quiz/entities/quiz_user.dart';
 
 enum QuestionType {
@@ -29,7 +28,9 @@ class QuizItem extends Equatable {
   final QuestionType? questionType;
   final int? orderIndex;
   final String? media;
-  final List<AnswerModel> answers;
+  final List<AnswerItem> answers;
+  final List<int> myAnswersId;
+  final bool isCorrect;
   final String? testDescription;
   final String? correctAnswerText;
   final String? answerLanguage;
@@ -43,6 +44,8 @@ class QuizItem extends Equatable {
   final bool? isBookmarked;
   final bool? isFollowing;
   final int? category;
+  final bool isLoading;
+  final bool isCompleted;
 
   const QuizItem({
     this.id,
@@ -53,6 +56,8 @@ class QuizItem extends Equatable {
     this.orderIndex,
     this.media,
     this.answers = const [],
+    this.myAnswersId = const [],
+    this.isCorrect = false,
     this.testDescription,
     this.correctAnswerText,
     this.answerLanguage,
@@ -66,7 +71,44 @@ class QuizItem extends Equatable {
     this.isBookmarked,
     this.isFollowing,
     this.category,
+    this.isLoading = false,
+    this.isCompleted = false,
   });
+
+  QuizItem copyWith({
+    List<int>? myAnswersId,
+    bool? isCorrect,
+    bool? isLoading,
+    bool? isCompleted,
+  }) {
+    return QuizItem(
+      id: id,
+      test: test,
+      testTitle: testTitle,
+      questionText: questionText,
+      questionType: questionType,
+      orderIndex: orderIndex,
+      media: media,
+      answers: answers,
+      myAnswersId: myAnswersId ?? this.myAnswersId,
+      isCorrect: isCorrect ?? this.isCorrect,
+      testDescription: testDescription,
+      correctAnswerText: correctAnswerText,
+      answerLanguage: answerLanguage,
+      correctCount: correctCount,
+      wrongCount: wrongCount,
+      difficultyPercentage: difficultyPercentage,
+      userAttemptCount: userAttemptCount,
+      user: user,
+      createdAt: createdAt,
+      roundImage: roundImage,
+      isBookmarked: isBookmarked,
+      isFollowing: isFollowing,
+      category: category,
+      isLoading: isLoading ?? this.isLoading,
+      isCompleted: isCompleted ?? this.isCompleted,
+    );
+  }
 
   @override
   List<Object?> get props => [
@@ -78,6 +120,8 @@ class QuizItem extends Equatable {
     orderIndex,
     media,
     answers,
+    myAnswersId,
+    isCorrect,
     testDescription,
     correctAnswerText,
     answerLanguage,
@@ -91,5 +135,7 @@ class QuizItem extends Equatable {
     isBookmarked,
     isFollowing,
     category,
+    isLoading,
+    isCompleted,
   ];
 }

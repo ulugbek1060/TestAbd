@@ -5,9 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:testabd/core/theme/app_colors.dart';
 import 'package:testabd/core/utils/formatters.dart';
-import 'package:testabd/domain/quiz/entities/answer_model.dart';
+import 'package:testabd/domain/quiz/entities/answer_item.dart';
 import 'package:testabd/domain/quiz/entities/quiz_item.dart';
 import 'package:testabd/features/home/followed_quiz_cubit.dart';
+import 'package:testabd/main.dart';
 
 class PostsWidget extends StatelessWidget {
   const PostsWidget({super.key});
@@ -107,20 +108,26 @@ class QuestionCardItem extends StatelessWidget {
                     ),
                   ),
 
-                  /// divider
+                  /// space
                   SizedBox(height: 16),
 
                   /// answers
                   _AnswersList(
+                    questionId: quiz.id,
                     answers: quiz.answers,
                     questionType: quiz.questionType,
+                    myAnswersId: quiz.myAnswersId,
+                    isCorrect: quiz.isCorrect,
+                    isCompleted: quiz.isCorrect,
                   ),
                 ],
               ),
             ),
 
-            /// bottom section
+            /// divider
             Divider(color: AppColors.lowEmphasized),
+
+            /// question information
             _BottomQuestionInformation(
               correctCount: quiz.correctCount?.toString() ?? '',
               wrongCount: quiz.wrongCount?.toString() ?? '',
@@ -137,77 +144,103 @@ class QuestionCardItem extends StatelessWidget {
 }
 
 class _AnswersList extends StatelessWidget {
-  final List<AnswerModel> answers;
+  final int? questionId;
+  final List<AnswerItem> answers;
+  final List<int>? myAnswersId;
   final QuestionType? questionType;
+  final bool isCorrect;
+  final bool isCompleted;
 
-  const _AnswersList({required this.answers, required this.questionType});
+  const _AnswersList({
+    super.key,
+    required this.questionId,
+    required this.answers,
+    required this.myAnswersId,
+    required this.questionType,
+    required this.isCorrect,
+    required this.isCompleted,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<FollowedQuizCubit>();
     switch (questionType) {
       case QuestionType.multiple:
-        return buildSingleAnswers(context);
+        return MultipleAnswerCard(
+          answers: answers,
+          myAnswersId: myAnswersId,
+          isCorrect: isCorrect,
+          onItemTap: (answerId) => cubit.setAnswer(answerId),
+          onSubmitTap: (answerIds) =>
+              cubit.submitAnswer(questionId!, answerIds),
+        );
       case QuestionType.single:
-        return buildSingleAnswers(context);
+        return SingleAnswerCard(
+          answers: answers,
+          myAnswersId: myAnswersId,
+          isCorrectAnswer: isCorrect,
+          onSubmitTap: (answerId) =>
+              cubit.submitAnswer(questionId!, [answerId ?? -1]),
+        );
       case QuestionType.trueFalse:
-        return buildTrueFalse(context);
+        return TrueFalseAnswerCard(
+          answers: answers,
+          myAnswersId: myAnswersId,
+          isCorrectAnswer: isCorrect,
+          onSubmitTap: (answerId) =>
+              cubit.submitAnswer(questionId!, [answerId ?? -1]),
+        );
       default:
-        return buildSingleAnswers(context);
+        return SingleAnswerCard(
+          answers: answers,
+          myAnswersId: myAnswersId,
+          isCorrectAnswer: isCorrect,
+          onSubmitTap: (answerId) =>
+              cubit.submitAnswer(questionId!, [answerId ?? -1]),
+        );
     }
   }
+}
 
-  Widget buildMultipleAnswers(BuildContext context) {
+class MultipleAnswerCard extends StatelessWidget {
+  final List<AnswerItem> answers;
+  final List<int>? myAnswersId;
+  final bool isCorrect;
+  final void Function(int? answerId) onItemTap;
+  final void Function(List<int> answers) onSubmitTap;
+
+  const MultipleAnswerCard({
+    super.key,
+    required this.answers,
+    required this.myAnswersId,
+    required this.isCorrect,
+    required this.onItemTap,
+    required this.onSubmitTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       spacing: 16,
       children: answers.map((e) {
-        return _BlurContainer(
-          borderRadius: 16,
-          borderColor: Colors.white,
-          child: Row(
-            children: [
-              Checkbox(value: false, onChanged: (value) {}),
-              const SizedBox(width: 8),
-              Flexible(
-                child: Text(
-                  e.answerText ?? '',
-                  style: Theme.of(
-                    context,
-                  ).textTheme.titleSmall?.copyWith(color: Colors.white),
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ],
-          ),
-        );
-      }).toList(),
-    );
-  }
-
-  Widget buildTrueFalse(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.max,
-      spacing: 16,
-      children: answers.mapIndexed((index, e) {
-        return Expanded(
+        return InkWell(
+          onTap: () => onItemTap(e.id),
           child: _BlurContainer(
             borderRadius: 16,
             borderColor: Colors.white,
-            child: Column(
-              spacing: 8,
-              mainAxisSize: MainAxisSize.min,
+            child: Row(
               children: [
-                if (index == 0)
-                  Icon(Icons.thumb_up_rounded, color: Colors.green),
-                if (index == 1)
-                  Icon(Icons.thumb_down_rounded, color: Colors.red),
-                Text(
-                  e.answerText ?? '',
-                  style: Theme.of(
-                    context,
-                  ).textTheme.titleSmall?.copyWith(color: Colors.white),
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
+                Checkbox(value: false, onChanged: (value) {}),
+                const SizedBox(width: 8),
+                Flexible(
+                  child: Text(
+                    e.answerText ?? '',
+                    style: Theme.of(
+                      context,
+                    ).textTheme.titleSmall?.copyWith(color: Colors.white),
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ],
             ),
@@ -217,40 +250,143 @@ class _AnswersList extends StatelessWidget {
     );
   }
 
-  Widget buildSingleAnswers(BuildContext context) {
+  bool checkAnswers(int? answerId) {
+    if (myAnswersId == null) return false;
+    if (myAnswersId!.isEmpty) return false;
+    if (myAnswersId!.contains(answerId)) return true;
+    return false;
+  }
+}
+
+class SingleAnswerCard extends StatelessWidget {
+  final List<AnswerItem> answers;
+  final List<int>? myAnswersId;
+  final bool isCorrectAnswer;
+  final void Function(int? answerId) onSubmitTap;
+
+  const SingleAnswerCard({
+    super.key,
+    required this.answers,
+    required this.myAnswersId,
+    required this.isCorrectAnswer,
+    required this.onSubmitTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       spacing: 16,
       children: answers.map((e) {
-        return _BlurContainer(
-          borderRadius: 16,
-          borderColor: Colors.white,
-          child: Row(
-            children: [
-              CircleAvatar(
-                backgroundColor: Colors.grey,
-                child: Text(
-                  e.letter ?? '',
-                  style: Theme.of(
-                    context,
-                  ).textTheme.titleLarge?.copyWith(color: Colors.white),
+        final isCorrect = checkAnswers(e.id) && isCorrectAnswer;
+        return InkWell(
+          onTap: () => onSubmitTap(e.id),
+          child: _BlurContainer(
+            borderRadius: 16,
+            borderColor: checkAnswers(e.id) ? Colors.green : Colors.white,
+            child: Row(
+              children: [
+                CircleAvatar(
+                  backgroundColor: Colors.grey,
+                  child: isCorrect
+                      ? Icon(Icons.check, color: Colors.green)
+                      : Text(
+                          e.letter ?? '',
+                          style: Theme.of(
+                            context,
+                          ).textTheme.titleLarge?.copyWith(color: Colors.white),
+                        ),
                 ),
-              ),
-              const SizedBox(width: 8),
-              Flexible(
-                child: Text(
-                  e.answerText ?? '',
-                  style: Theme.of(
-                    context,
-                  ).textTheme.titleSmall?.copyWith(color: Colors.white),
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
+                const SizedBox(width: 8),
+                Flexible(
+                  child: Text(
+                    e.answerText ?? '',
+                    style: Theme.of(
+                      context,
+                    ).textTheme.titleSmall?.copyWith(color: Colors.white),
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       }).toList(),
     );
+  }
+
+  bool checkAnswers(int? answerId) {
+    if (myAnswersId == null) return false;
+    if (myAnswersId!.isEmpty) return false;
+    if (myAnswersId!.contains(answerId)) return true;
+    return false;
+  }
+}
+
+class TrueFalseAnswerCard extends StatelessWidget {
+  final List<AnswerItem> answers;
+  final List<int>? myAnswersId;
+  final bool isCorrectAnswer;
+  final void Function(int? answerId) onSubmitTap;
+
+  const TrueFalseAnswerCard({
+    super.key,
+    required this.answers,
+    required this.myAnswersId,
+    required this.isCorrectAnswer,
+    required this.onSubmitTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    logger.d(myAnswersId);
+    return Row(
+      mainAxisSize: MainAxisSize.max,
+      spacing: 16,
+      children: answers.mapIndexed((index, e) {
+        final isCorrect = checkAnswers(e.id) && isCorrectAnswer;
+        return Expanded(
+          child: InkWell(
+            onTap: () => onSubmitTap(e.id),
+            child: _BlurContainer(
+              borderRadius: 16,
+              borderColor: checkAnswers(e.id) ? Colors.green : Colors.white,
+              child: Column(
+                spacing: 8,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (index == 0)
+                    Icon(
+                      isCorrect ? Icons.check_circle : Icons.thumb_up_rounded,
+                      color: Colors.green,
+                    ),
+                  if (index == 1)
+                    Icon(
+                      isCorrect ? Icons.check_circle : Icons.thumb_down_rounded,
+                      color: isCorrect ? Colors.green : Colors.red,
+                    ),
+                  Text(
+                    e.answerText ?? '',
+                    style: Theme.of(
+                      context,
+                    ).textTheme.titleSmall?.copyWith(color: Colors.white),
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      }).toList(),
+    );
+  }
+
+  bool checkAnswers(int? answerId) {
+    if (myAnswersId == null) return false;
+    if (myAnswersId!.isEmpty) return false;
+    if (myAnswersId!.contains(answerId)) return true;
+    return false;
   }
 }
 

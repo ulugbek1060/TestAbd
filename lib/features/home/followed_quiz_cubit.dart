@@ -11,13 +11,17 @@ part 'followed_quiz_state.dart';
 class FollowedQuizCubit extends Cubit<FollowedQuizState> {
   final QuizRepository _quizRepository;
   final _pageSize = 10;
+
   FollowedQuizCubit(this._quizRepository) : super(FollowedQuizState());
+
+  Future<void> refreshQuiz() async {}
+
+  Future<void> bookmarkQuestion(int questionId) async {}
 
   Future<void> loadQuiz() async {
     if (state.isLoading || state.isLastPage) return;
 
     emit(state.copyWith(isLoading: true));
-
 
     final result = await _quizRepository.getFollowedQuestions(
       page: state.nextPage,
@@ -44,4 +48,43 @@ class FollowedQuizCubit extends Cubit<FollowedQuizState> {
       },
     );
   }
+
+  Future<void> submitAnswer(int questionId, List<int>? answers) async {
+    if (answers == null) return;
+
+    final index = state.questions.indexWhere((e) => e.id == questionId);
+    if (index == -1) return;
+
+    final updated = List.of(state.questions);
+
+    final question = updated[index];
+    updated[index] = question.copyWith(isLoading: true);
+
+    emit(state.copyWith(questions: updated));
+
+    final result = await _quizRepository.submitAnswer(
+      questionId: questionId,
+      selectedAnswers: answers,
+    );
+
+    result.fold(
+      (error) {
+        final updatedError = List.of(state.questions);
+        updatedError[index] = question.copyWith(isLoading: false);
+        emit(state.copyWith(questions: updatedError));
+      },
+      (value) {
+        final updatedSuccess = List.of(state.questions);
+        updatedSuccess[index] = question.copyWith(
+          isLoading: false,
+          myAnswersId: answers,
+          isCorrect: value.isCorrect,
+          isCompleted: true,
+        );
+        emit(state.copyWith(questions: updatedSuccess));
+      },
+    );
+  }
+
+  void setAnswer(int? answerId) {}
 }

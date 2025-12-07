@@ -1,13 +1,34 @@
+
+
 import 'package:equatable/equatable.dart';
 
 class AnswerModel extends Equatable {
   final int? id;
-  final String? letter;
-  final String? answerText;
+  final int? questionId;
+  final String? writtenAnswer;
   final bool? isCorrect;
+  final int? duration;
+  final String? feedback;
+  final String? createdAt;
 
-  const AnswerModel({this.id, this.letter, this.answerText, this.isCorrect});
+  const AnswerModel({
+    this.id,
+    this.questionId,
+    this.writtenAnswer,
+    this.isCorrect,
+    this.duration,
+    this.feedback,
+    this.createdAt,
+  });
 
   @override
-  List<Object?> get props => [id, letter, answerText, isCorrect];
+  List<Object?> get props => [
+    id,
+    questionId,
+    writtenAnswer,
+    isCorrect,
+    duration,
+    feedback,
+    createdAt,
+  ];
 }

@@ -24,16 +24,14 @@ class FollowedQuizState extends Equatable {
     int? previousPage,
     bool? isLastPage,
     String? error,
-  }) {
-    return FollowedQuizState(
-      isLoading: isLoading ?? this.isLoading,
-      questions: questions ?? this.questions,
-      nextPage: nextPage ?? this.nextPage,
-      previousPage: previousPage ?? this.previousPage,
-      isLastPage: isLastPage ?? this.isLastPage,
-      error: error ?? this.error,
-    );
-  }
+  }) => FollowedQuizState(
+    isLoading: isLoading ?? this.isLoading,
+    questions: questions ?? this.questions,
+    nextPage: nextPage ?? this.nextPage,
+    previousPage: previousPage ?? this.previousPage,
+    isLastPage: isLastPage ?? this.isLastPage,
+    error: error ?? this.error,
+  );
 
   @override
   List<Object?> get props => [

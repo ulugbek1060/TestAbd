@@ -1,13 +1,10 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:testabd/core/utils/app_assets.dart';
-import 'package:testabd/core/utils/formatters.dart';
 import 'package:testabd/di/app_config.dart';
-import 'package:testabd/domain/quiz/entities/quiz_item.dart';
 import 'package:testabd/features/home/followed_quiz_cubit.dart';
 import 'package:testabd/features/home/widgets/posts_widget.dart';
+import 'package:testabd/features/home/widgets/stories_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -83,33 +80,10 @@ class _ViewState extends State<_View> {
           ),
 
           /// Stories Section
-          SliverToBoxAdapter(child: StoriesSection()),
+          StoriesWidget(),
 
           /// Posts Section
           PostsWidget(),
-        ],
-      ),
-    );
-  }
-}
-
-class StoriesSection extends StatelessWidget {
-  const StoriesSection({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 16),
-      height: 80,
-      width: double.infinity,
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-        children: [
-          SizedBox(
-            width: 60,
-            height: 60,
-            child: CircleAvatar(backgroundImage: AssetImage(AppImages.logo)),
-          ),
         ],
       ),
     );
