@@ -117,8 +117,7 @@ class QuestionCardItem extends StatelessWidget {
                     answers: quiz.answers,
                     questionType: quiz.questionType,
                     myAnswersId: quiz.myAnswersId,
-                    isCorrect: quiz.isCorrect,
-                    isCompleted: quiz.isCorrect,
+                    isCompleted: quiz.isCompleted,
                   ),
                 ],
               ),
@@ -146,18 +145,15 @@ class QuestionCardItem extends StatelessWidget {
 class _AnswersList extends StatelessWidget {
   final int? questionId;
   final List<AnswerItem> answers;
-  final List<int>? myAnswersId;
+  final List<int> myAnswersId;
   final QuestionType? questionType;
-  final bool isCorrect;
   final bool isCompleted;
 
   const _AnswersList({
-    super.key,
     required this.questionId,
     required this.answers,
     required this.myAnswersId,
     required this.questionType,
-    required this.isCorrect,
     required this.isCompleted,
   });
 
@@ -169,8 +165,8 @@ class _AnswersList extends StatelessWidget {
         return MultipleAnswerCard(
           answers: answers,
           myAnswersId: myAnswersId,
-          isCorrect: isCorrect,
-          onItemTap: (answerId) => cubit.setAnswer(answerId),
+          isCompleted: isCompleted,
+          onItemTap: (answerId) => cubit.setAnswer(questionId, answerId),
           onSubmitTap: (answerIds) =>
               cubit.submitAnswer(questionId!, answerIds),
         );
@@ -178,7 +174,7 @@ class _AnswersList extends StatelessWidget {
         return SingleAnswerCard(
           answers: answers,
           myAnswersId: myAnswersId,
-          isCorrectAnswer: isCorrect,
+          isCompleted: isCompleted,
           onSubmitTap: (answerId) =>
               cubit.submitAnswer(questionId!, [answerId ?? -1]),
         );
@@ -186,7 +182,7 @@ class _AnswersList extends StatelessWidget {
         return TrueFalseAnswerCard(
           answers: answers,
           myAnswersId: myAnswersId,
-          isCorrectAnswer: isCorrect,
+          isCompleted: isCompleted,
           onSubmitTap: (answerId) =>
               cubit.submitAnswer(questionId!, [answerId ?? -1]),
         );
@@ -194,7 +190,7 @@ class _AnswersList extends StatelessWidget {
         return SingleAnswerCard(
           answers: answers,
           myAnswersId: myAnswersId,
-          isCorrectAnswer: isCorrect,
+          isCompleted: isCompleted,
           onSubmitTap: (answerId) =>
               cubit.submitAnswer(questionId!, [answerId ?? -1]),
         );
@@ -204,8 +200,9 @@ class _AnswersList extends StatelessWidget {
 
 class MultipleAnswerCard extends StatelessWidget {
   final List<AnswerItem> answers;
-  final List<int>? myAnswersId;
-  final bool isCorrect;
+  final List<int> myAnswersId;
+  final bool isCompleted;
+
   final void Function(int? answerId) onItemTap;
   final void Function(List<int> answers) onSubmitTap;
 
@@ -213,7 +210,7 @@ class MultipleAnswerCard extends StatelessWidget {
     super.key,
     required this.answers,
     required this.myAnswersId,
-    required this.isCorrect,
+    required this.isCompleted,
     required this.onItemTap,
     required this.onSubmitTap,
   });
@@ -222,53 +219,86 @@ class MultipleAnswerCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       spacing: 16,
-      children: answers.map((e) {
-        return InkWell(
-          onTap: () => onItemTap(e.id),
-          child: _BlurContainer(
-            borderRadius: 16,
-            borderColor: Colors.white,
-            child: Row(
-              children: [
-                Checkbox(value: false, onChanged: (value) {}),
-                const SizedBox(width: 8),
-                Flexible(
-                  child: Text(
-                    e.answerText ?? '',
-                    style: Theme.of(
-                      context,
-                    ).textTheme.titleSmall?.copyWith(color: Colors.white),
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ],
-            ),
+      children: [
+        ...answers.map((e) => _buildItem(context, e)),
+
+        // Show Submit button ONLY if quiz is NOT completed
+        if (!isCompleted)
+          ElevatedButton(
+            onPressed: myAnswersId.isNotEmpty
+                ? () => onSubmitTap(myAnswersId)
+                : null,
+            child: const Text("Submit"),
           ),
-        );
-      }).toList(),
+      ],
     );
   }
 
-  bool checkAnswers(int? answerId) {
-    if (myAnswersId == null) return false;
-    if (myAnswersId!.isEmpty) return false;
-    if (myAnswersId!.contains(answerId)) return true;
-    return false;
+  Widget _buildItem(BuildContext context, AnswerItem answer) {
+    final selected = myAnswersId.contains(answer.id);
+    final correct = answer.isCorrect;
+
+    return _BlurContainer(
+      borderRadius: 16,
+      borderColor: _getBorderColor(selected, correct),
+      child: Row(
+        children: [
+          // Showing icon or checkbox depending on state
+          _buildLeadingIcon(answer),
+
+          const SizedBox(width: 8),
+
+          Flexible(
+            child: Text(
+              answer.answerText ?? '',
+              style: Theme.of(
+                context,
+              ).textTheme.titleSmall?.copyWith(color: Colors.white),
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Color _getBorderColor(bool selected, bool correct) {
+    if (!isCompleted) {
+      return selected ? Colors.green : Colors.white;
+    }
+
+    if (selected) {
+      return correct ? Colors.green : Colors.red;
+    }
+
+    return Colors.white;
+  }
+
+  Widget _buildLeadingIcon(AnswerItem answer) {
+    final selected = myAnswersId.contains(answer.id);
+    return Checkbox(
+      value: selected,
+      onChanged: isCompleted ? null : (_) => onItemTap(answer.id),
+      activeColor: Colors.green,
+      checkColor: Colors.white,
+      side: const BorderSide(color: Colors.white, width: 1.0),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.0)),
+    );
   }
 }
 
 class SingleAnswerCard extends StatelessWidget {
   final List<AnswerItem> answers;
-  final List<int>? myAnswersId;
-  final bool isCorrectAnswer;
+  final List<int> myAnswersId;
+  final bool isCompleted;
   final void Function(int? answerId) onSubmitTap;
 
   const SingleAnswerCard({
     super.key,
     required this.answers,
     required this.myAnswersId,
-    required this.isCorrectAnswer,
+    required this.isCompleted,
     required this.onSubmitTap,
   });
 
@@ -277,24 +307,16 @@ class SingleAnswerCard extends StatelessWidget {
     return Column(
       spacing: 16,
       children: answers.map((e) {
-        final isCorrect = checkAnswers(e.id) && isCorrectAnswer;
         return InkWell(
-          onTap: () => onSubmitTap(e.id),
+          onTap: isCompleted ? null : () => onSubmitTap(e.id),
           child: _BlurContainer(
             borderRadius: 16,
-            borderColor: checkAnswers(e.id) ? Colors.green : Colors.white,
+            borderColor: getBorderColor(e),
             child: Row(
               children: [
                 CircleAvatar(
                   backgroundColor: Colors.grey,
-                  child: isCorrect
-                      ? Icon(Icons.check, color: Colors.green)
-                      : Text(
-                          e.letter ?? '',
-                          style: Theme.of(
-                            context,
-                          ).textTheme.titleLarge?.copyWith(color: Colors.white),
-                        ),
+                  child: getIcon(context, e),
                 ),
                 const SizedBox(width: 8),
                 Flexible(
@@ -315,25 +337,64 @@ class SingleAnswerCard extends StatelessWidget {
     );
   }
 
-  bool checkAnswers(int? answerId) {
-    if (myAnswersId == null) return false;
-    if (myAnswersId!.isEmpty) return false;
-    if (myAnswersId!.contains(answerId)) return true;
-    return false;
+  Color getBorderColor(AnswerItem answer) {
+    final selected = myAnswersId.contains(answer.id);
+    final correct = answer.isCorrect;
+
+    if (!isCompleted) {
+      return selected ? Colors.green : Colors.white;
+    }
+
+    if (selected) {
+      return correct ? Colors.green : Colors.red;
+    }
+
+    return Colors.white;
+  }
+
+  Widget getIcon(BuildContext context, AnswerItem answer) {
+    final selected = myAnswersId.contains(answer.id);
+    final correct = answer.isCorrect;
+
+    // If the quiz is not completed → always show the letter
+    if (!isCompleted) {
+      return _buildLetter(context, answer.letter);
+    }
+
+    // Completed and selected
+    if (selected) {
+      final isCorrect = correct;
+      return CircleAvatar(
+        backgroundColor: isCorrect ? Colors.green : Colors.red,
+        child: Icon(isCorrect ? Icons.check : Icons.close, color: Colors.white),
+      );
+    }
+
+    // Completed but NOT selected → show letter
+    return _buildLetter(context, answer.letter);
+  }
+
+  Widget _buildLetter(BuildContext context, String? letter) {
+    return Text(
+      letter ?? '',
+      style: Theme.of(
+        context,
+      ).textTheme.titleLarge?.copyWith(color: Colors.white),
+    );
   }
 }
 
 class TrueFalseAnswerCard extends StatelessWidget {
   final List<AnswerItem> answers;
-  final List<int>? myAnswersId;
-  final bool isCorrectAnswer;
+  final List<int> myAnswersId;
+  final bool isCompleted;
   final void Function(int? answerId) onSubmitTap;
 
   const TrueFalseAnswerCard({
     super.key,
     required this.answers,
     required this.myAnswersId,
-    required this.isCorrectAnswer,
+    required this.isCompleted,
     required this.onSubmitTap,
   });
 
@@ -344,27 +405,17 @@ class TrueFalseAnswerCard extends StatelessWidget {
       mainAxisSize: MainAxisSize.max,
       spacing: 16,
       children: answers.mapIndexed((index, e) {
-        final isCorrect = checkAnswers(e.id) && isCorrectAnswer;
         return Expanded(
           child: InkWell(
-            onTap: () => onSubmitTap(e.id),
+            onTap: isCompleted ? null : () => onSubmitTap(e.id),
             child: _BlurContainer(
               borderRadius: 16,
-              borderColor: checkAnswers(e.id) ? Colors.green : Colors.white,
+              borderColor: getBorderColor(e),
               child: Column(
                 spacing: 8,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  if (index == 0)
-                    Icon(
-                      isCorrect ? Icons.check_circle : Icons.thumb_up_rounded,
-                      color: Colors.green,
-                    ),
-                  if (index == 1)
-                    Icon(
-                      isCorrect ? Icons.check_circle : Icons.thumb_down_rounded,
-                      color: isCorrect ? Colors.green : Colors.red,
-                    ),
+                  getIcon(context, e, index),
                   Text(
                     e.answerText ?? '',
                     style: Theme.of(
@@ -382,11 +433,44 @@ class TrueFalseAnswerCard extends StatelessWidget {
     );
   }
 
-  bool checkAnswers(int? answerId) {
-    if (myAnswersId == null) return false;
-    if (myAnswersId!.isEmpty) return false;
-    if (myAnswersId!.contains(answerId)) return true;
-    return false;
+  Color getBorderColor(AnswerItem answer) {
+    final selected = myAnswersId.contains(answer.id);
+    final correct = answer.isCorrect;
+
+    if (!isCompleted) {
+      return selected ? Colors.green : Colors.white;
+    }
+
+    if (selected) {
+      return correct ? Colors.green : Colors.red;
+    }
+
+    return Colors.white;
+  }
+
+  Widget getIcon(BuildContext context, AnswerItem answer, int index) {
+    final selected = myAnswersId.contains(answer.id);
+    final correct = answer.isCorrect;
+    final isThumbUp = index == 0;
+
+    if (!isCompleted) {
+      return Icon(
+        isThumbUp ? Icons.thumb_up_rounded : Icons.thumb_down_alt,
+        color: isThumbUp ? Colors.green : Colors.red,
+      );
+    }
+
+    if (selected) {
+      return Icon(
+        correct ? Icons.check_circle : Icons.cancel,
+        color: correct ? Colors.green : Colors.red,
+      );
+    }
+
+    return Icon(
+      index == 0 ? Icons.thumb_up_rounded : Icons.thumb_down_alt,
+      color: index == 0 ? Colors.green : Colors.red,
+    );
   }
 }
 
@@ -398,7 +482,6 @@ class _HeaderUserImage extends StatelessWidget {
   final Color borderColor;
 
   const _HeaderUserImage({
-    super.key,
     this.imageUrl,
     required this.username,
     this.size = 50.0,

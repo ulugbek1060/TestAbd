@@ -86,5 +86,23 @@ class FollowedQuizCubit extends Cubit<FollowedQuizState> {
     );
   }
 
-  void setAnswer(int? answerId) {}
+  void setAnswer(int? questionId, int? answerId) {
+    final index = state.questions.indexWhere((e) => e.id == questionId);
+    if (index == -1) return;
+    final updated = List.of(state.questions);
+
+    final question = updated[index];
+    final answersList = List.of(question.myAnswersId);
+
+    if (answersList.contains(answerId)) {
+      answersList.remove(answerId);
+    } else {
+      answersList.add(answerId ?? -1);
+    }
+
+    final updatedQuestion = question.copyWith(myAnswersId: answersList);
+    updated[index] = updatedQuestion;
+
+    emit(state.copyWith(questions: updated));
+  }
 }
