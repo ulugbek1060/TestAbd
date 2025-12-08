@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:testabd/core/theme/app_colors.dart';
 import 'package:testabd/core/utils/formatters.dart';
+import 'package:testabd/core/widgets/loading_widget.dart';
 import 'package:testabd/domain/quiz/entities/answer_item.dart';
 import 'package:testabd/domain/quiz/entities/quiz_item.dart';
 import 'package:testabd/features/home/followed_quiz_cubit.dart';
@@ -118,6 +119,7 @@ class QuestionCardItem extends StatelessWidget {
                     questionType: quiz.questionType,
                     myAnswersId: quiz.myAnswersId,
                     isCompleted: quiz.isCompleted,
+                    isLoading: quiz.isLoading,
                   ),
                 ],
               ),
@@ -148,6 +150,8 @@ class _AnswersList extends StatelessWidget {
   final List<int> myAnswersId;
   final QuestionType? questionType;
   final bool isCompleted;
+  final bool isLoading;
+
 
   const _AnswersList({
     required this.questionId,
@@ -155,6 +159,7 @@ class _AnswersList extends StatelessWidget {
     required this.myAnswersId,
     required this.questionType,
     required this.isCompleted,
+    required this.isLoading,
   });
 
   @override
@@ -166,9 +171,9 @@ class _AnswersList extends StatelessWidget {
           answers: answers,
           myAnswersId: myAnswersId,
           isCompleted: isCompleted,
-          onItemTap: (answerId) => cubit.setAnswer(questionId, answerId),
-          onSubmitTap: (answerIds) =>
-              cubit.submitAnswer(questionId!, answerIds),
+          isLoading: isLoading,
+          onItemTap: (answerId) => cubit.setMultipleAnswer(questionId!, answerId),
+          onSubmitTap: (answerIds) => cubit.submitAnswer(questionId!, answerIds),
         );
       case QuestionType.single:
         return SingleAnswerCard(
@@ -202,8 +207,9 @@ class MultipleAnswerCard extends StatelessWidget {
   final List<AnswerItem> answers;
   final List<int> myAnswersId;
   final bool isCompleted;
+  final bool isLoading;
 
-  final void Function(int? answerId) onItemTap;
+  final void Function(int answerId) onItemTap;
   final void Function(List<int> answers) onSubmitTap;
 
   const MultipleAnswerCard({
@@ -213,6 +219,7 @@ class MultipleAnswerCard extends StatelessWidget {
     required this.isCompleted,
     required this.onItemTap,
     required this.onSubmitTap,
+    required this.isLoading,
   });
 
   @override
@@ -228,7 +235,7 @@ class MultipleAnswerCard extends StatelessWidget {
             onPressed: myAnswersId.isNotEmpty
                 ? () => onSubmitTap(myAnswersId)
                 : null,
-            child: const Text("Submit"),
+            child: isLoading ? const LoadingWidget() : const Text("Submit"),
           ),
       ],
     );
@@ -279,7 +286,13 @@ class MultipleAnswerCard extends StatelessWidget {
     final selected = myAnswersId.contains(answer.id);
     return Checkbox(
       value: selected,
-      onChanged: isCompleted ? null : (_) => onItemTap(answer.id),
+      onChanged: isCompleted ? null : (_) {
+        if (answer.id != null) {
+          onItemTap(answer.id!);
+        } else {
+          logger.e('Answer id is null');
+        }
+      },
       activeColor: Colors.green,
       checkColor: Colors.white,
       side: const BorderSide(color: Colors.white, width: 1.0),
@@ -314,11 +327,10 @@ class SingleAnswerCard extends StatelessWidget {
             borderColor: getBorderColor(e),
             child: Row(
               children: [
-                CircleAvatar(
-                  backgroundColor: Colors.grey,
-                  child: getIcon(context, e),
-                ),
+                getLeading(context, e),
+
                 const SizedBox(width: 8),
+
                 Flexible(
                   child: Text(
                     e.answerText ?? '',
@@ -336,6 +348,13 @@ class SingleAnswerCard extends StatelessWidget {
       }).toList(),
     );
   }
+
+  Widget getLeading(BuildContext context, AnswerItem answer) => CircleAvatar(
+    backgroundColor: Colors.grey,
+    child: answer.isLoading
+        ? LoadingWidget(color: Colors.white)
+        : getIcon(context, answer),
+  );
 
   Color getBorderColor(AnswerItem answer) {
     final selected = myAnswersId.contains(answer.id);
@@ -374,14 +393,12 @@ class SingleAnswerCard extends StatelessWidget {
     return _buildLetter(context, answer.letter);
   }
 
-  Widget _buildLetter(BuildContext context, String? letter) {
-    return Text(
-      letter ?? '',
-      style: Theme.of(
-        context,
-      ).textTheme.titleLarge?.copyWith(color: Colors.white),
-    );
-  }
+  Widget _buildLetter(BuildContext context, String? letter) => Text(
+    letter ?? '',
+    style: Theme.of(
+      context,
+    ).textTheme.titleLarge?.copyWith(color: Colors.white),
+  );
 }
 
 class TrueFalseAnswerCard extends StatelessWidget {
@@ -452,6 +469,10 @@ class TrueFalseAnswerCard extends StatelessWidget {
     final selected = myAnswersId.contains(answer.id);
     final correct = answer.isCorrect;
     final isThumbUp = index == 0;
+
+    if (answer.isLoading) {
+      return LoadingWidget(color: Colors.white);
+    }
 
     if (!isCompleted) {
       return Icon(

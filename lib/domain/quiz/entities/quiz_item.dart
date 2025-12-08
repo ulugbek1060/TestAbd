@@ -77,6 +77,8 @@ class QuizItem extends Equatable {
 
   QuizItem copyWith({
     List<int>? myAnswersId,
+    // answers
+    List<AnswerItem>? answers,
     bool? isCorrect,
     bool? isLoading,
     bool? isCompleted,
@@ -89,7 +91,7 @@ class QuizItem extends Equatable {
       questionType: questionType,
       orderIndex: orderIndex,
       media: media,
-      answers: answers,
+      answers: answers ?? this.answers,
       myAnswersId: myAnswersId ?? this.myAnswersId,
       isCorrect: isCorrect ?? this.isCorrect,
       testDescription: testDescription,
