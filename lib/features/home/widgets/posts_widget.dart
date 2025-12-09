@@ -152,7 +152,6 @@ class _AnswersList extends StatelessWidget {
   final bool isCompleted;
   final bool isLoading;
 
-
   const _AnswersList({
     required this.questionId,
     required this.answers,
@@ -172,32 +171,38 @@ class _AnswersList extends StatelessWidget {
           myAnswersId: myAnswersId,
           isCompleted: isCompleted,
           isLoading: isLoading,
-          onItemTap: (answerId) => cubit.setMultipleAnswer(questionId!, answerId),
-          onSubmitTap: (answerIds) => cubit.submitAnswer(questionId!, answerIds),
+          onItemTap: (answerId) =>
+              cubit.setMultipleAnswer(questionId!, answerId),
+          onSubmitTap: isLoading
+              ? (_) {}
+              : (answerIds) => cubit.submitAnswer(questionId!, answerIds),
         );
       case QuestionType.single:
         return SingleAnswerCard(
           answers: answers,
           myAnswersId: myAnswersId,
           isCompleted: isCompleted,
-          onSubmitTap: (answerId) =>
-              cubit.submitAnswer(questionId!, [answerId ?? -1]),
+          onSubmitTap: isLoading
+              ? (_) {}
+              : (answerId) => cubit.submitAnswer(questionId!, [answerId ?? -1]),
         );
       case QuestionType.trueFalse:
         return TrueFalseAnswerCard(
           answers: answers,
           myAnswersId: myAnswersId,
           isCompleted: isCompleted,
-          onSubmitTap: (answerId) =>
-              cubit.submitAnswer(questionId!, [answerId ?? -1]),
+          onSubmitTap: isLoading
+              ? (_) {}
+              : (answerId) => cubit.submitAnswer(questionId!, [answerId ?? -1]),
         );
       default:
         return SingleAnswerCard(
           answers: answers,
           myAnswersId: myAnswersId,
           isCompleted: isCompleted,
-          onSubmitTap: (answerId) =>
-              cubit.submitAnswer(questionId!, [answerId ?? -1]),
+          onSubmitTap: isLoading
+              ? (_) {}
+              : (answerId) => cubit.submitAnswer(questionId!, [answerId ?? -1]),
         );
     }
   }
@@ -286,13 +291,15 @@ class MultipleAnswerCard extends StatelessWidget {
     final selected = myAnswersId.contains(answer.id);
     return Checkbox(
       value: selected,
-      onChanged: isCompleted ? null : (_) {
-        if (answer.id != null) {
-          onItemTap(answer.id!);
-        } else {
-          logger.e('Answer id is null');
-        }
-      },
+      onChanged: isCompleted
+          ? null
+          : (_) {
+              if (answer.id != null) {
+                onItemTap(answer.id!);
+              } else {
+                logger.e('Answer id is null');
+              }
+            },
       activeColor: Colors.green,
       checkColor: Colors.white,
       side: const BorderSide(color: Colors.white, width: 1.0),
