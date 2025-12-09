@@ -3,6 +3,7 @@ import 'package:testabd/data/remote_source/account/model/my_info_response.dart'
 import 'package:testabd/data/remote_source/auth/model/user_register_response.dart';
 import 'package:testabd/domain/account/entities/my_info_model.dart';
 import 'package:testabd/domain/account/entities/notification_model.dart';
+import 'package:testabd/domain/account/entities/user_profile_model.dart';
 import 'package:testabd/domain/auth/entities/register_model.dart';
 import 'package:testabd/domain/quiz/entities/answer_item.dart';
 import 'package:testabd/domain/quiz/entities/answer_model.dart';
@@ -11,6 +12,7 @@ import 'package:testabd/domain/quiz/entities/quiz_item.dart';
 import 'package:testabd/domain/quiz/entities/quiz_user.dart';
 
 import 'remote_source/account/model/notifications_response.dart';
+import 'remote_source/account/model/user_profile_response.dart';
 import 'remote_source/quiz/responses/answer_response.dart';
 import 'remote_source/quiz/responses/followed_questions_response.dart';
 
@@ -158,6 +160,39 @@ extension AnswerMapper on AnswerResponse {
       duration: duration,
       feedback: feedback,
       createdAt: createdAt,
+    );
+  }
+}
+
+extension UserProfileMapper on UserProfileResponse {
+  UserProfileModel toDomain() {
+    return UserProfileModel(
+      user: user != null
+          ? UserModel(
+              id: user!.id,
+              username: user!.username,
+              firstName: user!.firstName,
+              lastName: user!.lastName,
+              bio: user!.bio,
+              profileImage: user!.profileImage,
+              followersCount: user!.followersCount,
+              followingCount: user!.followingCount,
+              isFollowing: user!.isFollowing,
+              level: user!.level,
+              joinDate: user!.joinDate != null
+                  ? DateTime.tryParse(user!.joinDate!)
+                  : null,
+              coins: user!.coins,
+            )
+          : null,
+      stats: stats != null
+          ? UserStatsModel(
+              totalTests: stats!.totalTests,
+              correctAnswers: stats!.correctAnswers,
+              wrongAnswers: stats!.wrongAnswers,
+              accuracy: stats!.accuracy,
+            )
+          : null,
     );
   }
 }

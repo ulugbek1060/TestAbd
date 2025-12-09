@@ -6,6 +6,7 @@ import 'package:testabd/data/remote_source/account/account_source.dart';
 import 'package:testabd/domain/account/account_repository.dart';
 import 'package:testabd/domain/account/entities/my_info_model.dart';
 import 'package:testabd/domain/account/entities/notification_model.dart';
+import 'package:testabd/domain/account/entities/user_profile_model.dart';
 import 'package:testabd/main.dart';
 
 @LazySingleton(as: AccountRepository)
@@ -44,6 +45,20 @@ class AccountRepositoryImpl implements AccountRepository {
       final result = await _accountSource.getStories();
       logger.d(result);
       return Right(unit);
+    } on AppException catch (e) {
+      return Left(e);
+    } catch (e, stackTrace) {
+      return Left(UnknownException(e.toString(), stackTrace: stackTrace));
+    }
+  }
+
+  @override
+  Future<Either<AppException, UserProfileModel>> getUserProfile(
+    String username,
+  ) async {
+    try {
+      final result = await _accountSource.getProfile(username);
+      return Right(result.toDomain());
     } on AppException catch (e) {
       return Left(e);
     } catch (e, stackTrace) {

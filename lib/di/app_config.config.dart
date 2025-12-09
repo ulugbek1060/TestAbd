@@ -86,10 +86,10 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i36.ForgotPswdCubit(gh<_i893.AuthRepository>()));
     gh.lazySingleton<_i575.AccountRepository>(
         () => _i317.AccountRepositoryImpl(gh<_i65.AccountSource>()));
-    gh.factory<_i958.LoginCubit>(
-        () => _i958.LoginCubit(gh<_i893.AuthRepository>()));
     gh.factory<_i163.RegisterCubit>(
         () => _i163.RegisterCubit(gh<_i893.AuthRepository>()));
+    gh.factory<_i958.LoginCubit>(
+        () => _i958.LoginCubit(gh<_i893.AuthRepository>()));
     return this;
   }
 }
