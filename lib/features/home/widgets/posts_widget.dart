@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:testabd/core/theme/app_colors.dart';
 import 'package:testabd/core/utils/formatters.dart';
 import 'package:testabd/core/widgets/loading_widget.dart';
@@ -10,6 +11,7 @@ import 'package:testabd/domain/quiz/entities/answer_item.dart';
 import 'package:testabd/domain/quiz/entities/quiz_item.dart';
 import 'package:testabd/features/home/followed_quiz_cubit.dart';
 import 'package:testabd/main.dart';
+import 'package:testabd/router/app_router.dart';
 
 class PostsWidget extends StatelessWidget {
   const PostsWidget({super.key});
@@ -60,36 +62,42 @@ class QuestionCardItem extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             /// header of the card
-            Row(
-              children: [
-                // circle image
-                _HeaderUserImage(
-                  imageUrl: quiz.user?.profileImage,
-                  username: quiz.user?.username ?? '',
-                  size: 40,
-                ),
+            InkWell(
+              onTap: () => context.push(
+                AppRouter.userProfileWithUsername(quiz.user?.username ?? ''),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  // circle image
+                  _HeaderUserImage(
+                    imageUrl: quiz.user?.profileImage,
+                    username: quiz.user?.username ?? '',
+                    size: 40,
+                  ),
 
-                SizedBox(width: 6),
+                  SizedBox(width: 6),
 
-                // username and date
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      capitalize(quiz.user?.username),
-                      style: Theme.of(
-                        context,
-                      ).textTheme.titleMedium?.copyWith(color: Colors.white),
-                    ),
-                    Text(
-                      formatDate(quiz.createdAt),
-                      style: Theme.of(
-                        context,
-                      ).textTheme.bodySmall?.copyWith(color: Colors.white),
-                    ),
-                  ],
-                ),
-              ],
+                  // username and date
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        capitalize(quiz.user?.username),
+                        style: Theme.of(
+                          context,
+                        ).textTheme.titleMedium?.copyWith(color: Colors.white),
+                      ),
+                      Text(
+                        formatDate(quiz.createdAt),
+                        style: Theme.of(
+                          context,
+                        ).textTheme.bodySmall?.copyWith(color: Colors.white),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
 
             /// Quiz sections question and answers
@@ -141,70 +149,6 @@ class QuestionCardItem extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-class _AnswersList extends StatelessWidget {
-  final int? questionId;
-  final List<AnswerItem> answers;
-  final List<int> myAnswersId;
-  final QuestionType? questionType;
-  final bool isCompleted;
-  final bool isLoading;
-
-  const _AnswersList({
-    required this.questionId,
-    required this.answers,
-    required this.myAnswersId,
-    required this.questionType,
-    required this.isCompleted,
-    required this.isLoading,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final cubit = context.read<FollowedQuizCubit>();
-    switch (questionType) {
-      case QuestionType.multiple:
-        return MultipleAnswerCard(
-          answers: answers,
-          myAnswersId: myAnswersId,
-          isCompleted: isCompleted,
-          isLoading: isLoading,
-          onItemTap: (answerId) =>
-              cubit.setMultipleAnswer(questionId!, answerId),
-          onSubmitTap: isLoading
-              ? (_) {}
-              : (answerIds) => cubit.submitAnswer(questionId!, answerIds),
-        );
-      case QuestionType.single:
-        return SingleAnswerCard(
-          answers: answers,
-          myAnswersId: myAnswersId,
-          isCompleted: isCompleted,
-          onSubmitTap: isLoading
-              ? (_) {}
-              : (answerId) => cubit.submitAnswer(questionId!, [answerId ?? -1]),
-        );
-      case QuestionType.trueFalse:
-        return TrueFalseAnswerCard(
-          answers: answers,
-          myAnswersId: myAnswersId,
-          isCompleted: isCompleted,
-          onSubmitTap: isLoading
-              ? (_) {}
-              : (answerId) => cubit.submitAnswer(questionId!, [answerId ?? -1]),
-        );
-      default:
-        return SingleAnswerCard(
-          answers: answers,
-          myAnswersId: myAnswersId,
-          isCompleted: isCompleted,
-          onSubmitTap: isLoading
-              ? (_) {}
-              : (answerId) => cubit.submitAnswer(questionId!, [answerId ?? -1]),
-        );
-    }
   }
 }
 
@@ -499,6 +443,70 @@ class TrueFalseAnswerCard extends StatelessWidget {
       index == 0 ? Icons.thumb_up_rounded : Icons.thumb_down_alt,
       color: index == 0 ? Colors.green : Colors.red,
     );
+  }
+}
+
+class _AnswersList extends StatelessWidget {
+  final int? questionId;
+  final List<AnswerItem> answers;
+  final List<int> myAnswersId;
+  final QuestionType? questionType;
+  final bool isCompleted;
+  final bool isLoading;
+
+  const _AnswersList({
+    required this.questionId,
+    required this.answers,
+    required this.myAnswersId,
+    required this.questionType,
+    required this.isCompleted,
+    required this.isLoading,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final cubit = context.read<FollowedQuizCubit>();
+    switch (questionType) {
+      case QuestionType.multiple:
+        return MultipleAnswerCard(
+          answers: answers,
+          myAnswersId: myAnswersId,
+          isCompleted: isCompleted,
+          isLoading: isLoading,
+          onItemTap: (answerId) =>
+              cubit.setMultipleAnswer(questionId!, answerId),
+          onSubmitTap: isLoading
+              ? (_) {}
+              : (answerIds) => cubit.submitAnswer(questionId!, answerIds),
+        );
+      case QuestionType.single:
+        return SingleAnswerCard(
+          answers: answers,
+          myAnswersId: myAnswersId,
+          isCompleted: isCompleted,
+          onSubmitTap: isLoading
+              ? (_) {}
+              : (answerId) => cubit.submitAnswer(questionId!, [answerId ?? -1]),
+        );
+      case QuestionType.trueFalse:
+        return TrueFalseAnswerCard(
+          answers: answers,
+          myAnswersId: myAnswersId,
+          isCompleted: isCompleted,
+          onSubmitTap: isLoading
+              ? (_) {}
+              : (answerId) => cubit.submitAnswer(questionId!, [answerId ?? -1]),
+        );
+      default:
+        return SingleAnswerCard(
+          answers: answers,
+          myAnswersId: myAnswersId,
+          isCompleted: isCompleted,
+          onSubmitTap: isLoading
+              ? (_) {}
+              : (answerId) => cubit.submitAnswer(questionId!, [answerId ?? -1]),
+        );
+    }
   }
 }
 

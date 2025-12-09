@@ -32,6 +32,7 @@ import '../features/auth/login/login_cubit.dart' as _i958;
 import '../features/auth/register/register_cubit.dart' as _i163;
 import '../features/home/followed_quiz_cubit.dart' as _i1041;
 import '../features/profile/profile_cubit.dart' as _i760;
+import '../features/user_profile/user_profile_cubit.dart' as _i230;
 import 'app_module.dart' as _i460;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -90,6 +91,14 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i163.RegisterCubit(gh<_i893.AuthRepository>()));
     gh.factory<_i958.LoginCubit>(
         () => _i958.LoginCubit(gh<_i893.AuthRepository>()));
+    gh.factoryParam<_i230.UserProfileCubit, String, dynamic>((
+      username,
+      _,
+    ) =>
+        _i230.UserProfileCubit.create(
+          username,
+          gh<_i575.AccountRepository>(),
+        ));
     return this;
   }
 }
