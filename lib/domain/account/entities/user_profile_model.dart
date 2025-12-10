@@ -43,6 +43,14 @@ class UserModel extends Equatable {
     this.coins,
   });
 
+  String get getFollowersCount {
+    return followersCount?.toString() ?? '';
+  }
+
+  String get getFollowingCount {
+    return followingCount?.toString() ?? '';
+  }
+
   @override
   List<Object?> get props => [
     id,
