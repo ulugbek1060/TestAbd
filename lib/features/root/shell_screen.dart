@@ -51,4 +51,28 @@ class ShellScreen extends StatelessWidget {
       ),
     );
   }
+
+  //       bottomNavigationBar: BottomNavigationBar(
+//         backgroundColor: Colors.black,
+//         selectedItemColor: Colors.white,
+//         unselectedItemColor: Colors.grey,
+//         type: BottomNavigationBarType.fixed,
+//         items: const [
+//           BottomNavigationBarItem(
+//             icon: Icon(Icons.home_outlined),
+//             label: 'Home',
+//           ),
+//           BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Discover'),
+//           BottomNavigationBarItem(
+//             icon: Icon(Icons.add_circle_outline),
+//             label: 'Create',
+//           ),
+//           BottomNavigationBarItem(
+//             icon: Icon(Icons.notifications_outlined),
+//             label: 'Activity',
+//           ),
+//           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+//         ],
+//         currentIndex: 4,
+//       ),
 }

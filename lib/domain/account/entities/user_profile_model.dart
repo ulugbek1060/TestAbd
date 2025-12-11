@@ -1,5 +1,6 @@
 
 import 'package:equatable/equatable.dart';
+import 'package:testabd/core/utils/formatters.dart';
 
 class UserProfileModel extends Equatable {
   final UserModel? user;
@@ -42,6 +43,12 @@ class UserModel extends Equatable {
     this.joinDate,
     this.coins,
   });
+
+  // get fillname
+  String get getFullName {
+    // capitalize the first letter of each name
+    return '${capitalize(firstName)} ${capitalize(lastName)}';
+  }
 
   String get getFollowersCount {
     return followersCount?.toString() ?? '';
