@@ -1,10 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:testabd/core/errors/app_exception.dart';
-import 'package:testabd/data/remote_source/quiz/responses/answer_response.dart';
-import 'package:testabd/data/remote_source/quiz/responses/followed_questions_response.dart';
+import 'package:testabd/data/remote_source/quiz/models/answer_response.dart';
+import 'package:testabd/data/remote_source/quiz/models/followed_questions_response.dart';
+import 'package:testabd/data/remote_source/quiz/models/topic_related_questions_response.dart';
+import 'package:testabd/data/remote_source/quiz/models/user_question_response.dart';
 
 abstract class QuizSource {
+
+  /// https://backend.testabd.uz/quiz/recommended/followed-questions/?page=1&page_size=10
   Future<FollowedQuestionsResponse> getFollowedQuestions(
     int page,
     int pageSize,
@@ -16,8 +20,18 @@ abstract class QuizSource {
     List<int> selectedAnswers,
     int? duration,
   );
+
+  /// https://backend.testabd.uz
+  Future<TopicRelatedQuestionsResponse> getTopics(int userId);
+
+  /// https://backend.testabd.uz/quiz/questions/user_questions/?user_id=37
+  Future<List<UserQuestionResponse>> getUserQuestions(int userId);
+
 }
 
+
+
+/// =========================> Source implementation <=========================
 @Injectable(as: QuizSource)
 class QuizSourceImpl implements QuizSource {
   final Dio _dio;
@@ -64,4 +78,38 @@ class QuizSourceImpl implements QuizSource {
       throw UnknownException(e.toString(), stackTrace: stackTrace);
     }
   }
+
+  @override
+  Future<TopicRelatedQuestionsResponse> getTopics(int userId) async {
+    try {
+      final response = await _dio.get(
+        '/quiz/tests/by_user/$userId/',
+        queryParameters: {'user_id': userId},
+      );
+      return TopicRelatedQuestionsResponse.fromJson(response.data);
+    } on DioException catch (error) {
+      throw error.handleDioException();
+    } catch (e, stackTrace) {
+      throw UnknownException(e.toString(), stackTrace: stackTrace);
+    }
+  }
+
+  @override
+  Future<List<UserQuestionResponse>> getUserQuestions(int userId) async {
+    try {
+      final response = await _dio.get(
+        '/quiz/questions/user_questions/',
+        queryParameters: {'user_id': userId},
+      );
+      final list = (response.data as List)
+          .map((e) => UserQuestionResponse.fromJson(e))
+          .toList();
+      return list;
+    } on DioException catch (error) {
+      throw error.handleDioException();
+    } catch (e, stackTrace) {
+      throw UnknownException(e.toString(), stackTrace: stackTrace);
+    }
+  }
+
 }

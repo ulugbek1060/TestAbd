@@ -13,8 +13,8 @@ import 'package:testabd/domain/quiz/entities/quiz_user.dart';
 
 import 'remote_source/account/model/notifications_response.dart';
 import 'remote_source/account/model/user_profile_response.dart';
-import 'remote_source/quiz/responses/answer_response.dart';
-import 'remote_source/quiz/responses/followed_questions_response.dart';
+import 'remote_source/quiz/models/answer_response.dart';
+import 'remote_source/quiz/models/followed_questions_response.dart';
 
 extension UserMapper on UserRegisterResponse {
   RegisterModel toDomain() => RegisterModel(
