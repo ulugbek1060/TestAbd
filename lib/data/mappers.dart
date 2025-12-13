@@ -10,7 +10,7 @@ import 'package:testabd/domain/quiz/entities/answer_model.dart';
 import 'package:testabd/domain/quiz/entities/followed_quiz_model.dart';
 import 'package:testabd/domain/quiz/entities/quiz_item.dart';
 
-import '../domain/quiz/entities/topic_model.dart';
+import '../domain/quiz/entities/topics_model.dart';
 import 'remote_source/account/model/notifications_response.dart';
 import 'remote_source/account/model/user_profile_response.dart';
 import 'remote_source/quiz/models/answer_response.dart';
@@ -203,8 +203,8 @@ extension UserProfileMapper on UserProfileResponse {
 /// ===================TopicRelatedQuestionsMapper==============================
 
 extension TopicRelatedQuestionsMapper on TopicRelatedQuestionsResponse {
-  TopicModel toDomain() {
-    return TopicModel(
+  TopicsModel toDomain() {
+    return TopicsModel(
       count: count,
       next: next,
       previous: previous,

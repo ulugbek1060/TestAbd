@@ -11,6 +11,8 @@ class UserProfileCubit extends Cubit<UserProfileState> {
   final QuizRepository _quizRepository;
   final String username;
 
+  final int _pageSize = 10;
+
   @factoryMethod
   UserProfileCubit.create(
     @factoryParam this.username,
@@ -31,17 +33,52 @@ class UserProfileCubit extends Cubit<UserProfileState> {
       (value) {
         logger.d('Loaded: $value');
         emit(state.copyWith(isLoading: false, profile: value));
-        loadTopics(value.user?.id ?? 0);
+
+        /// load topics
+        loadTopics();
       },
     );
   }
 
-  Future<void> loadTopics(int userId) async {
-    final result = await _quizRepository.getTopics(userId);
-    result.fold((error) {
+  Future<void> loadTopics() async {
+    final userId = state.profile?.user?.id;
+    if (userId == null) return;
+    if (state.topicsState.isLoading || state.topicsState.isLoadingMore) return;
 
-    }, (value) {
-            
-    });
+    final currentPage = state.topicsState.nextPage;
+
+    emit(
+      state.copyWith(
+        topicsState: state.topicsState.copyWith(
+          isLoading: currentPage <= 1,
+          isLoadingMore: currentPage > 1,
+        ),
+      ),
+    );
+    final result = await _quizRepository.getTopics(
+      userId,
+      pageSize: _pageSize,
+      page: currentPage,
+    );
+    logger.e(result);
+    result.fold(
+      (error) {
+        final newTopicState = state.topicsState.copyWith(
+          isLoading: false,
+          isLoadingMore: false,
+        );
+        emit(state.copyWith(topicsState: newTopicState, error: error.message));
+      },
+      (value) {
+        final newTopicState = state.topicsState.copyWith(
+          topics: [...state.topicsState.topics, ...value.results],
+          nextPage: currentPage + 1,
+          previousPage: currentPage > 1 ? currentPage - 1 : 0,
+          isLoading: false,
+          isLoadingMore: false,
+        );
+        emit(state.copyWith(topicsState: newTopicState));
+      },
+    );
   }
 }

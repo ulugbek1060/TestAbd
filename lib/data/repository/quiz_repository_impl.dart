@@ -5,7 +5,7 @@ import 'package:testabd/data/mappers.dart';
 import 'package:testabd/data/remote_source/quiz/quiz_source.dart';
 import 'package:testabd/domain/quiz/entities/answer_model.dart';
 import 'package:testabd/domain/quiz/entities/followed_quiz_model.dart';
-import 'package:testabd/domain/quiz/entities/topic_model.dart';
+import 'package:testabd/domain/quiz/entities/topics_model.dart';
 import 'package:testabd/domain/quiz/quiz_repository.dart';
 
 @LazySingleton(as: QuizRepository)
@@ -50,9 +50,17 @@ class QuizRepositoryImpl extends QuizRepository {
   }
 
   @override
-  Future<Either<AppException, TopicModel>> getTopics(int userId) async {
+  Future<Either<AppException, TopicsModel>> getTopics(
+    int userId, {
+    int? page,
+    int? pageSize,
+  }) async {
     try {
-      final result = await _quizSource.getTopics(userId);
+      final result = await _quizSource.getTopics(
+        userId,
+        page: page,
+        pageSize: pageSize,
+      );
       return Right(result.toDomain());
     } on AppException catch (e) {
       return Left(e);

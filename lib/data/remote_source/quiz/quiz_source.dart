@@ -7,7 +7,6 @@ import 'package:testabd/data/remote_source/quiz/models/topic_related_questions_r
 import 'package:testabd/data/remote_source/quiz/models/user_question_response.dart';
 
 abstract class QuizSource {
-
   Future<FollowedQuestionsResponse> getFollowedQuestions(
     int page,
     int pageSize,
@@ -19,13 +18,14 @@ abstract class QuizSource {
     int? duration,
   );
 
-  Future<TopicRelatedQuestionsResponse> getTopics(int userId);
+  Future<TopicRelatedQuestionsResponse> getTopics(
+    int userId, {
+    int? page,
+    int? pageSize,
+  });
 
   Future<List<UserQuestionResponse>> getUserQuestions(int userId);
-
 }
-
-
 
 /// =========================> Source implementation <=========================
 @Injectable(as: QuizSource)
@@ -76,11 +76,19 @@ class QuizSourceImpl implements QuizSource {
   }
 
   @override
-  Future<TopicRelatedQuestionsResponse> getTopics(int userId) async {
+  Future<TopicRelatedQuestionsResponse> getTopics(
+    int userId, {
+    int? page,
+    int? pageSize,
+  }) async {
     try {
       final response = await _dio.get(
         '/quiz/tests/by_user/$userId/',
-        queryParameters: {'user_id': userId},
+        queryParameters: {
+          'user_id': userId,
+          if (page != null) 'page': page,
+          if (page != null) 'page_size': pageSize,
+        },
       );
       return TopicRelatedQuestionsResponse.fromJson(response.data);
     } on DioException catch (error) {
@@ -107,5 +115,4 @@ class QuizSourceImpl implements QuizSource {
       throw UnknownException(e.toString(), stackTrace: stackTrace);
     }
   }
-
 }

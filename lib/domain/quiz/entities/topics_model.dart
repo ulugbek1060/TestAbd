@@ -1,12 +1,12 @@
 import 'package:equatable/equatable.dart';
 
-class TopicModel extends Equatable {
+class TopicsModel extends Equatable {
   final int? count;
   final String? next;
   final String? previous;
   final List<TopicItem> results;
 
-  const TopicModel({
+  const TopicsModel({
     this.count,
     this.next,
     this.previous,

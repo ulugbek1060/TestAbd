@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:testabd/core/errors/app_exception.dart';
 import 'package:testabd/domain/quiz/entities/answer_model.dart';
 import 'package:testabd/domain/quiz/entities/followed_quiz_model.dart';
-import 'package:testabd/domain/quiz/entities/topic_model.dart';
+import 'package:testabd/domain/quiz/entities/topics_model.dart';
 
 abstract class QuizRepository {
 
@@ -19,6 +19,9 @@ abstract class QuizRepository {
 
   Future<Either<AppException, dynamic>> getUserQuestions(int userId);
 
-  Future<Either<AppException, TopicModel>> getTopics(int userId);
+  Future<Either<AppException, TopicsModel>> getTopics(int userId, {
+    int? page,
+    int? pageSize,
+  });
 
 }

@@ -38,7 +38,7 @@ _$TopicQuestionItemResponseImpl _$$TopicQuestionItemResponseImplFromJson(
               json['user'] as Map<String, dynamic>),
       title: json['title'] as String?,
       description: json['description'] as String?,
-      category: json['category'] as String?,
+      // category: json['category'] as String?,
       visibility: json['visibility'] as String?,
       access_mode: json['access_mode'] as String?,
       participant_roles: json['participant_roles'] as String?,
