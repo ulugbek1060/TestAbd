@@ -98,6 +98,7 @@ extension GetItInjectableX on _i174.GetIt {
         _i230.UserProfileCubit.create(
           username,
           gh<_i575.AccountRepository>(),
+          gh<_i156.QuizRepository>(),
         ));
     return this;
   }

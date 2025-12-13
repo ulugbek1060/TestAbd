@@ -15,7 +15,6 @@ class AnswerItem extends Equatable {
     this.isLoading = false,
   });
 
-  // copywith
   AnswerItem copyWith({
     int? id,
     String? letter,

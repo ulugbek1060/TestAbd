@@ -8,23 +8,19 @@ import 'package:testabd/data/remote_source/quiz/models/user_question_response.da
 
 abstract class QuizSource {
 
-  /// https://backend.testabd.uz/quiz/recommended/followed-questions/?page=1&page_size=10
   Future<FollowedQuestionsResponse> getFollowedQuestions(
     int page,
     int pageSize,
   );
 
-  /// {"question":508,"selected_answer_ids":[1378],"duration":2}
   Future<AnswerResponse> submitAnswer(
     int questionId,
     List<int> selectedAnswers,
     int? duration,
   );
 
-  /// https://backend.testabd.uz
   Future<TopicRelatedQuestionsResponse> getTopics(int userId);
 
-  /// https://backend.testabd.uz/quiz/questions/user_questions/?user_id=37
   Future<List<UserQuestionResponse>> getUserQuestions(int userId);
 
 }

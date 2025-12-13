@@ -9,12 +9,13 @@ import 'package:testabd/domain/quiz/entities/answer_item.dart';
 import 'package:testabd/domain/quiz/entities/answer_model.dart';
 import 'package:testabd/domain/quiz/entities/followed_quiz_model.dart';
 import 'package:testabd/domain/quiz/entities/quiz_item.dart';
-import 'package:testabd/domain/quiz/entities/quiz_user.dart';
 
+import '../domain/quiz/entities/topic_model.dart';
 import 'remote_source/account/model/notifications_response.dart';
 import 'remote_source/account/model/user_profile_response.dart';
 import 'remote_source/quiz/models/answer_response.dart';
 import 'remote_source/quiz/models/followed_questions_response.dart';
+import 'remote_source/quiz/models/topic_related_questions_response.dart';
 
 extension UserMapper on UserRegisterResponse {
   RegisterModel toDomain() => RegisterModel(
@@ -129,7 +130,7 @@ extension FollowedQuizMapper on FollowedQuestionsResponse {
               difficultyPercentage: e.difficulty_percentage,
               userAttemptCount: e.user_attempt_count,
               user: e.user != null
-                  ? QuizUser(
+                  ? User(
                       id: e.user!.id,
                       username: e.user!.username,
                       profileImage: e.user!.profile_image,
@@ -164,6 +165,8 @@ extension AnswerMapper on AnswerResponse {
   }
 }
 
+/// ===================UserProfileMapper========================================
+
 extension UserProfileMapper on UserProfileResponse {
   UserProfileModel toDomain() {
     return UserProfileModel(
@@ -193,6 +196,99 @@ extension UserProfileMapper on UserProfileResponse {
               accuracy: stats!.accuracy,
             )
           : null,
+    );
+  }
+}
+
+/// ===================TopicRelatedQuestionsMapper==============================
+
+extension TopicRelatedQuestionsMapper on TopicRelatedQuestionsResponse {
+  TopicModel toDomain() {
+    return TopicModel(
+      count: count,
+      next: next,
+      previous: previous,
+      results: results.map((e) => e.toModel()).toList(),
+    );
+  }
+}
+
+extension TopicItemResponseMapper on TopicQuestionItemResponse {
+  TopicItem toModel() {
+    return TopicItem(
+      id: id,
+      user: user?.toModel(),
+      title: title,
+      description: description,
+      category: category,
+      visibility: visibility,
+      accessMode: access_mode,
+      participantRoles: participant_roles,
+      maxParticipants: max_participants,
+      startTime: start_time,
+      endTime: end_time,
+      minScoreToFinish: min_score_to_finish,
+      participantCountToFinish: participant_count_to_finish,
+      country: country,
+      region: region,
+      district: district,
+      isRegionPremium: is_region_premium,
+      createdAt: created_at,
+      difficultyPercentage: difficulty_percentage,
+      totalQuestions: total_questions,
+      questions: questions.map((e) => e.toModel()).toList(),
+    );
+  }
+}
+
+extension TopicQuestionResponseMapper on TopicQuestionResponse {
+  TopicQuestion toModel() {
+    return TopicQuestion(
+      id: id,
+      test: test,
+      testTitle: test_title,
+      questionText: question_text,
+      questionType: question_type,
+      orderIndex: order_index,
+      media: media,
+      answers: answers.map((e) => e.toModel()).toList(),
+      testDescription: test_description,
+      correctAnswerText: correct_answer_text,
+      answerLanguage: answer_language,
+      correctCount: correct_count,
+      wrongCount: wrong_count,
+      difficultyPercentage: difficulty_percentage,
+      userAttemptCount: user_attempt_count,
+      user: user?.toModel(),
+      createdAt: created_at,
+      roundImage: round_image,
+      isBookmarked: is_bookmarked,
+      isFollowing: is_following,
+      category: category,
+    );
+  }
+}
+
+extension TopicAnswerResponseMapper on TopicAnswerResponse {
+  TopicAnswer toModel() {
+    return TopicAnswer(
+      id: id,
+      letter: letter,
+      answerText: answer_text,
+      isCorrect: is_correct,
+    );
+  }
+}
+
+extension TopicUserShortResponseMapper on TopicUserShortResponse {
+  TopicUserShort toModel() {
+    return TopicUserShort(
+      id: id,
+      username: username,
+      profileImage: profile_image,
+      isBadged: is_badged,
+      isPremium: is_premium,
+      isFollowing: is_following,
     );
   }
 }

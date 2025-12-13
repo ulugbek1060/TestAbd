@@ -1,12 +1,10 @@
 import 'package:equatable/equatable.dart';
 import 'package:testabd/domain/quiz/entities/answer_item.dart';
-import 'package:testabd/domain/quiz/entities/quiz_user.dart';
 
 enum QuestionType {
   multiple,
   single,
   trueFalse;
-
   static QuestionType fromString(String? type) {
     if (type == 'multiple') {
       return multiple;
@@ -38,7 +36,7 @@ class QuizItem extends Equatable {
   final int? wrongCount;
   final double? difficultyPercentage;
   final int? userAttemptCount;
-  final QuizUser? user;
+  final User? user;
   final DateTime? createdAt;
   final String? roundImage;
   final bool? isBookmarked;
@@ -77,7 +75,6 @@ class QuizItem extends Equatable {
 
   QuizItem copyWith({
     List<int>? myAnswersId,
-    // answers
     List<AnswerItem>? answers,
     bool? isCorrect,
     bool? isLoading,
@@ -139,5 +136,33 @@ class QuizItem extends Equatable {
     category,
     isLoading,
     isCompleted,
+  ];
+}
+
+class User extends Equatable {
+  final int? id;
+  final String? username;
+  final String? profileImage;
+  final bool? isBadged;
+  final bool? isPremium;
+  final bool? isFollowing;
+
+  const User({
+    this.id,
+    this.username,
+    this.profileImage,
+    this.isBadged,
+    this.isPremium,
+    this.isFollowing,
+  });
+
+  @override
+  List<Object?> get props => [
+    id,
+    username,
+    profileImage,
+    isBadged,
+    isPremium,
+    isFollowing,
   ];
 }
