@@ -60,7 +60,6 @@ class UserProfileCubit extends Cubit<UserProfileState> {
       pageSize: _pageSize,
       page: currentPage,
     );
-    logger.e(result);
     result.fold(
       (error) {
         final newTopicState = state.topicsState.copyWith(

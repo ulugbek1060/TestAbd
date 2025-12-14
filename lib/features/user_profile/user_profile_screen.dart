@@ -11,8 +11,9 @@ class UserProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => BlocProvider(
-    create: (context) =>
-        locator<UserProfileCubit>(param1: username)..loadUserDetail(),
+    create: (context) => locator<UserProfileCubit>(param1: username)
+      ..loadUserDetail()
+      ..loadTopics(),
     child: _View(),
   );
 }
@@ -24,8 +25,12 @@ class _View extends StatefulWidget {
   State<_View> createState() => _ViewState();
 }
 
+enum PageType { block, questions }
+
 class _ViewState extends State<_View> with SingleTickerProviderStateMixin {
   late TabController _tabController;
+
+  late var pageTye = PageType.block;
 
   @override
   void initState() {
@@ -355,9 +360,11 @@ class _ViewState extends State<_View> with SingleTickerProviderStateMixin {
                     // labelColor: Theme.of(context).colorScheme.secondary,
                     // indicatorColor: Theme.of(context).colorScheme.secondary,
                     onTap: (index) {
-                      // setState(() {
-                      //   _currentIndex = index;
-                      // });
+                      setState(() {
+                        pageTye = index == 0
+                            ? PageType.block
+                            : PageType.questions;
+                      });
                     },
                     controller: _tabController,
                     tabs: [
@@ -369,15 +376,46 @@ class _ViewState extends State<_View> with SingleTickerProviderStateMixin {
               ),
 
               /// tabsView
-              SliverFillRemaining(
-                child: TabBarView(
-                  controller: _tabController,
-                  children: [
-                    Center(child: Icon(Icons.book, color: Colors.white)),
-                    Center(child: Icon(Icons.newspaper, color: Colors.white)),
-                  ],
+              if (pageTye == PageType.block)
+                SliverGrid(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 10.0,
+                    mainAxisSpacing: 10.0,
+                    childAspectRatio: 1.0,
+                  ),
+                  delegate: SliverChildBuilderDelegate((
+                    BuildContext context,
+                    int index,
+                  ) {
+                    return Container(
+                      alignment: Alignment.center,
+                      color: Colors.teal[100 * (index % 9)],
+                      child: Text('Grid Item $index'),
+                    );
+                  }, childCount: state.topicsState.topics.length),
                 ),
-              ),
+
+
+              if (pageTye == PageType.questions)
+                SliverGrid(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 10.0,
+                    mainAxisSpacing: 10.0,
+                    childAspectRatio: 1.0,
+                  ),
+                  delegate: SliverChildBuilderDelegate((
+                    BuildContext context,
+                    int index,
+                  ) {
+                    return Container(
+                      alignment: Alignment.center,
+                      color: Colors.blueGrey,
+                      child: Text('Grid Item $index'),
+                    );
+                  }, childCount: 20),
+                ),
 
               // SingleChildScrollView(
               //   child: Column(
