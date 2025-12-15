@@ -370,6 +370,7 @@ class _ViewState extends State<_View> with SingleTickerProviderStateMixin {
                     tabs: [
                       Tab(text: 'Bloklar'),
                       Tab(text: 'Savollar'),
+                      Tab(text: 'Kitoblar'),
                     ],
                   ),
                 ),
