@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:testabd/core/utils/formatters.dart';
 import 'package:testabd/di/app_config.dart';
+import 'package:testabd/features/user_profile/block_card.dart';
 import 'package:testabd/features/user_profile/user_profile_cubit.dart';
 import 'package:testabd/features/user_profile/user_profile_state.dart';
 
@@ -399,45 +399,51 @@ class _ViewState extends State<_View> with SingleTickerProviderStateMixin {
                       int index,
                     ) {
                       final topic = state.topicsState.topics[index];
-                      return Container(
-                        decoration: BoxDecoration(
-                          color: Colors.blueGrey,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: .start,
-                            spacing: 8,
-                            children: [
-                              Text(
-                                '${topic.title}',
-                                style: Theme.of(context).textTheme.titleSmall,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              Text(
-                                '${topic.description}',
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              Spacer(),
-                              Text(
-                                '${topic.totalQuestions} savollar',
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              Text(
-                                formatDate(topic.createdAt),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ],
-                          ),
-                        ),
+                      return QuestionCollectionCard(
+                        title: topic.title ?? '',
+                        description: topic.description ?? '',
+                        questionCount: topic.totalQuestions ?? 0,
+                        createdAt: topic.createdAt ?? DateTime.now(),
                       );
+                      // return Container(
+                      //   decoration: BoxDecoration(
+                      //     color: AppColors.outlinedButtonBorder,
+                      //     borderRadius: BorderRadius.circular(12),
+                      //   ),
+                      //   child: Padding(
+                      //     padding: const EdgeInsets.all(12.0),
+                      //     child: Column(
+                      //       mainAxisSize: MainAxisSize.max,
+                      //       mainAxisAlignment: MainAxisAlignment.center,
+                      //       crossAxisAlignment: .start,
+                      //       spacing: 8,
+                      //       children: [
+                      //         Text(
+                      //           '${topic.title}',
+                      //           style: Theme.of(context).textTheme.titleSmall,
+                      //           maxLines: 2,
+                      //           overflow: TextOverflow.ellipsis,
+                      //         ),
+                      //         Text(
+                      //           '${topic.description}',
+                      //           maxLines: 2,
+                      //           overflow: TextOverflow.ellipsis,
+                      //         ),
+                      //         Spacer(),
+                      //         Text(
+                      //           '${topic.totalQuestions} savollar',
+                      //           maxLines: 1,
+                      //           overflow: TextOverflow.ellipsis,
+                      //         ),
+                      //         Text(
+                      //           formatDate(topic.createdAt),
+                      //           maxLines: 1,
+                      //           overflow: TextOverflow.ellipsis,
+                      //         ),
+                      //       ],
+                      //     ),
+                      //   ),
+                      // );
                     }, childCount: state.topicsState.topics.length),
                   ),
                 ),
@@ -819,9 +825,7 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
     BuildContext context,
     double shrinkOffset,
     bool overlapsContent,
-  ) {
-    return Container(color: backgroundColor, child: _tabBar);
-  }
+  ) => Container(color: backgroundColor, child: _tabBar);
 
   @override
   bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
