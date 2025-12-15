@@ -98,13 +98,13 @@ class _ViewState extends State<_View> {
                           hintText: "Email",
                           prefixIcon: Icon(
                             Icons.email_outlined,
-                            color: AppColors.mediumEmphasized,
+                            color: AppColors.textSecondary,
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                               color: state.emailError
                                   ? Colors.red
-                                  : AppColors.lowEmphasized,
+                                  : AppColors.textSecondary,
                               width: AppSize.defBorderSize,
                             ),
                             borderRadius: 12.borderRadius,

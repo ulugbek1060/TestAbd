@@ -37,7 +37,7 @@ class TopicItem extends Equatable {
   final String? region;
   final String? district;
   final bool? isRegionPremium;
-  final String? createdAt;
+  final DateTime? createdAt;
   final double? difficultyPercentage;
   final int? totalQuestions;
   final List<TopicQuestion> questions;

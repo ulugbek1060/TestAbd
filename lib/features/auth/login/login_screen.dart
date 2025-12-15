@@ -65,7 +65,8 @@ class _View extends StatelessWidget {
                     style: Theme.of(context).textTheme.titleSmall,
                     children: [
                       TextSpan(
-                        text: "Hisobingizni yaratish uchun ma'lumotlarni kiriting",
+                        text:
+                            "Hisobingizni yaratish uchun ma'lumotlarni kiriting",
                         style: TextStyle(color: Colors.blue),
                       ),
                     ],
@@ -83,7 +84,10 @@ class _View extends StatelessWidget {
                     TextField(
                       decoration: InputDecoration(
                         hintText: "Foydalanuvchi nomini kiriting",
-                        prefixIcon: const Icon(Icons.mail_outline, color: AppColors.lowEmphasized,),
+                        prefixIcon: const Icon(
+                          Icons.mail_outline,
+                          color: AppColors.textSecondary,
+                        ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(14),
                         ),
@@ -96,13 +100,16 @@ class _View extends StatelessWidget {
                     TextField(
                       decoration: InputDecoration(
                         hintText: "Parol",
-                        prefixIcon: const Icon(Icons.lock, color: AppColors.lowEmphasized,),
+                        prefixIcon: const Icon(
+                          Icons.lock,
+                          color: AppColors.textSecondary,
+                        ),
                         suffixIcon: IconButton(
                           icon: Icon(
                             state.isPasswordVisible
                                 ? Icons.visibility
                                 : Icons.visibility_off,
-                            color: AppColors.highEmphasized,
+                            color: AppColors.textSecondary,
                           ),
                           onPressed: cubit.togglePasswordVisibility,
                         ),

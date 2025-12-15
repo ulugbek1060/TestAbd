@@ -233,7 +233,7 @@ extension TopicItemResponseMapper on TopicQuestionItemResponse {
       region: region,
       district: district,
       isRegionPremium: is_region_premium,
-      createdAt: created_at,
+      createdAt:DateTime.parse(created_at ?? ''),
       difficultyPercentage: difficulty_percentage,
       totalQuestions: total_questions,
       questions: questions.map((e) => e.toModel()).toList(),

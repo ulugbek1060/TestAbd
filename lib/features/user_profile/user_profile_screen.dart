@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:testabd/core/utils/formatters.dart';
 import 'package:testabd/di/app_config.dart';
 import 'package:testabd/features/user_profile/user_profile_cubit.dart';
 import 'package:testabd/features/user_profile/user_profile_state.dart';
@@ -25,7 +26,7 @@ class _View extends StatefulWidget {
   State<_View> createState() => _ViewState();
 }
 
-enum PageType { block, questions }
+enum PageType { block, questions, books }
 
 class _ViewState extends State<_View> with SingleTickerProviderStateMixin {
   late TabController _tabController;
@@ -35,7 +36,7 @@ class _ViewState extends State<_View> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);
+    _tabController = TabController(length: 3, vsync: this);
   }
 
   @override
@@ -351,19 +352,25 @@ class _ViewState extends State<_View> with SingleTickerProviderStateMixin {
                 ],
               ),
 
-              /// bats
+              /// tabs
               SliverPersistentHeader(
                 pinned: true,
                 delegate: _SliverAppBarDelegate(
+                  backgroundColor: Colors.black,
                   TabBar(
                     unselectedLabelColor: Colors.white,
                     // labelColor: Theme.of(context).colorScheme.secondary,
                     // indicatorColor: Theme.of(context).colorScheme.secondary,
                     onTap: (index) {
                       setState(() {
-                        pageTye = index == 0
-                            ? PageType.block
-                            : PageType.questions;
+                        switch (index) {
+                          case 0:
+                            pageTye = PageType.block;
+                          case 1:
+                            pageTye = PageType.questions;
+                          case 2:
+                            pageTye = PageType.books;
+                        }
                       });
                     },
                     controller: _tabController,
@@ -376,8 +383,67 @@ class _ViewState extends State<_View> with SingleTickerProviderStateMixin {
                 ),
               ),
 
-              /// tabsView
+              /// ViewBlock
               if (pageTye == PageType.block)
+                SliverPadding(
+                  padding: const EdgeInsets.all(16),
+                  sliver: SliverGrid(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 12.0,
+                      mainAxisSpacing: 12.0,
+                      childAspectRatio: 1.0,
+                    ),
+                    delegate: SliverChildBuilderDelegate((
+                      BuildContext context,
+                      int index,
+                    ) {
+                      final topic = state.topicsState.topics[index];
+                      return Container(
+                        decoration: BoxDecoration(
+                          color: Colors.blueGrey,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: .start,
+                            spacing: 8,
+                            children: [
+                              Text(
+                                '${topic.title}',
+                                style: Theme.of(context).textTheme.titleSmall,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              Text(
+                                '${topic.description}',
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              Spacer(),
+                              Text(
+                                '${topic.totalQuestions} savollar',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              Text(
+                                formatDate(topic.createdAt),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    }, childCount: state.topicsState.topics.length),
+                  ),
+                ),
+
+              /// ViewQuestions
+              if (pageTye == PageType.questions)
                 SliverGrid(
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
@@ -391,14 +457,14 @@ class _ViewState extends State<_View> with SingleTickerProviderStateMixin {
                   ) {
                     return Container(
                       alignment: Alignment.center,
-                      color: Colors.teal[100 * (index % 9)],
+                      color: Colors.blueGrey,
                       child: Text('Grid Item $index'),
                     );
-                  }, childCount: state.topicsState.topics.length),
+                  }, childCount: 20),
                 ),
 
-
-              if (pageTye == PageType.questions)
+              /// ViewBooks
+              if (pageTye == PageType.books)
                 SliverGrid(
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
@@ -736,7 +802,9 @@ class _PerformanceItem extends StatelessWidget {
 }
 
 class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
-  _SliverAppBarDelegate(this._tabBar);
+  final Color backgroundColor;
+
+  _SliverAppBarDelegate(this._tabBar, {required this.backgroundColor});
 
   final TabBar _tabBar;
 
@@ -752,7 +820,7 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
     double shrinkOffset,
     bool overlapsContent,
   ) {
-    return _tabBar;
+    return Container(color: backgroundColor, child: _tabBar);
   }
 
   @override

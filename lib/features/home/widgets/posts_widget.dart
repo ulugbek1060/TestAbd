@@ -134,7 +134,7 @@ class QuestionCardItem extends StatelessWidget {
             ),
 
             /// divider
-            Divider(color: AppColors.lowEmphasized),
+            Divider(color: AppColors.textSecondary),
 
             /// question information
             _BottomQuestionInformation(

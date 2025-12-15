@@ -59,7 +59,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       title: 'TestAbd',
-      theme: AppTheme.lightThemeData,
+      theme: AppTheme.themeDark,
       debugShowCheckedModeBanner: false,
       themeMode: ThemeMode.light,
       routerDelegate: appRouter.routerDelegate,

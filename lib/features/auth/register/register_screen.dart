@@ -102,13 +102,13 @@ class _ViewState extends State<_View> {
                       hintText: "Username",
                       prefixIcon: Icon(
                         Icons.person_outline_rounded,
-                        color: AppColors.mediumEmphasized,
+                        color: AppColors.textSecondary,
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(
                           color: state.usernameError
                               ? Colors.red
-                              : AppColors.lowEmphasized,
+                              : AppColors.textSecondary,
                           width: AppSize.defBorderSize,
                         ),
                         borderRadius: 12.borderRadius,
@@ -125,13 +125,13 @@ class _ViewState extends State<_View> {
                       hintText: "Email",
                       prefixIcon: Icon(
                         Icons.email_outlined,
-                        color: AppColors.mediumEmphasized,
+                        color: AppColors.textSecondary,
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(
                           color: state.emailError
                               ? Colors.red
-                              : AppColors.lowEmphasized,
+                              : AppColors.textSecondary,
                           width: AppSize.defBorderSize,
                         ),
                         borderRadius: 12.borderRadius,
@@ -149,14 +149,14 @@ class _ViewState extends State<_View> {
                       hintText: "Password",
                       prefixIcon: Icon(
                         Icons.lock_outline_rounded,
-                        color: AppColors.mediumEmphasized,
+                        color: AppColors.textSecondary,
                       ),
                       suffixIcon: IconButton(
                         icon: Icon(
                           state.isPswdVisible
                               ? Icons.visibility
                               : Icons.visibility_off,
-                          color: AppColors.highEmphasized,
+                          color: AppColors.textSecondary,
                         ),
                         onPressed: cubit.togglePswdVisibility,
                       ),
@@ -164,7 +164,7 @@ class _ViewState extends State<_View> {
                         borderSide: BorderSide(
                           color: state.passwordError
                               ? Colors.red
-                              : AppColors.lowEmphasized,
+                              : AppColors.textSecondary,
                           width: AppSize.defBorderSize,
                         ),
                         borderRadius: 12.borderRadius,
@@ -182,14 +182,14 @@ class _ViewState extends State<_View> {
                       hintText: "Confirm Password",
                       prefixIcon: Icon(
                         Icons.lock_outline_rounded,
-                        color: AppColors.mediumEmphasized,
+                        color: AppColors.textSecondary,
                       ),
                       suffixIcon: IconButton(
                         icon: Icon(
                           state.isConfirmPswdVisible
                               ? Icons.visibility
                               : Icons.visibility_off,
-                          color: AppColors.highEmphasized,
+                          color: AppColors.textSecondary,
                         ),
                         onPressed: cubit.toggleConfirmPswdVisibility,
                       ),
@@ -197,7 +197,7 @@ class _ViewState extends State<_View> {
                         borderSide: BorderSide(
                           color: state.confirmPasswordError
                               ? Colors.red
-                              : AppColors.lowEmphasized,
+                              : AppColors.textSecondary,
                           width: AppSize.defBorderSize,
                         ),
                         borderRadius: 12.borderRadius,
@@ -206,7 +206,7 @@ class _ViewState extends State<_View> {
                         borderSide: BorderSide(
                           color: state.confirmPasswordError
                               ? Colors.red
-                              : AppColors.lowEmphasized,
+                              : AppColors.textSecondary,
                           width: AppSize.defBorderSize,
                         ),
                         borderRadius: 12.borderRadius,
@@ -244,7 +244,7 @@ class _ViewState extends State<_View> {
                           borderSide: BorderSide(
                             color: state.referralCodeError
                                 ? Colors.red
-                                : AppColors.lowEmphasized,
+                                : AppColors.textSecondary,
                             width: AppSize.defBorderSize,
                           ),
                           borderRadius: 12.borderRadius,

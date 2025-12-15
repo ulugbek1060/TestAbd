@@ -4,12 +4,11 @@ import 'package:flutter/material.dart';
 import 'app_colors.dart';
 
 class AppTheme {
-  static ThemeData theme = ThemeData(
+  static ThemeData themeDark = ThemeData(
     useMaterial3: false,
     brightness: Brightness.dark,
 
     scaffoldBackgroundColor: AppColors.scaffoldBackground,
-
     // --------------------------------------------------
     // COLOR SCHEME
     // --------------------------------------------------
