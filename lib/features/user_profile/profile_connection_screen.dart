@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:testabd/core/widgets/loading_widget.dart';
 import 'package:testabd/di/app_config.dart';
 import 'package:testabd/domain/account/entities/user_connections_model.dart';
 import 'package:testabd/features/user_profile/profile_connection_cubit.dart';
@@ -111,6 +112,7 @@ class _ConnectionsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<ProfileConnectionCubit>();
     return ListView.separated(
       itemCount: users.length,
       separatorBuilder: (_, __) => const Divider(height: 1),
@@ -118,8 +120,13 @@ class _ConnectionsList extends StatelessWidget {
         final user = users[index];
         return UserTile(
           user: user,
-          onTap: () =>
-              context.push(AppRouter.userProfileWithUsername(user.username)),
+          onTap: () {
+            final result = context.push(
+              AppRouter.userProfileWithUsername(user.username),
+            );
+            // cubit.updateState();
+          },
+          onTapFollow: () => cubit.onFollowUser(user.id),
         );
       },
     );
@@ -129,13 +136,19 @@ class _ConnectionsList extends StatelessWidget {
 class UserTile extends StatelessWidget {
   final UserConnectionModel user;
   final VoidCallback onTap;
+  final VoidCallback onTapFollow;
 
-  const UserTile({super.key, required this.user, required this.onTap});
+  const UserTile({
+    super.key,
+    required this.user,
+    required this.onTap,
+    required this.onTapFollow,
+  });
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onTap: onTap,
+      onTap: user.isLoading ? null : onTap,
       leading: CircleAvatar(
         radius: 24,
         backgroundImage: NetworkImage(user.profileImage ?? ''),
@@ -148,7 +161,7 @@ class UserTile extends StatelessWidget {
       trailing: SizedBox(
         height: 32,
         child: OutlinedButton(
-          onPressed: () {},
+          onPressed: user.isLoading ? null : onTapFollow,
           style: OutlinedButton.styleFrom(
             backgroundColor: user.isFollowing
                 ? Colors.grey.shade200
@@ -160,13 +173,15 @@ class UserTile extends StatelessWidget {
               borderRadius: BorderRadius.circular(8),
             ),
           ),
-          child: Text(
-            user.isFollowing ? 'Following' : 'Follow',
-            style: TextStyle(
-              color: user.isFollowing ? Colors.black : Colors.white,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
+          child: user.isLoading
+              ? SizedBox(width: 12, height: 12, child: LoadingWidget())
+              : Text(
+                  user.isFollowing ? 'Following' : 'Follow',
+                  style: TextStyle(
+                    color: user.isFollowing ? Colors.black : Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
         ),
       ),
     );

@@ -20,18 +20,22 @@ class BlocksState with _$BlocksState {
 @freezed
 class QuestionsState with _$QuestionsState {
   const factory QuestionsState({
-  @Default(false) bool isLoading,
-  @Default([]) List<QuizItem> questions,
+    @Default(false) bool isLoading,
+    @Default([]) List<QuizItem> questions,
     String? error,
   }) = _QuestionsState;
 }
 
 @freezed
 class BooksState with _$BooksState {
-  const factory BooksState({
-    @Default(false) bool isLoading,
-    String? error,
-}) = _BooksState;
+  const factory BooksState({@Default(false) bool isLoading, String? error}) =
+      _BooksState;
+}
+
+@freezed
+class FollowState with _$FollowState {
+  const factory FollowState({@Default(false) bool isLoading, String? error}) =
+      _FollowState;
 }
 
 @freezed
@@ -43,14 +47,13 @@ class UserProfileState with _$UserProfileState {
     UserProfileModel? profile,
     // global errors
     String? error,
-    // follow loading
-    @Default(false) bool? followLoading,
     // topics state
     @Default(BlocksState()) BlocksState topicsState,
     // questions state
     @Default(QuestionsState()) QuestionsState questionsState,
-
     // book state
     @Default(BooksState()) BooksState booksState,
+    // follow action state
+    @Default(FollowState()) FollowState followState,
   }) = _UserProfileState;
 }

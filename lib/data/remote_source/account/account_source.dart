@@ -12,6 +12,7 @@ abstract class AccountSource {
   Future<dynamic> getStories();
   Future<UserProfileResponse> getProfile(String username);
   Future<UserConnectionsResponse> getFollowers(int userId);
+  Future<String> followUser(int userId);
 }
 
 @Injectable(as: AccountSource)
@@ -78,6 +79,19 @@ class AccountSourceImpl implements AccountSource{
     try {
       final response = await _dio.get("/accounts/followers/$userId");
       return UserConnectionsResponse.fromJson(response.data);
+    } on DioException catch (e) {
+      throw e.handleDioException();
+    } catch (e, stackTrace) {
+      throw UnknownException(e.toString(), stackTrace: stackTrace);
+    }
+  }
+
+  /// /accounts/followers/{userId}/toggle/
+  @override
+  Future<String> followUser(int userId) async {
+    try {
+      final response = await _dio.post("/accounts/followers/$userId/toggle/");
+      return response.data.toString();
     } on DioException catch (e) {
       throw e.handleDioException();
     } catch (e, stackTrace) {

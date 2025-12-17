@@ -113,6 +113,59 @@ class UserProfileCubit extends Cubit<UserProfileState> {
   }
 
   Future<void> followAction() async {
-    // todo do follow action
+    final userId = state.profile?.user?.id;
+    final followState = state.followState;
+    if (userId == null || followState.isLoading) return;
+
+    // enable loading
+    emit(state.copyWith(followState: followState.copyWith(isLoading: true)));
+
+    final result = await _accountRepository.followUser(userId);
+
+    result.fold(
+      (error) {
+        // disable loading and add error
+        final newFollowState = followState.copyWith(
+          isLoading: false,
+          error: error.message,
+        );
+        emit(state.copyWith(followState: newFollowState));
+        // TODO show error message
+      },
+      (value) {
+        // disable loading
+        final newFollowState = followState.copyWith(
+          isLoading: false,
+          error: null,
+        );
+
+        // update isFollowing field
+        final newUser = state.profile?.user?.copyWith(
+          isFollowing: !(state.profile?.user?.isFollowing ?? false),
+        );
+        final newProfile = state.profile?.copyWith(user: newUser);
+
+        final newState = state.copyWith(
+          profile: newProfile,
+          followState: newFollowState,
+        );
+
+        emit(newState);
+
+        // load user detail
+        _loadUserDetailSilently();
+      },
+    );
   }
+
+  void _loadUserDetailSilently() {
+    _accountRepository.getUserProfile(username).then((e){
+      e.fold((error){
+        // show error silently
+      }, (result){
+        emit(state.copyWith(profile: result));
+      });
+    });
+  }
+
 }

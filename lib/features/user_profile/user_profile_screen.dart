@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:testabd/core/utils/question_difficulty_x.dart';
+import 'package:testabd/core/widgets/loading_widget.dart';
 import 'package:testabd/di/app_config.dart';
 import 'package:testabd/features/user_profile/profile_connection_screen.dart';
 import 'package:testabd/features/user_profile/user_profile_cubit.dart';
@@ -124,7 +125,7 @@ class _ViewState extends State<_View> with SingleTickerProviderStateMixin {
                                 AppRouter.profileConnectionWithUserId(
                                   userId: state.profile?.user?.id ?? 0,
                                   connectionType:
-                                  ProfileConnectionEnum.followers.name,
+                                      ProfileConnectionEnum.followers.name,
                                 ),
                               ),
                               child: Column(
@@ -233,50 +234,43 @@ class _ViewState extends State<_View> with SingleTickerProviderStateMixin {
                     children: [
                       Expanded(
                         child: ElevatedButton(
-                          onPressed: () {
-                            // TODO follow action
-                          },
+                          onPressed: state.followState.isLoading
+                              ? null
+                              : () => cubit.followAction(),
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue,
+                            backgroundColor:
+                                state.profile?.user?.isFollowing ?? false
+                                ? Colors.transparent
+                                : Colors.blue,
                             shape: RoundedRectangleBorder(
+                              side: state.profile?.user?.isFollowing ?? false
+                                  ? BorderSide(
+                                      color: Colors.white.withAlpha(70),
+                                    )
+                                  : BorderSide.none,
                               borderRadius: BorderRadius.circular(10),
                             ),
                             padding: const EdgeInsets.symmetric(vertical: 12),
                           ),
-                          child: const Text(
-                            'Follow',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
-                          ),
+                          child: state.followState.isLoading
+                              ? SizedBox(
+                                  width: 18,
+                                  height: 18,
+                                  child: LoadingWidget(),
+                                )
+                              : Text(
+                                  state.profile?.user?.isFollowing ?? false
+                                      ? "Followed"
+                                      : "Follow",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  ),
+                                ),
                         ),
                       ),
                       const SizedBox(width: 8),
-                      // Expanded(
-                      //   child: OutlinedButton(
-                      //     onPressed: () {
-                      //       // TODO message action
-                      //     },
-                      //     style: OutlinedButton.styleFrom(
-                      //       side: BorderSide(color: Colors.grey.shade600),
-                      //       shape: RoundedRectangleBorder(
-                      //         borderRadius: BorderRadius.circular(10),
-                      //       ),
-                      //       padding: const EdgeInsets.symmetric(vertical: 12),
-                      //     ),
-                      //     child: const Text(
-                      //       'Message',
-                      //       style: TextStyle(
-                      //         color: Colors.white,
-                      //         fontWeight: FontWeight.bold,
-                      //         fontSize: 16,
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
-                      // const SizedBox(width: 8),
                       Container(
                         width: 50,
                         height: 50,
@@ -469,7 +463,7 @@ class _BlocksSection extends StatelessWidget {
             BuildContext context,
             int index,
           ) {
-            return Container(child: Center(child: CircularProgressIndicator()));
+            return Center(child: CircularProgressIndicator());
           }, childCount: 4),
         ),
       );

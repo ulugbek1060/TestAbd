@@ -80,4 +80,16 @@ class AccountRepositoryImpl implements AccountRepository {
       return Left(UnknownException(e.toString(), stackTrace: stackTrace));
     }
   }
+
+  @override
+  Future<Either<AppException, String>> followUser(int userId) async {
+    try {
+      final result = await _accountSource.followUser(userId);
+      return Right(result);
+    } on AppException catch (e) {
+      return Left(e);
+    } catch (e, stackTrace) {
+      return Left(UnknownException(e.toString(), stackTrace: stackTrace));
+    }
+  }
 }

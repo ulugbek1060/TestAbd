@@ -563,18 +563,155 @@ abstract class _BooksState implements BooksState {
 }
 
 /// @nodoc
+mixin _$FollowState {
+  bool get isLoading => throw _privateConstructorUsedError;
+  String? get error => throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $FollowStateCopyWith<FollowState> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $FollowStateCopyWith<$Res> {
+  factory $FollowStateCopyWith(
+          FollowState value, $Res Function(FollowState) then) =
+      _$FollowStateCopyWithImpl<$Res, FollowState>;
+  @useResult
+  $Res call({bool isLoading, String? error});
+}
+
+/// @nodoc
+class _$FollowStateCopyWithImpl<$Res, $Val extends FollowState>
+    implements $FollowStateCopyWith<$Res> {
+  _$FollowStateCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? isLoading = null,
+    Object? error = freezed,
+  }) {
+    return _then(_value.copyWith(
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      error: freezed == error
+          ? _value.error
+          : error // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$FollowStateImplCopyWith<$Res>
+    implements $FollowStateCopyWith<$Res> {
+  factory _$$FollowStateImplCopyWith(
+          _$FollowStateImpl value, $Res Function(_$FollowStateImpl) then) =
+      __$$FollowStateImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({bool isLoading, String? error});
+}
+
+/// @nodoc
+class __$$FollowStateImplCopyWithImpl<$Res>
+    extends _$FollowStateCopyWithImpl<$Res, _$FollowStateImpl>
+    implements _$$FollowStateImplCopyWith<$Res> {
+  __$$FollowStateImplCopyWithImpl(
+      _$FollowStateImpl _value, $Res Function(_$FollowStateImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? isLoading = null,
+    Object? error = freezed,
+  }) {
+    return _then(_$FollowStateImpl(
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      error: freezed == error
+          ? _value.error
+          : error // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$FollowStateImpl implements _FollowState {
+  const _$FollowStateImpl({this.isLoading = false, this.error});
+
+  @override
+  @JsonKey()
+  final bool isLoading;
+  @override
+  final String? error;
+
+  @override
+  String toString() {
+    return 'FollowState(isLoading: $isLoading, error: $error)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$FollowStateImpl &&
+            (identical(other.isLoading, isLoading) ||
+                other.isLoading == isLoading) &&
+            (identical(other.error, error) || other.error == error));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, isLoading, error);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$FollowStateImplCopyWith<_$FollowStateImpl> get copyWith =>
+      __$$FollowStateImplCopyWithImpl<_$FollowStateImpl>(this, _$identity);
+}
+
+abstract class _FollowState implements FollowState {
+  const factory _FollowState({final bool isLoading, final String? error}) =
+      _$FollowStateImpl;
+
+  @override
+  bool get isLoading;
+  @override
+  String? get error;
+  @override
+  @JsonKey(ignore: true)
+  _$$FollowStateImplCopyWith<_$FollowStateImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
 mixin _$UserProfileState {
 // global loading
   bool get isLoading => throw _privateConstructorUsedError; // user profile
   UserProfileModel? get profile =>
       throw _privateConstructorUsedError; // global errors
-  String? get error => throw _privateConstructorUsedError; // follow loading
-  bool? get followLoading => throw _privateConstructorUsedError; // topics state
+  String? get error => throw _privateConstructorUsedError; // topics state
   BlocksState get topicsState =>
       throw _privateConstructorUsedError; // questions state
   QuestionsState get questionsState =>
       throw _privateConstructorUsedError; // book state
-  BooksState get booksState => throw _privateConstructorUsedError;
+  BooksState get booksState =>
+      throw _privateConstructorUsedError; // follow action state
+  FollowState get followState => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $UserProfileStateCopyWith<UserProfileState> get copyWith =>
@@ -591,14 +728,15 @@ abstract class $UserProfileStateCopyWith<$Res> {
       {bool isLoading,
       UserProfileModel? profile,
       String? error,
-      bool? followLoading,
       BlocksState topicsState,
       QuestionsState questionsState,
-      BooksState booksState});
+      BooksState booksState,
+      FollowState followState});
 
   $BlocksStateCopyWith<$Res> get topicsState;
   $QuestionsStateCopyWith<$Res> get questionsState;
   $BooksStateCopyWith<$Res> get booksState;
+  $FollowStateCopyWith<$Res> get followState;
 }
 
 /// @nodoc
@@ -617,10 +755,10 @@ class _$UserProfileStateCopyWithImpl<$Res, $Val extends UserProfileState>
     Object? isLoading = null,
     Object? profile = freezed,
     Object? error = freezed,
-    Object? followLoading = freezed,
     Object? topicsState = null,
     Object? questionsState = null,
     Object? booksState = null,
+    Object? followState = null,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
@@ -635,10 +773,6 @@ class _$UserProfileStateCopyWithImpl<$Res, $Val extends UserProfileState>
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
               as String?,
-      followLoading: freezed == followLoading
-          ? _value.followLoading
-          : followLoading // ignore: cast_nullable_to_non_nullable
-              as bool?,
       topicsState: null == topicsState
           ? _value.topicsState
           : topicsState // ignore: cast_nullable_to_non_nullable
@@ -651,6 +785,10 @@ class _$UserProfileStateCopyWithImpl<$Res, $Val extends UserProfileState>
           ? _value.booksState
           : booksState // ignore: cast_nullable_to_non_nullable
               as BooksState,
+      followState: null == followState
+          ? _value.followState
+          : followState // ignore: cast_nullable_to_non_nullable
+              as FollowState,
     ) as $Val);
   }
 
@@ -677,6 +815,14 @@ class _$UserProfileStateCopyWithImpl<$Res, $Val extends UserProfileState>
       return _then(_value.copyWith(booksState: value) as $Val);
     });
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $FollowStateCopyWith<$Res> get followState {
+    return $FollowStateCopyWith<$Res>(_value.followState, (value) {
+      return _then(_value.copyWith(followState: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -691,10 +837,10 @@ abstract class _$$UserProfileStateImplCopyWith<$Res>
       {bool isLoading,
       UserProfileModel? profile,
       String? error,
-      bool? followLoading,
       BlocksState topicsState,
       QuestionsState questionsState,
-      BooksState booksState});
+      BooksState booksState,
+      FollowState followState});
 
   @override
   $BlocksStateCopyWith<$Res> get topicsState;
@@ -702,6 +848,8 @@ abstract class _$$UserProfileStateImplCopyWith<$Res>
   $QuestionsStateCopyWith<$Res> get questionsState;
   @override
   $BooksStateCopyWith<$Res> get booksState;
+  @override
+  $FollowStateCopyWith<$Res> get followState;
 }
 
 /// @nodoc
@@ -718,10 +866,10 @@ class __$$UserProfileStateImplCopyWithImpl<$Res>
     Object? isLoading = null,
     Object? profile = freezed,
     Object? error = freezed,
-    Object? followLoading = freezed,
     Object? topicsState = null,
     Object? questionsState = null,
     Object? booksState = null,
+    Object? followState = null,
   }) {
     return _then(_$UserProfileStateImpl(
       isLoading: null == isLoading
@@ -736,10 +884,6 @@ class __$$UserProfileStateImplCopyWithImpl<$Res>
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
               as String?,
-      followLoading: freezed == followLoading
-          ? _value.followLoading
-          : followLoading // ignore: cast_nullable_to_non_nullable
-              as bool?,
       topicsState: null == topicsState
           ? _value.topicsState
           : topicsState // ignore: cast_nullable_to_non_nullable
@@ -752,6 +896,10 @@ class __$$UserProfileStateImplCopyWithImpl<$Res>
           ? _value.booksState
           : booksState // ignore: cast_nullable_to_non_nullable
               as BooksState,
+      followState: null == followState
+          ? _value.followState
+          : followState // ignore: cast_nullable_to_non_nullable
+              as FollowState,
     ));
   }
 }
@@ -763,10 +911,10 @@ class _$UserProfileStateImpl implements _UserProfileState {
       {this.isLoading = false,
       this.profile,
       this.error,
-      this.followLoading = false,
       this.topicsState = const BlocksState(),
       this.questionsState = const QuestionsState(),
-      this.booksState = const BooksState()});
+      this.booksState = const BooksState(),
+      this.followState = const FollowState()});
 
 // global loading
   @override
@@ -778,10 +926,6 @@ class _$UserProfileStateImpl implements _UserProfileState {
 // global errors
   @override
   final String? error;
-// follow loading
-  @override
-  @JsonKey()
-  final bool? followLoading;
 // topics state
   @override
   @JsonKey()
@@ -794,10 +938,14 @@ class _$UserProfileStateImpl implements _UserProfileState {
   @override
   @JsonKey()
   final BooksState booksState;
+// follow action state
+  @override
+  @JsonKey()
+  final FollowState followState;
 
   @override
   String toString() {
-    return 'UserProfileState(isLoading: $isLoading, profile: $profile, error: $error, followLoading: $followLoading, topicsState: $topicsState, questionsState: $questionsState, booksState: $booksState)';
+    return 'UserProfileState(isLoading: $isLoading, profile: $profile, error: $error, topicsState: $topicsState, questionsState: $questionsState, booksState: $booksState, followState: $followState)';
   }
 
   @override
@@ -809,19 +957,19 @@ class _$UserProfileStateImpl implements _UserProfileState {
                 other.isLoading == isLoading) &&
             (identical(other.profile, profile) || other.profile == profile) &&
             (identical(other.error, error) || other.error == error) &&
-            (identical(other.followLoading, followLoading) ||
-                other.followLoading == followLoading) &&
             (identical(other.topicsState, topicsState) ||
                 other.topicsState == topicsState) &&
             (identical(other.questionsState, questionsState) ||
                 other.questionsState == questionsState) &&
             (identical(other.booksState, booksState) ||
-                other.booksState == booksState));
+                other.booksState == booksState) &&
+            (identical(other.followState, followState) ||
+                other.followState == followState));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, isLoading, profile, error,
-      followLoading, topicsState, questionsState, booksState);
+      topicsState, questionsState, booksState, followState);
 
   @JsonKey(ignore: true)
   @override
@@ -836,10 +984,10 @@ abstract class _UserProfileState implements UserProfileState {
       {final bool isLoading,
       final UserProfileModel? profile,
       final String? error,
-      final bool? followLoading,
       final BlocksState topicsState,
       final QuestionsState questionsState,
-      final BooksState booksState}) = _$UserProfileStateImpl;
+      final BooksState booksState,
+      final FollowState followState}) = _$UserProfileStateImpl;
 
   @override // global loading
   bool get isLoading;
@@ -847,14 +995,14 @@ abstract class _UserProfileState implements UserProfileState {
   UserProfileModel? get profile;
   @override // global errors
   String? get error;
-  @override // follow loading
-  bool? get followLoading;
   @override // topics state
   BlocksState get topicsState;
   @override // questions state
   QuestionsState get questionsState;
   @override // book state
   BooksState get booksState;
+  @override // follow action state
+  FollowState get followState;
   @override
   @JsonKey(ignore: true)
   _$$UserProfileStateImplCopyWith<_$UserProfileStateImpl> get copyWith =>

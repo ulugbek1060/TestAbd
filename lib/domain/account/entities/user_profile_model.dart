@@ -11,10 +11,19 @@ class UserProfileModel extends Equatable {
     this.stats,
   });
 
+  UserProfileModel copyWith({
+    UserModel? user,
+    UserStatsModel? stats,
+  }) {
+    return UserProfileModel(
+      user: user ?? this.user,
+      stats: stats ?? this.stats,
+    );
+  }
+
   @override
   List<Object?> get props => [user, stats];
 }
-
 class UserModel extends Equatable {
   final int? id;
   final String? username;
@@ -44,7 +53,7 @@ class UserModel extends Equatable {
     this.coins,
   });
 
-  // get fillname
+  // get full name
   String get getFullName {
     // capitalize the first letter of each name
     return '${capitalize(firstName)} ${capitalize(lastName)}';
@@ -56,6 +65,36 @@ class UserModel extends Equatable {
 
   String get getFollowingCount {
     return followingCount?.toString() ?? '';
+  }
+
+  UserModel copyWith({
+    int? id,
+    String? username,
+    String? firstName,
+    String? lastName,
+    String? bio,
+    String? profileImage,
+    int? followersCount,
+    int? followingCount,
+    bool? isFollowing,
+    String? level,
+    DateTime? joinDate,
+    int? coins,
+  }) {
+    return UserModel(
+      id: id ?? this.id,
+      username: username ?? this.username,
+      firstName: firstName ?? this.firstName,
+      lastName: lastName ?? this.lastName,
+      bio: bio ?? this.bio,
+      profileImage: profileImage ?? this.profileImage,
+      followersCount: followersCount ?? this.followersCount,
+      followingCount: followingCount ?? this.followingCount,
+      isFollowing: isFollowing ?? this.isFollowing,
+      level: level ?? this.level,
+      joinDate: joinDate ?? this.joinDate,
+      coins: coins ?? this.coins,
+    );
   }
 
   @override
@@ -74,7 +113,6 @@ class UserModel extends Equatable {
     coins,
   ];
 }
-
 class UserStatsModel extends Equatable {
   final int? totalTests;
   final int? correctAnswers;
