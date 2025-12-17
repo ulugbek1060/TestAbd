@@ -4,6 +4,7 @@ import 'package:testabd/data/remote_source/auth/model/user_register_response.dar
 import 'package:testabd/data/remote_source/quiz/models/user_question_response.dart';
 import 'package:testabd/domain/account/entities/my_info_model.dart';
 import 'package:testabd/domain/account/entities/notification_model.dart';
+import 'package:testabd/domain/account/entities/user_connections_model.dart';
 import 'package:testabd/domain/account/entities/user_profile_model.dart';
 import 'package:testabd/domain/auth/entities/register_model.dart';
 import 'package:testabd/domain/quiz/entities/answer_item.dart';
@@ -13,6 +14,7 @@ import 'package:testabd/domain/quiz/entities/quiz_item.dart';
 
 import '../domain/quiz/entities/topics_model.dart';
 import 'remote_source/account/model/notifications_response.dart';
+import 'remote_source/account/model/user_connections_response.dart';
 import 'remote_source/account/model/user_profile_response.dart';
 import 'remote_source/quiz/models/answer_response.dart';
 import 'remote_source/quiz/models/followed_questions_response.dart';
@@ -336,6 +338,38 @@ extension UserQuestionResponseX on UserQuestionResponse {
       isBookmarked: is_bookmarked,
       isFollowing: is_following,
       category: category,
+    );
+  }
+}
+
+///======================= user connections mapper ========================
+extension UserConnectionsMapper on UserConnectionsResponse {
+  UserConnectionsModel toDomain() {
+    return UserConnectionsModel(
+      followers: followers
+          .map(
+            (e) => UserConnectionModel(
+              id: e.id ?? 0,
+              username: e.username ?? '',
+              firstName: e.first_name ?? '',
+              lastName: e.last_name ?? '',
+              profileImage: e.profile_image,
+              isFollowing: e.is_following ?? false,
+            ),
+          )
+          .toList(),
+      following: following
+          .map(
+            (e) => UserConnectionModel(
+              id: e.id ?? 0,
+              username: e.username ?? '',
+              firstName: e.first_name ?? '',
+              lastName: e.last_name ?? '',
+              profileImage: e.profile_image,
+              isFollowing: e.is_following ?? false,
+            ),
+          )
+          .toList(),
     );
   }
 }
