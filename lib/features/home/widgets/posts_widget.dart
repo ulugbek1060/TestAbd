@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,7 +27,7 @@ class PostsWidget extends StatelessWidget {
             int index,
           ) {
             final quiz = state.questions[index];
-            return QuestionCardItem(quiz: quiz);
+            return QuestionCard(quiz: quiz);
           }, childCount: state.questions.length),
         );
       },
@@ -34,120 +35,126 @@ class PostsWidget extends StatelessWidget {
   }
 }
 
-class QuestionCardItem extends StatelessWidget {
+class QuestionCard extends StatelessWidget {
   final QuizItem quiz;
 
-  const QuestionCardItem({super.key, required this.quiz});
+  const QuestionCard({super.key, required this.quiz});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      /// card container height
-      height: MediaQuery.of(context).size.height * 0.7,
-      decoration: BoxDecoration(
-        /// card background image
-        image: DecorationImage(
-          image: NetworkImage(quiz.roundImage ?? ''),
-          fit: BoxFit.cover,
+    return Stack(
+      children: [
+        Positioned(
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          child: CachedNetworkImage(
+            imageUrl: quiz.roundImage ?? '',
+            fit: BoxFit.cover,
+          ),
         ),
-      ),
-      child: Container(
-        padding: const EdgeInsets.all(12),
-        decoration: BoxDecoration(
-          color: Colors.black.withValues(alpha: 0.5),
-          borderRadius: BorderRadius.circular(0),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            /// header of the card
-            InkWell(
-              onTap: () => context.push(
-                AppRouter.userProfileWithUsername(quiz.user?.username ?? ''),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  // circle image
-                  _HeaderUserImage(
-                    imageUrl: quiz.user?.profileImage,
-                    username: quiz.user?.username ?? '',
-                    size: 40,
+        SizedBox(
+          /// card container height
+          height: MediaQuery.of(context).size.height * 0.7,
+          child: Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Colors.black.withValues(alpha: 0.5),
+              borderRadius: BorderRadius.circular(0),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                /// header of the card
+                InkWell(
+                  onTap: () => context.push(
+                    AppRouter.userProfileWithUsername(
+                      quiz.user?.username ?? '',
+                    ),
                   ),
-
-                  SizedBox(width: 6),
-
-                  // username and date
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
                     children: [
-                      Text(
-                        capitalize(quiz.user?.username),
-                        style: Theme.of(
-                          context,
-                        ).textTheme.titleMedium?.copyWith(color: Colors.white),
+                      // circle image
+                      _HeaderUserImage(
+                        imageUrl: quiz.user?.profileImage,
+                        username: quiz.user?.username ?? '',
+                        size: 40,
                       ),
-                      Text(
-                        formatDate(quiz.createdAt),
-                        style: Theme.of(
-                          context,
-                        ).textTheme.bodySmall?.copyWith(color: Colors.white),
+
+                      SizedBox(width: 6),
+
+                      // username and date
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            capitalize(quiz.user?.username),
+                            style: Theme.of(context).textTheme.titleMedium
+                                ?.copyWith(color: Colors.white),
+                          ),
+                          Text(
+                            formatDate(quiz.createdAt),
+                            style: Theme.of(context).textTheme.bodySmall
+                                ?.copyWith(color: Colors.white),
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                ],
-              ),
-            ),
+                ),
 
-            /// Quiz sections question and answers
-            Expanded(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  /// quiz
-                  Flexible(
-                    child: Text(
-                      quiz.questionText ?? '',
-                      style: Theme.of(
-                        context,
-                      ).textTheme.titleMedium?.copyWith(color: Colors.white),
-                    ),
+                /// Quiz sections question and answers
+                Expanded(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      /// quiz
+                      Flexible(
+                        child: Text(
+                          quiz.questionText ?? '',
+                          style: Theme.of(context).textTheme.titleMedium
+                              ?.copyWith(color: Colors.white),
+                        ),
+                      ),
+
+                      /// space
+                      SizedBox(height: 16),
+
+                      /// answers
+                      _AnswersList(
+                        questionId: quiz.id,
+                        answers: quiz.answers,
+                        questionType: quiz.questionType,
+                        myAnswersId: quiz.myAnswersId,
+                        isCompleted: quiz.isCompleted,
+                        isLoading: quiz.isLoading,
+                      ),
+                    ],
                   ),
+                ),
 
-                  /// space
-                  SizedBox(height: 16),
+                /// divider
+                Divider(color: AppColors.textSecondary),
 
-                  /// answers
-                  _AnswersList(
-                    questionId: quiz.id,
-                    answers: quiz.answers,
-                    questionType: quiz.questionType,
-                    myAnswersId: quiz.myAnswersId,
-                    isCompleted: quiz.isCompleted,
-                    isLoading: quiz.isLoading,
-                  ),
-                ],
-              ),
+                /// question information
+                _BottomQuestionInformation(
+                  correctCount: quiz.correctCount?.toString() ?? '',
+                  wrongCount: quiz.wrongCount?.toString() ?? '',
+                  title: quiz.testTitle ?? '',
+                  description: quiz.testDescription ?? '',
+                  onShare: () {},
+                  onSave: () {},
+                ),
+              ],
             ),
-
-            /// divider
-            Divider(color: AppColors.textSecondary),
-
-            /// question information
-            _BottomQuestionInformation(
-              correctCount: quiz.correctCount?.toString() ?? '',
-              wrongCount: quiz.wrongCount?.toString() ?? '',
-              title: quiz.testTitle ?? '',
-              description: quiz.testDescription ?? '',
-              onShare: () {},
-              onSave: () {},
-            ),
-          ],
+          ),
         ),
-      ),
+      ],
     );
   }
 }
