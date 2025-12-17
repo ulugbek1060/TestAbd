@@ -7,7 +7,9 @@ import 'package:testabd/features/home/home_screen.dart';
 import 'package:testabd/features/init/InitialScreen.dart';
 import 'package:testabd/features/profile/profile_screen.dart';
 import 'package:testabd/features/root/shell_screen.dart';
+import 'package:testabd/features/user_profile/block_questions_screen.dart';
 import 'package:testabd/features/user_profile/profile_connection_screen.dart';
+import 'package:testabd/features/user_profile/question_detail_screen.dart';
 import 'package:testabd/features/user_profile/user_profile_screen.dart';
 
 abstract class AppRouter {
@@ -29,6 +31,18 @@ abstract class AppRouter {
     required int userId,
     required String connectionType,
   }) => '/profile_connection/$userId/$connectionType';
+
+
+  static const questionDetail = '/user_profile/:questionId';
+
+  static String questionDetailWithQuestionId(int questionId) =>
+      '/user_profile/$questionId';
+
+  static const blockQuestions = '/block_questions/:blockId';
+
+  static String blockQuestionsWithBlockId(int blockId) =>
+      '/block_questions/$blockId';
+
 }
 
 GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -74,6 +88,30 @@ final appRouter = GoRouter(
           child: ProfileConnectionScreen(
             userId: int.tryParse(userId) ?? -1,
             connectionType: ProfileConnectionEnum.fromString(connectionType),
+          ),
+        );
+      },
+    ),
+
+    GoRoute(
+      path: AppRouter.questionDetail,
+      pageBuilder: (context, state) {
+        final questionId = state.pathParameters['questionId']!;
+        return CupertinoPage(
+          child: QuestionDetailScreen(
+            questionId: int.tryParse(questionId) ?? -1,
+          ),
+        );
+      },
+    ),
+
+    GoRoute(
+      path: AppRouter.blockQuestions,
+      pageBuilder: (context, state) {
+        final blockId = state.pathParameters['blockId']!;
+        return CupertinoPage(
+          child: BlockQuestionsScreen(
+            blockId: int.tryParse(blockId) ?? -1,
           ),
         );
       },
