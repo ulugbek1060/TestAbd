@@ -56,6 +56,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => appModule.provideDioBaseOptions());
     gh.lazySingleton<_i528.PrettyDioLogger>(
         () => appModule.providePrettyDioLogger());
+    gh.lazySingleton<_i470.UserFollowChangeListener>(
+        () => _i470.UserFollowChangeListener());
     gh.singleton<_i792.TokenService>(
         () => _i792.SharedPrefsTokenService(gh<_i460.SharedPreferences>()));
     gh.singleton<_i371.SessionService>(
@@ -88,6 +90,10 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i36.ForgotPswdCubit(gh<_i893.AuthRepository>()));
     gh.lazySingleton<_i575.AccountRepository>(
         () => _i317.AccountRepositoryImpl(gh<_i65.AccountSource>()));
+    gh.factory<_i163.RegisterCubit>(
+        () => _i163.RegisterCubit(gh<_i893.AuthRepository>()));
+    gh.factory<_i958.LoginCubit>(
+        () => _i958.LoginCubit(gh<_i893.AuthRepository>()));
     gh.factoryParam<_i470.ProfileConnectionCubit, int, dynamic>((
       userId,
       _,
@@ -95,11 +101,8 @@ extension GetItInjectableX on _i174.GetIt {
         _i470.ProfileConnectionCubit.create(
           userId,
           gh<_i575.AccountRepository>(),
+          gh<_i470.UserFollowChangeListener>(),
         ));
-    gh.factory<_i163.RegisterCubit>(
-        () => _i163.RegisterCubit(gh<_i893.AuthRepository>()));
-    gh.factory<_i958.LoginCubit>(
-        () => _i958.LoginCubit(gh<_i893.AuthRepository>()));
     gh.factoryParam<_i230.UserProfileCubit, String, dynamic>((
       username,
       _,
@@ -108,6 +111,7 @@ extension GetItInjectableX on _i174.GetIt {
           username,
           gh<_i575.AccountRepository>(),
           gh<_i156.QuizRepository>(),
+          gh<_i470.UserFollowChangeListener>(),
         ));
     return this;
   }

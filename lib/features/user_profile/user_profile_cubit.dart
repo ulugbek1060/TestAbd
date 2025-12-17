@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:testabd/domain/account/account_repository.dart';
 import 'package:testabd/domain/quiz/quiz_repository.dart';
+import 'package:testabd/features/user_profile/profile_connection_cubit.dart';
 import 'package:testabd/features/user_profile/user_profile_state.dart';
 import 'package:testabd/main.dart';
 
@@ -9,6 +10,7 @@ import 'package:testabd/main.dart';
 class UserProfileCubit extends Cubit<UserProfileState> {
   final AccountRepository _accountRepository;
   final QuizRepository _quizRepository;
+  final UserFollowChangeListener _followListener;
   final String username;
 
   final int _pageSize = 10;
@@ -18,6 +20,7 @@ class UserProfileCubit extends Cubit<UserProfileState> {
     @factoryParam this.username,
     this._accountRepository,
     this._quizRepository,
+    this._followListener,
   ) : super(UserProfileState()) {
     logger.d(username);
   }
@@ -139,10 +142,9 @@ class UserProfileCubit extends Cubit<UserProfileState> {
           error: null,
         );
 
+        final isFollowing = !(state.profile?.user?.isFollowing ?? false);
         // update isFollowing field
-        final newUser = state.profile?.user?.copyWith(
-          isFollowing: !(state.profile?.user?.isFollowing ?? false),
-        );
+        final newUser = state.profile?.user?.copyWith(isFollowing: isFollowing);
         final newProfile = state.profile?.copyWith(user: newUser);
 
         final newState = state.copyWith(
@@ -152,6 +154,8 @@ class UserProfileCubit extends Cubit<UserProfileState> {
 
         emit(newState);
 
+        _followListener.publishFollowChange(userId, isFollowing);
+
         // load user detail
         _loadUserDetailSilently();
       },
@@ -159,13 +163,15 @@ class UserProfileCubit extends Cubit<UserProfileState> {
   }
 
   void _loadUserDetailSilently() {
-    _accountRepository.getUserProfile(username).then((e){
-      e.fold((error){
-        // show error silently
-      }, (result){
-        emit(state.copyWith(profile: result));
-      });
+    _accountRepository.getUserProfile(username).then((e) {
+      e.fold(
+        (error) {
+          // show error silently
+        },
+        (result) {
+          emit(state.copyWith(profile: result));
+        },
+      );
     });
   }
-
 }

@@ -83,6 +83,23 @@ class UserConnectionsModel extends Equatable {
     );
   }
 
+  // Toggle following with proper loading flow
+  UserConnectionsModel setFollowingByUserId(int userId, bool isFollowing) {
+    return copyWith(
+      followers: followers.map((follower) {
+        if (follower.id == userId) {
+          return follower.copyWith(isFollowing: isFollowing);
+        }
+        return follower;
+      }).toList(),
+      following: following.map((user) {
+        if (user.id == userId) {
+          return user.copyWith(isFollowing: isFollowing);
+        }
+        return user;
+      }).toList(),
+    );
+  }
 
   @override
   List<Object?> get props => [followers, following];
