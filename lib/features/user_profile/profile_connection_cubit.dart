@@ -2,51 +2,27 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
-import 'package:rxdart/rxdart.dart';
+import 'package:testabd/core/utils/follow_listeners.dart';
 import 'package:testabd/domain/account/account_repository.dart';
 import 'package:testabd/features/user_profile/profile_connection_state.dart';
-
-class UserFollowEvent {
-  final int userId;
-  final bool isFollowing;
-
-  UserFollowEvent(this.userId, this.isFollowing);
-}
-
-@lazySingleton
-class UserFollowChangeListener {
-  final PublishSubject<UserFollowEvent> _followSubject =
-      PublishSubject<UserFollowEvent>();
-
-  Stream<UserFollowEvent> get followStream => _followSubject.stream;
-
-  void publish(UserFollowEvent event) {
-    _followSubject.add(event);
-  }
-
-  void publishFollowChange(int userId, bool isFollowing) {
-    publish(UserFollowEvent(userId, isFollowing));
-  }
-
-  void dispose() {
-    _followSubject.close();
-  }
-}
 
 @injectable
 class ProfileConnectionCubit extends Cubit<ProfileConnectionState> {
   final int userId;
   final AccountRepository _accountRepository;
-  final UserFollowChangeListener _followListener;
+  final UserFollowListener _connectionFollowListener;
+  final UserFollowListener _userProfileFollowListener;
+
   late StreamSubscription<UserFollowEvent> _followSubscription;
 
   @factoryMethod
   ProfileConnectionCubit.create(
     @factoryParam this.userId,
     this._accountRepository,
-    this._followListener,
+    @Named.from(ConnectionFollowListener) this._connectionFollowListener,
+    @Named.from(UserProfileFollowListener) this._userProfileFollowListener,
   ) : super(ProfileConnectionState()) {
-    _followSubscription = _followListener.followStream.listen((event) {
+    _followSubscription = _connectionFollowListener.followStream.listen((event) {
       final connections = state.connections.setFollowingByUserId(
         event.userId,
         event.isFollowing,
@@ -70,6 +46,7 @@ class ProfileConnectionCubit extends Cubit<ProfileConnectionState> {
         emit(state.copyWith(isLoading: false, error: error.message));
       },
       (value) {
+
         emit(state.copyWith(isLoading: false, connections: value, error: null));
       },
     );
@@ -100,7 +77,9 @@ class ProfileConnectionCubit extends Cubit<ProfileConnectionState> {
         emit(state.copyWith(connections: connections));
 
         /// publish follow event listen from [user_profile_cubit]
-        _followListener.publishFollowChange(id, !user.isFollowing);
+        _userProfileFollowListener.publish(
+          UserFollowEvent(id, !user.isFollowing),
+        );
       },
     );
   }

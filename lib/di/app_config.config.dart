@@ -17,6 +17,7 @@ import 'package:shared_preferences/shared_preferences.dart' as _i460;
 import '../core/services/session_service.dart' as _i371;
 import '../core/services/token_service.dart' as _i792;
 import '../core/utils/dio_interceptor.dart' as _i900;
+import '../core/utils/follow_listeners.dart' as _i244;
 import '../data/remote_source/account/account_source.dart' as _i65;
 import '../data/remote_source/account/ws_notifications_source.dart' as _i1067;
 import '../data/remote_source/auth/auth_source.dart' as _i142;
@@ -56,14 +57,20 @@ extension GetItInjectableX on _i174.GetIt {
         () => appModule.provideDioBaseOptions());
     gh.lazySingleton<_i528.PrettyDioLogger>(
         () => appModule.providePrettyDioLogger());
-    gh.lazySingleton<_i470.UserFollowChangeListener>(
-        () => _i470.UserFollowChangeListener());
+    gh.lazySingleton<_i244.UserFollowListener>(
+      () => _i244.ConnectionFollowListener(),
+      instanceName: 'ConnectionFollowListener',
+    );
     gh.singleton<_i792.TokenService>(
         () => _i792.SharedPrefsTokenService(gh<_i460.SharedPreferences>()));
     gh.singleton<_i371.SessionService>(
         () => _i371.SessionServiceImpl(gh<_i460.SharedPreferences>()));
     gh.factory<_i1067.WSNotificationsSource>(
         () => _i1067.WSNotificationsSourceImpl());
+    gh.lazySingleton<_i244.UserFollowListener>(
+      () => _i244.UserProfileFollowListener(),
+      instanceName: 'UserProfileFollowListener',
+    );
     gh.singleton<_i900.DioInterceptor>(
         () => _i900.DioInterceptor(gh<_i792.TokenService>()));
     gh.factory<_i361.Dio>(() => appModule.provideDio(
@@ -94,15 +101,6 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i163.RegisterCubit(gh<_i893.AuthRepository>()));
     gh.factory<_i958.LoginCubit>(
         () => _i958.LoginCubit(gh<_i893.AuthRepository>()));
-    gh.factoryParam<_i470.ProfileConnectionCubit, int, dynamic>((
-      userId,
-      _,
-    ) =>
-        _i470.ProfileConnectionCubit.create(
-          userId,
-          gh<_i575.AccountRepository>(),
-          gh<_i470.UserFollowChangeListener>(),
-        ));
     gh.factoryParam<_i230.UserProfileCubit, String, dynamic>((
       username,
       _,
@@ -111,7 +109,22 @@ extension GetItInjectableX on _i174.GetIt {
           username,
           gh<_i575.AccountRepository>(),
           gh<_i156.QuizRepository>(),
-          gh<_i470.UserFollowChangeListener>(),
+          gh<_i244.UserFollowListener>(
+              instanceName: 'ConnectionFollowListener'),
+          gh<_i244.UserFollowListener>(
+              instanceName: 'UserProfileFollowListener'),
+        ));
+    gh.factoryParam<_i470.ProfileConnectionCubit, int, dynamic>((
+      userId,
+      _,
+    ) =>
+        _i470.ProfileConnectionCubit.create(
+          userId,
+          gh<_i575.AccountRepository>(),
+          gh<_i244.UserFollowListener>(
+              instanceName: 'ConnectionFollowListener'),
+          gh<_i244.UserFollowListener>(
+              instanceName: 'UserProfileFollowListener'),
         ));
     return this;
   }

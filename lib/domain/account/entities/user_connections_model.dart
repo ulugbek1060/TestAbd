@@ -111,6 +111,7 @@ class UserConnectionModel extends Equatable {
   final String? profileImage;
   final bool isFollowing;
   final bool isLoading;
+  final bool isMe;
 
   const UserConnectionModel({
     required this.id,
@@ -120,6 +121,7 @@ class UserConnectionModel extends Equatable {
     required this.profileImage,
     required this.isFollowing,
     this.isLoading = false,
+    this.isMe = false,
   });
 
   // copyWith function for UserConnectionModel
@@ -131,6 +133,7 @@ class UserConnectionModel extends Equatable {
     String? profileImage,
     bool? isFollowing,
     bool? isLoading,
+    bool? isMe,
   }) {
     return UserConnectionModel(
       id: id ?? this.id,
@@ -140,6 +143,7 @@ class UserConnectionModel extends Equatable {
       profileImage: profileImage ?? this.profileImage,
       isFollowing: isFollowing ?? this.isFollowing,
       isLoading: isLoading ?? this.isLoading,
+      isMe: isMe ?? this.isMe,
     );
   }
 
@@ -185,5 +189,6 @@ class UserConnectionModel extends Equatable {
     profileImage,
     isFollowing,
     isLoading,
+    isMe
   ];
 }

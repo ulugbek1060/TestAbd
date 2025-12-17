@@ -486,7 +486,9 @@ class _BlocksSection extends StatelessWidget {
             description: topic.description ?? '',
             questionCount: topic.totalQuestions ?? 0,
             createdAt: topic.createdAt ?? DateTime.now(),
-            onTap: () {},
+            onTap: () => context.push(
+              AppRouter.blockQuestionsWithBlockId(topic.id ?? 0),
+            ),
           );
         }, childCount: state.topics.length),
       ),
@@ -526,7 +528,7 @@ class _QuestionsSection extends StatelessWidget {
             BuildContext context,
             int index,
           ) {
-            return Container(child: Center(child: CircularProgressIndicator()));
+            return Center(child: CircularProgressIndicator());
           }, childCount: 4),
         ),
       );
@@ -551,7 +553,9 @@ class _QuestionsSection extends StatelessWidget {
             correctAnswers: question.correctCount,
             wrongAnswers: question.wrongCount,
             difficulty: question.difficultyPercentage.toDifficulty(),
-            onTap: () {},
+            onTap: () => context.push(
+              AppRouter.questionDetailWithQuestionId(question.id ?? -1),
+            ),
           );
         }, childCount: state.questions.length),
       ),

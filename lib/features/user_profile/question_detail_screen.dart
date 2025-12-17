@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class QuestionDetailScreen extends StatelessWidget {
   final int questionId;
+
   const QuestionDetailScreen({super.key, required this.questionId});
 
   @override
@@ -15,6 +16,10 @@ class _View extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      appBar: AppBar(title: const Text('Question Detail'), centerTitle: true),
+
+      body: const Center(child: Text('Question Detail Screen')),
+    );
   }
 }

@@ -33,10 +33,10 @@ abstract class AppRouter {
   }) => '/profile_connection/$userId/$connectionType';
 
 
-  static const questionDetail = '/user_profile/:questionId';
+  static const questionDetail = '/question_detail/:questionId';
 
   static String questionDetailWithQuestionId(int questionId) =>
-      '/user_profile/$questionId';
+      '/question_detail/$questionId';
 
   static const blockQuestions = '/block_questions/:blockId';
 

@@ -1,8 +1,8 @@
-
 import 'package:flutter/material.dart';
 
 class BlockQuestionsScreen extends StatelessWidget {
   final int blockId;
+
   const BlockQuestionsScreen({super.key, required this.blockId});
 
   @override
@@ -16,7 +16,9 @@ class _View extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      appBar: AppBar(title: const Text('Block Questions'), centerTitle: true),
+      body: const Center(child: Text('Block Questions Screen')),
+    );
   }
 }
-

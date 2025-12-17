@@ -2,19 +2,19 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:testabd/core/utils/follow_listeners.dart';
 import 'package:testabd/domain/account/account_repository.dart';
 import 'package:testabd/domain/quiz/quiz_repository.dart';
-import 'package:testabd/features/user_profile/profile_connection_cubit.dart';
 import 'package:testabd/features/user_profile/user_profile_state.dart';
 import 'package:testabd/main.dart';
-
 
 
 @injectable
 class UserProfileCubit extends Cubit<UserProfileState> {
   final AccountRepository _accountRepository;
   final QuizRepository _quizRepository;
-  final UserFollowChangeListener _followListener;
+  final UserFollowListener _connectionFollowListener;
+  final UserFollowListener _userProfileFollowListener;
   late StreamSubscription<UserFollowEvent> _followSubscription;
   final String username;
 
@@ -25,12 +25,19 @@ class UserProfileCubit extends Cubit<UserProfileState> {
     @factoryParam this.username,
     this._accountRepository,
     this._quizRepository,
-    this._followListener,
+   @Named.from(ConnectionFollowListener) this._connectionFollowListener,
+   @Named.from(UserProfileFollowListener) this._userProfileFollowListener,
   ) : super(UserProfileState()) {
-    _followSubscription = _followListener.followStream.listen((event) {
+
+    _followSubscription = _userProfileFollowListener.followStream.listen((event) {
       if (state.profile?.user?.id == event.userId){
+
+        // for updating follow button
         final profile = state.profile?.setFollowing(event.isFollowing);
         emit(state.copyWith(profile: profile));
+
+        // for updating followers count
+        _loadUserDetailSilently();
       }
     });
   }
@@ -171,7 +178,7 @@ class UserProfileCubit extends Cubit<UserProfileState> {
         emit(newState);
 
         /// publish follow event listen from [profile_connection_cubit]
-        _followListener.publishFollowChange(userId, isFollowing);
+        _connectionFollowListener.publish(UserFollowEvent(userId, isFollowing));
 
         // load user detail
         _loadUserDetailSilently();
