@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:testabd/di/app_config.dart';
 import 'package:testabd/domain/account/entities/user_connections_model.dart';
 import 'package:testabd/features/user_profile/profile_connection_cubit.dart';
 import 'package:testabd/features/user_profile/profile_connection_state.dart';
+import 'package:testabd/router/app_router.dart';
 
 enum ProfileConnectionEnum {
   following,
@@ -21,7 +23,6 @@ enum ProfileConnectionEnum {
   }
 }
 
-/* -------------------- MAIN TABS -------------------- */
 class ProfileConnectionScreen extends StatelessWidget {
   final int userId;
   final ProfileConnectionEnum connectionType;
@@ -54,6 +55,16 @@ class _View extends StatefulWidget {
 }
 
 class _ViewState extends State<_View> {
+  late PageStorageKey _followersPageKey;
+  late PageStorageKey _followingPageKey;
+
+  @override
+  void initState() {
+    _followersPageKey = PageStorageKey('followersPageKey');
+    _followingPageKey = PageStorageKey('followingPageKey');
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -76,8 +87,14 @@ class _ViewState extends State<_View> {
           builder: (context, state) {
             return TabBarView(
               children: [
-                FollowersPage(users: state.connections.followers),
-                FollowingPage(users: state.connections.following),
+                _ConnectionsList(
+                  key: _followersPageKey,
+                  users: state.connections.followers,
+                ),
+                _ConnectionsList(
+                  key: _followingPageKey,
+                  users: state.connections.following,
+                ),
               ],
             );
           },
@@ -87,11 +104,10 @@ class _ViewState extends State<_View> {
   }
 }
 
-/* -------------------- FOLLOWERS -------------------- */
-class FollowersPage extends StatelessWidget {
+class _ConnectionsList extends StatelessWidget {
   final List<UserConnectionModel> users;
 
-  const FollowersPage({super.key, required this.users});
+  const _ConnectionsList({super.key, required this.users});
 
   @override
   Widget build(BuildContext context) {
@@ -99,77 +115,55 @@ class FollowersPage extends StatelessWidget {
       itemCount: users.length,
       separatorBuilder: (_, __) => const Divider(height: 1),
       itemBuilder: (context, index) {
-        return UserTile(user: users[index]);
+        final user = users[index];
+        return UserTile(
+          user: user,
+          onTap: () =>
+              context.push(AppRouter.userProfileWithUsername(user.username)),
+        );
       },
     );
   }
 }
 
-/* -------------------- FOLLOWING -------------------- */
-class FollowingPage extends StatelessWidget {
-  final List<UserConnectionModel> users;
-
-  const FollowingPage({super.key, required this.users});
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.separated(
-      itemCount: users.where((u) => u.isFollowing).length,
-      separatorBuilder: (_, __) => const Divider(height: 1),
-      itemBuilder: (context, index) {
-        final followingUsers = users.where((u) => u.isFollowing).toList();
-        return UserTile(user: followingUsers[index]);
-      },
-    );
-  }
-}
-
-/* -------------------- USER ITEM -------------------- */
-class UserTile extends StatefulWidget {
+class UserTile extends StatelessWidget {
   final UserConnectionModel user;
+  final VoidCallback onTap;
 
-  const UserTile({super.key, required this.user});
+  const UserTile({super.key, required this.user, required this.onTap});
 
-  @override
-  State<UserTile> createState() => _UserTileState();
-}
-
-class _UserTileState extends State<UserTile> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      onTap: onTap,
       leading: CircleAvatar(
         radius: 24,
-        backgroundImage: NetworkImage(widget.user.profileImage ?? ''),
+        backgroundImage: NetworkImage(user.profileImage ?? ''),
       ),
       title: Text(
-        widget.user.username,
+        user.username,
         style: const TextStyle(fontWeight: FontWeight.w600),
       ),
-      subtitle: Text(widget.user.username),
+      subtitle: Text(user.username),
       trailing: SizedBox(
         height: 32,
         child: OutlinedButton(
-          onPressed: () {
-            setState(() {
-              // widget.user.isFollowing = !widget.user.isFollowing;
-            });
-          },
+          onPressed: () {},
           style: OutlinedButton.styleFrom(
-            backgroundColor: widget.user.isFollowing
+            backgroundColor: user.isFollowing
                 ? Colors.grey.shade200
                 : Colors.blue,
             side: BorderSide(
-              color: widget.user.isFollowing ? Colors.grey : Colors.transparent,
+              color: user.isFollowing ? Colors.grey : Colors.transparent,
             ),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),
             ),
           ),
           child: Text(
-            widget.user.isFollowing ? 'Following' : 'Follow',
+            user.isFollowing ? 'Following' : 'Follow',
             style: TextStyle(
-              color: widget.user.isFollowing ? Colors.black : Colors.white,
+              color: user.isFollowing ? Colors.black : Colors.white,
               fontWeight: FontWeight.w600,
             ),
           ),
