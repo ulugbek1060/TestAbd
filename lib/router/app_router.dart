@@ -1,14 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
-import 'package:testabd/features/root/shell_screen.dart';
+import 'package:testabd/features/auth/forgotpswd/forgot_pswd_screen.dart';
 import 'package:testabd/features/auth/login/login_screen.dart';
 import 'package:testabd/features/auth/register/register_screen.dart';
-import 'package:testabd/features/auth/forgotpswd/forgot_pswd_screen.dart';
-import 'package:testabd/features/init/InitialScreen.dart';
 import 'package:testabd/features/home/home_screen.dart';
+import 'package:testabd/features/init/InitialScreen.dart';
 import 'package:testabd/features/profile/profile_screen.dart';
+import 'package:testabd/features/root/shell_screen.dart';
+import 'package:testabd/features/user_profile/profile_connection_screen.dart';
 import 'package:testabd/features/user_profile/user_profile_screen.dart';
-
 
 abstract class AppRouter {
   static const initial = '/';
@@ -18,8 +18,17 @@ abstract class AppRouter {
   static const home = '/home';
   static const profile = '/profile';
   static const userProfile = '/user_profile/:username';
+
   static String userProfileWithUsername(String username) =>
       '/user_profile/$username';
+
+  static const profileConnection =
+      '/profile_connection/:user_id/:connection_type';
+
+  static String profileConnectionWithUserId({
+    required int userId,
+    required String connectionType,
+  }) => '/profile_connection/$userId/$connectionType';
 }
 
 GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -52,11 +61,24 @@ final appRouter = GoRouter(
       path: AppRouter.userProfile,
       pageBuilder: (context, state) {
         final username = state.pathParameters['username']!;
+        return CupertinoPage(child: UserProfileScreen(username: username));
+      },
+    ),
+
+    GoRoute(
+      path: AppRouter.profileConnection,
+      pageBuilder: (context, state) {
+        final userId = state.pathParameters['user_id']!;
+        final connectionType = state.pathParameters['connection_type']!;
         return CupertinoPage(
-          child: UserProfileScreen(username: username),
+          child: ProfileConnectionsScreen(
+            userId: int.tryParse(userId) ?? -1,
+            connectionType: ProfileConnectionEnum.fromString(connectionType),
+          ),
         );
       },
     ),
+
     StatefulShellRoute(
       parentNavigatorKey: navigatorKey,
       navigatorContainerBuilder: (_, navShell, children) =>

@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:testabd/core/utils/question_difficulty_x.dart';
 import 'package:testabd/di/app_config.dart';
-import 'package:testabd/features/user_profile/block_card.dart';
+import 'package:testabd/features/user_profile/profile_connection_screen.dart';
 import 'package:testabd/features/user_profile/user_profile_cubit.dart';
 import 'package:testabd/features/user_profile/user_profile_state.dart';
+import 'package:testabd/features/user_profile/widgets/block_card.dart';
+import 'package:testabd/features/user_profile/widgets/question_card.dart';
+import 'package:testabd/router/app_router.dart';
 
 class UserProfileScreen extends StatelessWidget {
   final String username;
@@ -14,7 +19,8 @@ class UserProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) => BlocProvider(
     create: (context) => locator<UserProfileCubit>(param1: username)
       ..loadUserDetail()
-      ..loadTopics(),
+      ..loadBlocks()
+      ..loadQuestions(),
     child: _View(),
   );
 }
@@ -30,12 +36,17 @@ enum PageType { block, questions, books }
 
 class _ViewState extends State<_View> with SingleTickerProviderStateMixin {
   late TabController _tabController;
-
   late var pageTye = PageType.block;
+  late var _blockKey;
+  late var _questionsKey;
+  late var _booksKey;
 
   @override
   void initState() {
     super.initState();
+    _blockKey = PageStorageKey('blocksSection');
+    _questionsKey = PageStorageKey('questionsSection');
+    _booksKey = PageStorageKey('booksSection');
     _tabController = TabController(length: 3, vsync: this);
   }
 
@@ -108,45 +119,63 @@ class _ViewState extends State<_View> with SingleTickerProviderStateMixin {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             // following
-                            Column(
-                              children: [
-                                Text(
-                                  '${state.profile?.user?.followingCount ?? 0}',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                            GestureDetector(
+                              onTap: () => context.push(
+                                AppRouter.profileConnectionWithUserId(
+                                  userId: state.profile?.user?.id ?? 0,
+                                  connectionType:
+                                      ProfileConnectionEnum.following.name,
                                 ),
-                                Text(
-                                  'Following',
-                                  style: TextStyle(
-                                    color: Colors.grey.shade400,
-                                    fontSize: 14,
+                              ),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    '${state.profile?.user?.followingCount ?? 0}',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                  Text(
+                                    'Following',
+                                    style: TextStyle(
+                                      color: Colors.grey.shade400,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
 
                             // followers
-                            Column(
-                              children: [
-                                Text(
-                                  '${state.profile?.user?.followersCount ?? 0}',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                            GestureDetector(
+                              onTap: () => context.push(
+                                AppRouter.profileConnectionWithUserId(
+                                  userId: state.profile?.user?.id ?? 0,
+                                  connectionType:
+                                      ProfileConnectionEnum.followers.name,
                                 ),
-                                Text(
-                                  'Followers',
-                                  style: TextStyle(
-                                    color: Colors.grey.shade400,
-                                    fontSize: 14,
+                              ),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    '${state.profile?.user?.followersCount ?? 0}',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                  Text(
+                                    'Followers',
+                                    style: TextStyle(
+                                      color: Colors.grey.shade400,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),
@@ -226,29 +255,29 @@ class _ViewState extends State<_View> with SingleTickerProviderStateMixin {
                         ),
                       ),
                       const SizedBox(width: 8),
-                      Expanded(
-                        child: OutlinedButton(
-                          onPressed: () {
-                            // TODO message action
-                          },
-                          style: OutlinedButton.styleFrom(
-                            side: BorderSide(color: Colors.grey.shade600),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            padding: const EdgeInsets.symmetric(vertical: 12),
-                          ),
-                          child: const Text(
-                            'Message',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 8),
+                      // Expanded(
+                      //   child: OutlinedButton(
+                      //     onPressed: () {
+                      //       // TODO message action
+                      //     },
+                      //     style: OutlinedButton.styleFrom(
+                      //       side: BorderSide(color: Colors.grey.shade600),
+                      //       shape: RoundedRectangleBorder(
+                      //         borderRadius: BorderRadius.circular(10),
+                      //       ),
+                      //       padding: const EdgeInsets.symmetric(vertical: 12),
+                      //     ),
+                      //     child: const Text(
+                      //       'Message',
+                      //       style: TextStyle(
+                      //         color: Colors.white,
+                      //         fontWeight: FontWeight.bold,
+                      //         fontSize: 16,
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
+                      // const SizedBox(width: 8),
                       Container(
                         width: 50,
                         height: 50,
@@ -359,8 +388,6 @@ class _ViewState extends State<_View> with SingleTickerProviderStateMixin {
                   backgroundColor: Colors.black,
                   TabBar(
                     unselectedLabelColor: Colors.white,
-                    // labelColor: Theme.of(context).colorScheme.secondary,
-                    // indicatorColor: Theme.of(context).colorScheme.secondary,
                     onTap: (index) {
                       setState(() {
                         switch (index) {
@@ -384,358 +411,210 @@ class _ViewState extends State<_View> with SingleTickerProviderStateMixin {
               ),
 
               /// ViewBlock
-              if (pageTye == PageType.block)
-                SliverPadding(
-                  padding: const EdgeInsets.all(16),
-                  sliver: SliverGrid(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 12.0,
-                      mainAxisSpacing: 12.0,
-                      childAspectRatio: 1.0,
-                    ),
-                    delegate: SliverChildBuilderDelegate((
-                      BuildContext context,
-                      int index,
-                    ) {
-                      final topic = state.topicsState.topics[index];
-                      return QuestionCollectionCard(
-                        title: topic.title ?? '',
-                        description: topic.description ?? '',
-                        questionCount: topic.totalQuestions ?? 0,
-                        createdAt: topic.createdAt ?? DateTime.now(),
-                      );
-                      // return Container(
-                      //   decoration: BoxDecoration(
-                      //     color: AppColors.outlinedButtonBorder,
-                      //     borderRadius: BorderRadius.circular(12),
-                      //   ),
-                      //   child: Padding(
-                      //     padding: const EdgeInsets.all(12.0),
-                      //     child: Column(
-                      //       mainAxisSize: MainAxisSize.max,
-                      //       mainAxisAlignment: MainAxisAlignment.center,
-                      //       crossAxisAlignment: .start,
-                      //       spacing: 8,
-                      //       children: [
-                      //         Text(
-                      //           '${topic.title}',
-                      //           style: Theme.of(context).textTheme.titleSmall,
-                      //           maxLines: 2,
-                      //           overflow: TextOverflow.ellipsis,
-                      //         ),
-                      //         Text(
-                      //           '${topic.description}',
-                      //           maxLines: 2,
-                      //           overflow: TextOverflow.ellipsis,
-                      //         ),
-                      //         Spacer(),
-                      //         Text(
-                      //           '${topic.totalQuestions} savollar',
-                      //           maxLines: 1,
-                      //           overflow: TextOverflow.ellipsis,
-                      //         ),
-                      //         Text(
-                      //           formatDate(topic.createdAt),
-                      //           maxLines: 1,
-                      //           overflow: TextOverflow.ellipsis,
-                      //         ),
-                      //       ],
-                      //     ),
-                      //   ),
-                      // );
-                    }, childCount: state.topicsState.topics.length),
-                  ),
-                ),
+              _BlocksSection(
+                key: _blockKey,
+                state: state.topicsState,
+                isEnabled: pageTye == PageType.block,
+              ),
 
               /// ViewQuestions
-              if (pageTye == PageType.questions)
-                SliverGrid(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 10.0,
-                    mainAxisSpacing: 10.0,
-                    childAspectRatio: 1.0,
-                  ),
-                  delegate: SliverChildBuilderDelegate((
-                    BuildContext context,
-                    int index,
-                  ) {
-                    return Container(
-                      alignment: Alignment.center,
-                      color: Colors.blueGrey,
-                      child: Text('Grid Item $index'),
-                    );
-                  }, childCount: 20),
-                ),
+              _QuestionsSection(
+                key: _questionsKey,
+                state: state.questionsState,
+                isEnabled: pageTye == PageType.questions,
+              ),
 
               /// ViewBooks
-              if (pageTye == PageType.books)
-                SliverGrid(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 10.0,
-                    mainAxisSpacing: 10.0,
-                    childAspectRatio: 1.0,
-                  ),
-                  delegate: SliverChildBuilderDelegate((
-                    BuildContext context,
-                    int index,
-                  ) {
-                    return Container(
-                      alignment: Alignment.center,
-                      color: Colors.blueGrey,
-                      child: Text('Grid Item $index'),
-                    );
-                  }, childCount: 20),
-                ),
-
-              // SingleChildScrollView(
-              //   child: Column(
-              //     crossAxisAlignment: CrossAxisAlignment.start,
-              //     children: [
-              //       // Tabs Section
-              //       DefaultTabController(
-              //         length: 3,
-              //         child: Column(
-              //           children: [
-              //             Container(
-              //               decoration: BoxDecoration(
-              //                 border: Border(
-              //                   bottom: BorderSide(color: Colors.grey.shade800),
-              //                 ),
-              //               ),
-              //               child: TabBar(
-              //                 indicatorColor: Colors.white,
-              //                 labelColor: Colors.white,
-              //                 unselectedLabelColor: Colors.grey,
-              //                 tabs: const [
-              //                   Tab(icon: Icon(Icons.collections_bookmark_outlined)),
-              //                   Tab(icon: Icon(Icons.quiz_outlined)),
-              //                   Tab(icon: Icon(Icons.star_border)),
-              //                 ],
-              //               ),
-              //             ),
-              //             SizedBox(
-              //               height: 400,
-              //               child: TabBarView(
-              //                 children: [
-              //                   // Books Tab
-              //                   GridView.builder(
-              //                     padding: const EdgeInsets.all(16),
-              //                     gridDelegate:
-              //                         const SliverGridDelegateWithFixedCrossAxisCount(
-              //                           crossAxisCount: 3,
-              //                           crossAxisSpacing: 8,
-              //                           mainAxisSpacing: 8,
-              //                           childAspectRatio: 0.7,
-              //                         ),
-              //                     itemCount: 9,
-              //                     itemBuilder: (context, index) {
-              //                       return Container(
-              //                         decoration: BoxDecoration(
-              //                           borderRadius: BorderRadius.circular(12),
-              //                           image: DecorationImage(
-              //                             image: NetworkImage(
-              //                               'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=${index + 1}',
-              //                             ),
-              //                             fit: BoxFit.cover,
-              //                           ),
-              //                         ),
-              //                         child: Container(
-              //                           decoration: BoxDecoration(
-              //                             borderRadius: BorderRadius.circular(
-              //                               12,
-              //                             ),
-              //                             gradient: LinearGradient(
-              //                               begin: Alignment.bottomCenter,
-              //                               end: Alignment.topCenter,
-              //                               colors: [
-              //                                 Colors.black.withOpacity(0.7),
-              //                                 Colors.transparent,
-              //                               ],
-              //                             ),
-              //                           ),
-              //                           child: const Align(
-              //                             alignment: Alignment.bottomLeft,
-              //                             child: Padding(
-              //                               padding: EdgeInsets.all(8),
-              //                               child: Icon(
-              //                                 Icons.bookmark_border,
-              //                                 color: Colors.white,
-              //                                 size: 20,
-              //                               ),
-              //                             ),
-              //                           ),
-              //                         ),
-              //                       );
-              //                     },
-              //                   ),
-              //
-              //                   // Questions Tab
-              //                   ListView.builder(
-              //                     padding: const EdgeInsets.all(16),
-              //                     itemCount: 5,
-              //                     itemBuilder: (context, index) {
-              //                       return Container(
-              //                         margin: const EdgeInsets.only(bottom: 12),
-              //                         padding: const EdgeInsets.all(16),
-              //                         decoration: BoxDecoration(
-              //                           color: Colors.grey.shade900,
-              //                           borderRadius: BorderRadius.circular(16),
-              //                         ),
-              //                         child: Column(
-              //                           crossAxisAlignment:
-              //                               CrossAxisAlignment.start,
-              //                           children: [
-              //                             Text(
-              //                               'Question ${index + 1}',
-              //                               style: TextStyle(
-              //                                 color: Colors.grey.shade400,
-              //                                 fontSize: 12,
-              //                               ),
-              //                             ),
-              //                             const SizedBox(height: 8),
-              //                             const Text(
-              //                               'Which programming language is known for its use in machine learning?',
-              //                               style: TextStyle(
-              //                                 color: Colors.white,
-              //                                 fontSize: 16,
-              //                                 fontWeight: FontWeight.w500,
-              //                               ),
-              //                             ),
-              //                             const SizedBox(height: 12),
-              //                             Wrap(
-              //                               spacing: 8,
-              //                               runSpacing: 8,
-              //                               children: ['Python', 'Java', 'C++', 'JavaScript']
-              //                                   .map(
-              //                                     (answer) => Container(
-              //                                       padding:
-              //                                           const EdgeInsets.symmetric(
-              //                                             horizontal: 12,
-              //                                             vertical: 6,
-              //                                           ),
-              //                                       decoration: BoxDecoration(
-              //                                         color: answer == 'Python'
-              //                                             ? Colors.green
-              //                                                   .withOpacity(
-              //                                                     0.2,
-              //                                                   )
-              //                                             : Colors
-              //                                                   .grey
-              //                                                   .shade800,
-              //                                         borderRadius:
-              //                                             BorderRadius.circular(
-              //                                               20,
-              //                                             ),
-              //                                         border: Border.all(
-              //                                           color:
-              //                                               answer == 'Python'
-              //                                               ? Colors.green
-              //                                               : Colors
-              //                                                     .transparent,
-              //                                         ),
-              //                                       ),
-              //                                       child: Text(
-              //                                         answer,
-              //                                         style: TextStyle(
-              //                                           color:
-              //                                               answer == 'Python'
-              //                                               ? Colors.green
-              //                                               : Colors
-              //                                                     .grey
-              //                                                     .shade300,
-              //                                         ),
-              //                                       ),
-              //                                     ),
-              //                                   )
-              //                                   .toList(),
-              //                             ),
-              //                             const SizedBox(height: 12),
-              //                             Row(
-              //                               children: [
-              //                                 Icon(
-              //                                   Icons.thumb_up_outlined,
-              //                                   color: Colors.grey.shade400,
-              //                                   size: 18,
-              //                                 ),
-              //                                 const SizedBox(width: 4),
-              //                                 Text(
-              //                                   '${(index + 1) * 23}',
-              //                                   style: TextStyle(
-              //                                     color: Colors.grey.shade400,
-              //                                   ),
-              //                                 ),
-              //                                 const SizedBox(width: 16),
-              //                                 Icon(
-              //                                   Icons.comment_outlined,
-              //                                   color: Colors.grey.shade400,
-              //                                   size: 18,
-              //                                 ),
-              //                                 const SizedBox(width: 4),
-              //                                 Text(
-              //                                   '${index + 3}',
-              //                                   style: TextStyle(
-              //                                     color: Colors.grey.shade400,
-              //                                   ),
-              //                                 ),
-              //                                 const Spacer(),
-              //                                 Icon(
-              //                                   Icons.share_outlined,
-              //                                   color: Colors.grey.shade400,
-              //                                   size: 18,
-              //                                 ),
-              //                               ],
-              //                             ),
-              //                           ],
-              //                         ),
-              //                       );
-              //                     },
-              //                   ),
-              //
-              //                   // Favorites Tab
-              //                   Center(
-              //                     child: Column(
-              //                       mainAxisAlignment: MainAxisAlignment.center,
-              //                       children: [
-              //                         Icon(
-              //                           Icons.star_border,
-              //                           color: Colors.grey.shade600,
-              //                           size: 64,
-              //                         ),
-              //                         const SizedBox(height: 16),
-              //                         Text(
-              //                           'No favorites yet',
-              //                           style: TextStyle(
-              //                             color: Colors.grey.shade400,
-              //                             fontSize: 18,
-              //                           ),
-              //                         ),
-              //                         const SizedBox(height: 8),
-              //                         Text(
-              //                           'Tap the star icon on any book or question to save it here',
-              //                           style: TextStyle(
-              //                             color: Colors.grey.shade500,
-              //                             fontSize: 14,
-              //                           ),
-              //                           textAlign: TextAlign.center,
-              //                         ),
-              //                       ],
-              //                     ),
-              //                   ),
-              //                 ],
-              //               ),
-              //             ),
-              //           ],
-              //         ),
-              //       ),
-              //     ],
-              //   ),
-              // ),
+              _BooksSections(
+                key: _booksKey,
+                state: state.booksState,
+                isEnabled: pageTye == PageType.books,
+              ),
             ],
           );
         },
+      ),
+    );
+  }
+}
+
+class _BlocksSection extends StatelessWidget {
+  final BlocksState state;
+  final bool isEnabled;
+
+  const _BlocksSection({
+    super.key,
+    required this.state,
+    required this.isEnabled,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    /// for disabled state
+    if (!isEnabled) {
+      return SliverToBoxAdapter(child: const SizedBox.shrink());
+    }
+
+    /// loading state
+    if (state.isLoading) {
+      return SliverPadding(
+        padding: const EdgeInsets.all(8),
+        sliver: SliverGrid(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 12.0,
+            mainAxisSpacing: 12.0,
+            childAspectRatio: 1.0,
+          ),
+          delegate: SliverChildBuilderDelegate((
+            BuildContext context,
+            int index,
+          ) {
+            return Container(child: Center(child: CircularProgressIndicator()));
+          }, childCount: 4),
+        ),
+      );
+    }
+
+    /// for active state
+    return SliverPadding(
+      padding: const EdgeInsets.all(8),
+      sliver: SliverGrid(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 12.0,
+          mainAxisSpacing: 12.0,
+          childAspectRatio: 1.0,
+        ),
+        delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
+          final topic = state.topics[index];
+          return QuestionCollectionCard(
+            title: topic.title ?? '',
+            description: topic.description ?? '',
+            questionCount: topic.totalQuestions ?? 0,
+            createdAt: topic.createdAt ?? DateTime.now(),
+            onTap: () {},
+          );
+        }, childCount: state.topics.length),
+      ),
+    );
+  }
+}
+
+class _QuestionsSection extends StatelessWidget {
+  final QuestionsState state;
+  final bool isEnabled;
+
+  const _QuestionsSection({
+    super.key,
+    required this.state,
+    required this.isEnabled,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    /// for disabled state
+    if (!isEnabled) {
+      return SliverToBoxAdapter(child: const SizedBox.shrink());
+    }
+
+    /// loading state
+    if (state.isLoading) {
+      return SliverPadding(
+        padding: const EdgeInsets.all(8),
+        sliver: SliverGrid(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 12.0,
+            mainAxisSpacing: 12.0,
+            childAspectRatio: 1.0,
+          ),
+          delegate: SliverChildBuilderDelegate((
+            BuildContext context,
+            int index,
+          ) {
+            return Container(child: Center(child: CircularProgressIndicator()));
+          }, childCount: 4),
+        ),
+      );
+    }
+
+    /// for active state
+    return SliverPadding(
+      padding: const EdgeInsets.all(8),
+      sliver: SliverGrid(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 10.0,
+          mainAxisSpacing: 10.0,
+          childAspectRatio: 1.0,
+        ),
+        delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
+          final question = state.questions[index];
+          return QuestionCard(
+            title: question.testTitle ?? '',
+            description: question.testDescription ?? '',
+            createdAt: question.createdAt,
+            correctAnswers: question.correctCount,
+            wrongAnswers: question.wrongCount,
+            difficulty: question.difficultyPercentage.toDifficulty(),
+            onTap: () {},
+          );
+        }, childCount: state.questions.length),
+      ),
+    );
+  }
+}
+
+class _BooksSections extends StatelessWidget {
+  final BooksState state;
+  final bool isEnabled;
+
+  const _BooksSections({
+    super.key,
+    required this.state,
+    required this.isEnabled,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    /// for disabled state
+    if (!isEnabled) {
+      return SliverToBoxAdapter(child: const SizedBox.shrink());
+    }
+
+    /// loading state
+    if (state.isLoading) {
+      return SliverPadding(
+        padding: const EdgeInsets.all(8),
+        sliver: SliverGrid(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 12.0,
+            mainAxisSpacing: 12.0,
+            childAspectRatio: 1.0,
+          ),
+          delegate: SliverChildBuilderDelegate((
+            BuildContext context,
+            int index,
+          ) {
+            return Center(child: CircularProgressIndicator());
+          }, childCount: 4),
+        ),
+      );
+    }
+
+    /// coming soon
+    return SliverToBoxAdapter(
+      child: SizedBox(
+        width: double.infinity,
+        height: MediaQuery.sizeOf(context).height,
+        child: Center(
+          child: Text(
+            "Coming soon 🎉",
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+        ),
       ),
     );
   }

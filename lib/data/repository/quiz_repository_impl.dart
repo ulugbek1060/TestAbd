@@ -3,8 +3,9 @@ import 'package:injectable/injectable.dart';
 import 'package:testabd/core/errors/app_exception.dart';
 import 'package:testabd/data/mappers.dart';
 import 'package:testabd/data/remote_source/quiz/quiz_source.dart';
-import 'package:testabd/domain/quiz/entities/answer_model.dart';
-import 'package:testabd/domain/quiz/entities/followed_quiz_model.dart';
+import 'package:testabd/domain/quiz/entities/check_answer_model.dart';
+import 'package:testabd/domain/quiz/entities/global_quiz_model.dart';
+import 'package:testabd/domain/quiz/entities/quiz_item.dart';
 import 'package:testabd/domain/quiz/entities/topics_model.dart';
 import 'package:testabd/domain/quiz/quiz_repository.dart';
 
@@ -15,7 +16,7 @@ class QuizRepositoryImpl extends QuizRepository {
   QuizRepositoryImpl(this._quizSource);
 
   @override
-  Future<Either<AppException, FollowedQuizModel>> getFollowedQuestions({
+  Future<Either<AppException, GlobalQuizModel>> getFollowedQuestions({
     required int page,
     required int pageSize,
   }) async {
@@ -30,7 +31,7 @@ class QuizRepositoryImpl extends QuizRepository {
   }
 
   @override
-  Future<Either<AppException, AnswerModel>> submitAnswer({
+  Future<Either<AppException, CheckAnswerModel>> submitAnswer({
     required int questionId,
     required List<int> selectedAnswers,
     int? duration,
@@ -70,10 +71,13 @@ class QuizRepositoryImpl extends QuizRepository {
   }
 
   @override
-  Future<Either<AppException, dynamic>> getUserQuestions(int userId) async {
+  Future<Either<AppException, List<QuizItem>>> getUserQuestions(
+    int userId,
+  ) async {
     try {
       final result = await _quizSource.getUserQuestions(userId);
-      return Right(result);
+      final list = result.map((e) => e.toDomain()).toList();
+      return Right(list);
     } on AppException catch (e) {
       return Left(e);
     } catch (e, stackTrace) {

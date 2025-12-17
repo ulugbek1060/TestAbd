@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
-import 'package:testabd/domain/quiz/entities/answer_model.dart';
+import 'package:testabd/domain/quiz/entities/check_answer_model.dart';
 import 'package:testabd/domain/quiz/entities/quiz_item.dart';
 import 'package:testabd/domain/quiz/quiz_repository.dart';
 
@@ -134,7 +134,7 @@ class FollowedQuizCubit extends Cubit<FollowedQuizState> {
   void _handleSubmitSuccess(
     int index,
     List<int> answers,
-    AnswerModel response,
+    CheckAnswerModel response,
   ) {
     final q = state.questions[index];
 

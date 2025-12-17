@@ -27,7 +27,11 @@ class QuizItem extends Equatable {
   final int? orderIndex;
   final String? media;
   final List<AnswerItem> answers;
+
+  // used for answer submission
   final List<int> myAnswersId;
+
+  // used for answer submission and check
   final bool isCorrect;
   final String? testDescription;
   final String? correctAnswerText;

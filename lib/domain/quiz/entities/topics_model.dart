@@ -18,7 +18,6 @@ class TopicsModel extends Equatable {
 }
 
 // -------------------------------------------------------------
-
 class TopicItem extends Equatable {
   final int? id;
   final TopicUserShort? user;
@@ -93,7 +92,6 @@ class TopicItem extends Equatable {
 }
 
 // -------------------------------------------------------------
-
 class TopicQuestion extends Equatable {
   final int? id;
   final int? test;
@@ -168,7 +166,6 @@ class TopicQuestion extends Equatable {
 }
 
 // -------------------------------------------------------------
-
 class TopicAnswer extends Equatable {
   final int? id;
   final String? letter;
@@ -187,7 +184,6 @@ class TopicAnswer extends Equatable {
 }
 
 // -------------------------------------------------------------
-
 class TopicUserShort extends Equatable {
   final int? id;
   final String? username;

@@ -35,12 +35,13 @@ class UserProfileCubit extends Cubit<UserProfileState> {
         emit(state.copyWith(isLoading: false, profile: value));
 
         /// load topics
-        loadTopics();
+        loadBlocks();
+        loadQuestions();
       },
     );
   }
 
-  Future<void> loadTopics() async {
+  Future<void> loadBlocks() async {
     final userId = state.profile?.user?.id;
     if (userId == null) return;
     if (state.topicsState.isLoading || state.topicsState.isLoadingMore) return;
@@ -79,5 +80,39 @@ class UserProfileCubit extends Cubit<UserProfileState> {
         emit(state.copyWith(topicsState: newTopicState));
       },
     );
+  }
+
+  Future<void> loadQuestions() async {
+    final userId = state.profile?.user?.id;
+    if (userId == null) return;
+
+    final questionsState = state.questionsState;
+    if (questionsState.isLoading) return;
+
+    emit(
+      state.copyWith(questionsState: questionsState.copyWith(isLoading: true)),
+    );
+    final result = await _quizRepository.getUserQuestions(userId);
+    result.fold(
+      (error) {
+        final newQuestionsState = questionsState.copyWith(
+          isLoading: false,
+          error: error.message,
+        );
+        emit(state.copyWith(questionsState: newQuestionsState));
+      },
+      (value) {
+        final newQuestionsState = questionsState.copyWith(
+          questions: value,
+          error: null,
+          isLoading: false,
+        );
+        emit(state.copyWith(questionsState: newQuestionsState));
+      },
+    );
+  }
+
+  Future<void> followAction() async {
+    // todo do follow action
   }
 }

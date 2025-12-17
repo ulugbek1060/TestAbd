@@ -1,13 +1,14 @@
 import 'package:testabd/data/remote_source/account/model/my_info_response.dart'
     hide WeeklyTestCount;
 import 'package:testabd/data/remote_source/auth/model/user_register_response.dart';
+import 'package:testabd/data/remote_source/quiz/models/user_question_response.dart';
 import 'package:testabd/domain/account/entities/my_info_model.dart';
 import 'package:testabd/domain/account/entities/notification_model.dart';
 import 'package:testabd/domain/account/entities/user_profile_model.dart';
 import 'package:testabd/domain/auth/entities/register_model.dart';
 import 'package:testabd/domain/quiz/entities/answer_item.dart';
-import 'package:testabd/domain/quiz/entities/answer_model.dart';
-import 'package:testabd/domain/quiz/entities/followed_quiz_model.dart';
+import 'package:testabd/domain/quiz/entities/check_answer_model.dart';
+import 'package:testabd/domain/quiz/entities/global_quiz_model.dart';
 import 'package:testabd/domain/quiz/entities/quiz_item.dart';
 
 import '../domain/quiz/entities/topics_model.dart';
@@ -97,8 +98,8 @@ extension NotificationMapper on NotificationsResponse {
 }
 
 extension FollowedQuizMapper on FollowedQuestionsResponse {
-  FollowedQuizModel toDomain() {
-    return FollowedQuizModel(
+  GlobalQuizModel toDomain() {
+    return GlobalQuizModel(
       count: count,
       next: next,
       previous: previous,
@@ -152,8 +153,8 @@ extension FollowedQuizMapper on FollowedQuestionsResponse {
 }
 
 extension AnswerMapper on AnswerResponse {
-  AnswerModel toDomain() {
-    return AnswerModel(
+  CheckAnswerModel toDomain() {
+    return CheckAnswerModel(
       id: id,
       questionId: questionId,
       writtenAnswer: writtenAnswer,
@@ -233,7 +234,7 @@ extension TopicItemResponseMapper on TopicQuestionItemResponse {
       region: region,
       district: district,
       isRegionPremium: is_region_premium,
-      createdAt:DateTime.parse(created_at ?? ''),
+      createdAt: DateTime.parse(created_at ?? ''),
       difficultyPercentage: difficulty_percentage,
       totalQuestions: total_questions,
       questions: questions.map((e) => e.toModel()).toList(),
@@ -289,6 +290,52 @@ extension TopicUserShortResponseMapper on TopicUserShortResponse {
       isBadged: is_badged,
       isPremium: is_premium,
       isFollowing: is_following,
+    );
+  }
+}
+
+extension UserQuestionResponseX on UserQuestionResponse {
+  QuizItem toDomain() {
+    return QuizItem(
+      id: id,
+      test: test,
+      testTitle: test_title,
+      questionText: question_text,
+      questionType: QuestionType.fromString(question_type),
+      orderIndex: order_index,
+      media: media,
+      answers: answers
+          .map(
+            (a) => AnswerItem(
+              id: a.id,
+              letter: a.letter,
+              answerText: a.answer_text,
+              isCorrect: a.is_correct ?? false,
+            ),
+          )
+          .toList(),
+      testDescription: test_description,
+      correctAnswerText: correct_answer_text,
+      answerLanguage: answer_language,
+      correctCount: correct_count,
+      wrongCount: wrong_count,
+      difficultyPercentage: difficulty_percentage,
+      userAttemptCount: user_attempt_count,
+      user: user != null
+          ? User(
+              id: user!.id,
+              username: user!.username,
+              profileImage: user!.profile_image,
+              isBadged: user!.is_badged,
+              isPremium: user!.is_premium,
+              isFollowing: user!.is_following,
+            )
+          : null,
+      createdAt: DateTime.parse(created_at ?? ''),
+      roundImage: round_image,
+      isBookmarked: is_bookmarked,
+      isFollowing: is_following,
+      category: category,
     );
   }
 }

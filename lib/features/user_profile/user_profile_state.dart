@@ -1,18 +1,37 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:testabd/domain/account/entities/user_profile_model.dart';
+import 'package:testabd/domain/quiz/entities/quiz_item.dart';
 import 'package:testabd/domain/quiz/entities/topics_model.dart';
 
 part 'user_profile_state.freezed.dart';
 
 @freezed
-class TopicsState with _$TopicsState {
-  const factory TopicsState({
+class BlocksState with _$BlocksState {
+  const factory BlocksState({
     @Default(false) bool isLoading,
     @Default(false) bool isLoadingMore,
     @Default([]) List<TopicItem> topics,
     @Default(1) int nextPage,
     @Default(0) int previousPage,
-  }) = _TopicsState;
+    String? error,
+  }) = _BlocksState;
+}
+
+@freezed
+class QuestionsState with _$QuestionsState {
+  const factory QuestionsState({
+  @Default(false) bool isLoading,
+  @Default([]) List<QuizItem> questions,
+    String? error,
+  }) = _QuestionsState;
+}
+
+@freezed
+class BooksState with _$BooksState {
+  const factory BooksState({
+    @Default(false) bool isLoading,
+    String? error,
+}) = _BooksState;
 }
 
 @freezed
@@ -27,6 +46,11 @@ class UserProfileState with _$UserProfileState {
     // follow loading
     @Default(false) bool? followLoading,
     // topics state
-    @Default(TopicsState()) TopicsState topicsState,
+    @Default(BlocksState()) BlocksState topicsState,
+    // questions state
+    @Default(QuestionsState()) QuestionsState questionsState,
+
+    // book state
+    @Default(BooksState()) BooksState booksState,
   }) = _UserProfileState;
 }

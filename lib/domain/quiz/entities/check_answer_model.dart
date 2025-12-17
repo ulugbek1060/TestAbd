@@ -2,7 +2,7 @@
 
 import 'package:equatable/equatable.dart';
 
-class AnswerModel extends Equatable {
+class CheckAnswerModel extends Equatable {
   final int? id;
   final int? questionId;
   final String? writtenAnswer;
@@ -11,7 +11,7 @@ class AnswerModel extends Equatable {
   final String? feedback;
   final String? createdAt;
 
-  const AnswerModel({
+  const CheckAnswerModel({
     this.id,
     this.questionId,
     this.writtenAnswer,
