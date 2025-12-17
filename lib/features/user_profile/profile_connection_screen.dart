@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:testabd/di/app_config.dart';
+import 'package:testabd/domain/account/entities/user_connections_model.dart';
+import 'package:testabd/features/user_profile/profile_connection_cubit.dart';
+import 'package:testabd/features/user_profile/profile_connection_state.dart';
 
 enum ProfileConnectionEnum {
   following,
@@ -16,49 +21,39 @@ enum ProfileConnectionEnum {
   }
 }
 
-/* -------------------- DATA MODEL -------------------- */
-class UserItem {
-  final String name;
-  final String username;
-  final String imageUrl;
-  bool isFollowing;
-
-  UserItem({
-    required this.name,
-    required this.username,
-    required this.imageUrl,
-    this.isFollowing = false,
-  });
-}
-
-final mockUsers = List.generate(
-  12,
-  (i) => UserItem(
-    name: 'User Name $i',
-    username: '@username$i',
-    imageUrl: 'https://i.pravatar.cc/150?img=${i + 5}',
-    isFollowing: i % 2 == 0,
-  ),
-);
-
 /* -------------------- MAIN TABS -------------------- */
-class ProfileConnectionsScreen extends StatefulWidget {
+class ProfileConnectionScreen extends StatelessWidget {
   final int userId;
   final ProfileConnectionEnum connectionType;
 
-  const ProfileConnectionsScreen({
+  const ProfileConnectionScreen({
     super.key,
     required this.userId,
     required this.connectionType,
   });
 
   @override
-  State<ProfileConnectionsScreen> createState() =>
-      _ProfileConnectionsScreenState();
-
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) =>
+          locator<ProfileConnectionCubit>(param1: userId)
+            ..loadUserConnections(),
+      child: _View(userId: userId, connectionType: connectionType),
+    );
+  }
 }
 
-class _ProfileConnectionsScreenState extends State<ProfileConnectionsScreen> {
+class _View extends StatefulWidget {
+  final int userId;
+  final ProfileConnectionEnum connectionType;
+
+  const _View({required this.userId, required this.connectionType});
+
+  @override
+  State<_View> createState() => _ViewState();
+}
+
+class _ViewState extends State<_View> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -77,11 +72,15 @@ class _ProfileConnectionsScreenState extends State<ProfileConnectionsScreen> {
             ],
           ),
         ),
-        body: TabBarView(
-          children: [
-            FollowersPage(users: mockUsers),
-            FollowingPage(users: mockUsers),
-          ],
+        body: BlocBuilder<ProfileConnectionCubit, ProfileConnectionState>(
+          builder: (context, state) {
+            return TabBarView(
+              children: [
+                FollowersPage(users: state.connections.followers),
+                FollowingPage(users: state.connections.following),
+              ],
+            );
+          },
         ),
       ),
     );
@@ -90,7 +89,7 @@ class _ProfileConnectionsScreenState extends State<ProfileConnectionsScreen> {
 
 /* -------------------- FOLLOWERS -------------------- */
 class FollowersPage extends StatelessWidget {
-  final List<UserItem> users;
+  final List<UserConnectionModel> users;
 
   const FollowersPage({super.key, required this.users});
 
@@ -108,7 +107,7 @@ class FollowersPage extends StatelessWidget {
 
 /* -------------------- FOLLOWING -------------------- */
 class FollowingPage extends StatelessWidget {
-  final List<UserItem> users;
+  final List<UserConnectionModel> users;
 
   const FollowingPage({super.key, required this.users});
 
@@ -127,7 +126,7 @@ class FollowingPage extends StatelessWidget {
 
 /* -------------------- USER ITEM -------------------- */
 class UserTile extends StatefulWidget {
-  final UserItem user;
+  final UserConnectionModel user;
 
   const UserTile({super.key, required this.user});
 
@@ -141,10 +140,10 @@ class _UserTileState extends State<UserTile> {
     return ListTile(
       leading: CircleAvatar(
         radius: 24,
-        backgroundImage: NetworkImage(widget.user.imageUrl),
+        backgroundImage: NetworkImage(widget.user.profileImage ?? ''),
       ),
       title: Text(
-        widget.user.name,
+        widget.user.username,
         style: const TextStyle(fontWeight: FontWeight.w600),
       ),
       subtitle: Text(widget.user.username),
@@ -153,7 +152,7 @@ class _UserTileState extends State<UserTile> {
         child: OutlinedButton(
           onPressed: () {
             setState(() {
-              widget.user.isFollowing = !widget.user.isFollowing;
+              // widget.user.isFollowing = !widget.user.isFollowing;
             });
           },
           style: OutlinedButton.styleFrom(

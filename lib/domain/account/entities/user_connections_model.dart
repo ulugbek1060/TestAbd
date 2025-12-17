@@ -5,8 +5,8 @@ class UserConnectionsModel extends Equatable {
   final List<UserConnectionModel> following;
 
   const UserConnectionsModel({
-    required this.followers,
-    required this.following,
+     this.followers = const [],
+     this.following = const [],
   });
 
   @override

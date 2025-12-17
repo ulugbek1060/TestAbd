@@ -71,7 +71,7 @@ final appRouter = GoRouter(
         final userId = state.pathParameters['user_id']!;
         final connectionType = state.pathParameters['connection_type']!;
         return CupertinoPage(
-          child: ProfileConnectionsScreen(
+          child: ProfileConnectionScreen(
             userId: int.tryParse(userId) ?? -1,
             connectionType: ProfileConnectionEnum.fromString(connectionType),
           ),

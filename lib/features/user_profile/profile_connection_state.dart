@@ -1,6 +1,13 @@
-part of 'profile_connection_cubit.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:testabd/domain/account/entities/user_connections_model.dart';
 
-@immutable
-sealed class ProfileConnectionState {}
+part 'profile_connection_state.freezed.dart';
 
-final class ProfileConnectionInitial extends ProfileConnectionState {}
+@freezed
+class ProfileConnectionState with _$ProfileConnectionState {
+  const factory ProfileConnectionState({
+    @Default(false) bool isLoading,
+    @Default(UserConnectionsModel()) UserConnectionsModel connections,
+    String? error,
+  }) = _ProfileConnectionInitial;
+}

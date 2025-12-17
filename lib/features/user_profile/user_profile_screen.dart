@@ -118,6 +118,35 @@ class _ViewState extends State<_View> with SingleTickerProviderStateMixin {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
+                            // followers
+                            GestureDetector(
+                              onTap: () => context.push(
+                                AppRouter.profileConnectionWithUserId(
+                                  userId: state.profile?.user?.id ?? 0,
+                                  connectionType:
+                                  ProfileConnectionEnum.followers.name,
+                                ),
+                              ),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    '${state.profile?.user?.followersCount ?? 0}',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Followers',
+                                    style: TextStyle(
+                                      color: Colors.grey.shade400,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                             // following
                             GestureDetector(
                               onTap: () => context.push(
@@ -139,36 +168,6 @@ class _ViewState extends State<_View> with SingleTickerProviderStateMixin {
                                   ),
                                   Text(
                                     'Following',
-                                    style: TextStyle(
-                                      color: Colors.grey.shade400,
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-
-                            // followers
-                            GestureDetector(
-                              onTap: () => context.push(
-                                AppRouter.profileConnectionWithUserId(
-                                  userId: state.profile?.user?.id ?? 0,
-                                  connectionType:
-                                      ProfileConnectionEnum.followers.name,
-                                ),
-                              ),
-                              child: Column(
-                                children: [
-                                  Text(
-                                    '${state.profile?.user?.followersCount ?? 0}',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  Text(
-                                    'Followers',
                                     style: TextStyle(
                                       color: Colors.grey.shade400,
                                       fontSize: 14,

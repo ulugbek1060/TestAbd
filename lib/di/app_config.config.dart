@@ -32,6 +32,7 @@ import '../features/auth/login/login_cubit.dart' as _i958;
 import '../features/auth/register/register_cubit.dart' as _i163;
 import '../features/home/followed_quiz_cubit.dart' as _i1041;
 import '../features/profile/profile_cubit.dart' as _i760;
+import '../features/user_profile/profile_connection_cubit.dart' as _i470;
 import '../features/user_profile/user_profile_cubit.dart' as _i230;
 import 'app_module.dart' as _i460;
 
@@ -87,6 +88,14 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i36.ForgotPswdCubit(gh<_i893.AuthRepository>()));
     gh.lazySingleton<_i575.AccountRepository>(
         () => _i317.AccountRepositoryImpl(gh<_i65.AccountSource>()));
+    gh.factoryParam<_i470.ProfileConnectionCubit, int, dynamic>((
+      userId,
+      _,
+    ) =>
+        _i470.ProfileConnectionCubit.create(
+          userId,
+          gh<_i575.AccountRepository>(),
+        ));
     gh.factory<_i163.RegisterCubit>(
         () => _i163.RegisterCubit(gh<_i893.AuthRepository>()));
     gh.factory<_i958.LoginCubit>(
