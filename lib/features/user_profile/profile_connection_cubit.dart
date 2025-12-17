@@ -89,7 +89,6 @@ class ProfileConnectionCubit extends Cubit<ProfileConnectionState> {
     result.fold(
       (error) {
         // TODO show error silently
-
         final connections = state.connections.stopLoadingForUser(id);
         emit(state.copyWith(connections: connections));
       },
@@ -99,6 +98,9 @@ class ProfileConnectionCubit extends Cubit<ProfileConnectionState> {
             .stopLoadingForUser(id);
 
         emit(state.copyWith(connections: connections));
+
+        /// publish follow event listen from [user_profile_cubit]
+        _followListener.publishFollowChange(id, !user.isFollowing);
       },
     );
   }

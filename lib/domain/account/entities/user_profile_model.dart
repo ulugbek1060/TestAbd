@@ -1,4 +1,3 @@
-
 import 'package:equatable/equatable.dart';
 import 'package:testabd/core/utils/formatters.dart';
 
@@ -6,24 +5,23 @@ class UserProfileModel extends Equatable {
   final UserModel? user;
   final UserStatsModel? stats;
 
-  const UserProfileModel({
-    this.user,
-    this.stats,
-  });
+  const UserProfileModel({this.user, this.stats});
 
-  UserProfileModel copyWith({
-    UserModel? user,
-    UserStatsModel? stats,
-  }) {
+  UserProfileModel copyWith({UserModel? user, UserStatsModel? stats}) {
     return UserProfileModel(
       user: user ?? this.user,
       stats: stats ?? this.stats,
     );
   }
 
+  UserProfileModel setFollowing(bool isFollowing) {
+    return copyWith(user: user?.copyWith(isFollowing: isFollowing));
+  }
+
   @override
   List<Object?> get props => [user, stats];
 }
+
 class UserModel extends Equatable {
   final int? id;
   final String? username;
@@ -113,6 +111,7 @@ class UserModel extends Equatable {
     coins,
   ];
 }
+
 class UserStatsModel extends Equatable {
   final int? totalTests;
   final int? correctAnswers;

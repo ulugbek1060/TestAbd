@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:testabd/domain/account/account_repository.dart';
@@ -6,11 +8,14 @@ import 'package:testabd/features/user_profile/profile_connection_cubit.dart';
 import 'package:testabd/features/user_profile/user_profile_state.dart';
 import 'package:testabd/main.dart';
 
+
+
 @injectable
 class UserProfileCubit extends Cubit<UserProfileState> {
   final AccountRepository _accountRepository;
   final QuizRepository _quizRepository;
   final UserFollowChangeListener _followListener;
+  late StreamSubscription<UserFollowEvent> _followSubscription;
   final String username;
 
   final int _pageSize = 10;
@@ -22,7 +27,18 @@ class UserProfileCubit extends Cubit<UserProfileState> {
     this._quizRepository,
     this._followListener,
   ) : super(UserProfileState()) {
-    logger.d(username);
+    _followSubscription = _followListener.followStream.listen((event) {
+      if (state.profile?.user?.id == event.userId){
+        final profile = state.profile?.setFollowing(event.isFollowing);
+        emit(state.copyWith(profile: profile));
+      }
+    });
+  }
+
+  @override
+  Future<void> close() {
+    _followSubscription.cancel();
+    return super.close();
   }
 
   Future<void> loadUserDetail() async {
@@ -154,6 +170,7 @@ class UserProfileCubit extends Cubit<UserProfileState> {
 
         emit(newState);
 
+        /// publish follow event listen from [profile_connection_cubit]
         _followListener.publishFollowChange(userId, isFollowing);
 
         // load user detail

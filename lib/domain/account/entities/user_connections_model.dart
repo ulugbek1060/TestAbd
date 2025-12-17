@@ -68,14 +68,12 @@ class UserConnectionsModel extends Equatable {
     return copyWith(
       followers: followers.map((follower) {
         if (follower.id == userId) {
-          // Toggle following and stop loading
           return follower.toggleFollowingWithLoading();
         }
         return follower;
       }).toList(),
       following: following.map((user) {
         if (user.id == userId) {
-          // Toggle following and stop loading
           return user.toggleFollowingWithLoading();
         }
         return user;
