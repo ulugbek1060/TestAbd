@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:testabd/core/theme/app_images.dart';
 import 'package:testabd/domain/account/entities/leaderboard_model.dart';
 
 part 'leaderboard_state.freezed.dart';
@@ -25,4 +26,19 @@ extension LeaderboardStateX on LeaderboardState {
     _podiumUsers().firstWhere((u) => u.todayRank == 1),
     _podiumUsers().firstWhere((u) => u.todayRank == 3),
   ];
+}
+
+extension PODIUMX on int {
+  String get podiumString {
+    switch (this) {
+      case 1:
+        return AppImages.rank1;
+      case 2:
+        return AppImages.rank2;
+      case 3:
+        return AppImages.rank3;
+      default:
+        return AppImages.logo;
+    }
+  }
 }

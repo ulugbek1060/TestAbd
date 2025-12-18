@@ -17,7 +17,10 @@ class WsLeaderboardSourceImpl implements WsLeaderboardSource {
   @override
   Future<LeaderboardResponse> getLeaderboard(int page, int pageSize) async {
     try {
-      final response = await _dio.post("/accounts/leaderboard/?page=$page");
+      final response = await _dio.get(
+        "/accounts/leaderboard/",
+        queryParameters: {"page": page, "page_size": pageSize},
+      );
       return LeaderboardResponse.fromJson(response.data);
     } on DioException catch (e) {
       throw e.handleDioException();

@@ -15,7 +15,7 @@ import 'package:testabd/main.dart';
 @LazySingleton(as: AccountRepository)
 class AccountRepositoryImpl implements AccountRepository {
   final AccountSource _accountSource;
-  final WsLeaderboardSourceImpl _leaderboardSource;
+  final WsLeaderboardSource _leaderboardSource;
 
 
   AccountRepositoryImpl(this._accountSource, this._leaderboardSource);

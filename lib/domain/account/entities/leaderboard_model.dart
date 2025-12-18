@@ -32,6 +32,7 @@ class LeaderboardUser extends Equatable {
   final int followers;
   final int following;
   final bool isFollowing;
+  final bool isLoading;
 
   const LeaderboardUser({
     required this.id,
@@ -48,6 +49,7 @@ class LeaderboardUser extends Equatable {
     required this.followers,
     required this.following,
     required this.isFollowing,
+    this.isLoading = false,
   });
 
   @override
@@ -66,5 +68,6 @@ class LeaderboardUser extends Equatable {
     followers,
     following,
     isFollowing,
+    isLoading
   ];
 }

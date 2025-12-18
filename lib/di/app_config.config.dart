@@ -88,6 +88,10 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i259.WsLeaderboardSourceImpl(gh<_i361.Dio>()));
     gh.lazySingleton<_i156.QuizRepository>(
         () => _i75.QuizRepositoryImpl(gh<_i792.QuizSource>()));
+    gh.lazySingleton<_i575.AccountRepository>(() => _i317.AccountRepositoryImpl(
+          gh<_i65.AccountSource>(),
+          gh<_i259.WsLeaderboardSource>(),
+        ));
     gh.singleton<_i893.AuthRepository>(() => _i461.AuthRepositoryImpl(
           gh<_i142.AuthSource>(),
           gh<_i371.SessionService>(),
@@ -97,12 +101,20 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i1041.FollowedQuizCubit(gh<_i156.QuizRepository>()));
     gh.factory<_i760.ProfileCubit>(
         () => _i760.ProfileCubit(gh<_i893.AuthRepository>()));
+    gh.factoryParam<_i470.ProfileConnectionCubit, int, dynamic>((
+      userId,
+      _,
+    ) =>
+        _i470.ProfileConnectionCubit.create(
+          userId,
+          gh<_i575.AccountRepository>(),
+          gh<_i244.UserFollowListener>(
+              instanceName: 'ConnectionFollowListener'),
+          gh<_i244.UserFollowListener>(
+              instanceName: 'UserProfileFollowListener'),
+        ));
     gh.factory<_i36.ForgotPswdCubit>(
         () => _i36.ForgotPswdCubit(gh<_i893.AuthRepository>()));
-    gh.lazySingleton<_i575.AccountRepository>(() => _i317.AccountRepositoryImpl(
-          gh<_i65.AccountSource>(),
-          gh<_i259.WsLeaderboardSourceImpl>(),
-        ));
     gh.factory<_i279.LeaderboardCubit>(
         () => _i279.LeaderboardCubit(gh<_i575.AccountRepository>()));
     gh.factory<_i163.RegisterCubit>(
@@ -117,18 +129,6 @@ extension GetItInjectableX on _i174.GetIt {
           username,
           gh<_i575.AccountRepository>(),
           gh<_i156.QuizRepository>(),
-          gh<_i244.UserFollowListener>(
-              instanceName: 'ConnectionFollowListener'),
-          gh<_i244.UserFollowListener>(
-              instanceName: 'UserProfileFollowListener'),
-        ));
-    gh.factoryParam<_i470.ProfileConnectionCubit, int, dynamic>((
-      userId,
-      _,
-    ) =>
-        _i470.ProfileConnectionCubit.create(
-          userId,
-          gh<_i575.AccountRepository>(),
           gh<_i244.UserFollowListener>(
               instanceName: 'ConnectionFollowListener'),
           gh<_i244.UserFollowListener>(
