@@ -3,7 +3,9 @@ import 'package:injectable/injectable.dart';
 import 'package:testabd/core/errors/app_exception.dart';
 import 'package:testabd/data/mappers.dart';
 import 'package:testabd/data/remote_source/account/account_source.dart';
+import 'package:testabd/data/remote_source/account/ws_leaderboard_source.dart';
 import 'package:testabd/domain/account/account_repository.dart';
+import 'package:testabd/domain/account/entities/leaderboard_model.dart';
 import 'package:testabd/domain/account/entities/my_info_model.dart';
 import 'package:testabd/domain/account/entities/notification_model.dart';
 import 'package:testabd/domain/account/entities/user_connections_model.dart';
@@ -13,8 +15,10 @@ import 'package:testabd/main.dart';
 @LazySingleton(as: AccountRepository)
 class AccountRepositoryImpl implements AccountRepository {
   final AccountSource _accountSource;
+  final WsLeaderboardSourceImpl _leaderboardSource;
 
-  AccountRepositoryImpl(this._accountSource);
+
+  AccountRepositoryImpl(this._accountSource, this._leaderboardSource);
 
   @override
   Future<Either<AppException, MyInfoModel>> getMyInfo() async {
@@ -70,7 +74,7 @@ class AccountRepositoryImpl implements AccountRepository {
   @override
   Future<Either<AppException, UserConnectionsModel>> getUserConnections(
     int userId,
-  )  async {
+  ) async {
     try {
       final result = await _accountSource.getFollowers(userId);
       return Right(result.toDomain());
@@ -86,6 +90,21 @@ class AccountRepositoryImpl implements AccountRepository {
     try {
       final result = await _accountSource.followUser(userId);
       return Right(result);
+    } on AppException catch (e) {
+      return Left(e);
+    } catch (e, stackTrace) {
+      return Left(UnknownException(e.toString(), stackTrace: stackTrace));
+    }
+  }
+
+  @override
+  Future<Either<AppException, LeaderboardModel>> getLeaderboard(
+    int page,
+    int pageSize,
+  ) async {
+    try {
+      final result = await _leaderboardSource.getLeaderboard(page, pageSize);
+      return Right(result.toDomain());
     } on AppException catch (e) {
       return Left(e);
     } catch (e, stackTrace) {

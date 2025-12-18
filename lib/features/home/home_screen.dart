@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:testabd/di/app_config.dart';
 import 'package:testabd/features/home/followed_quiz_cubit.dart';
 import 'package:testabd/features/home/widgets/posts_widget.dart';
 import 'package:testabd/features/home/widgets/stories_widget.dart';
+import 'package:testabd/router/app_router.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -70,7 +72,15 @@ class _ViewState extends State<_View> {
             title: Text('TestAbd'),
             centerTitle: false,
             actions: [
-              Text('Meroschi'),
+              OutlinedButton(
+                style: OutlinedButton.styleFrom(
+                  side: BorderSide.none,
+                ),
+                onPressed: () {
+                  context.push(AppRouter.leaderboard);
+                },
+                child: Text('meroschi'),
+              ),
               IconButton(
                 onPressed: () {},
                 icon: Icon(Icons.notifications_none_rounded),

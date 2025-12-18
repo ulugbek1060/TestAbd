@@ -4,6 +4,7 @@ import 'package:testabd/features/auth/forgotpswd/forgot_pswd_screen.dart';
 import 'package:testabd/features/auth/login/login_screen.dart';
 import 'package:testabd/features/auth/register/register_screen.dart';
 import 'package:testabd/features/home/home_screen.dart';
+import 'package:testabd/features/home/leaderboard_screen.dart';
 import 'package:testabd/features/init/InitialScreen.dart';
 import 'package:testabd/features/profile/profile_screen.dart';
 import 'package:testabd/features/root/shell_screen.dart';
@@ -20,6 +21,7 @@ abstract class AppRouter {
   static const home = '/home';
   static const profile = '/profile';
   static const userProfile = '/user_profile/:username';
+  static const leaderboard = '/leaderboard';
 
   static String userProfileWithUsername(String username) =>
       '/user_profile/$username';
@@ -32,7 +34,6 @@ abstract class AppRouter {
     required String connectionType,
   }) => '/profile_connection/$userId/$connectionType';
 
-
   static const questionDetail = '/question_detail/:questionId';
 
   static String questionDetailWithQuestionId(int questionId) =>
@@ -42,7 +43,6 @@ abstract class AppRouter {
 
   static String blockQuestionsWithBlockId(int blockId) =>
       '/block_questions/$blockId';
-
 }
 
 GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -110,10 +110,14 @@ final appRouter = GoRouter(
       pageBuilder: (context, state) {
         final blockId = state.pathParameters['blockId']!;
         return CupertinoPage(
-          child: BlockQuestionsScreen(
-            blockId: int.tryParse(blockId) ?? -1,
-          ),
+          child: BlockQuestionsScreen(blockId: int.tryParse(blockId) ?? -1),
         );
+      },
+    ),
+    GoRoute(
+      path: AppRouter.leaderboard,
+      pageBuilder: (context, state) {
+        return CupertinoPage(child: LeaderboardScreen());
       },
     ),
 

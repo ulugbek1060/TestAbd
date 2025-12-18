@@ -2,6 +2,7 @@ import 'package:testabd/data/remote_source/account/model/my_info_response.dart'
     hide WeeklyTestCount;
 import 'package:testabd/data/remote_source/auth/model/user_register_response.dart';
 import 'package:testabd/data/remote_source/quiz/models/user_question_response.dart';
+import 'package:testabd/domain/account/entities/leaderboard_model.dart';
 import 'package:testabd/domain/account/entities/my_info_model.dart';
 import 'package:testabd/domain/account/entities/notification_model.dart';
 import 'package:testabd/domain/account/entities/user_connections_model.dart';
@@ -13,6 +14,7 @@ import 'package:testabd/domain/quiz/entities/global_quiz_model.dart';
 import 'package:testabd/domain/quiz/entities/quiz_item.dart';
 
 import '../domain/quiz/entities/topics_model.dart';
+import 'remote_source/account/model/leaderboard_response.dart';
 import 'remote_source/account/model/notifications_response.dart';
 import 'remote_source/account/model/user_connections_response.dart';
 import 'remote_source/account/model/user_profile_response.dart';
@@ -342,7 +344,7 @@ extension UserQuestionResponseX on UserQuestionResponse {
   }
 }
 
-///======================= user connections mapper ========================
+///======================= user connections mapper =============================
 extension UserConnectionsMapper on UserConnectionsResponse {
   UserConnectionsModel toDomain() {
     return UserConnectionsModel(
@@ -370,6 +372,40 @@ extension UserConnectionsMapper on UserConnectionsResponse {
             ),
           )
           .toList(),
+    );
+  }
+}
+
+/// ====================== Leaderboard mapper ==================================
+
+extension LeaderboardResponseMapper on LeaderboardResponse {
+  LeaderboardModel toDomain() {
+    return LeaderboardModel(
+      count: count ?? 0,
+      next: next,
+      previous: previous,
+      users: results.map((e) => e.toModel()).toList(),
+    );
+  }
+}
+
+extension LeaderboardUserResponseMapper on LeaderboardUserResponse {
+  LeaderboardUser toModel() {
+    return LeaderboardUser(
+      id: id ?? 0,
+      username: username ?? '',
+      profileImage: profile_image,
+      createdTests: created_tests ?? 0,
+      coins: coins ?? 0,
+      todayRank: today_rank ?? 0,
+      yesterdayRank: yesterday_rank ?? 0,
+      rankChange: rank_change,
+      rankChangeValue: rank_change_value ?? 0,
+      testsSolved: tests_solved ?? 0,
+      avgTime: avg_time ?? 0.0,
+      followers: followers ?? 0,
+      following: following ?? 0,
+      isFollowing: is_following ?? false,
     );
   }
 }
