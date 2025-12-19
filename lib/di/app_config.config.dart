@@ -18,6 +18,7 @@ import '../core/services/session_service.dart' as _i371;
 import '../core/services/token_service.dart' as _i792;
 import '../core/utils/dio_interceptor.dart' as _i900;
 import '../core/utils/follow_listeners.dart' as _i244;
+import '../data/local_source/my_info_hive_service.dart' as _i656;
 import '../data/remote_source/account/account_source.dart' as _i65;
 import '../data/remote_source/account/ws_leaderboard_source.dart' as _i259;
 import '../data/remote_source/account/ws_notifications_source.dart' as _i1067;
@@ -55,6 +56,7 @@ extension GetItInjectableX on _i174.GetIt {
       () => appModule.getSharedPrefs(),
       preResolve: true,
     );
+    gh.singleton<_i656.MyInfoHiveService>(() => _i656.MyInfoHiveService());
     gh.lazySingleton<_i361.BaseOptions>(
         () => appModule.provideDioBaseOptions());
     gh.lazySingleton<_i528.PrettyDioLogger>(

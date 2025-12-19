@@ -1,3 +1,4 @@
+import 'package:testabd/data/local_source/entities/my_info_db.dart';
 import 'package:testabd/data/remote_source/account/model/my_info_response.dart'
     hide WeeklyTestCount;
 import 'package:testabd/data/remote_source/auth/model/user_register_response.dart';
@@ -406,6 +407,127 @@ extension LeaderboardUserResponseMapper on LeaderboardUserResponse {
       followers: followers ?? 0,
       following: following ?? 0,
       isFollowing: is_following ?? false,
+    );
+  }
+}
+
+/// ====================== User Info Mapper ==================================
+extension MyInfoModelX on MyInfoModel {
+  MyInfoDb toHiveModel() {
+    return MyInfoDb(
+      id: id,
+      country: country,
+      region: region,
+      district: district,
+      settlement: settlement,
+      categoriesOfInterest: categoriesOfInterest?.cast<String>(),
+      coinPercentage: coinPercentage,
+      weeklyTestCount: weeklyTestCount?.toHiveModel(),
+      streakDay: streakDay,
+      testsSolved: testsSolved,
+      correctCount: correctCount,
+      wrongCount: wrongCount,
+      averageTime: averageTime,
+      lastLogin: lastLogin,
+      isSuperuser: isSuperuser,
+      username: username,
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      isStaff: isStaff,
+      dateJoined: dateJoined,
+      profileImage: profileImage,
+      bio: bio,
+      phoneNumber: phoneNumber,
+      createdAt: createdAt,
+      isActive: isActive,
+      role: role,
+      isPremium: isPremium,
+      isBadged: isBadged,
+      joinDate: joinDate,
+      level: level,
+      liveQuizScore: liveQuizScore,
+      isEmailVerified: isEmailVerified,
+      coins: coins,
+      referralCode: referralCode,
+      telegramId: telegramId,
+      invitedBy: invitedBy,
+      groups: groups?.cast<String>(),
+      userPermissions: userPermissions?.cast<String>(),
+    );
+  }
+}
+
+extension WeeklyTestCountX on WeeklyTestCount {
+  WeeklyTestCountDb toHiveModel() {
+    return WeeklyTestCountDb(
+      dush: dush,
+      sesh: sesh,
+      chor: chor,
+      pay: pay,
+      jum: jum,
+      shan: shan,
+      yak: yak,
+    );
+  }
+}
+
+extension MyInfoHiveModelX on MyInfoDb {
+  MyInfoModel toDomain() {
+    return MyInfoModel(
+      id: id,
+      country: country,
+      region: region,
+      district: district,
+      settlement: settlement,
+      categoriesOfInterest: categoriesOfInterest,
+      coinPercentage: coinPercentage,
+      weeklyTestCount: weeklyTestCount?.toDomain(),
+      streakDay: streakDay,
+      testsSolved: testsSolved,
+      correctCount: correctCount,
+      wrongCount: wrongCount,
+      averageTime: averageTime,
+      lastLogin: lastLogin,
+      isSuperuser: isSuperuser,
+      username: username,
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      isStaff: isStaff,
+      dateJoined: dateJoined,
+      profileImage: profileImage,
+      bio: bio,
+      phoneNumber: phoneNumber,
+      createdAt: createdAt,
+      isActive: isActive,
+      role: role,
+      isPremium: isPremium,
+      isBadged: isBadged,
+      joinDate: joinDate,
+      level: level,
+      liveQuizScore: liveQuizScore,
+      isEmailVerified: isEmailVerified,
+      coins: coins,
+      referralCode: referralCode,
+      telegramId: telegramId,
+      invitedBy: invitedBy,
+      groups: groups,
+      userPermissions: userPermissions,
+    );
+  }
+}
+
+extension WeeklyTestCountHiveModelX on WeeklyTestCountDb {
+  WeeklyTestCount toDomain() {
+    return WeeklyTestCount(
+      dush: dush,
+      sesh: sesh,
+      chor: chor,
+      pay: pay,
+      jum: jum,
+      shan: shan,
+      yak: yak,
     );
   }
 }
