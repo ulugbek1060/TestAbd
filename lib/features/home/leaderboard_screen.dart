@@ -114,7 +114,6 @@ class _TopThreeSection extends StatelessWidget {
     return SliverToBoxAdapter(
       child: BlocBuilder<LeaderboardCubit, LeaderboardState>(
         builder: (context, state) {
-
           /// loading widget
           if (state.isLoading) return const LoadingWidget();
 
@@ -125,15 +124,19 @@ class _TopThreeSection extends StatelessWidget {
           return Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.end,
-            children: state.podiumForUI().mapIndexed(
-                (index, e) => TopUser(
-                  rankAsset: e.todayRank.podiumString,
-                  name: capitalize(e.username),
-                  score: e.coins,
-                  big: index == 1,
-                  key: ValueKey(e.username),
-                ),
-              ).toList(),
+            children: state
+                .podiumForUI()
+                .mapIndexed(
+                  (index, e) => TopUser(
+                    rankAsset: e.todayRank.podiumString,
+                    name: capitalize(e.username),
+                    profileImage: e.profileImage ?? '',
+                    score: e.coins,
+                    big: index == 1,
+                    key: ValueKey(e.username),
+                  ),
+                )
+                .toList(),
           );
         },
       ),
@@ -143,6 +146,7 @@ class _TopThreeSection extends StatelessWidget {
 
 class TopUser extends StatelessWidget {
   final String rankAsset;
+  final String profileImage;
   final String name;
   final int score;
   final bool big;
@@ -150,6 +154,7 @@ class TopUser extends StatelessWidget {
   const TopUser({
     super.key,
     required this.rankAsset,
+    required this.profileImage,
     required this.name,
     required this.score,
     this.big = false,
@@ -162,7 +167,34 @@ class TopUser extends StatelessWidget {
         SizedBox(
           height: big ? 110 : 90,
           width: big ? 110 : 90,
-          child: Image.asset(rankAsset),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              // Rank background image
+              SizedBox(
+                height: big ? 110 : 90,
+                width: big ? 110 : 90,
+                child: Image.asset(rankAsset, fit: BoxFit.contain),
+              ),
+
+              // Avatar at bottom center
+              Positioned(
+                bottom: 10,
+                child: ClipOval(
+                  child: CachedNetworkImage(
+                    width: big ? 30 : 20,
+                    height: big ? 30 : 20,
+                    imageUrl: profileImage,
+                    fit: BoxFit.cover,
+                    placeholder: (_, __) =>
+                        Image.asset(AppImages.defaultAvatar, fit: BoxFit.cover),
+                    errorWidget: (_, __, ___) =>
+                        Image.asset(AppImages.defaultAvatar, fit: BoxFit.cover),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
         const SizedBox(height: 8),
         Text(
@@ -176,9 +208,15 @@ class TopUser extends StatelessWidget {
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.circle, size: 8, color: Colors.grey),
+            SizedBox(width: 12, height: 12, child: Image.asset(AppIcons.coin)),
             const SizedBox(width: 4),
-            Text(score.toString(), style: const TextStyle(color: Colors.grey)),
+            Text(
+              score.toString(),
+              style: const TextStyle(
+                color: Colors.amber,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
           ],
         ),
       ],
@@ -188,13 +226,14 @@ class TopUser extends StatelessWidget {
 
 /* ---------------- LEADERBOARD LIST ---------------- */
 class _LeaderboardList extends StatelessWidget {
-  const _LeaderboardList({super.key});
+  const _LeaderboardList();
 
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<LeaderboardCubit>();
     return BlocBuilder<LeaderboardCubit, LeaderboardState>(
       builder: (context, state) {
+
         return SliverList(
           delegate: SliverChildBuilderDelegate((context, index) {
             final item = state.leaderboard[index];
@@ -218,7 +257,6 @@ class _ListTile extends StatelessWidget {
   final VoidCallback onFollowTap;
 
   const _ListTile({
-    super.key,
     required this.user,
     required this.onTap,
     required this.onFollowTap,
@@ -303,4 +341,3 @@ class _ListTile extends StatelessWidget {
     );
   }
 }
-``

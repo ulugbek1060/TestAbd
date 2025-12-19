@@ -15,6 +15,7 @@ class UserProfileCubit extends Cubit<UserProfileState> {
   final QuizRepository _quizRepository;
   final UserFollowListener _connectionFollowListener;
   final UserFollowListener _userProfileFollowListener;
+  final UserFollowListener _leaderboardFollowListener;
   late StreamSubscription<UserFollowEvent> _followSubscription;
   final String username;
 
@@ -27,6 +28,7 @@ class UserProfileCubit extends Cubit<UserProfileState> {
     this._quizRepository,
    @Named.from(ConnectionFollowListener) this._connectionFollowListener,
    @Named.from(UserProfileFollowListener) this._userProfileFollowListener,
+   @Named.from(LeaderboardFollowListener) this._leaderboardFollowListener,
   ) : super(UserProfileState()) {
 
     _followSubscription = _userProfileFollowListener.followStream.listen((event) {
@@ -177,8 +179,11 @@ class UserProfileCubit extends Cubit<UserProfileState> {
 
         emit(newState);
 
-        /// publish follow event listen from [profile_connection_cubit]
+        /// publish follow event to [profile_connection_cubit]
         _connectionFollowListener.publish(UserFollowEvent(userId, isFollowing));
+
+        /// publish follow event to [leaderboard_cubit]
+        _leaderboardFollowListener.publish(UserFollowEvent(userId, isFollowing));
 
         // load user detail
         _loadUserDetailSilently();

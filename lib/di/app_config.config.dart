@@ -62,6 +62,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i244.UserFollowListener>(
       () => _i244.ConnectionFollowListener(),
       instanceName: 'ConnectionFollowListener',
+      dispose: _i244.disposeMethod,
     );
     gh.singleton<_i792.TokenService>(
         () => _i792.SharedPrefsTokenService(gh<_i460.SharedPreferences>()));
@@ -72,6 +73,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i244.UserFollowListener>(
       () => _i244.UserProfileFollowListener(),
       instanceName: 'UserProfileFollowListener',
+      dispose: _i244.disposeMethod,
+    );
+    gh.lazySingleton<_i244.UserFollowListener>(
+      () => _i244.LeaderboardFollowListener(),
+      instanceName: 'LeaderboardFollowListener',
+      dispose: _i244.disposeMethod,
     );
     gh.singleton<_i900.DioInterceptor>(
         () => _i900.DioInterceptor(gh<_i792.TokenService>()));
@@ -101,6 +108,11 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i1041.FollowedQuizCubit(gh<_i156.QuizRepository>()));
     gh.factory<_i760.ProfileCubit>(
         () => _i760.ProfileCubit(gh<_i893.AuthRepository>()));
+    gh.factory<_i279.LeaderboardCubit>(() => _i279.LeaderboardCubit(
+          gh<_i575.AccountRepository>(),
+          gh<_i244.UserFollowListener>(
+              instanceName: 'LeaderboardFollowListener'),
+        ));
     gh.factoryParam<_i470.ProfileConnectionCubit, int, dynamic>((
       userId,
       _,
@@ -115,12 +127,6 @@ extension GetItInjectableX on _i174.GetIt {
         ));
     gh.factory<_i36.ForgotPswdCubit>(
         () => _i36.ForgotPswdCubit(gh<_i893.AuthRepository>()));
-    gh.factory<_i279.LeaderboardCubit>(
-        () => _i279.LeaderboardCubit(gh<_i575.AccountRepository>()));
-    gh.factory<_i163.RegisterCubit>(
-        () => _i163.RegisterCubit(gh<_i893.AuthRepository>()));
-    gh.factory<_i958.LoginCubit>(
-        () => _i958.LoginCubit(gh<_i893.AuthRepository>()));
     gh.factoryParam<_i230.UserProfileCubit, String, dynamic>((
       username,
       _,
@@ -133,7 +139,13 @@ extension GetItInjectableX on _i174.GetIt {
               instanceName: 'ConnectionFollowListener'),
           gh<_i244.UserFollowListener>(
               instanceName: 'UserProfileFollowListener'),
+          gh<_i244.UserFollowListener>(
+              instanceName: 'LeaderboardFollowListener'),
         ));
+    gh.factory<_i163.RegisterCubit>(
+        () => _i163.RegisterCubit(gh<_i893.AuthRepository>()));
+    gh.factory<_i958.LoginCubit>(
+        () => _i958.LoginCubit(gh<_i893.AuthRepository>()));
     return this;
   }
 }

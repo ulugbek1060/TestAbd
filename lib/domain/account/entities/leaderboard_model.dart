@@ -48,9 +48,45 @@ class LeaderboardUser extends Equatable {
     required this.avgTime,
     required this.followers,
     required this.following,
-    required this.isFollowing,
+    this.isFollowing = false,
     this.isLoading = false,
   });
+
+  LeaderboardUser copyWith({
+    int? id,
+    String? username,
+    String? profileImage,
+    int? createdTests,
+    int? coins,
+    int? todayRank,
+    int? yesterdayRank,
+    String? rankChange,
+    int? rankChangeValue,
+    int? testsSolved,
+    double? avgTime,
+    int? followers,
+    int? following,
+    bool? isFollowing,
+    bool? isLoading,
+  }) {
+    return LeaderboardUser(
+      id: id ?? this.id,
+      username: username ?? this.username,
+      profileImage: profileImage ?? this.profileImage,
+      createdTests: createdTests ?? this.createdTests,
+      coins: coins ?? this.coins,
+      todayRank: todayRank ?? this.todayRank,
+      yesterdayRank: yesterdayRank ?? this.yesterdayRank,
+      rankChange: rankChange ?? this.rankChange,
+      rankChangeValue: rankChangeValue ?? this.rankChangeValue,
+      testsSolved: testsSolved ?? this.testsSolved,
+      avgTime: avgTime ?? this.avgTime,
+      followers: followers ?? this.followers,
+      following: following ?? this.following,
+      isFollowing: isFollowing ?? this.isFollowing,
+      isLoading: isLoading ?? this.isLoading,
+    );
+  }
 
   @override
   List<Object?> get props => [

@@ -15,7 +15,7 @@ abstract class UserFollowListener {
 }
 
 @named
-@LazySingleton(as: UserFollowListener)
+@LazySingleton(as: UserFollowListener, dispose: disposeMethod)
 class ConnectionFollowListener implements UserFollowListener {
   final PublishSubject<UserFollowEvent> _followSubject =
       PublishSubject<UserFollowEvent>();
@@ -35,7 +35,7 @@ class ConnectionFollowListener implements UserFollowListener {
 }
 
 @named
-@LazySingleton(as: UserFollowListener)
+@LazySingleton(as: UserFollowListener, dispose: disposeMethod)
 class UserProfileFollowListener implements UserFollowListener {
   final PublishSubject<UserFollowEvent> _followSubject =
       PublishSubject<UserFollowEvent>();
@@ -52,4 +52,29 @@ class UserProfileFollowListener implements UserFollowListener {
   void dispose() {
     _followSubject.close();
   }
+}
+
+@named
+@LazySingleton(as: UserFollowListener, dispose: disposeMethod)
+class LeaderboardFollowListener implements UserFollowListener {
+  final PublishSubject<UserFollowEvent> _followSubject =
+      PublishSubject<UserFollowEvent>();
+
+  @override
+  Stream<UserFollowEvent> get followStream => _followSubject.stream;
+
+  @override
+  void publish(UserFollowEvent event) {
+    _followSubject.add(event);
+  }
+
+  @override
+  void dispose() {
+    _followSubject.close();
+  }
+}
+
+// dispose 
+void disposeMethod(UserFollowListener listener) {
+  listener.dispose();
 }

@@ -16,6 +16,19 @@ class LeaderboardState with _$LeaderboardState {
   }) = _LeaderboardState;
 }
 
+extension LeaderboardUserX on LeaderboardState {
+
+  List<LeaderboardUser> followUser(int userId,bool isFollowing){
+    final newList = List.of(leaderboard);
+    final index = newList.indexWhere((e) => e.id == userId);
+    if (index != -1){
+      newList[index] = newList[index].copyWith(isFollowing: isFollowing);
+    }
+    return newList;
+  }
+
+}
+
 extension LeaderboardStateX on LeaderboardState {
   List<LeaderboardUser> _podiumUsers() =>
       leaderboard.where((u) => u.todayRank <= 3).toList()
