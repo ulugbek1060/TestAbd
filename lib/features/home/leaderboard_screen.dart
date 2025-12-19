@@ -31,8 +31,7 @@ class _View extends StatefulWidget {
 }
 
 class _ViewState extends State<_View> {
-
-    final _scrollController = ScrollController();
+  final _scrollController = ScrollController();
   final _scrollThreshold = 200.0;
 
   @override
@@ -68,11 +67,19 @@ class _ViewState extends State<_View> {
       body: CustomScrollView(
         controller: _scrollController,
         slivers: [
+          /// appbar
           _LeaderboardAppBar(),
-          SliverToBoxAdapter(child: TopThreeSection()),
+
+          /// top 3 podium
           SliverPadding(
             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            sliver: LeaderboardList(),
+            sliver: _TopThreeSection(),
+          ),
+
+          /// leaderboard
+          SliverPadding(
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            sliver: _LeaderboardList(),
           ),
         ],
       ),
@@ -99,33 +106,37 @@ class _LeaderboardAppBar extends StatelessWidget {
 }
 
 /* ---------------- TOP 3 PODIUM ---------------- */
-class TopThreeSection extends StatelessWidget {
-  const TopThreeSection({super.key});
+class _TopThreeSection extends StatelessWidget {
+  const _TopThreeSection();
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<LeaderboardCubit, LeaderboardState>(
-      builder: (context, state) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-          child: Row(
+    return SliverToBoxAdapter(
+      child: BlocBuilder<LeaderboardCubit, LeaderboardState>(
+        builder: (context, state) {
+
+          /// loading widget
+          if (state.isLoading) return const LoadingWidget();
+
+          /// empty widget
+          if (state.leaderboard.isEmpty) return SizedBox.shrink();
+
+          /// main widget
+          return Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.end,
-            children: state
-                .podiumForUI()
-                .mapIndexed(
-                  (index, e) => TopUser(
-                    rankAsset: e.todayRank.podiumString,
-                    name: capitalize(e.username),
-                    score: e.coins,
-                    big: index == 1,
-                    key: ValueKey(e.username),
-                  ),
-                )
-                .toList(),
-          ),
-        );
-      },
+            children: state.podiumForUI().mapIndexed(
+                (index, e) => TopUser(
+                  rankAsset: e.todayRank.podiumString,
+                  name: capitalize(e.username),
+                  score: e.coins,
+                  big: index == 1,
+                  key: ValueKey(e.username),
+                ),
+              ).toList(),
+          );
+        },
+      ),
     );
   }
 }
@@ -176,8 +187,8 @@ class TopUser extends StatelessWidget {
 }
 
 /* ---------------- LEADERBOARD LIST ---------------- */
-class LeaderboardList extends StatelessWidget {
-  const LeaderboardList({super.key});
+class _LeaderboardList extends StatelessWidget {
+  const _LeaderboardList({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -292,3 +303,4 @@ class _ListTile extends StatelessWidget {
     );
   }
 }
+``

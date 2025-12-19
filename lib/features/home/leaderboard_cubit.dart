@@ -8,7 +8,7 @@ import 'leaderboard_state.dart';
 @injectable
 class LeaderboardCubit extends Cubit<LeaderboardState> {
   final AccountRepository _accountRepository;
-  static const int _pageSize = 10;
+  static const int _pageSize = 20;
 
   LeaderboardCubit(this._accountRepository) : super(LeaderboardState());
 
@@ -35,9 +35,7 @@ class LeaderboardCubit extends Cubit<LeaderboardState> {
   }
 
   Future<void> loadLeaderboard() async {
-    logger.d('load leaderboard');
     if (state.isLoading || state.isLastPage) return;
-    logger.d('load leaderboard');
     emit(state.copyWith(isLoading: true));
 
     final result = await _accountRepository.getLeaderboard(
