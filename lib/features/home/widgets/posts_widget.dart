@@ -191,7 +191,7 @@ class MultipleAnswerCard extends StatelessWidget {
             onPressed: myAnswersId.isNotEmpty
                 ? () => onSubmitTap(myAnswersId)
                 : null,
-            child: isLoading ? const LoadingWidget() : const Text("Submit"),
+            child: isLoading ? const ProgressView() : const Text("Submit"),
           ),
       ],
     );
@@ -310,7 +310,7 @@ class SingleAnswerCard extends StatelessWidget {
   Widget getLeading(BuildContext context, AnswerItem answer) => CircleAvatar(
     backgroundColor: Colors.grey,
     child: answer.isLoading
-        ? LoadingWidget(color: Colors.white)
+        ? ProgressView(color: Colors.white)
         : getIcon(context, answer),
   );
 
@@ -429,7 +429,7 @@ class TrueFalseAnswerCard extends StatelessWidget {
     final isThumbUp = index == 0;
 
     if (answer.isLoading) {
-      return LoadingWidget(color: Colors.white);
+      return ProgressView(color: Colors.white);
     }
 
     if (!isCompleted) {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class LoadingWidget extends StatelessWidget {
-  const LoadingWidget({super.key, this.strokeWidth, this.color, this.padding});
+class ProgressView extends StatelessWidget {
+  const ProgressView({super.key, this.strokeWidth, this.color, this.padding});
 
   final Color? color;
   final double? strokeWidth;

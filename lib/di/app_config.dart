@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:injectable/injectable.dart';
 
 import 'app_config.config.dart';
@@ -12,8 +13,6 @@ final locator = GetIt.instance;
 )
 Future<void> init() async {
   // other initialization logic
-
-
-
+  await Hive.initFlutter();
   await locator.init();
 }

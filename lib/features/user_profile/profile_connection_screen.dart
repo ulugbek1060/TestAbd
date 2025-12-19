@@ -120,12 +120,8 @@ class _ConnectionsList extends StatelessWidget {
         final user = users[index];
         return UserTile(
           user: user,
-          onTap: () {
-            final result = context.push(
-              AppRouter.userProfileWithUsername(user.username),
-            );
-            // cubit.updateState();
-          },
+          onTap: () =>
+              context.push(AppRouter.userProfileWithUsername(user.username)),
           onTapFollow: () => cubit.onFollowUser(user.id),
         );
       },
@@ -160,28 +156,19 @@ class UserTile extends StatelessWidget {
       subtitle: Text(user.username),
       trailing: SizedBox(
         height: 32,
-        child: OutlinedButton(
-          onPressed: user.isLoading ? null : onTapFollow,
-          style: OutlinedButton.styleFrom(
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
             backgroundColor: user.isFollowing
-                ? Colors.grey.shade200
-                : Colors.blue,
-            side: BorderSide(
-              color: user.isFollowing ? Colors.grey : Colors.transparent,
-            ),
+                ? Colors.grey.shade700
+                : const Color(0xFF3797EF),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),
             ),
           ),
+          onPressed: user.isLoading ? null : onTapFollow,
           child: user.isLoading
-              ? SizedBox(width: 12, height: 12, child: LoadingWidget())
-              : Text(
-                  user.isFollowing ? 'Following' : 'Follow',
-                  style: TextStyle(
-                    color: user.isFollowing ? Colors.black : Colors.white,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
+              ? SizedBox(width: 16, height: 16, child: const ProgressView())
+              : Text(user.isFollowing ? 'Unfollow' : 'Follow'),
         ),
       ),
     );

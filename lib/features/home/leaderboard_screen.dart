@@ -115,7 +115,7 @@ class _TopThreeSection extends StatelessWidget {
       child: BlocBuilder<LeaderboardCubit, LeaderboardState>(
         builder: (context, state) {
           /// loading widget
-          if (state.isLoading) return const LoadingWidget();
+          if (state.isLoading) return const ProgressView();
 
           /// empty widget
           if (state.leaderboard.isEmpty) return SizedBox.shrink();
@@ -233,7 +233,6 @@ class _LeaderboardList extends StatelessWidget {
     final cubit = context.read<LeaderboardCubit>();
     return BlocBuilder<LeaderboardCubit, LeaderboardState>(
       builder: (context, state) {
-
         return SliverList(
           delegate: SliverChildBuilderDelegate((context, index) {
             final item = state.leaderboard[index];
@@ -263,81 +262,79 @@ class _ListTile extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 8),
-        child: Container(
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.surface,
-            borderRadius: BorderRadius.circular(16),
-          ),
-          child: Row(
-            children: [
-              Text(
-                user.todayRank.toString(),
-                style: const TextStyle(color: Colors.grey),
+  Widget build(BuildContext context) => GestureDetector(
+    onTap: onTap,
+    child: Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.surface,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Row(
+          children: [
+            Text(
+              user.todayRank.toString(),
+              style: const TextStyle(color: Colors.grey),
+            ),
+            const SizedBox(width: 12),
+            ClipOval(
+              child: CachedNetworkImage(
+                width: 36,
+                height: 36,
+                imageUrl: user.profileImage ?? '',
+                fit: BoxFit.cover,
+                placeholder: (_, __) =>
+                    Image.asset(AppImages.defaultAvatar, fit: BoxFit.cover),
+                errorWidget: (_, __, ___) =>
+                    Image.asset(AppImages.defaultAvatar, fit: BoxFit.cover),
               ),
-              const SizedBox(width: 12),
-              ClipOval(
-                child: CachedNetworkImage(
-                  width: 36,
-                  height: 36,
-                  imageUrl: user.profileImage ?? '',
-                  fit: BoxFit.cover,
-                  placeholder: (_, __) =>
-                      Image.asset(AppImages.defaultAvatar, fit: BoxFit.cover),
-                  errorWidget: (_, __, ___) =>
-                      Image.asset(AppImages.defaultAvatar, fit: BoxFit.cover),
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Text(
-                  user.username,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-              SizedBox(
-                width: 12,
-                height: 12,
-                child: Image.asset(AppIcons.coin),
-              ),
-              const SizedBox(width: 4),
-              Text(
-                user.coins.toString(),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                user.username,
                 style: const TextStyle(
-                  color: Colors.amber,
-                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w500,
                 ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
-              const SizedBox(width: 12),
-              SizedBox(
-                height: 32,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: user.isFollowing
-                        ? Colors.grey.shade700
-                        : const Color(0xFF3797EF),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
+            ),
+            SizedBox(width: 12, height: 12, child: Image.asset(AppIcons.coin)),
+            const SizedBox(width: 4),
+            Text(
+              user.coins.toString(),
+              style: const TextStyle(
+                color: Colors.amber,
+                fontWeight: FontWeight.w600,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+            const SizedBox(width: 12),
+            SizedBox(
+              height: 32,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: user.isFollowing
+                      ? Colors.grey.shade700
+                      : const Color(0xFF3797EF),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
                   ),
-                  onPressed: user.isLoading ? null : onFollowTap,
-                  child: user.isLoading
-                      ? const LoadingWidget()
-                      : Text(user.isFollowing ? 'Unfollow' : 'Follow'),
                 ),
+                onPressed: user.isLoading ? null : onFollowTap,
+                child: user.isLoading
+                    ? const ProgressView()
+                    : Text(user.isFollowing ? 'Unfollow' : 'Follow'),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
-    );
-  }
+    ),
+  );
 }

@@ -256,7 +256,7 @@ class _ViewState extends State<_View> with SingleTickerProviderStateMixin {
                               ? SizedBox(
                                   width: 18,
                                   height: 18,
-                                  child: LoadingWidget(),
+                                  child: ProgressView(),
                                 )
                               : Text(
                                   state.profile?.user?.isFollowing ?? false

@@ -264,7 +264,7 @@ class _ViewState extends State<_View> {
                       color: Colors.transparent,
                       onPressed: state.isLoading ? null : cubit.register,
                       child: state.isLoading
-                          ? LoadingWidget()
+                          ? ProgressView()
                           : Ink(
                               decoration: BoxDecoration(
                                 gradient: const LinearGradient(

@@ -87,3 +87,8 @@ class NotFoundException extends AppException {
 class UnknownException extends AppException {
   const UnknownException(super.message, {super.stackTrace});
 }
+
+class HiveError extends AppException {
+  HiveError(super.message, {super.stackTrace});
+}
+

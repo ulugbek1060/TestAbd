@@ -144,7 +144,7 @@ class _View extends StatelessWidget {
                         color: Colors.transparent,
                         onPressed: state.isLoading ? null : cubit.login,
                         child: state.isLoading
-                            ? const LoadingWidget()
+                            ? const ProgressView()
                             : Ink(
                                 decoration: BoxDecoration(
                                   gradient: const LinearGradient(
