@@ -15,252 +15,6 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
-mixin _$FollowedQuizState {
-  bool get isLoading => throw _privateConstructorUsedError;
-  List<QuizItem> get questions => throw _privateConstructorUsedError;
-  bool get isLastPage => throw _privateConstructorUsedError;
-  int get nextPage => throw _privateConstructorUsedError;
-  int get previousPage => throw _privateConstructorUsedError;
-  String? get error => throw _privateConstructorUsedError;
-
-  @JsonKey(ignore: true)
-  $FollowedQuizStateCopyWith<FollowedQuizState> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $FollowedQuizStateCopyWith<$Res> {
-  factory $FollowedQuizStateCopyWith(
-          FollowedQuizState value, $Res Function(FollowedQuizState) then) =
-      _$FollowedQuizStateCopyWithImpl<$Res, FollowedQuizState>;
-  @useResult
-  $Res call(
-      {bool isLoading,
-      List<QuizItem> questions,
-      bool isLastPage,
-      int nextPage,
-      int previousPage,
-      String? error});
-}
-
-/// @nodoc
-class _$FollowedQuizStateCopyWithImpl<$Res, $Val extends FollowedQuizState>
-    implements $FollowedQuizStateCopyWith<$Res> {
-  _$FollowedQuizStateCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? isLoading = null,
-    Object? questions = null,
-    Object? isLastPage = null,
-    Object? nextPage = null,
-    Object? previousPage = null,
-    Object? error = freezed,
-  }) {
-    return _then(_value.copyWith(
-      isLoading: null == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      questions: null == questions
-          ? _value.questions
-          : questions // ignore: cast_nullable_to_non_nullable
-              as List<QuizItem>,
-      isLastPage: null == isLastPage
-          ? _value.isLastPage
-          : isLastPage // ignore: cast_nullable_to_non_nullable
-              as bool,
-      nextPage: null == nextPage
-          ? _value.nextPage
-          : nextPage // ignore: cast_nullable_to_non_nullable
-              as int,
-      previousPage: null == previousPage
-          ? _value.previousPage
-          : previousPage // ignore: cast_nullable_to_non_nullable
-              as int,
-      error: freezed == error
-          ? _value.error
-          : error // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$FollowedQuizStateImplCopyWith<$Res>
-    implements $FollowedQuizStateCopyWith<$Res> {
-  factory _$$FollowedQuizStateImplCopyWith(_$FollowedQuizStateImpl value,
-          $Res Function(_$FollowedQuizStateImpl) then) =
-      __$$FollowedQuizStateImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {bool isLoading,
-      List<QuizItem> questions,
-      bool isLastPage,
-      int nextPage,
-      int previousPage,
-      String? error});
-}
-
-/// @nodoc
-class __$$FollowedQuizStateImplCopyWithImpl<$Res>
-    extends _$FollowedQuizStateCopyWithImpl<$Res, _$FollowedQuizStateImpl>
-    implements _$$FollowedQuizStateImplCopyWith<$Res> {
-  __$$FollowedQuizStateImplCopyWithImpl(_$FollowedQuizStateImpl _value,
-      $Res Function(_$FollowedQuizStateImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? isLoading = null,
-    Object? questions = null,
-    Object? isLastPage = null,
-    Object? nextPage = null,
-    Object? previousPage = null,
-    Object? error = freezed,
-  }) {
-    return _then(_$FollowedQuizStateImpl(
-      isLoading: null == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      questions: null == questions
-          ? _value._questions
-          : questions // ignore: cast_nullable_to_non_nullable
-              as List<QuizItem>,
-      isLastPage: null == isLastPage
-          ? _value.isLastPage
-          : isLastPage // ignore: cast_nullable_to_non_nullable
-              as bool,
-      nextPage: null == nextPage
-          ? _value.nextPage
-          : nextPage // ignore: cast_nullable_to_non_nullable
-              as int,
-      previousPage: null == previousPage
-          ? _value.previousPage
-          : previousPage // ignore: cast_nullable_to_non_nullable
-              as int,
-      error: freezed == error
-          ? _value.error
-          : error // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$FollowedQuizStateImpl implements _FollowedQuizState {
-  const _$FollowedQuizStateImpl(
-      {this.isLoading = false,
-      final List<QuizItem> questions = const [],
-      this.isLastPage = false,
-      this.nextPage = 1,
-      this.previousPage = 1,
-      this.error})
-      : _questions = questions;
-
-  @override
-  @JsonKey()
-  final bool isLoading;
-  final List<QuizItem> _questions;
-  @override
-  @JsonKey()
-  List<QuizItem> get questions {
-    if (_questions is EqualUnmodifiableListView) return _questions;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_questions);
-  }
-
-  @override
-  @JsonKey()
-  final bool isLastPage;
-  @override
-  @JsonKey()
-  final int nextPage;
-  @override
-  @JsonKey()
-  final int previousPage;
-  @override
-  final String? error;
-
-  @override
-  String toString() {
-    return 'FollowedQuizState(isLoading: $isLoading, questions: $questions, isLastPage: $isLastPage, nextPage: $nextPage, previousPage: $previousPage, error: $error)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$FollowedQuizStateImpl &&
-            (identical(other.isLoading, isLoading) ||
-                other.isLoading == isLoading) &&
-            const DeepCollectionEquality()
-                .equals(other._questions, _questions) &&
-            (identical(other.isLastPage, isLastPage) ||
-                other.isLastPage == isLastPage) &&
-            (identical(other.nextPage, nextPage) ||
-                other.nextPage == nextPage) &&
-            (identical(other.previousPage, previousPage) ||
-                other.previousPage == previousPage) &&
-            (identical(other.error, error) || other.error == error));
-  }
-
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      isLoading,
-      const DeepCollectionEquality().hash(_questions),
-      isLastPage,
-      nextPage,
-      previousPage,
-      error);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$FollowedQuizStateImplCopyWith<_$FollowedQuizStateImpl> get copyWith =>
-      __$$FollowedQuizStateImplCopyWithImpl<_$FollowedQuizStateImpl>(
-          this, _$identity);
-}
-
-abstract class _FollowedQuizState implements FollowedQuizState {
-  const factory _FollowedQuizState(
-      {final bool isLoading,
-      final List<QuizItem> questions,
-      final bool isLastPage,
-      final int nextPage,
-      final int previousPage,
-      final String? error}) = _$FollowedQuizStateImpl;
-
-  @override
-  bool get isLoading;
-  @override
-  List<QuizItem> get questions;
-  @override
-  bool get isLastPage;
-  @override
-  int get nextPage;
-  @override
-  int get previousPage;
-  @override
-  String? get error;
-  @override
-  @JsonKey(ignore: true)
-  _$$FollowedQuizStateImplCopyWith<_$FollowedQuizStateImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
 mixin _$HomeState {
   FollowedQuizState get followedQuizStata => throw _privateConstructorUsedError;
 
@@ -389,5 +143,274 @@ abstract class _HomeState implements HomeState {
   @override
   @JsonKey(ignore: true)
   _$$HomeStateImplCopyWith<_$HomeStateImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+mixin _$FollowedQuizState {
+  bool get isLoading => throw _privateConstructorUsedError;
+  bool get isLoadMore => throw _privateConstructorUsedError;
+  List<QuizItem> get questions => throw _privateConstructorUsedError;
+  bool get isLastPage => throw _privateConstructorUsedError;
+  int get nextPage => throw _privateConstructorUsedError;
+  int get previousPage => throw _privateConstructorUsedError;
+  String? get error => throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $FollowedQuizStateCopyWith<FollowedQuizState> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $FollowedQuizStateCopyWith<$Res> {
+  factory $FollowedQuizStateCopyWith(
+          FollowedQuizState value, $Res Function(FollowedQuizState) then) =
+      _$FollowedQuizStateCopyWithImpl<$Res, FollowedQuizState>;
+  @useResult
+  $Res call(
+      {bool isLoading,
+      bool isLoadMore,
+      List<QuizItem> questions,
+      bool isLastPage,
+      int nextPage,
+      int previousPage,
+      String? error});
+}
+
+/// @nodoc
+class _$FollowedQuizStateCopyWithImpl<$Res, $Val extends FollowedQuizState>
+    implements $FollowedQuizStateCopyWith<$Res> {
+  _$FollowedQuizStateCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? isLoading = null,
+    Object? isLoadMore = null,
+    Object? questions = null,
+    Object? isLastPage = null,
+    Object? nextPage = null,
+    Object? previousPage = null,
+    Object? error = freezed,
+  }) {
+    return _then(_value.copyWith(
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isLoadMore: null == isLoadMore
+          ? _value.isLoadMore
+          : isLoadMore // ignore: cast_nullable_to_non_nullable
+              as bool,
+      questions: null == questions
+          ? _value.questions
+          : questions // ignore: cast_nullable_to_non_nullable
+              as List<QuizItem>,
+      isLastPage: null == isLastPage
+          ? _value.isLastPage
+          : isLastPage // ignore: cast_nullable_to_non_nullable
+              as bool,
+      nextPage: null == nextPage
+          ? _value.nextPage
+          : nextPage // ignore: cast_nullable_to_non_nullable
+              as int,
+      previousPage: null == previousPage
+          ? _value.previousPage
+          : previousPage // ignore: cast_nullable_to_non_nullable
+              as int,
+      error: freezed == error
+          ? _value.error
+          : error // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$FollowedQuizStateImplCopyWith<$Res>
+    implements $FollowedQuizStateCopyWith<$Res> {
+  factory _$$FollowedQuizStateImplCopyWith(_$FollowedQuizStateImpl value,
+          $Res Function(_$FollowedQuizStateImpl) then) =
+      __$$FollowedQuizStateImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {bool isLoading,
+      bool isLoadMore,
+      List<QuizItem> questions,
+      bool isLastPage,
+      int nextPage,
+      int previousPage,
+      String? error});
+}
+
+/// @nodoc
+class __$$FollowedQuizStateImplCopyWithImpl<$Res>
+    extends _$FollowedQuizStateCopyWithImpl<$Res, _$FollowedQuizStateImpl>
+    implements _$$FollowedQuizStateImplCopyWith<$Res> {
+  __$$FollowedQuizStateImplCopyWithImpl(_$FollowedQuizStateImpl _value,
+      $Res Function(_$FollowedQuizStateImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? isLoading = null,
+    Object? isLoadMore = null,
+    Object? questions = null,
+    Object? isLastPage = null,
+    Object? nextPage = null,
+    Object? previousPage = null,
+    Object? error = freezed,
+  }) {
+    return _then(_$FollowedQuizStateImpl(
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isLoadMore: null == isLoadMore
+          ? _value.isLoadMore
+          : isLoadMore // ignore: cast_nullable_to_non_nullable
+              as bool,
+      questions: null == questions
+          ? _value._questions
+          : questions // ignore: cast_nullable_to_non_nullable
+              as List<QuizItem>,
+      isLastPage: null == isLastPage
+          ? _value.isLastPage
+          : isLastPage // ignore: cast_nullable_to_non_nullable
+              as bool,
+      nextPage: null == nextPage
+          ? _value.nextPage
+          : nextPage // ignore: cast_nullable_to_non_nullable
+              as int,
+      previousPage: null == previousPage
+          ? _value.previousPage
+          : previousPage // ignore: cast_nullable_to_non_nullable
+              as int,
+      error: freezed == error
+          ? _value.error
+          : error // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$FollowedQuizStateImpl implements _FollowedQuizState {
+  const _$FollowedQuizStateImpl(
+      {this.isLoading = false,
+      this.isLoadMore = false,
+      final List<QuizItem> questions = const [],
+      this.isLastPage = false,
+      this.nextPage = 1,
+      this.previousPage = 1,
+      this.error})
+      : _questions = questions;
+
+  @override
+  @JsonKey()
+  final bool isLoading;
+  @override
+  @JsonKey()
+  final bool isLoadMore;
+  final List<QuizItem> _questions;
+  @override
+  @JsonKey()
+  List<QuizItem> get questions {
+    if (_questions is EqualUnmodifiableListView) return _questions;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_questions);
+  }
+
+  @override
+  @JsonKey()
+  final bool isLastPage;
+  @override
+  @JsonKey()
+  final int nextPage;
+  @override
+  @JsonKey()
+  final int previousPage;
+  @override
+  final String? error;
+
+  @override
+  String toString() {
+    return 'FollowedQuizState(isLoading: $isLoading, isLoadMore: $isLoadMore, questions: $questions, isLastPage: $isLastPage, nextPage: $nextPage, previousPage: $previousPage, error: $error)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$FollowedQuizStateImpl &&
+            (identical(other.isLoading, isLoading) ||
+                other.isLoading == isLoading) &&
+            (identical(other.isLoadMore, isLoadMore) ||
+                other.isLoadMore == isLoadMore) &&
+            const DeepCollectionEquality()
+                .equals(other._questions, _questions) &&
+            (identical(other.isLastPage, isLastPage) ||
+                other.isLastPage == isLastPage) &&
+            (identical(other.nextPage, nextPage) ||
+                other.nextPage == nextPage) &&
+            (identical(other.previousPage, previousPage) ||
+                other.previousPage == previousPage) &&
+            (identical(other.error, error) || other.error == error));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      isLoading,
+      isLoadMore,
+      const DeepCollectionEquality().hash(_questions),
+      isLastPage,
+      nextPage,
+      previousPage,
+      error);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$FollowedQuizStateImplCopyWith<_$FollowedQuizStateImpl> get copyWith =>
+      __$$FollowedQuizStateImplCopyWithImpl<_$FollowedQuizStateImpl>(
+          this, _$identity);
+}
+
+abstract class _FollowedQuizState implements FollowedQuizState {
+  const factory _FollowedQuizState(
+      {final bool isLoading,
+      final bool isLoadMore,
+      final List<QuizItem> questions,
+      final bool isLastPage,
+      final int nextPage,
+      final int previousPage,
+      final String? error}) = _$FollowedQuizStateImpl;
+
+  @override
+  bool get isLoading;
+  @override
+  bool get isLoadMore;
+  @override
+  List<QuizItem> get questions;
+  @override
+  bool get isLastPage;
+  @override
+  int get nextPage;
+  @override
+  int get previousPage;
+  @override
+  String? get error;
+  @override
+  @JsonKey(ignore: true)
+  _$$FollowedQuizStateImplCopyWith<_$FollowedQuizStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -20,11 +20,20 @@ class HomeCubit extends Cubit<HomeState> {
     final followedQuizState = state.followedQuizStata;
     if (followedQuizState.isLoading || followedQuizState.isLastPage) return;
 
-    emit(
-      state.copyWith(
-        followedQuizStata: followedQuizState.copyWith(isLoading: true),
-      ),
-    );
+    if (followedQuizState.questions.isEmpty){
+      emit(
+        state.copyWith(
+          followedQuizStata: followedQuizState.copyWith(isLoading: true),
+        ),
+      );
+    } else {
+      emit(
+        state.copyWith(
+          followedQuizStata: followedQuizState.copyWith(isLoadMore: true),
+        ),
+      );
+    }
+
 
     final response = await _quizRepository.getFollowedQuestions(
       page: followedQuizState.nextPage,
@@ -36,19 +45,22 @@ class HomeCubit extends Cubit<HomeState> {
         state.copyWith(
           followedQuizStata: followedQuizState.copyWith(
             isLoading: false,
+            isLoadMore: false,
             error: err.message,
           ),
         ),
       ),
       (data) {
+        final followedState = state.followedQuizStata;
         final fetched = data.results ?? [];
-        final newFollowedState = followedQuizState.copyWith(
+        final newFollowedState = followedState.copyWith(
           isLoading: false,
-          questions: [...followedQuizState.questions, ...fetched],
+          isLoadMore: false,
+          questions: [...followedState.questions, ...fetched],
           isLastPage: fetched.length < _pageSize,
-          nextPage: followedQuizState.nextPage + 1,
-          previousPage: followedQuizState.nextPage > 1
-              ? followedQuizState.nextPage - 1
+          nextPage: followedState.nextPage + 1,
+          previousPage: followedState.nextPage > 1
+              ? followedState.nextPage - 1
               : 1,
           error: null,
         );
@@ -60,7 +72,6 @@ class HomeCubit extends Cubit<HomeState> {
   // ---------------------------------------------------------------------------
   // Submit Answer (Single / Multiple)
   // ---------------------------------------------------------------------------
-
   Future<void> submitAnswer(int questionId, List<int> answers) async {
     final index = _findQuestionIndex(questionId);
     if (index == -1) return;
@@ -81,7 +92,6 @@ class HomeCubit extends Cubit<HomeState> {
   // ---------------------------------------------------------------------------
   // Local Update Methods
   // ---------------------------------------------------------------------------
-
   void setSingleAnswer(int? questionId, int? answerId) {
     if (questionId == null || answerId == null) return;
 
@@ -104,7 +114,6 @@ class HomeCubit extends Cubit<HomeState> {
   // ---------------------------------------------------------------------------
   // Private Helpers
   // ---------------------------------------------------------------------------
-
   int _findQuestionIndex(int questionId) =>
       state.followedQuizStata.questions.indexWhere((e) => e.id == questionId);
 
@@ -137,24 +146,15 @@ class HomeCubit extends Cubit<HomeState> {
   void _replaceQuestion(int index, QuizItem updated) {
     final list = List.of(state.followedQuizStata.questions);
     list[index] = updated;
-    emit(
-      state.copyWith(
-        followedQuizStata: state.followedQuizStata.copyWith(questions: list),
-      ),
-    );
+    _updateFollowedQuizState(state.followedQuizStata.copyWith(questions: list));
   }
 
   // ---------------- SUBMIT RESULT HANDLING ----------------
-
   void _handleSubmitError(int index, List<int> answers) {
     _setQuestionLoading(index, answers, false);
   }
 
-  void _handleSubmitSuccess(
-    int index,
-    List<int> answers,
-    CheckAnswerModel response,
-  ) {
+  void _handleSubmitSuccess(int index, List<int> answers, CheckAnswerModel response) {
     final q = state.followedQuizStata.questions[index];
 
     final updatedAnswers = q.answers.map((a) {
@@ -170,5 +170,12 @@ class HomeCubit extends Cubit<HomeState> {
     );
 
     _replaceQuestion(index, updated);
+  }
+
+}
+
+extension HomeCubitX on HomeCubit {
+  void _updateFollowedQuizState(FollowedQuizState updated) {
+    emit(state.copyWith(followedQuizStata: updated));
   }
 }

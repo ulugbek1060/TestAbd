@@ -8,7 +8,6 @@ import 'package:testabd/domain/quiz/quiz_repository.dart';
 import 'package:testabd/features/user_profile/user_profile_state.dart';
 import 'package:testabd/main.dart';
 
-
 @injectable
 class UserProfileCubit extends Cubit<UserProfileState> {
   final AccountRepository _accountRepository;

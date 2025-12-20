@@ -22,16 +22,30 @@ class PostsWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
-        final questions = state.followedQuizStata.questions;
+        // global loading
+        if (state.followedQuizStata.isLoading) {
+          return SliverFillRemaining(child: Center(child: ProgressView()));
+        }
 
-        return SliverList(
-          delegate: SliverChildBuilderDelegate((
-            BuildContext context,
-            int index,
-          ) {
-            final quiz = questions[index];
-            return QuestionCard(quiz: quiz);
-          }, childCount: questions.length),
+        // loaded list
+        final questions = state.followedQuizStata.questions;
+        return SliverMainAxisGroup(
+          slivers: [
+            SliverList(
+              delegate: SliverChildBuilderDelegate((
+                BuildContext context,
+                int index,
+              ) {
+                final quiz = questions[index];
+                return QuestionCard(quiz: quiz);
+              }, childCount: questions.length),
+            ),
+
+            if (state.followedQuizStata.isLoadMore)
+              SliverToBoxAdapter(
+                child: SizedBox(height: 56, child: ProgressView()),
+              ),
+          ],
         );
       },
     );

@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:testabd/di/app_config.dart';
 import 'package:testabd/features/home/home_cubit.dart';
-import 'package:testabd/features/home/widgets/posts_widget.dart';
-import 'package:testabd/features/home/widgets/stories_widget.dart';
+import 'package:testabd/features/home/posts_widget.dart';
+import 'package:testabd/features/home/stories_widget.dart';
 import 'package:testabd/router/app_router.dart';
 
 class HomeScreen extends StatelessWidget {

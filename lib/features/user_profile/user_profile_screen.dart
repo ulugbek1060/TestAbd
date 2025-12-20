@@ -11,6 +11,8 @@ import 'package:testabd/features/user_profile/widgets/block_card.dart';
 import 'package:testabd/features/user_profile/widgets/question_card.dart';
 import 'package:testabd/router/app_router.dart';
 
+enum PageType { block, questions, books }
+
 class UserProfileScreen extends StatelessWidget {
   final String username;
 
@@ -32,8 +34,6 @@ class _View extends StatefulWidget {
   @override
   State<_View> createState() => _ViewState();
 }
-
-enum PageType { block, questions, books }
 
 class _ViewState extends State<_View> with SingleTickerProviderStateMixin {
   late TabController _tabController;
@@ -148,6 +148,7 @@ class _ViewState extends State<_View> with SingleTickerProviderStateMixin {
                                 ],
                               ),
                             ),
+
                             // following
                             GestureDetector(
                               onTap: () => context.push(
