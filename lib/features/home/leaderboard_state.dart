@@ -8,6 +8,7 @@ part 'leaderboard_state.freezed.dart';
 class LeaderboardState with _$LeaderboardState {
   const factory LeaderboardState({
     @Default(false) bool isLoading,
+    @Default(false) bool isLoadingMore,
     @Default(1) int nextPage,
     @Default(1) int previousPage,
     @Default(false) bool isLastPage,
@@ -17,7 +18,6 @@ class LeaderboardState with _$LeaderboardState {
 }
 
 extension LeaderboardUserX on LeaderboardState {
-
   List<LeaderboardUser> followUser(int userId,bool isFollowing){
     final newList = List.of(leaderboard);
     final index = newList.indexWhere((e) => e.id == userId);
@@ -26,7 +26,6 @@ extension LeaderboardUserX on LeaderboardState {
     }
     return newList;
   }
-
 }
 
 extension LeaderboardStateX on LeaderboardState {

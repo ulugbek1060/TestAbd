@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:testabd/core/theme/app_colors.dart';
+import 'package:testabd/core/theme/app_images.dart';
 import 'package:testabd/core/utils/formatters.dart';
 import 'package:testabd/core/widgets/loading_widget.dart';
 import 'package:testabd/domain/quiz/entities/answer_item.dart';
@@ -43,7 +44,16 @@ class PostsWidget extends StatelessWidget {
 
             if (state.followedQuizStata.isLoadMore)
               SliverToBoxAdapter(
-                child: SizedBox(height: 56, child: ProgressView()),
+                child: Container(
+                  padding: EdgeInsets.only(
+                    top: 16,
+                    left: 16,
+                    right: 16,
+                    bottom: MediaQuery.of(context).viewPadding.bottom + 16,
+                  ),
+                  height: 56,
+                  child: ProgressView(),
+                ),
               ),
           ],
         );
@@ -561,25 +571,20 @@ class _HeaderUserImage extends StatelessWidget {
       height: size,
       padding: EdgeInsets.all(borderWidth),
       decoration: BoxDecoration(
-        color: borderColor, // Border color
+        color: borderColor,
         shape: BoxShape.circle,
       ),
-      child: CircleAvatar(
-        radius: (size - borderWidth * 2) / 2,
-        backgroundColor: Colors.grey.shade300,
-        backgroundImage: (imageUrl != null && imageUrl!.isNotEmpty)
-            ? NetworkImage(imageUrl!)
-            : null,
-        child: (imageUrl == null || imageUrl!.isEmpty)
-            ? Text(
-                _getInitial(),
-                style: TextStyle(
-                  fontSize: (size - borderWidth * 2) / 2,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              )
-            : null,
+      child: ClipOval(
+        child: CachedNetworkImage(
+          width: 36,
+          height: 36,
+          imageUrl: imageUrl ?? '',
+          fit: BoxFit.cover,
+          placeholder: (_, __) =>
+              Image.asset(AppImages.defaultAvatar, fit: BoxFit.cover),
+          errorWidget: (_, __, ___) =>
+              Image.asset(AppImages.defaultAvatar, fit: BoxFit.cover),
+        ),
       ),
     );
   }

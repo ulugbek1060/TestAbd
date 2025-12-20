@@ -48,7 +48,9 @@ class _ViewState extends State<_View> {
 
   bool _shouldLoadNextPage() {
     final state = context.read<LeaderboardCubit>().state;
-    if (state.isLoading || state.isLastPage) return false;
+    if (state.isLoading || state.isLastPage || state.isLoadingMore) {
+      return false;
+    }
     if (!_scrollController.hasClients) return false;
     final maxScroll = _scrollController.position.maxScrollExtent;
     final currentScroll = _scrollController.position.pixels;
@@ -63,25 +65,28 @@ class _ViewState extends State<_View> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: CustomScrollView(
-        controller: _scrollController,
-        slivers: [
-          /// appbar
-          _LeaderboardAppBar(),
+    return RefreshIndicator(
+      onRefresh: context.read<LeaderboardCubit>().refresh,
+      child: Scaffold(
+        body: CustomScrollView(
+          controller: _scrollController,
+          slivers: [
+            /// appbar
+            _LeaderboardAppBar(),
 
-          /// top 3 podium
-          SliverPadding(
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            sliver: _TopThreeSection(),
-          ),
+            /// top 3 podium
+            SliverPadding(
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              sliver: _TopThreeSection(),
+            ),
 
-          /// leaderboard
-          SliverPadding(
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            sliver: _LeaderboardList(),
-          ),
-        ],
+            /// leaderboard
+            SliverPadding(
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              sliver: _LeaderboardList(),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -115,10 +120,9 @@ class _TopThreeSection extends StatelessWidget {
       child: BlocBuilder<LeaderboardCubit, LeaderboardState>(
         builder: (context, state) {
           /// loading widget
-          if (state.isLoading) return const ProgressView();
-
-          /// empty widget
-          if (state.leaderboard.isEmpty) return SizedBox.shrink();
+          if (state.isLoading || state.leaderboard.isEmpty) {
+            return SizedBox.shrink();
+          }
 
           /// main widget
           return Row(
@@ -233,17 +237,43 @@ class _LeaderboardList extends StatelessWidget {
     final cubit = context.read<LeaderboardCubit>();
     return BlocBuilder<LeaderboardCubit, LeaderboardState>(
       builder: (context, state) {
-        return SliverList(
-          delegate: SliverChildBuilderDelegate((context, index) {
-            final item = state.leaderboard[index];
-            return _ListTile(
-              user: item,
-              onTap: () => context.push(
-                AppRouter.userProfileWithUsername(item.username),
+
+        // global loading
+        if (state.isLoading) {
+          return SliverFillRemaining(child: Center(child: ProgressView()));
+        }
+
+        // actual list
+        return SliverMainAxisGroup(
+          slivers: [
+            SliverList(
+              delegate: SliverChildBuilderDelegate((context, index) {
+                final item = state.leaderboard[index];
+                return _ListTile(
+                  user: item,
+                  onTap: () => context.push(
+                    AppRouter.userProfileWithUsername(item.username),
+                  ),
+                  onFollowTap: () => cubit.followUser(item.id),
+                );
+              }, childCount: state.leaderboard.length),
+            ),
+
+            // load more loading
+            if (state.isLoadingMore)
+              SliverToBoxAdapter(
+                child: Container(
+                  padding: EdgeInsets.only(
+                    top: 16,
+                    left: 16,
+                    right: 16,
+                    bottom: MediaQuery.of(context).viewPadding.bottom + 16,
+                  ),
+                  height: 56,
+                  child: Center(child: ProgressView()),
+                ),
               ),
-              onFollowTap: () => cubit.followUser(item.id),
-            );
-          }, childCount: state.leaderboard.length),
+          ],
         );
       },
     );

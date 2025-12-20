@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$LeaderboardState {
   bool get isLoading => throw _privateConstructorUsedError;
+  bool get isLoadingMore => throw _privateConstructorUsedError;
   int get nextPage => throw _privateConstructorUsedError;
   int get previousPage => throw _privateConstructorUsedError;
   bool get isLastPage => throw _privateConstructorUsedError;
@@ -36,6 +37,7 @@ abstract class $LeaderboardStateCopyWith<$Res> {
   @useResult
   $Res call(
       {bool isLoading,
+      bool isLoadingMore,
       int nextPage,
       int previousPage,
       bool isLastPage,
@@ -57,6 +59,7 @@ class _$LeaderboardStateCopyWithImpl<$Res, $Val extends LeaderboardState>
   @override
   $Res call({
     Object? isLoading = null,
+    Object? isLoadingMore = null,
     Object? nextPage = null,
     Object? previousPage = null,
     Object? isLastPage = null,
@@ -67,6 +70,10 @@ class _$LeaderboardStateCopyWithImpl<$Res, $Val extends LeaderboardState>
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isLoadingMore: null == isLoadingMore
+          ? _value.isLoadingMore
+          : isLoadingMore // ignore: cast_nullable_to_non_nullable
               as bool,
       nextPage: null == nextPage
           ? _value.nextPage
@@ -102,6 +109,7 @@ abstract class _$$LeaderboardStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {bool isLoading,
+      bool isLoadingMore,
       int nextPage,
       int previousPage,
       bool isLastPage,
@@ -121,6 +129,7 @@ class __$$LeaderboardStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isLoading = null,
+    Object? isLoadingMore = null,
     Object? nextPage = null,
     Object? previousPage = null,
     Object? isLastPage = null,
@@ -131,6 +140,10 @@ class __$$LeaderboardStateImplCopyWithImpl<$Res>
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isLoadingMore: null == isLoadingMore
+          ? _value.isLoadingMore
+          : isLoadingMore // ignore: cast_nullable_to_non_nullable
               as bool,
       nextPage: null == nextPage
           ? _value.nextPage
@@ -161,6 +174,7 @@ class __$$LeaderboardStateImplCopyWithImpl<$Res>
 class _$LeaderboardStateImpl implements _LeaderboardState {
   const _$LeaderboardStateImpl(
       {this.isLoading = false,
+      this.isLoadingMore = false,
       this.nextPage = 1,
       this.previousPage = 1,
       this.isLastPage = false,
@@ -171,6 +185,9 @@ class _$LeaderboardStateImpl implements _LeaderboardState {
   @override
   @JsonKey()
   final bool isLoading;
+  @override
+  @JsonKey()
+  final bool isLoadingMore;
   @override
   @JsonKey()
   final int nextPage;
@@ -194,7 +211,7 @@ class _$LeaderboardStateImpl implements _LeaderboardState {
 
   @override
   String toString() {
-    return 'LeaderboardState(isLoading: $isLoading, nextPage: $nextPage, previousPage: $previousPage, isLastPage: $isLastPage, leaderboard: $leaderboard, error: $error)';
+    return 'LeaderboardState(isLoading: $isLoading, isLoadingMore: $isLoadingMore, nextPage: $nextPage, previousPage: $previousPage, isLastPage: $isLastPage, leaderboard: $leaderboard, error: $error)';
   }
 
   @override
@@ -204,6 +221,8 @@ class _$LeaderboardStateImpl implements _LeaderboardState {
             other is _$LeaderboardStateImpl &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
+            (identical(other.isLoadingMore, isLoadingMore) ||
+                other.isLoadingMore == isLoadingMore) &&
             (identical(other.nextPage, nextPage) ||
                 other.nextPage == nextPage) &&
             (identical(other.previousPage, previousPage) ||
@@ -219,6 +238,7 @@ class _$LeaderboardStateImpl implements _LeaderboardState {
   int get hashCode => Object.hash(
       runtimeType,
       isLoading,
+      isLoadingMore,
       nextPage,
       previousPage,
       isLastPage,
@@ -236,6 +256,7 @@ class _$LeaderboardStateImpl implements _LeaderboardState {
 abstract class _LeaderboardState implements LeaderboardState {
   const factory _LeaderboardState(
       {final bool isLoading,
+      final bool isLoadingMore,
       final int nextPage,
       final int previousPage,
       final bool isLastPage,
@@ -244,6 +265,8 @@ abstract class _LeaderboardState implements LeaderboardState {
 
   @override
   bool get isLoading;
+  @override
+  bool get isLoadingMore;
   @override
   int get nextPage;
   @override

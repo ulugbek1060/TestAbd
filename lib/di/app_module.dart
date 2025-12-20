@@ -22,9 +22,9 @@ abstract class AppModule {
   @lazySingleton
   PrettyDioLogger providePrettyDioLogger() => PrettyDioLogger(
     requestHeader: true,
-    requestBody: true,
-    responseHeader: true,
-    responseBody: true,
+    requestBody: false,
+    responseHeader: false,
+    responseBody: false,
   );
 
   Dio provideDio(

@@ -4,12 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:testabd/core/utils/follow_listeners.dart';
 import 'package:testabd/domain/account/account_repository.dart';
-import 'package:testabd/main.dart';
 
 import 'leaderboard_state.dart';
 
 @injectable
 class LeaderboardCubit extends Cubit<LeaderboardState> {
+
   final AccountRepository _accountRepository;
   final UserFollowListener _followListener;
   late StreamSubscription _subscription;
@@ -33,7 +33,7 @@ class LeaderboardCubit extends Cubit<LeaderboardState> {
   }
 
   Future<void> refresh() async {
-    emit(state.copyWith(isLoading: true));
+    emit(LeaderboardState()..copyWith(isLoading: true));
     final result = await _accountRepository.getLeaderboard(1, _pageSize);
     result.fold(
       (error) {
@@ -55,8 +55,13 @@ class LeaderboardCubit extends Cubit<LeaderboardState> {
   }
 
   Future<void> loadLeaderboard() async {
-    if (state.isLoading || state.isLastPage) return;
-    emit(state.copyWith(isLoading: true));
+    if (state.isLoading || state.isLastPage || state.isLoadingMore) return;
+
+    if (state.leaderboard.isEmpty) {
+      emit(state.copyWith(isLoading: true));
+    } else {
+      emit(state.copyWith(isLoadingMore: true));
+    }
 
     final result = await _accountRepository.getLeaderboard(
       state.nextPage,
@@ -66,20 +71,26 @@ class LeaderboardCubit extends Cubit<LeaderboardState> {
     result.fold(
       (error) {
         // TODO show error silently
-        emit(state.copyWith(error: error.message, isLoading: false));
+        emit(
+          state.copyWith(
+            error: error.message,
+            isLoading: false,
+            isLoadingMore: false,
+          ),
+        );
       },
       (value) {
-        final nextPage = state.nextPage + 1;
-        final previousPage = state.nextPage;
-        final isLastPage = value.next == null;
-        final list = [...state.leaderboard, ...value.users];
         emit(
           state.copyWith(
             isLoading: false,
-            nextPage: nextPage,
-            previousPage: previousPage,
-            isLastPage: isLastPage,
-            leaderboard: list,
+            isLoadingMore: false,
+            nextPage: state.nextPage + 1,
+            previousPage: state.nextPage,
+            isLastPage:
+                value.next == null ||
+                value.users.isEmpty ||
+                value.users.length < _pageSize,
+            leaderboard: [...state.leaderboard, ...value.users],
           ),
         );
       },

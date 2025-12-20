@@ -13,6 +13,14 @@ class HomeCubit extends Cubit<HomeState> {
 
   HomeCubit(this._quizRepository) : super(HomeState());
 
+  Future<void> refresh() async {
+    // update follow state to new empty state
+    _updateFollowedState(FollowedQuizState());
+
+    // load quiz
+    await loadQuiz();
+  }
+
   // ---------------------------------------------------------------------------
   // Pagination
   // ---------------------------------------------------------------------------
@@ -20,34 +28,27 @@ class HomeCubit extends Cubit<HomeState> {
     final followedQuizState = state.followedQuizStata;
     if (followedQuizState.isLoading || followedQuizState.isLastPage) return;
 
-    if (followedQuizState.questions.isEmpty){
-      emit(
-        state.copyWith(
-          followedQuizStata: followedQuizState.copyWith(isLoading: true),
-        ),
-      );
+    if (followedQuizState.questions.isEmpty) {
+      _updateFollowedState(followedQuizState.copyWith(isLoading: true));
     } else {
-      emit(
-        state.copyWith(
-          followedQuizStata: followedQuizState.copyWith(isLoadMore: true),
-        ),
-      );
+      _updateFollowedState(followedQuizState.copyWith(isLoadMore: true));
     }
 
+    // delay
+    await Future.delayed(Duration(microseconds: 300));
 
-    final response = await _quizRepository.getFollowedQuestions(
+    final result = await _quizRepository.getFollowedQuestions(
       page: followedQuizState.nextPage,
       pageSize: _pageSize,
     );
 
-    response.fold(
-      (err) => emit(
-        state.copyWith(
-          followedQuizStata: followedQuizState.copyWith(
-            isLoading: false,
-            isLoadMore: false,
-            error: err.message,
-          ),
+    result.fold(
+      // set new state
+      (err) => _updateFollowedState(
+        followedQuizState.copyWith(
+          isLoading: false,
+          isLoadMore: false,
+          error: err.message,
         ),
       ),
       (data) {
@@ -64,7 +65,9 @@ class HomeCubit extends Cubit<HomeState> {
               : 1,
           error: null,
         );
-        emit(state.copyWith(followedQuizStata: newFollowedState));
+
+        // set new state
+        _updateFollowedState(newFollowedState);
       },
     );
   }
@@ -146,7 +149,7 @@ class HomeCubit extends Cubit<HomeState> {
   void _replaceQuestion(int index, QuizItem updated) {
     final list = List.of(state.followedQuizStata.questions);
     list[index] = updated;
-    _updateFollowedQuizState(state.followedQuizStata.copyWith(questions: list));
+    _updateFollowedState(state.followedQuizStata.copyWith(questions: list));
   }
 
   // ---------------- SUBMIT RESULT HANDLING ----------------
@@ -154,7 +157,11 @@ class HomeCubit extends Cubit<HomeState> {
     _setQuestionLoading(index, answers, false);
   }
 
-  void _handleSubmitSuccess(int index, List<int> answers, CheckAnswerModel response) {
+  void _handleSubmitSuccess(
+    int index,
+    List<int> answers,
+    CheckAnswerModel response,
+  ) {
     final q = state.followedQuizStata.questions[index];
 
     final updatedAnswers = q.answers.map((a) {
@@ -171,11 +178,10 @@ class HomeCubit extends Cubit<HomeState> {
 
     _replaceQuestion(index, updated);
   }
-
 }
 
 extension HomeCubitX on HomeCubit {
-  void _updateFollowedQuizState(FollowedQuizState updated) {
+  void _updateFollowedState(FollowedQuizState updated) {
     emit(state.copyWith(followedQuizStata: updated));
   }
 }
