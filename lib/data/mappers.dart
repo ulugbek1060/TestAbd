@@ -1,6 +1,5 @@
 import 'package:testabd/data/local_source/entities/my_info_db.dart';
-import 'package:testabd/data/remote_source/account/model/my_info_response.dart'
-    hide WeeklyTestCount;
+import 'package:testabd/data/remote_source/account/model/my_info_response.dart' hide WeeklyTestCount;
 import 'package:testabd/data/remote_source/auth/model/user_register_response.dart';
 import 'package:testabd/data/remote_source/quiz/models/user_question_response.dart';
 import 'package:testabd/domain/account/entities/leaderboard_model.dart';
@@ -13,7 +12,6 @@ import 'package:testabd/domain/quiz/entities/answer_item.dart';
 import 'package:testabd/domain/quiz/entities/check_answer_model.dart';
 import 'package:testabd/domain/quiz/entities/global_quiz_model.dart';
 import 'package:testabd/domain/quiz/entities/quiz_item.dart';
-
 import '../domain/quiz/entities/topics_model.dart';
 import 'remote_source/account/model/leaderboard_response.dart';
 import 'remote_source/account/model/notifications_response.dart';
@@ -346,6 +344,7 @@ extension UserQuestionResponseX on UserQuestionResponse {
 }
 
 ///======================= user connections mapper =============================
+
 extension UserConnectionsMapper on UserConnectionsResponse {
   UserConnectionsModel toDomain() {
     return UserConnectionsModel(

@@ -10,7 +10,8 @@ import 'package:testabd/core/utils/formatters.dart';
 import 'package:testabd/core/widgets/loading_widget.dart';
 import 'package:testabd/domain/quiz/entities/answer_item.dart';
 import 'package:testabd/domain/quiz/entities/quiz_item.dart';
-import 'package:testabd/features/home/followed_quiz_cubit.dart';
+import 'package:testabd/features/home/home_cubit.dart';
+import 'package:testabd/features/home/home_state.dart';
 import 'package:testabd/main.dart';
 import 'package:testabd/router/app_router.dart';
 
@@ -19,16 +20,18 @@ class PostsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<FollowedQuizCubit, FollowedQuizState>(
+    return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
+        final questions = state.followedQuizStata.questions;
+
         return SliverList(
           delegate: SliverChildBuilderDelegate((
             BuildContext context,
             int index,
           ) {
-            final quiz = state.questions[index];
+            final quiz = questions[index];
             return QuestionCard(quiz: quiz);
-          }, childCount: state.questions.length),
+          }, childCount: questions.length),
         );
       },
     );
@@ -472,7 +475,7 @@ class _AnswersList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cubit = context.read<FollowedQuizCubit>();
+    final cubit = context.read<HomeCubit>();
     switch (questionType) {
       case QuestionType.multiple:
         return MultipleAnswerCard(

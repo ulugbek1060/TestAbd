@@ -33,7 +33,7 @@ import '../domain/quiz/quiz_repository.dart' as _i156;
 import '../features/auth/forgotpswd/forgot_pswd_cubit.dart' as _i36;
 import '../features/auth/login/login_cubit.dart' as _i958;
 import '../features/auth/register/register_cubit.dart' as _i163;
-import '../features/home/followed_quiz_cubit.dart' as _i1041;
+import '../features/home/home_cubit.dart' as _i639;
 import '../features/home/leaderboard_cubit.dart' as _i279;
 import '../features/profile/profile_cubit.dart' as _i760;
 import '../features/user_profile/profile_connection_cubit.dart' as _i470;
@@ -106,8 +106,8 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i371.SessionService>(),
           gh<_i792.TokenService>(),
         ));
-    gh.factory<_i1041.FollowedQuizCubit>(
-        () => _i1041.FollowedQuizCubit(gh<_i156.QuizRepository>()));
+    gh.factory<_i639.HomeCubit>(
+        () => _i639.HomeCubit(gh<_i156.QuizRepository>()));
     gh.factory<_i760.ProfileCubit>(
         () => _i760.ProfileCubit(gh<_i893.AuthRepository>()));
     gh.factory<_i279.LeaderboardCubit>(() => _i279.LeaderboardCubit(

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:testabd/di/app_config.dart';
-import 'package:testabd/features/home/followed_quiz_cubit.dart';
+import 'package:testabd/features/home/home_cubit.dart';
 import 'package:testabd/features/home/widgets/posts_widget.dart';
 import 'package:testabd/features/home/widgets/stories_widget.dart';
 import 'package:testabd/router/app_router.dart';
@@ -14,7 +14,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) => locator<FollowedQuizCubit>()..loadQuiz()),
+        BlocProvider(create: (_) => locator<HomeCubit>()..loadQuiz()),
       ],
       child: _View(),
     );
@@ -40,13 +40,13 @@ class _ViewState extends State<_View> {
 
   void _onScroll() {
     if (_shouldLoadNextPage()) {
-      context.read<FollowedQuizCubit>().loadQuiz();
+      context.read<HomeCubit>().loadQuiz();
     }
   }
 
   bool _shouldLoadNextPage() {
-    final state = context.read<FollowedQuizCubit>().state;
-    if (state.isLoading || state.isLastPage) return false;
+    final state = context.read<HomeCubit>().state;
+    if (state.followedQuizStata.isLoading || state.followedQuizStata.isLastPage) return false;
     if (!_scrollController.hasClients) return false;
     final maxScroll = _scrollController.position.maxScrollExtent;
     final currentScroll = _scrollController.position.pixels;
@@ -72,14 +72,17 @@ class _ViewState extends State<_View> {
             title: Text('TestAbd'),
             centerTitle: false,
             actions: [
-              OutlinedButton(
-                style: OutlinedButton.styleFrom(
-                  side: BorderSide.none,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    side: BorderSide.none,
+                  ),
+                  onPressed: () {
+                    context.push(AppRouter.leaderboard);
+                  },
+                  child: Text('Meroschi'),
                 ),
-                onPressed: () {
-                  context.push(AppRouter.leaderboard);
-                },
-                child: Text('meroschi'),
               ),
               IconButton(
                 onPressed: () {},
