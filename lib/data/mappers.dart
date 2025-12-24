@@ -1,5 +1,6 @@
 import 'package:testabd/data/local_source/entities/my_info_db.dart';
-import 'package:testabd/data/remote_source/account/model/my_info_response.dart' hide WeeklyTestCount;
+import 'package:testabd/data/remote_source/account/model/my_info_response.dart'
+    hide WeeklyTestCount;
 import 'package:testabd/data/remote_source/auth/model/user_register_response.dart';
 import 'package:testabd/data/remote_source/quiz/models/user_question_response.dart';
 import 'package:testabd/domain/account/entities/leaderboard_model.dart';
@@ -9,9 +10,11 @@ import 'package:testabd/domain/account/entities/user_connections_model.dart';
 import 'package:testabd/domain/account/entities/user_profile_model.dart';
 import 'package:testabd/domain/auth/entities/register_model.dart';
 import 'package:testabd/domain/quiz/entities/answer_item.dart';
+import 'package:testabd/domain/quiz/entities/category_model.dart';
 import 'package:testabd/domain/quiz/entities/check_answer_model.dart';
 import 'package:testabd/domain/quiz/entities/global_quiz_model.dart';
 import 'package:testabd/domain/quiz/entities/quiz_item.dart';
+
 import '../domain/quiz/entities/topics_model.dart';
 import 'remote_source/account/model/leaderboard_response.dart';
 import 'remote_source/account/model/notifications_response.dart';
@@ -147,7 +150,18 @@ extension FollowedQuizMapper on FollowedQuestionsResponse {
               roundImage: e.round_image,
               isBookmarked: e.is_bookmarked,
               isFollowing: e.is_following,
-              category: e.category,
+              category: e.category != null
+                  ? CategoryModel(
+                      id: e.category!.id,
+                      totalTests: e.category!.total_tests,
+                      totalQuestions: e.category!.total_questions,
+                      title: e.category!.title,
+                      slug: e.category!.slug,
+                      description: e.category!.description,
+                      emoji: e.category!.emoji,
+                      image: e.category!.image,
+                    )
+                  : null,
             ),
           )
           .toList(),
@@ -170,7 +184,6 @@ extension AnswerMapper on AnswerResponse {
 }
 
 /// ===================UserProfileMapper========================================
-
 extension UserProfileMapper on UserProfileResponse {
   UserProfileModel toDomain() {
     return UserProfileModel(
@@ -205,7 +218,6 @@ extension UserProfileMapper on UserProfileResponse {
 }
 
 /// ===================TopicRelatedQuestionsMapper==============================
-
 extension TopicRelatedQuestionsMapper on TopicRelatedQuestionsResponse {
   TopicsModel toDomain() {
     return TopicsModel(
@@ -268,7 +280,18 @@ extension TopicQuestionResponseMapper on TopicQuestionResponse {
       roundImage: round_image,
       isBookmarked: is_bookmarked,
       isFollowing: is_following,
-      category: category,
+      category: category != null
+          ? CategoryModel(
+              id: category?.id,
+              totalTests: category?.total_tests,
+              totalQuestions: category?.total_questions,
+              title: category?.title,
+              slug: category?.slug,
+              description: category?.description,
+              emoji: category?.emoji,
+              image: category?.image,
+            )
+          : null,
     );
   }
 }
@@ -338,13 +361,12 @@ extension UserQuestionResponseX on UserQuestionResponse {
       roundImage: round_image,
       isBookmarked: is_bookmarked,
       isFollowing: is_following,
-      category: category,
+      category: null,
     );
   }
 }
 
-///======================= user connections mapper =============================
-
+/// ====================== user connections mapper =============================
 extension UserConnectionsMapper on UserConnectionsResponse {
   UserConnectionsModel toDomain() {
     return UserConnectionsModel(
@@ -377,7 +399,6 @@ extension UserConnectionsMapper on UserConnectionsResponse {
 }
 
 /// ====================== Leaderboard mapper ==================================
-
 extension LeaderboardResponseMapper on LeaderboardResponse {
   LeaderboardModel toDomain() {
     return LeaderboardModel(
@@ -410,7 +431,7 @@ extension LeaderboardUserResponseMapper on LeaderboardUserResponse {
   }
 }
 
-/// ====================== User Info Mapper ==================================
+/// ====================== User Info Mapper ====================================
 extension MyInfoModelX on MyInfoModel {
   MyInfoDb toHiveModel() {
     return MyInfoDb(

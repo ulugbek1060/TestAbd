@@ -69,11 +69,29 @@ class TopicQuestionResponse with _$TopicQuestionResponse {
     String? round_image,
     bool? is_bookmarked,
     bool? is_following,
-    int? category,
+    Category? category,
   }) = _TopicQuestionResponse;
 
   factory TopicQuestionResponse.fromJson(Map<String, dynamic> json) =>
       _$TopicQuestionResponseFromJson(json);
+
+}
+
+@freezed
+class Category with _$Category {
+  const factory Category({
+    int? id,
+    int? total_tests,
+    int? total_questions,
+    String? title,
+    String? slug,
+    String? description,
+    String? emoji,
+    String? image,
+  }) = _Category;
+
+  factory Category.fromJson(Map<String, dynamic> json) =>
+      _$CategoryFromJson(json);
 }
 
 @freezed

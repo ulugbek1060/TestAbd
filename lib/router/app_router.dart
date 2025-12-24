@@ -5,7 +5,7 @@ import 'package:testabd/features/auth/login/login_screen.dart';
 import 'package:testabd/features/auth/register/register_screen.dart';
 import 'package:testabd/features/home/home_screen.dart';
 import 'package:testabd/features/home/leaderboard_screen.dart';
-import 'package:testabd/features/init/InitialScreen.dart';
+import 'package:testabd/features/init/init_screen.dart';
 import 'package:testabd/features/profile/profile_screen.dart';
 import 'package:testabd/features/root/shell_screen.dart';
 import 'package:testabd/features/user_profile/block_questions_screen.dart';

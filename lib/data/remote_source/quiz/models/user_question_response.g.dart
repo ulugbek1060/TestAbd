@@ -36,7 +36,9 @@ _$UserQuestionResponseImpl _$$UserQuestionResponseImplFromJson(
       round_image: json['round_image'] as String?,
       is_bookmarked: json['is_bookmarked'] as bool?,
       is_following: json['is_following'] as bool?,
-      category: (json['category'] as num?)?.toInt(),
+      category: json['category'] == null
+          ? null
+          : Category.fromJson(json['category'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$UserQuestionResponseImplToJson(
@@ -63,6 +65,30 @@ Map<String, dynamic> _$$UserQuestionResponseImplToJson(
       'is_bookmarked': instance.is_bookmarked,
       'is_following': instance.is_following,
       'category': instance.category,
+    };
+
+_$CategoryImpl _$$CategoryImplFromJson(Map<String, dynamic> json) =>
+    _$CategoryImpl(
+      id: (json['id'] as num?)?.toInt(),
+      total_tests: (json['total_tests'] as num?)?.toInt(),
+      total_questions: (json['total_questions'] as num?)?.toInt(),
+      title: json['title'] as String?,
+      slug: json['slug'] as String?,
+      description: json['description'] as String?,
+      emoji: json['emoji'] as String?,
+      image: json['image'] as String?,
+    );
+
+Map<String, dynamic> _$$CategoryImplToJson(_$CategoryImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'total_tests': instance.total_tests,
+      'total_questions': instance.total_questions,
+      'title': instance.title,
+      'slug': instance.slug,
+      'description': instance.description,
+      'emoji': instance.emoji,
+      'image': instance.image,
     };
 
 _$UserAnswerResponseImpl _$$UserAnswerResponseImplFromJson(

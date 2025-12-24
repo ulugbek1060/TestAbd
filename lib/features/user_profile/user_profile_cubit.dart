@@ -117,7 +117,9 @@ class UserProfileCubit extends Cubit<UserProfileState> {
     if (questionsState.isLoading) return;
 
     emit(
-      state.copyWith(questionsState: questionsState.copyWith(isLoading: true)),
+      state.copyWith(
+          questionsState: questionsState.copyWith(isLoading: true)
+      ),
     );
     final result = await _quizRepository.getUserQuestions(userId);
     result.fold(
@@ -202,4 +204,5 @@ class UserProfileCubit extends Cubit<UserProfileState> {
       );
     });
   }
+
 }

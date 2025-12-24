@@ -249,7 +249,7 @@ mixin _$Question {
   String? get round_image => throw _privateConstructorUsedError;
   bool? get is_bookmarked => throw _privateConstructorUsedError;
   bool? get is_following => throw _privateConstructorUsedError;
-  int? get category => throw _privateConstructorUsedError;
+  Category? get category => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -283,9 +283,10 @@ abstract class $QuestionCopyWith<$Res> {
       String? round_image,
       bool? is_bookmarked,
       bool? is_following,
-      int? category});
+      Category? category});
 
   $QuestionUserCopyWith<$Res>? get user;
+  $CategoryCopyWith<$Res>? get category;
 }
 
 /// @nodoc
@@ -407,7 +408,7 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
       category: freezed == category
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as Category?,
     ) as $Val);
   }
 
@@ -420,6 +421,18 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
 
     return $QuestionUserCopyWith<$Res>(_value.user!, (value) {
       return _then(_value.copyWith(user: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $CategoryCopyWith<$Res>? get category {
+    if (_value.category == null) {
+      return null;
+    }
+
+    return $CategoryCopyWith<$Res>(_value.category!, (value) {
+      return _then(_value.copyWith(category: value) as $Val);
     });
   }
 }
@@ -453,10 +466,12 @@ abstract class _$$QuestionImplCopyWith<$Res>
       String? round_image,
       bool? is_bookmarked,
       bool? is_following,
-      int? category});
+      Category? category});
 
   @override
   $QuestionUserCopyWith<$Res>? get user;
+  @override
+  $CategoryCopyWith<$Res>? get category;
 }
 
 /// @nodoc
@@ -576,7 +591,7 @@ class __$$QuestionImplCopyWithImpl<$Res>
       category: freezed == category
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as Category?,
     ));
   }
 }
@@ -659,7 +674,7 @@ class _$QuestionImpl implements _Question {
   @override
   final bool? is_following;
   @override
-  final int? category;
+  final Category? category;
 
   @override
   String toString() {
@@ -773,7 +788,7 @@ abstract class _Question implements Question {
       final String? round_image,
       final bool? is_bookmarked,
       final bool? is_following,
-      final int? category}) = _$QuestionImpl;
+      final Category? category}) = _$QuestionImpl;
 
   factory _Question.fromJson(Map<String, dynamic> json) =
       _$QuestionImpl.fromJson;
@@ -819,10 +834,293 @@ abstract class _Question implements Question {
   @override
   bool? get is_following;
   @override
-  int? get category;
+  Category? get category;
   @override
   @JsonKey(ignore: true)
   _$$QuestionImplCopyWith<_$QuestionImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+Category _$CategoryFromJson(Map<String, dynamic> json) {
+  return _Category.fromJson(json);
+}
+
+/// @nodoc
+mixin _$Category {
+  int? get id => throw _privateConstructorUsedError;
+  int? get total_tests => throw _privateConstructorUsedError;
+  int? get total_questions => throw _privateConstructorUsedError;
+  String? get title => throw _privateConstructorUsedError;
+  String? get slug => throw _privateConstructorUsedError;
+  String? get description => throw _privateConstructorUsedError;
+  String? get emoji => throw _privateConstructorUsedError;
+  String? get image => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $CategoryCopyWith<Category> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CategoryCopyWith<$Res> {
+  factory $CategoryCopyWith(Category value, $Res Function(Category) then) =
+      _$CategoryCopyWithImpl<$Res, Category>;
+  @useResult
+  $Res call(
+      {int? id,
+      int? total_tests,
+      int? total_questions,
+      String? title,
+      String? slug,
+      String? description,
+      String? emoji,
+      String? image});
+}
+
+/// @nodoc
+class _$CategoryCopyWithImpl<$Res, $Val extends Category>
+    implements $CategoryCopyWith<$Res> {
+  _$CategoryCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = freezed,
+    Object? total_tests = freezed,
+    Object? total_questions = freezed,
+    Object? title = freezed,
+    Object? slug = freezed,
+    Object? description = freezed,
+    Object? emoji = freezed,
+    Object? image = freezed,
+  }) {
+    return _then(_value.copyWith(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
+      total_tests: freezed == total_tests
+          ? _value.total_tests
+          : total_tests // ignore: cast_nullable_to_non_nullable
+              as int?,
+      total_questions: freezed == total_questions
+          ? _value.total_questions
+          : total_questions // ignore: cast_nullable_to_non_nullable
+              as int?,
+      title: freezed == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String?,
+      slug: freezed == slug
+          ? _value.slug
+          : slug // ignore: cast_nullable_to_non_nullable
+              as String?,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      emoji: freezed == emoji
+          ? _value.emoji
+          : emoji // ignore: cast_nullable_to_non_nullable
+              as String?,
+      image: freezed == image
+          ? _value.image
+          : image // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$CategoryImplCopyWith<$Res>
+    implements $CategoryCopyWith<$Res> {
+  factory _$$CategoryImplCopyWith(
+          _$CategoryImpl value, $Res Function(_$CategoryImpl) then) =
+      __$$CategoryImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {int? id,
+      int? total_tests,
+      int? total_questions,
+      String? title,
+      String? slug,
+      String? description,
+      String? emoji,
+      String? image});
+}
+
+/// @nodoc
+class __$$CategoryImplCopyWithImpl<$Res>
+    extends _$CategoryCopyWithImpl<$Res, _$CategoryImpl>
+    implements _$$CategoryImplCopyWith<$Res> {
+  __$$CategoryImplCopyWithImpl(
+      _$CategoryImpl _value, $Res Function(_$CategoryImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = freezed,
+    Object? total_tests = freezed,
+    Object? total_questions = freezed,
+    Object? title = freezed,
+    Object? slug = freezed,
+    Object? description = freezed,
+    Object? emoji = freezed,
+    Object? image = freezed,
+  }) {
+    return _then(_$CategoryImpl(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
+      total_tests: freezed == total_tests
+          ? _value.total_tests
+          : total_tests // ignore: cast_nullable_to_non_nullable
+              as int?,
+      total_questions: freezed == total_questions
+          ? _value.total_questions
+          : total_questions // ignore: cast_nullable_to_non_nullable
+              as int?,
+      title: freezed == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String?,
+      slug: freezed == slug
+          ? _value.slug
+          : slug // ignore: cast_nullable_to_non_nullable
+              as String?,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      emoji: freezed == emoji
+          ? _value.emoji
+          : emoji // ignore: cast_nullable_to_non_nullable
+              as String?,
+      image: freezed == image
+          ? _value.image
+          : image // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$CategoryImpl implements _Category {
+  const _$CategoryImpl(
+      {this.id,
+      this.total_tests,
+      this.total_questions,
+      this.title,
+      this.slug,
+      this.description,
+      this.emoji,
+      this.image});
+
+  factory _$CategoryImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CategoryImplFromJson(json);
+
+  @override
+  final int? id;
+  @override
+  final int? total_tests;
+  @override
+  final int? total_questions;
+  @override
+  final String? title;
+  @override
+  final String? slug;
+  @override
+  final String? description;
+  @override
+  final String? emoji;
+  @override
+  final String? image;
+
+  @override
+  String toString() {
+    return 'Category(id: $id, total_tests: $total_tests, total_questions: $total_questions, title: $title, slug: $slug, description: $description, emoji: $emoji, image: $image)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CategoryImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.total_tests, total_tests) ||
+                other.total_tests == total_tests) &&
+            (identical(other.total_questions, total_questions) ||
+                other.total_questions == total_questions) &&
+            (identical(other.title, title) || other.title == title) &&
+            (identical(other.slug, slug) || other.slug == slug) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            (identical(other.emoji, emoji) || other.emoji == emoji) &&
+            (identical(other.image, image) || other.image == image));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, total_tests, total_questions,
+      title, slug, description, emoji, image);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CategoryImplCopyWith<_$CategoryImpl> get copyWith =>
+      __$$CategoryImplCopyWithImpl<_$CategoryImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$CategoryImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _Category implements Category {
+  const factory _Category(
+      {final int? id,
+      final int? total_tests,
+      final int? total_questions,
+      final String? title,
+      final String? slug,
+      final String? description,
+      final String? emoji,
+      final String? image}) = _$CategoryImpl;
+
+  factory _Category.fromJson(Map<String, dynamic> json) =
+      _$CategoryImpl.fromJson;
+
+  @override
+  int? get id;
+  @override
+  int? get total_tests;
+  @override
+  int? get total_questions;
+  @override
+  String? get title;
+  @override
+  String? get slug;
+  @override
+  String? get description;
+  @override
+  String? get emoji;
+  @override
+  String? get image;
+  @override
+  @JsonKey(ignore: true)
+  _$$CategoryImplCopyWith<_$CategoryImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

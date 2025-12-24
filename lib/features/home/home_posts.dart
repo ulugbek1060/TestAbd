@@ -42,6 +42,7 @@ class PostsWidget extends StatelessWidget {
               }, childCount: questions.length),
             ),
 
+            // pagination loading
             if (state.followedQuizStata.isLoadMore)
               SliverToBoxAdapter(
                 child: Container(

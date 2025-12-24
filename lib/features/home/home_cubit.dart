@@ -3,6 +3,7 @@ import 'package:injectable/injectable.dart';
 import 'package:testabd/domain/quiz/entities/check_answer_model.dart';
 import 'package:testabd/domain/quiz/entities/quiz_item.dart';
 import 'package:testabd/domain/quiz/quiz_repository.dart';
+import 'package:testabd/main.dart';
 
 import 'home_state.dart';
 
@@ -26,7 +27,6 @@ class HomeCubit extends Cubit<HomeState> {
   // ---------------------------------------------------------------------------
   Future<void> loadQuiz() async {
     final followedQuizState = state.followedQuizStata;
-    if (followedQuizState.isLoading || followedQuizState.isLastPage) return;
 
     if (followedQuizState.questions.isEmpty) {
       _updateFollowedState(followedQuizState.copyWith(isLoading: true));
@@ -44,14 +44,19 @@ class HomeCubit extends Cubit<HomeState> {
 
     result.fold(
       // set new state
-      (err) => _updateFollowedState(
-        followedQuizState.copyWith(
-          isLoading: false,
-          isLoadMore: false,
-          error: err.message,
-        ),
-      ),
+      (err){
+        logger.d(err);
+        _updateFollowedState(
+          followedQuizState.copyWith(
+            isLoading: false,
+            isLoadMore: false,
+            error: err.message,
+          ),
+        );
+
+      },
       (data) {
+        logger.d(data);
         final followedState = state.followedQuizStata;
         final fetched = data.results ?? [];
         final newFollowedState = followedState.copyWith(

@@ -1,14 +1,16 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:testabd/core/theme/app_images.dart';
 import 'package:testabd/core/utils/question_difficulty_x.dart';
 import 'package:testabd/core/widgets/loading_widget.dart';
 import 'package:testabd/di/app_config.dart';
+import 'package:testabd/features/user_profile/block_card.dart';
 import 'package:testabd/features/user_profile/profile_connection_screen.dart';
+import 'package:testabd/features/user_profile/question_card.dart';
 import 'package:testabd/features/user_profile/user_profile_cubit.dart';
 import 'package:testabd/features/user_profile/user_profile_state.dart';
-import 'package:testabd/features/user_profile/widgets/block_card.dart';
-import 'package:testabd/features/user_profile/widgets/question_card.dart';
 import 'package:testabd/router/app_router.dart';
 
 enum PageType { block, questions, books }
@@ -104,10 +106,20 @@ class _ViewState extends State<_View> with SingleTickerProviderStateMixin {
                             end: Alignment.bottomRight,
                           ),
                         ),
-                        child: CircleAvatar(
-                          radius: 46,
-                          backgroundImage: NetworkImage(
-                            state.profile?.user?.profileImage ?? '',
+                        child: ClipOval(
+                          child: CachedNetworkImage(
+                            width: 46,
+                            height: 46,
+                            imageUrl: state.profile?.user?.profileImage ?? '',
+                            fit: BoxFit.cover,
+                            placeholder: (_, __) => Image.asset(
+                              AppImages.defaultAvatar,
+                              fit: BoxFit.cover,
+                            ),
+                            errorWidget: (_, __, ___) => Image.asset(
+                              AppImages.defaultAvatar,
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                       ),

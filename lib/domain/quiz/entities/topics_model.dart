@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:testabd/domain/quiz/entities/category_model.dart';
 
 class TopicsModel extends Equatable {
   final int? count;
@@ -113,7 +114,7 @@ class TopicQuestion extends Equatable {
   final String? roundImage;
   final bool? isBookmarked;
   final bool? isFollowing;
-  final int? category;
+  final CategoryModel? category;
 
   const TopicQuestion({
     this.id,

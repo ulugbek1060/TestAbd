@@ -1,6 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:testabd/core/theme/app_images.dart';
 import 'package:testabd/core/widgets/loading_widget.dart';
 import 'package:testabd/di/app_config.dart';
 import 'package:testabd/domain/account/entities/user_connections_model.dart';
@@ -145,9 +147,21 @@ class UserTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       onTap: user.isLoading ? null : onTap,
-      leading: CircleAvatar(
-        radius: 24,
-        backgroundImage: NetworkImage(user.profileImage ?? ''),
+      leading: ClipOval(
+        child: CachedNetworkImage(
+          width: 36,
+          height: 36,
+          imageUrl: user.profileImage ?? '',
+          fit: BoxFit.cover,
+          placeholder: (_, __) => Image.asset(
+            AppImages.defaultAvatar,
+            fit: BoxFit.cover,
+          ),
+          errorWidget: (_, __, ___) => Image.asset(
+            AppImages.defaultAvatar,
+            fit: BoxFit.cover,
+          ),
+        ),
       ),
       title: Text(
         user.username,

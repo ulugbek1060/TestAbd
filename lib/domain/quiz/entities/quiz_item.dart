@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:testabd/domain/quiz/entities/answer_item.dart';
 
+import 'category_model.dart';
+
 enum QuestionType {
   multiple,
   single,
@@ -45,7 +47,7 @@ class QuizItem extends Equatable {
   final String? roundImage;
   final bool? isBookmarked;
   final bool? isFollowing;
-  final int? category;
+  final CategoryModel? category;
   final bool isLoading;
   final bool isCompleted;
 
