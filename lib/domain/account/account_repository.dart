@@ -15,3 +15,8 @@ abstract class AccountRepository {
   Future<Either<AppException, String>> followUser(int userId);
   Future<Either<AppException, LeaderboardModel>> getLeaderboard(int page, int pageSize);
 }
+
+abstract class LeaderboardRepository {
+  Future<void> openWebSocket(Function(dynamic data) dataReceived);
+  void closeWebSocket();
+}

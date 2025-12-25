@@ -23,7 +23,7 @@ class UserProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => BlocProvider(
     create: (context) => locator<UserProfileCubit>(param1: username)
-      ..loadUserDetail()
+      ..load()
       ..loadBlocks()
       ..loadQuestions(),
     child: _View(),
@@ -63,383 +63,419 @@ class _ViewState extends State<_View> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     final cubit = context.read<UserProfileCubit>();
 
-    return Scaffold(
-      backgroundColor: Colors.black,
+    return BlocBuilder<UserProfileCubit, UserProfileState>(
+      builder: (context, state) {
+        return RefreshIndicator(
+          onRefresh: cubit.refresh,
+          color: Theme.of(context).colorScheme.secondary,
+          child: Scaffold(
+            backgroundColor: Colors.black,
 
-      /// appBar
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        elevation: 0,
-        centerTitle: false,
-        title: Text(
-          cubit.username,
-          style: Theme.of(
-            context,
-          ).textTheme.titleLarge?.copyWith(color: Colors.white),
-        ),
-      ),
-
-      /// body
-      body: BlocBuilder<UserProfileCubit, UserProfileState>(
-        builder: (context, state) {
-          return CustomScrollView(
-            slivers: [
-              /// Profile Header Section Profile image and following and followers
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 8,
-                  ),
-                  child: Row(
-                    children: [
-                      // Profile Picture
-                      Container(
-                        width: 100,
-                        height: 100,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(color: Colors.purple, width: 3),
-                          gradient: const LinearGradient(
-                            colors: [Colors.purple, Colors.blue],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                        ),
-                        child: ClipOval(
-                          child: CachedNetworkImage(
-                            width: 46,
-                            height: 46,
-                            imageUrl: state.profile?.user?.profileImage ?? '',
-                            fit: BoxFit.cover,
-                            placeholder: (_, __) => Image.asset(
-                              AppImages.defaultAvatar,
-                              fit: BoxFit.cover,
-                            ),
-                            errorWidget: (_, __, ___) => Image.asset(
-                              AppImages.defaultAvatar,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                      ),
-
-                      const SizedBox(width: 20),
-
-                      // Following and Followers
-                      Expanded(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            // followers
-                            GestureDetector(
-                              onTap: () => context.push(
-                                AppRouter.profileConnectionWithUserId(
-                                  userId: state.profile?.user?.id ?? 0,
-                                  connectionType:
-                                      ProfileConnectionEnum.followers.name,
-                                ),
-                              ),
-                              child: Column(
-                                children: [
-                                  Text(
-                                    '${state.profile?.user?.followersCount ?? 0}',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  Text(
-                                    'Followers',
-                                    style: TextStyle(
-                                      color: Colors.grey.shade400,
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-
-                            // following
-                            GestureDetector(
-                              onTap: () => context.push(
-                                AppRouter.profileConnectionWithUserId(
-                                  userId: state.profile?.user?.id ?? 0,
-                                  connectionType:
-                                      ProfileConnectionEnum.following.name,
-                                ),
-                              ),
-                              child: Column(
-                                children: [
-                                  Text(
-                                    '${state.profile?.user?.followingCount ?? 0}',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  Text(
-                                    'Following',
-                                    style: TextStyle(
-                                      color: Colors.grey.shade400,
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+            /// appBar
+            appBar: AppBar(
+              backgroundColor: Colors.black,
+              elevation: 0,
+              centerTitle: false,
+              title: Text(
+                cubit.username,
+                style: Theme.of(
+                  context,
+                ).textTheme.titleLarge?.copyWith(color: Colors.white),
               ),
+            ),
 
-              /// User bio section
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 12,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        state.profile?.user?.getFullName ?? '',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        '📚 Fantasy & Sci-Fi Lover | 🧠 Daily Quiz Master\n🎯 Learning Goals: Read 50 books this year',
-                        style: TextStyle(
-                          color: Colors.grey.shade300,
-                          fontSize: 14,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      const Text(
-                        '📍 Bookworm Academy',
-                        style: TextStyle(color: Colors.blue, fontSize: 14),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-
-              /// Action Buttons Follow and Message
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                    top: 6,
-                    left: 16,
-                    right: 16,
-                    bottom: 16,
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: state.followState.isLoading
-                              ? null
-                              : () => cubit.followAction(),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                state.profile?.user?.isFollowing ?? false
-                                ? Colors.transparent
-                                : Colors.blue,
-                            shape: RoundedRectangleBorder(
-                              side: state.profile?.user?.isFollowing ?? false
-                                  ? BorderSide(
-                                      color: Colors.white.withAlpha(70),
-                                    )
-                                  : BorderSide.none,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            padding: const EdgeInsets.symmetric(vertical: 12),
+            /// body
+            body: state.isLoading
+                ? Center(child: ProgressView())
+                : CustomScrollView(
+                    slivers: [
+                      /// Profile Header Section Profile image and following and followers
+                      SliverToBoxAdapter(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 8,
                           ),
-                          child: state.followState.isLoading
-                              ? SizedBox(
-                                  width: 18,
-                                  height: 18,
-                                  child: ProgressView(),
-                                )
-                              : Text(
-                                  state.profile?.user?.isFollowing ?? false
-                                      ? "Followed"
-                                      : "Follow",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      Container(
-                        width: 50,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(color: Colors.grey.shade600),
-                        ),
-                        child: IconButton(
-                          onPressed: () {
-                            // TODO share action
-                          },
-                          icon: const Icon(
-                            Icons.share_outlined,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-
-              /// Statistics section
-              SliverMainAxisGroup(
-                slivers: [
-                  SliverPadding(
-                    padding: const EdgeInsets.only(left: 16, right: 16, top: 6),
-                    sliver: SliverToBoxAdapter(
-                      child: Column(
-                        children: [
-                          Row(
+                          child: Row(
                             children: [
-                              Icon(
-                                Icons.analytics_rounded,
-                                color: Colors.white,
+                              // Profile Picture
+                              Container(
+                                width: 100,
+                                height: 100,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: Colors.purple,
+                                    width: 3,
+                                  ),
+                                  gradient: const LinearGradient(
+                                    colors: [Colors.purple, Colors.blue],
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                  ),
+                                ),
+                                child: ClipOval(
+                                  child: CachedNetworkImage(
+                                    width: 46,
+                                    height: 46,
+                                    imageUrl:
+                                        state.profile?.user?.profileImage ?? '',
+                                    fit: BoxFit.cover,
+                                    placeholder: (_, __) => Image.asset(
+                                      AppImages.defaultAvatar,
+                                      fit: BoxFit.cover,
+                                    ),
+                                    errorWidget: (_, __, ___) => Image.asset(
+                                      AppImages.defaultAvatar,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
                               ),
-                              const SizedBox(width: 8),
-                              const Text(
-                                'Quiz Performance',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
+
+                              const SizedBox(width: 20),
+
+                              // Following and Followers
+                              Expanded(
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    // followers
+                                    GestureDetector(
+                                      onTap: () => context.push(
+                                        AppRouter.profileConnectionWithUserId(
+                                          userId: state.profile?.user?.id ?? 0,
+                                          connectionType: ProfileConnectionEnum
+                                              .followers
+                                              .name,
+                                        ),
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            '${state.profile?.user?.followersCount ?? 0}',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 24,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          Text(
+                                            'Followers',
+                                            style: TextStyle(
+                                              color: Colors.grey.shade400,
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+
+                                    // following
+                                    GestureDetector(
+                                      onTap: () => context.push(
+                                        AppRouter.profileConnectionWithUserId(
+                                          userId: state.profile?.user?.id ?? 0,
+                                          connectionType: ProfileConnectionEnum
+                                              .following
+                                              .name,
+                                        ),
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            '${state.profile?.user?.followingCount ?? 0}',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 24,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          Text(
+                                            'Following',
+                                            style: TextStyle(
+                                              color: Colors.grey.shade400,
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
                           ),
-                          const SizedBox(height: 12),
+                        ),
+                      ),
+
+                      /// User bio section
+                      SliverToBoxAdapter(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 12,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                state.profile?.user?.getFullName ?? '',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                '📚 Fantasy & Sci-Fi Lover | 🧠 Daily Quiz Master\n🎯 Learning Goals: Read 50 books this year',
+                                style: TextStyle(
+                                  color: Colors.grey.shade300,
+                                  fontSize: 14,
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              const Text(
+                                '📍 Bookworm Academy',
+                                style: TextStyle(
+                                  color: Colors.blue,
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+
+                      /// Action Buttons Follow and Message
+                      SliverToBoxAdapter(
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                            top: 6,
+                            left: 16,
+                            right: 16,
+                            bottom: 16,
+                          ),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: ElevatedButton(
+                                  onPressed: state.followState.isLoading
+                                      ? null
+                                      : () => cubit.followAction(),
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor:
+                                        state.profile?.user?.isFollowing ??
+                                            false
+                                        ? Colors.transparent
+                                        : Colors.blue,
+                                    shape: RoundedRectangleBorder(
+                                      side:
+                                          state.profile?.user?.isFollowing ??
+                                              false
+                                          ? BorderSide(
+                                              color: Colors.white.withAlpha(70),
+                                            )
+                                          : BorderSide.none,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 12,
+                                    ),
+                                  ),
+                                  child: state.followState.isLoading
+                                      ? SizedBox(
+                                          width: 18,
+                                          height: 18,
+                                          child: ProgressView(),
+                                        )
+                                      : Text(
+                                          state.profile?.user?.isFollowing ??
+                                                  false
+                                              ? "Followed"
+                                              : "Follow",
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              Container(
+                                width: 50,
+                                height: 50,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: Colors.grey.shade600,
+                                  ),
+                                ),
+                                child: IconButton(
+                                  onPressed: () {
+                                    // TODO share action
+                                  },
+                                  icon: const Icon(
+                                    Icons.share_outlined,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+
+                      /// Statistics section
+                      SliverMainAxisGroup(
+                        slivers: [
+                          SliverPadding(
+                            padding: const EdgeInsets.only(
+                              left: 16,
+                              right: 16,
+                              top: 6,
+                            ),
+                            sliver: SliverToBoxAdapter(
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        Icons.analytics_rounded,
+                                        color: Colors.white,
+                                      ),
+                                      const SizedBox(width: 8),
+                                      const Text(
+                                        'Quiz Performance',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 12),
+                                ],
+                              ),
+                            ),
+                          ),
+
+                          SliverPadding(
+                            padding: const EdgeInsets.only(
+                              top: 6,
+                              left: 16,
+                              right: 16,
+                            ),
+                            sliver: SliverGrid(
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    crossAxisSpacing: 12,
+                                    mainAxisSpacing: 12,
+                                    childAspectRatio: 1.4,
+                                  ),
+                              delegate: SliverChildListDelegate([
+                                _PerformanceItem(
+                                  title: 'Total Tests',
+                                  value:
+                                      state.profile?.stats?.totalTests
+                                          ?.toString() ??
+                                      '0',
+                                  icon: Icons.assessment_outlined,
+                                  color: Colors.blue,
+                                ),
+                                _PerformanceItem(
+                                  title: 'Correct Answers',
+                                  value:
+                                      state.profile?.stats?.correctAnswers
+                                          ?.toString() ??
+                                      '0',
+                                  icon: Icons.check_circle_outline,
+                                  color: Colors.green,
+                                ),
+                                _PerformanceItem(
+                                  title: 'Wrong Answers',
+                                  value:
+                                      state.profile?.stats?.wrongAnswers
+                                          ?.toString() ??
+                                      '0',
+                                  icon: Icons.cancel_outlined,
+                                  color: Colors.red,
+                                ),
+                                _PerformanceItem(
+                                  title: 'Accuracy',
+                                  value:
+                                      state.profile?.stats?.accuracy
+                                          ?.toString() ??
+                                      '0',
+                                  icon: Icons.balance,
+                                  color: Colors.green,
+                                  progress: state.profile?.stats?.accuracy ?? 0,
+                                ),
+                              ]),
+                            ),
+                          ),
                         ],
                       ),
-                    ),
-                  ),
 
-                  SliverPadding(
-                    padding: const EdgeInsets.only(top: 6, left: 16, right: 16),
-                    sliver: SliverGrid(
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 12,
-                            mainAxisSpacing: 12,
-                            childAspectRatio: 1.4,
+                      /// tabs
+                      SliverPersistentHeader(
+                        pinned: true,
+                        delegate: _SliverAppBarDelegate(
+                          backgroundColor: Colors.black,
+                          TabBar(
+                            unselectedLabelColor: Colors.white,
+                            onTap: (index) {
+                              setState(() {
+                                switch (index) {
+                                  case 0:
+                                    pageTye = PageType.block;
+                                  case 1:
+                                    pageTye = PageType.questions;
+                                  case 2:
+                                    pageTye = PageType.books;
+                                }
+                              });
+                            },
+                            controller: _tabController,
+                            tabs: [
+                              Tab(text: 'Bloklar'),
+                              Tab(text: 'Savollar'),
+                              Tab(text: 'Kitoblar'),
+                            ],
                           ),
-                      delegate: SliverChildListDelegate([
-                        _PerformanceItem(
-                          title: 'Total Tests',
-                          value:
-                              state.profile?.stats?.totalTests?.toString() ??
-                              '0',
-                          icon: Icons.assessment_outlined,
-                          color: Colors.blue,
                         ),
-                        _PerformanceItem(
-                          title: 'Correct Answers',
-                          value:
-                              state.profile?.stats?.correctAnswers
-                                  ?.toString() ??
-                              '0',
-                          icon: Icons.check_circle_outline,
-                          color: Colors.green,
-                        ),
-                        _PerformanceItem(
-                          title: 'Wrong Answers',
-                          value:
-                              state.profile?.stats?.wrongAnswers?.toString() ??
-                              '0',
-                          icon: Icons.cancel_outlined,
-                          color: Colors.red,
-                        ),
-                        _PerformanceItem(
-                          title: 'Accuracy',
-                          value:
-                              state.profile?.stats?.accuracy?.toString() ?? '0',
-                          icon: Icons.balance,
-                          color: Colors.green,
-                          progress: state.profile?.stats?.accuracy ?? 0,
-                        ),
-                      ]),
-                    ),
-                  ),
-                ],
-              ),
+                      ),
 
-              /// tabs
-              SliverPersistentHeader(
-                pinned: true,
-                delegate: _SliverAppBarDelegate(
-                  backgroundColor: Colors.black,
-                  TabBar(
-                    unselectedLabelColor: Colors.white,
-                    onTap: (index) {
-                      setState(() {
-                        switch (index) {
-                          case 0:
-                            pageTye = PageType.block;
-                          case 1:
-                            pageTye = PageType.questions;
-                          case 2:
-                            pageTye = PageType.books;
-                        }
-                      });
-                    },
-                    controller: _tabController,
-                    tabs: [
-                      Tab(text: 'Bloklar'),
-                      Tab(text: 'Savollar'),
-                      Tab(text: 'Kitoblar'),
+                      /// ViewBlock
+                      _BlocksSection(
+                        key: _blockKey,
+                        state: state.topicsState,
+                        isEnabled: pageTye == PageType.block,
+                      ),
+
+                      /// ViewQuestions
+                      _QuestionsSection(
+                        key: _questionsKey,
+                        state: state.questionsState,
+                        isEnabled: pageTye == PageType.questions,
+                      ),
+
+                      /// ViewBooks
+                      _BooksSections(
+                        key: _booksKey,
+                        state: state.booksState,
+                        isEnabled: pageTye == PageType.books,
+                      ),
                     ],
                   ),
-                ),
-              ),
-
-              /// ViewBlock
-              _BlocksSection(
-                key: _blockKey,
-                state: state.topicsState,
-                isEnabled: pageTye == PageType.block,
-              ),
-
-              /// ViewQuestions
-              _QuestionsSection(
-                key: _questionsKey,
-                state: state.questionsState,
-                isEnabled: pageTye == PageType.questions,
-              ),
-
-              /// ViewBooks
-              _BooksSections(
-                key: _booksKey,
-                state: state.booksState,
-                isEnabled: pageTye == PageType.books,
-              ),
-            ],
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }
@@ -476,7 +512,7 @@ class _BlocksSection extends StatelessWidget {
             BuildContext context,
             int index,
           ) {
-            return Center(child: CircularProgressIndicator());
+            return Center(child: ProgressView());
           }, childCount: 4),
         ),
       );
@@ -541,7 +577,7 @@ class _QuestionsSection extends StatelessWidget {
             BuildContext context,
             int index,
           ) {
-            return Center(child: CircularProgressIndicator());
+            return Center(child: ProgressView());
           }, childCount: 4),
         ),
       );
@@ -608,23 +644,26 @@ class _BooksSections extends StatelessWidget {
             BuildContext context,
             int index,
           ) {
-            return Center(child: CircularProgressIndicator());
+            return Center(child: ProgressView());
           }, childCount: 4),
         ),
       );
     }
 
     /// coming soon
-    return SliverToBoxAdapter(
-      child: SizedBox(
-        width: double.infinity,
-        height: MediaQuery.sizeOf(context).height,
-        child: Center(
-          child: Text(
-            "Coming soon 🎉",
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
+    return SliverPadding(
+      padding: const EdgeInsets.all(6),
+      sliver: SliverGrid(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 8.0,
+          mainAxisSpacing: 8.0,
+          childAspectRatio: 3 / 4,
         ),
+        delegate: SliverChildBuilderDelegate((context, index) {
+          final book = books[index];
+          return BookCard(book: book);
+        }, childCount: books.length),
       ),
     );
   }
@@ -719,5 +758,183 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   @override
   bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
     return true;
+  }
+}
+
+final List<Book> books = [
+  Book(
+    title: "The Midnight Library",
+    author: "Matt Haig",
+    coverUrl: "https://images.unsplash.com/photo-1544947950-fa07b98aaee8?w=400",
+    rating: 4.2,
+  ),
+  Book(
+    title: "Project Hail Mary",
+    author: "Andy Weir",
+    coverUrl: "https://images.unsplash.com/photo-1543002588-bfa740a1e3a4?w=400",
+    rating: 4.7,
+  ),
+  Book(
+    title: "Atomic Habits",
+    author: "James Clear",
+    coverUrl: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=400",
+    rating: 4.8,
+  ),
+  Book(
+    title: "The Psychology of Money",
+    author: "Morgan Housel",
+    coverUrl: "https://images.unsplash.com/photo-1553729784-e91953dec042?w=400",
+    rating: 4.5,
+  ),
+  Book(
+    title: "Dune",
+    author: "Frank Herbert",
+    coverUrl: "https://images.unsplash.com/photo-1543007631-7180d0e3f3e3?w=400",
+    rating: 4.6,
+  ),
+  Book(
+    title: "Sapiens",
+    author: "Yuval Noah Harari",
+    coverUrl:
+        "https://images.unsplash.com/photo-1541963463532-dbb7d3a7b3a3?w=400",
+    rating: 4.4,
+  ),
+];
+
+class Book {
+  final String title;
+  final String author;
+  final String coverUrl;
+  final double rating;
+
+  Book({
+    required this.title,
+    required this.author,
+    required this.coverUrl,
+    required this.rating,
+  });
+}
+
+class BookCard extends StatelessWidget {
+  final Book book;
+
+  const BookCard({super.key, required this.book});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 6,
+      clipBehavior: Clip.hardEdge,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          // Background cover image
+          Image.network(
+            book.coverUrl,
+            fit: BoxFit.cover,
+            errorBuilder: (context, error, stackTrace) => Container(
+              color: Colors.grey.shade800,
+              child: const Icon(Icons.book, size: 60, color: Colors.white54),
+            ),
+          ),
+
+          // Gradient overlay for better text readability
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [Colors.transparent, Colors.black.withOpacity(0.7)],
+                stops: const [0.5, 1.0],
+              ),
+            ),
+          ),
+
+          // Content
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Title
+                Text(
+                  book.title,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    shadows: [
+                      Shadow(
+                        color: Colors.black,
+                        offset: Offset(1, 1),
+                        blurRadius: 3,
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 4),
+
+                // Author
+                Text(
+                  book.author,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: Colors.white.withOpacity(0.9),
+                    fontSize: 14,
+                  ),
+                ),
+                const SizedBox(height: 8),
+
+                _RatingStars(
+                  rating: book.rating,
+                ),
+
+                Text(
+                  book.rating.toStringAsFixed(1),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ---------------- SUPPORTING WIDGETS ----------------
+
+class _RatingStars extends StatelessWidget {
+  final double rating;
+
+  const _RatingStars({required this.rating});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: List.generate(5, (index) {
+        final filled = rating >= index + 1;
+        final halfFilled = rating > index && rating < index + 1;
+
+        return Icon(
+          filled
+              ? Icons.star_rounded
+              : halfFilled
+              ? Icons.star_half_rounded
+              : Icons.star_border_rounded,
+          size: 18,
+          color: const Color(0xFFFFC107),
+        );
+      }),
+    );
   }
 }

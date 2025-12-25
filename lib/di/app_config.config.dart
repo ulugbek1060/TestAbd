@@ -70,7 +70,7 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i792.SharedPrefsTokenService(gh<_i460.SharedPreferences>()));
     gh.singleton<_i371.SessionService>(
         () => _i371.SessionServiceImpl(gh<_i460.SharedPreferences>()));
-    gh.factory<_i1067.WSNotificationsSource>(
+    gh.lazySingleton<_i1067.WSNotificationsSource>(
         () => _i1067.WSNotificationsSourceImpl());
     gh.lazySingleton<_i244.UserFollowListener>(
       () => _i244.UserProfileFollowListener(),
@@ -82,6 +82,8 @@ extension GetItInjectableX on _i174.GetIt {
       instanceName: 'LeaderboardFollowListener',
       dispose: _i244.disposeMethod,
     );
+    gh.singleton<_i259.LeaderboardSocketService>(
+        () => _i259.LeaderboardSocketServiceImpl(gh<_i792.TokenService>()));
     gh.singleton<_i900.DioInterceptor>(
         () => _i900.DioInterceptor(gh<_i792.TokenService>()));
     gh.factory<_i361.Dio>(() => appModule.provideDio(
@@ -110,11 +112,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i639.HomeCubit(gh<_i156.QuizRepository>()));
     gh.factory<_i760.ProfileCubit>(
         () => _i760.ProfileCubit(gh<_i893.AuthRepository>()));
-    gh.factory<_i279.LeaderboardCubit>(() => _i279.LeaderboardCubit(
-          gh<_i575.AccountRepository>(),
-          gh<_i244.UserFollowListener>(
-              instanceName: 'LeaderboardFollowListener'),
-        ));
+    gh.lazySingleton<_i575.LeaderboardRepository>(() =>
+        _i317.LeaderboardRepositoryImpl(gh<_i259.LeaderboardSocketService>()));
     gh.factoryParam<_i470.ProfileConnectionCubit, int, dynamic>((
       userId,
       _,
@@ -129,6 +128,12 @@ extension GetItInjectableX on _i174.GetIt {
         ));
     gh.factory<_i36.ForgotPswdCubit>(
         () => _i36.ForgotPswdCubit(gh<_i893.AuthRepository>()));
+    gh.factory<_i279.LeaderboardCubit>(() => _i279.LeaderboardCubit(
+          gh<_i575.AccountRepository>(),
+          gh<_i575.LeaderboardRepository>(),
+          gh<_i244.UserFollowListener>(
+              instanceName: 'LeaderboardFollowListener'),
+        ));
     gh.factoryParam<_i230.UserProfileCubit, String, dynamic>((
       username,
       _,

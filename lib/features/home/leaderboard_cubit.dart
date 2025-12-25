@@ -4,12 +4,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:testabd/core/utils/follow_listeners.dart';
 import 'package:testabd/domain/account/account_repository.dart';
+import 'package:testabd/main.dart';
 
 import 'leaderboard_state.dart';
 
 @injectable
 class LeaderboardCubit extends Cubit<LeaderboardState> {
-
+  final LeaderboardRepository _leaderboardRepository;
   final AccountRepository _accountRepository;
   final UserFollowListener _followListener;
   late StreamSubscription _subscription;
@@ -17,6 +18,7 @@ class LeaderboardCubit extends Cubit<LeaderboardState> {
 
   LeaderboardCubit(
     this._accountRepository,
+    this._leaderboardRepository,
     @Named.from(LeaderboardFollowListener) this._followListener,
   ) : super(LeaderboardState()) {
     /// listen the changes from user_profile_cubit
@@ -24,11 +26,18 @@ class LeaderboardCubit extends Cubit<LeaderboardState> {
       final newList = state.followUser(event.userId, event.isFollowing);
       emit(state.copyWith(leaderboard: newList));
     });
+
+
+    /// listen the leader bord websocket
+    _leaderboardRepository.openWebSocket((data){
+      logger.d(data);
+    });
   }
 
   @override
   Future<void> close() {
     _subscription.cancel();
+    _leaderboardRepository.closeWebSocket();
     return super.close();
   }
 

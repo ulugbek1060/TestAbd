@@ -49,16 +49,22 @@ class UserProfileCubit extends Cubit<UserProfileState> {
     return super.close();
   }
 
-  Future<void> loadUserDetail() async {
+  /// main loading
+  Future<void> load() async {
+
+    if (state.isLoading) return;
+
     emit(state.copyWith(isLoading: true, error: null));
+
+    // delay
+    await Future.delayed(const Duration(milliseconds: 500));
+
     final result = await _accountRepository.getUserProfile(username);
     result.fold(
       (error) {
-        logger.e('Error:$error');
         emit(state.copyWith(isLoading: false, error: error.message));
       },
       (value) {
-        logger.d('Loaded: $value');
         emit(state.copyWith(isLoading: false, profile: value));
 
         /// load topics
@@ -67,6 +73,8 @@ class UserProfileCubit extends Cubit<UserProfileState> {
       },
     );
   }
+
+  Future<void> refresh() => load();
 
   Future<void> loadBlocks() async {
     final userId = state.profile?.user?.id;

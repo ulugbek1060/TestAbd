@@ -5,6 +5,29 @@ import 'package:testabd/domain/quiz/entities/topics_model.dart';
 
 part 'user_profile_state.freezed.dart';
 
+
+/// Main screen state
+@freezed
+class UserProfileState with _$UserProfileState {
+  const factory UserProfileState({
+    // global loading
+    @Default(false) bool isLoading,
+    // user profile
+    UserProfileModel? profile,
+    // global errors
+    String? error,
+    // topics state
+    @Default(BlocksState()) BlocksState topicsState,
+    // questions state
+    @Default(QuestionsState()) QuestionsState questionsState,
+    // book state
+    @Default(BooksState()) BooksState booksState,
+    // follow action state
+    @Default(FollowState()) FollowState followState,
+  }) = _UserProfileState;
+}
+
+
 @freezed
 class BlocksState with _$BlocksState {
   const factory BlocksState({
@@ -38,22 +61,3 @@ class FollowState with _$FollowState {
       _FollowState;
 }
 
-@freezed
-class UserProfileState with _$UserProfileState {
-  const factory UserProfileState({
-    // global loading
-    @Default(false) bool isLoading,
-    // user profile
-    UserProfileModel? profile,
-    // global errors
-    String? error,
-    // topics state
-    @Default(BlocksState()) BlocksState topicsState,
-    // questions state
-    @Default(QuestionsState()) QuestionsState questionsState,
-    // book state
-    @Default(BooksState()) BooksState booksState,
-    // follow action state
-    @Default(FollowState()) FollowState followState,
-  }) = _UserProfileState;
-}

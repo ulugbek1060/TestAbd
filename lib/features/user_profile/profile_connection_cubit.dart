@@ -37,20 +37,27 @@ class ProfileConnectionCubit extends Cubit<ProfileConnectionState> {
     return super.close();
   }
 
-  Future<void> loadUserConnections() async {
+
+  Future<void> load() async {
     if (state.isLoading) return;
+
     emit(state.copyWith(isLoading: true));
+
+    // delay
+    await Future.delayed(const Duration(milliseconds: 500));
+
     final result = await _accountRepository.getUserConnections(userId);
     result.fold(
       (error) {
         emit(state.copyWith(isLoading: false, error: error.message));
       },
       (value) {
-
         emit(state.copyWith(isLoading: false, connections: value, error: null));
       },
     );
   }
+
+  Future<void> refresh() => load();
 
   Future<void> onFollowUser(int id) async {
     final user = state.connections.findUser(id);

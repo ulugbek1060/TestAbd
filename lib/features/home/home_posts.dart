@@ -403,7 +403,6 @@ class TrueFalseAnswerCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    logger.d(myAnswersId);
     return Row(
       mainAxisSize: MainAxisSize.max,
       spacing: 16,

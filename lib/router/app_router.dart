@@ -5,13 +5,17 @@ import 'package:testabd/features/auth/login/login_screen.dart';
 import 'package:testabd/features/auth/register/register_screen.dart';
 import 'package:testabd/features/home/home_screen.dart';
 import 'package:testabd/features/home/leaderboard_screen.dart';
+import 'package:testabd/features/home/notifications_screen.dart';
 import 'package:testabd/features/init/init_screen.dart';
+import 'package:testabd/features/library/library_screen.dart';
 import 'package:testabd/features/profile/profile_screen.dart';
 import 'package:testabd/features/root/shell_screen.dart';
+import 'package:testabd/features/search/search_screen.dart';
+import 'package:testabd/features/testabd/test_screen.dart';
 import 'package:testabd/features/user_profile/block_questions_screen.dart';
 import 'package:testabd/features/user_profile/profile_connection_screen.dart';
 import 'package:testabd/features/user_profile/question_detail_screen.dart';
-import 'package:testabd/features/user_profile/user_profile_screen.dart';
+import 'package:testabd/features/user_profile/user_profile_screen.dart' hide LibraryScreen;
 
 abstract class AppRouter {
   static const initial = '/';
@@ -19,7 +23,11 @@ abstract class AppRouter {
   static const forgotPswd = '/forgot_password';
   static const register = '/register';
   static const home = '/home';
+  static const search = '/search';
+  static const testMain = '/test_main';
+  static const library = '/library';
   static const profile = '/profile';
+  static const notifications = '/notifications';
   static const userProfile = '/user_profile/:username';
   static const leaderboard = '/leaderboard';
 
@@ -70,6 +78,11 @@ final appRouter = GoRouter(
       path: AppRouter.register,
       pageBuilder: (context, state) =>
           CupertinoPage(child: const RegisterScreen()),
+    ),
+    GoRoute(
+      path: AppRouter.notifications,
+      pageBuilder: (context, state) =>
+          CupertinoPage(child: const NotificationsScreen()),
     ),
     GoRoute(
       path: AppRouter.userProfile,
@@ -136,6 +149,30 @@ final appRouter = GoRouter(
           ],
         ),
 
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: AppRouter.search,
+              builder: (_, state) => const SearchScreen(),
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: AppRouter.testMain,
+              builder: (_, state) => const TestScreen(),
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: AppRouter.library,
+              builder: (_, state) => const LibraryScreen(),
+            ),
+          ],
+        ),
         StatefulShellBranch(
           routes: [
             GoRoute(

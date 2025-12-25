@@ -3,6 +3,7 @@ import 'package:injectable/injectable.dart';
 import 'package:testabd/core/errors/app_exception.dart';
 import 'package:testabd/data/remote_source/quiz/models/answer_response.dart';
 import 'package:testabd/data/remote_source/quiz/models/followed_questions_response.dart';
+import 'package:testabd/data/remote_source/quiz/models/random_questions_response.dart';
 import 'package:testabd/data/remote_source/quiz/models/topic_related_questions_response.dart';
 import 'package:testabd/data/remote_source/quiz/models/user_question_response.dart';
 
@@ -29,6 +30,9 @@ abstract class QuizSource {
   Future<List<UserQuestionResponse>> getUserQuestions(int userId);
 
   Future<BlockQuestionsResponse> getBlockTests(int blockId);
+
+  /// https://backend.testabd.uz/quiz/random/
+  Future<RandomQuestionModel> getRandomQuestion(int page, int pageSize);
 }
 
 /// =========================> Source implementation <=========================
@@ -125,6 +129,21 @@ class QuizSourceImpl implements QuizSource {
     try {
       final response = await _dio.get('/quiz/tests/$blockId/');
       return BlockQuestionsResponse.fromJson(response.data);
+    } on DioException catch (error) {
+      throw error.handleDioException();
+    } catch (e, stackTrace) {
+      throw UnknownException(e.toString(), stackTrace: stackTrace);
+    }
+  }
+
+  @override
+  Future<RandomQuestionModel> getRandomQuestion(int page, int pageSize) async {
+    try {
+      final response = await _dio.get(
+        '/quiz/random/',
+        queryParameters: {'page': page, 'page_size': pageSize},
+      );
+      return RandomQuestionModel.fromJson(response.data);
     } on DioException catch (error) {
       throw error.handleDioException();
     } catch (e, stackTrace) {

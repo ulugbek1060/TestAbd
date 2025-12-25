@@ -56,7 +56,6 @@ class HomeCubit extends Cubit<HomeState> {
 
       },
       (data) {
-        logger.d(data);
         final followedState = state.followedQuizStata;
         final fetched = data.results ?? [];
         final newFollowedState = followedState.copyWith(

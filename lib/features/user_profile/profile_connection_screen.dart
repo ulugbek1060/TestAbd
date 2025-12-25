@@ -39,9 +39,7 @@ class ProfileConnectionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) =>
-          locator<ProfileConnectionCubit>(param1: userId)
-            ..loadUserConnections(),
+      create: (_) => locator<ProfileConnectionCubit>(param1: userId)..load(),
       child: _View(userId: userId, connectionType: connectionType),
     );
   }
@@ -88,6 +86,12 @@ class _ViewState extends State<_View> {
         ),
         body: BlocBuilder<ProfileConnectionCubit, ProfileConnectionState>(
           builder: (context, state) {
+            if (state.isLoading) {
+              return Center(
+                child: ProgressView(),
+              );
+            }
+
             return TabBarView(
               children: [
                 _ConnectionsList(
@@ -115,18 +119,22 @@ class _ConnectionsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<ProfileConnectionCubit>();
-    return ListView.separated(
-      itemCount: users.length,
-      separatorBuilder: (_, __) => const Divider(height: 1),
-      itemBuilder: (context, index) {
-        final user = users[index];
-        return UserTile(
-          user: user,
-          onTap: () =>
-              context.push(AppRouter.userProfileWithUsername(user.username)),
-          onTapFollow: () => cubit.onFollowUser(user.id),
-        );
-      },
+    return RefreshIndicator(
+      onRefresh: cubit.refresh,
+      color: Theme.of(context).colorScheme.secondary,
+      child: ListView.separated(
+        itemCount: users.length,
+        separatorBuilder: (_, __) => const Divider(height: 1),
+        itemBuilder: (context, index) {
+          final user = users[index];
+          return UserTile(
+            user: user,
+            onTap: () =>
+                context.push(AppRouter.userProfileWithUsername(user.username)),
+            onTapFollow: () => cubit.onFollowUser(user.id),
+          );
+        },
+      ),
     );
   }
 }
@@ -153,14 +161,10 @@ class UserTile extends StatelessWidget {
           height: 36,
           imageUrl: user.profileImage ?? '',
           fit: BoxFit.cover,
-          placeholder: (_, __) => Image.asset(
-            AppImages.defaultAvatar,
-            fit: BoxFit.cover,
-          ),
-          errorWidget: (_, __, ___) => Image.asset(
-            AppImages.defaultAvatar,
-            fit: BoxFit.cover,
-          ),
+          placeholder: (_, __) =>
+              Image.asset(AppImages.defaultAvatar, fit: BoxFit.cover),
+          errorWidget: (_, __, ___) =>
+              Image.asset(AppImages.defaultAvatar, fit: BoxFit.cover),
         ),
       ),
       title: Text(

@@ -112,3 +112,18 @@ class AccountRepositoryImpl implements AccountRepository {
     }
   }
 }
+
+@LazySingleton(as: LeaderboardRepository)
+class LeaderboardRepositoryImpl implements LeaderboardRepository {
+  final LeaderboardSocketService _service;
+
+  LeaderboardRepositoryImpl(this._service);
+
+  @override
+  void closeWebSocket() => _service.closeWebSocket();
+
+  @override
+  Future<void> openWebSocket(Function(dynamic data) dataReceived) async {
+    _service.connectWebSocket(dataReceived);
+  }
+}

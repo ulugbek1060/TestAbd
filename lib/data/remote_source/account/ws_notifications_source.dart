@@ -2,15 +2,11 @@ import 'package:injectable/injectable.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 abstract class WSNotificationsSource {
-  Future<void> connectWebSocket(
-    int userId,
-    Function(dynamic location) onDataReceived,
-  );
-
+  Future<void> connectWebSocket(int userId, Function(dynamic location) dataReceived);
   Future<void> closeWebSocket();
 }
 
-@Injectable(as: WSNotificationsSource)
+@LazySingleton(as: WSNotificationsSource)
 class WSNotificationsSourceImpl implements WSNotificationsSource {
   WebSocketChannel? _channel;
 
@@ -25,13 +21,13 @@ class WSNotificationsSourceImpl implements WSNotificationsSource {
   @override
   Future<void> connectWebSocket(
     int userId,
-    Function(dynamic location) onLocationReceived,
+    Function(dynamic location) dataReceived,
   ) async {
     _channel = WebSocketChannel.connect(
       Uri.parse('wss://backend.testabd.uz/ws/notifications/$userId/'),
     );
     _channel!.stream.listen((message) {
-      onLocationReceived(message);
+      dataReceived(message);
     });
   }
 }

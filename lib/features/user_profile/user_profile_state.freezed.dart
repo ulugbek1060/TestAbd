@@ -15,6 +15,317 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
+mixin _$UserProfileState {
+// global loading
+  bool get isLoading => throw _privateConstructorUsedError; // user profile
+  UserProfileModel? get profile =>
+      throw _privateConstructorUsedError; // global errors
+  String? get error => throw _privateConstructorUsedError; // topics state
+  BlocksState get topicsState =>
+      throw _privateConstructorUsedError; // questions state
+  QuestionsState get questionsState =>
+      throw _privateConstructorUsedError; // book state
+  BooksState get booksState =>
+      throw _privateConstructorUsedError; // follow action state
+  FollowState get followState => throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $UserProfileStateCopyWith<UserProfileState> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $UserProfileStateCopyWith<$Res> {
+  factory $UserProfileStateCopyWith(
+          UserProfileState value, $Res Function(UserProfileState) then) =
+      _$UserProfileStateCopyWithImpl<$Res, UserProfileState>;
+  @useResult
+  $Res call(
+      {bool isLoading,
+      UserProfileModel? profile,
+      String? error,
+      BlocksState topicsState,
+      QuestionsState questionsState,
+      BooksState booksState,
+      FollowState followState});
+
+  $BlocksStateCopyWith<$Res> get topicsState;
+  $QuestionsStateCopyWith<$Res> get questionsState;
+  $BooksStateCopyWith<$Res> get booksState;
+  $FollowStateCopyWith<$Res> get followState;
+}
+
+/// @nodoc
+class _$UserProfileStateCopyWithImpl<$Res, $Val extends UserProfileState>
+    implements $UserProfileStateCopyWith<$Res> {
+  _$UserProfileStateCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? isLoading = null,
+    Object? profile = freezed,
+    Object? error = freezed,
+    Object? topicsState = null,
+    Object? questionsState = null,
+    Object? booksState = null,
+    Object? followState = null,
+  }) {
+    return _then(_value.copyWith(
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      profile: freezed == profile
+          ? _value.profile
+          : profile // ignore: cast_nullable_to_non_nullable
+              as UserProfileModel?,
+      error: freezed == error
+          ? _value.error
+          : error // ignore: cast_nullable_to_non_nullable
+              as String?,
+      topicsState: null == topicsState
+          ? _value.topicsState
+          : topicsState // ignore: cast_nullable_to_non_nullable
+              as BlocksState,
+      questionsState: null == questionsState
+          ? _value.questionsState
+          : questionsState // ignore: cast_nullable_to_non_nullable
+              as QuestionsState,
+      booksState: null == booksState
+          ? _value.booksState
+          : booksState // ignore: cast_nullable_to_non_nullable
+              as BooksState,
+      followState: null == followState
+          ? _value.followState
+          : followState // ignore: cast_nullable_to_non_nullable
+              as FollowState,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $BlocksStateCopyWith<$Res> get topicsState {
+    return $BlocksStateCopyWith<$Res>(_value.topicsState, (value) {
+      return _then(_value.copyWith(topicsState: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $QuestionsStateCopyWith<$Res> get questionsState {
+    return $QuestionsStateCopyWith<$Res>(_value.questionsState, (value) {
+      return _then(_value.copyWith(questionsState: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $BooksStateCopyWith<$Res> get booksState {
+    return $BooksStateCopyWith<$Res>(_value.booksState, (value) {
+      return _then(_value.copyWith(booksState: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $FollowStateCopyWith<$Res> get followState {
+    return $FollowStateCopyWith<$Res>(_value.followState, (value) {
+      return _then(_value.copyWith(followState: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$UserProfileStateImplCopyWith<$Res>
+    implements $UserProfileStateCopyWith<$Res> {
+  factory _$$UserProfileStateImplCopyWith(_$UserProfileStateImpl value,
+          $Res Function(_$UserProfileStateImpl) then) =
+      __$$UserProfileStateImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {bool isLoading,
+      UserProfileModel? profile,
+      String? error,
+      BlocksState topicsState,
+      QuestionsState questionsState,
+      BooksState booksState,
+      FollowState followState});
+
+  @override
+  $BlocksStateCopyWith<$Res> get topicsState;
+  @override
+  $QuestionsStateCopyWith<$Res> get questionsState;
+  @override
+  $BooksStateCopyWith<$Res> get booksState;
+  @override
+  $FollowStateCopyWith<$Res> get followState;
+}
+
+/// @nodoc
+class __$$UserProfileStateImplCopyWithImpl<$Res>
+    extends _$UserProfileStateCopyWithImpl<$Res, _$UserProfileStateImpl>
+    implements _$$UserProfileStateImplCopyWith<$Res> {
+  __$$UserProfileStateImplCopyWithImpl(_$UserProfileStateImpl _value,
+      $Res Function(_$UserProfileStateImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? isLoading = null,
+    Object? profile = freezed,
+    Object? error = freezed,
+    Object? topicsState = null,
+    Object? questionsState = null,
+    Object? booksState = null,
+    Object? followState = null,
+  }) {
+    return _then(_$UserProfileStateImpl(
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      profile: freezed == profile
+          ? _value.profile
+          : profile // ignore: cast_nullable_to_non_nullable
+              as UserProfileModel?,
+      error: freezed == error
+          ? _value.error
+          : error // ignore: cast_nullable_to_non_nullable
+              as String?,
+      topicsState: null == topicsState
+          ? _value.topicsState
+          : topicsState // ignore: cast_nullable_to_non_nullable
+              as BlocksState,
+      questionsState: null == questionsState
+          ? _value.questionsState
+          : questionsState // ignore: cast_nullable_to_non_nullable
+              as QuestionsState,
+      booksState: null == booksState
+          ? _value.booksState
+          : booksState // ignore: cast_nullable_to_non_nullable
+              as BooksState,
+      followState: null == followState
+          ? _value.followState
+          : followState // ignore: cast_nullable_to_non_nullable
+              as FollowState,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$UserProfileStateImpl implements _UserProfileState {
+  const _$UserProfileStateImpl(
+      {this.isLoading = false,
+      this.profile,
+      this.error,
+      this.topicsState = const BlocksState(),
+      this.questionsState = const QuestionsState(),
+      this.booksState = const BooksState(),
+      this.followState = const FollowState()});
+
+// global loading
+  @override
+  @JsonKey()
+  final bool isLoading;
+// user profile
+  @override
+  final UserProfileModel? profile;
+// global errors
+  @override
+  final String? error;
+// topics state
+  @override
+  @JsonKey()
+  final BlocksState topicsState;
+// questions state
+  @override
+  @JsonKey()
+  final QuestionsState questionsState;
+// book state
+  @override
+  @JsonKey()
+  final BooksState booksState;
+// follow action state
+  @override
+  @JsonKey()
+  final FollowState followState;
+
+  @override
+  String toString() {
+    return 'UserProfileState(isLoading: $isLoading, profile: $profile, error: $error, topicsState: $topicsState, questionsState: $questionsState, booksState: $booksState, followState: $followState)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$UserProfileStateImpl &&
+            (identical(other.isLoading, isLoading) ||
+                other.isLoading == isLoading) &&
+            (identical(other.profile, profile) || other.profile == profile) &&
+            (identical(other.error, error) || other.error == error) &&
+            (identical(other.topicsState, topicsState) ||
+                other.topicsState == topicsState) &&
+            (identical(other.questionsState, questionsState) ||
+                other.questionsState == questionsState) &&
+            (identical(other.booksState, booksState) ||
+                other.booksState == booksState) &&
+            (identical(other.followState, followState) ||
+                other.followState == followState));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, isLoading, profile, error,
+      topicsState, questionsState, booksState, followState);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$UserProfileStateImplCopyWith<_$UserProfileStateImpl> get copyWith =>
+      __$$UserProfileStateImplCopyWithImpl<_$UserProfileStateImpl>(
+          this, _$identity);
+}
+
+abstract class _UserProfileState implements UserProfileState {
+  const factory _UserProfileState(
+      {final bool isLoading,
+      final UserProfileModel? profile,
+      final String? error,
+      final BlocksState topicsState,
+      final QuestionsState questionsState,
+      final BooksState booksState,
+      final FollowState followState}) = _$UserProfileStateImpl;
+
+  @override // global loading
+  bool get isLoading;
+  @override // user profile
+  UserProfileModel? get profile;
+  @override // global errors
+  String? get error;
+  @override // topics state
+  BlocksState get topicsState;
+  @override // questions state
+  QuestionsState get questionsState;
+  @override // book state
+  BooksState get booksState;
+  @override // follow action state
+  FollowState get followState;
+  @override
+  @JsonKey(ignore: true)
+  _$$UserProfileStateImplCopyWith<_$UserProfileStateImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
 mixin _$BlocksState {
   bool get isLoading => throw _privateConstructorUsedError;
   bool get isLoadingMore => throw _privateConstructorUsedError;
@@ -695,316 +1006,5 @@ abstract class _FollowState implements FollowState {
   @override
   @JsonKey(ignore: true)
   _$$FollowStateImplCopyWith<_$FollowStateImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-mixin _$UserProfileState {
-// global loading
-  bool get isLoading => throw _privateConstructorUsedError; // user profile
-  UserProfileModel? get profile =>
-      throw _privateConstructorUsedError; // global errors
-  String? get error => throw _privateConstructorUsedError; // topics state
-  BlocksState get topicsState =>
-      throw _privateConstructorUsedError; // questions state
-  QuestionsState get questionsState =>
-      throw _privateConstructorUsedError; // book state
-  BooksState get booksState =>
-      throw _privateConstructorUsedError; // follow action state
-  FollowState get followState => throw _privateConstructorUsedError;
-
-  @JsonKey(ignore: true)
-  $UserProfileStateCopyWith<UserProfileState> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $UserProfileStateCopyWith<$Res> {
-  factory $UserProfileStateCopyWith(
-          UserProfileState value, $Res Function(UserProfileState) then) =
-      _$UserProfileStateCopyWithImpl<$Res, UserProfileState>;
-  @useResult
-  $Res call(
-      {bool isLoading,
-      UserProfileModel? profile,
-      String? error,
-      BlocksState topicsState,
-      QuestionsState questionsState,
-      BooksState booksState,
-      FollowState followState});
-
-  $BlocksStateCopyWith<$Res> get topicsState;
-  $QuestionsStateCopyWith<$Res> get questionsState;
-  $BooksStateCopyWith<$Res> get booksState;
-  $FollowStateCopyWith<$Res> get followState;
-}
-
-/// @nodoc
-class _$UserProfileStateCopyWithImpl<$Res, $Val extends UserProfileState>
-    implements $UserProfileStateCopyWith<$Res> {
-  _$UserProfileStateCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? isLoading = null,
-    Object? profile = freezed,
-    Object? error = freezed,
-    Object? topicsState = null,
-    Object? questionsState = null,
-    Object? booksState = null,
-    Object? followState = null,
-  }) {
-    return _then(_value.copyWith(
-      isLoading: null == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      profile: freezed == profile
-          ? _value.profile
-          : profile // ignore: cast_nullable_to_non_nullable
-              as UserProfileModel?,
-      error: freezed == error
-          ? _value.error
-          : error // ignore: cast_nullable_to_non_nullable
-              as String?,
-      topicsState: null == topicsState
-          ? _value.topicsState
-          : topicsState // ignore: cast_nullable_to_non_nullable
-              as BlocksState,
-      questionsState: null == questionsState
-          ? _value.questionsState
-          : questionsState // ignore: cast_nullable_to_non_nullable
-              as QuestionsState,
-      booksState: null == booksState
-          ? _value.booksState
-          : booksState // ignore: cast_nullable_to_non_nullable
-              as BooksState,
-      followState: null == followState
-          ? _value.followState
-          : followState // ignore: cast_nullable_to_non_nullable
-              as FollowState,
-    ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $BlocksStateCopyWith<$Res> get topicsState {
-    return $BlocksStateCopyWith<$Res>(_value.topicsState, (value) {
-      return _then(_value.copyWith(topicsState: value) as $Val);
-    });
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $QuestionsStateCopyWith<$Res> get questionsState {
-    return $QuestionsStateCopyWith<$Res>(_value.questionsState, (value) {
-      return _then(_value.copyWith(questionsState: value) as $Val);
-    });
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $BooksStateCopyWith<$Res> get booksState {
-    return $BooksStateCopyWith<$Res>(_value.booksState, (value) {
-      return _then(_value.copyWith(booksState: value) as $Val);
-    });
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $FollowStateCopyWith<$Res> get followState {
-    return $FollowStateCopyWith<$Res>(_value.followState, (value) {
-      return _then(_value.copyWith(followState: value) as $Val);
-    });
-  }
-}
-
-/// @nodoc
-abstract class _$$UserProfileStateImplCopyWith<$Res>
-    implements $UserProfileStateCopyWith<$Res> {
-  factory _$$UserProfileStateImplCopyWith(_$UserProfileStateImpl value,
-          $Res Function(_$UserProfileStateImpl) then) =
-      __$$UserProfileStateImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {bool isLoading,
-      UserProfileModel? profile,
-      String? error,
-      BlocksState topicsState,
-      QuestionsState questionsState,
-      BooksState booksState,
-      FollowState followState});
-
-  @override
-  $BlocksStateCopyWith<$Res> get topicsState;
-  @override
-  $QuestionsStateCopyWith<$Res> get questionsState;
-  @override
-  $BooksStateCopyWith<$Res> get booksState;
-  @override
-  $FollowStateCopyWith<$Res> get followState;
-}
-
-/// @nodoc
-class __$$UserProfileStateImplCopyWithImpl<$Res>
-    extends _$UserProfileStateCopyWithImpl<$Res, _$UserProfileStateImpl>
-    implements _$$UserProfileStateImplCopyWith<$Res> {
-  __$$UserProfileStateImplCopyWithImpl(_$UserProfileStateImpl _value,
-      $Res Function(_$UserProfileStateImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? isLoading = null,
-    Object? profile = freezed,
-    Object? error = freezed,
-    Object? topicsState = null,
-    Object? questionsState = null,
-    Object? booksState = null,
-    Object? followState = null,
-  }) {
-    return _then(_$UserProfileStateImpl(
-      isLoading: null == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      profile: freezed == profile
-          ? _value.profile
-          : profile // ignore: cast_nullable_to_non_nullable
-              as UserProfileModel?,
-      error: freezed == error
-          ? _value.error
-          : error // ignore: cast_nullable_to_non_nullable
-              as String?,
-      topicsState: null == topicsState
-          ? _value.topicsState
-          : topicsState // ignore: cast_nullable_to_non_nullable
-              as BlocksState,
-      questionsState: null == questionsState
-          ? _value.questionsState
-          : questionsState // ignore: cast_nullable_to_non_nullable
-              as QuestionsState,
-      booksState: null == booksState
-          ? _value.booksState
-          : booksState // ignore: cast_nullable_to_non_nullable
-              as BooksState,
-      followState: null == followState
-          ? _value.followState
-          : followState // ignore: cast_nullable_to_non_nullable
-              as FollowState,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$UserProfileStateImpl implements _UserProfileState {
-  const _$UserProfileStateImpl(
-      {this.isLoading = false,
-      this.profile,
-      this.error,
-      this.topicsState = const BlocksState(),
-      this.questionsState = const QuestionsState(),
-      this.booksState = const BooksState(),
-      this.followState = const FollowState()});
-
-// global loading
-  @override
-  @JsonKey()
-  final bool isLoading;
-// user profile
-  @override
-  final UserProfileModel? profile;
-// global errors
-  @override
-  final String? error;
-// topics state
-  @override
-  @JsonKey()
-  final BlocksState topicsState;
-// questions state
-  @override
-  @JsonKey()
-  final QuestionsState questionsState;
-// book state
-  @override
-  @JsonKey()
-  final BooksState booksState;
-// follow action state
-  @override
-  @JsonKey()
-  final FollowState followState;
-
-  @override
-  String toString() {
-    return 'UserProfileState(isLoading: $isLoading, profile: $profile, error: $error, topicsState: $topicsState, questionsState: $questionsState, booksState: $booksState, followState: $followState)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$UserProfileStateImpl &&
-            (identical(other.isLoading, isLoading) ||
-                other.isLoading == isLoading) &&
-            (identical(other.profile, profile) || other.profile == profile) &&
-            (identical(other.error, error) || other.error == error) &&
-            (identical(other.topicsState, topicsState) ||
-                other.topicsState == topicsState) &&
-            (identical(other.questionsState, questionsState) ||
-                other.questionsState == questionsState) &&
-            (identical(other.booksState, booksState) ||
-                other.booksState == booksState) &&
-            (identical(other.followState, followState) ||
-                other.followState == followState));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, isLoading, profile, error,
-      topicsState, questionsState, booksState, followState);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$UserProfileStateImplCopyWith<_$UserProfileStateImpl> get copyWith =>
-      __$$UserProfileStateImplCopyWithImpl<_$UserProfileStateImpl>(
-          this, _$identity);
-}
-
-abstract class _UserProfileState implements UserProfileState {
-  const factory _UserProfileState(
-      {final bool isLoading,
-      final UserProfileModel? profile,
-      final String? error,
-      final BlocksState topicsState,
-      final QuestionsState questionsState,
-      final BooksState booksState,
-      final FollowState followState}) = _$UserProfileStateImpl;
-
-  @override // global loading
-  bool get isLoading;
-  @override // user profile
-  UserProfileModel? get profile;
-  @override // global errors
-  String? get error;
-  @override // topics state
-  BlocksState get topicsState;
-  @override // questions state
-  QuestionsState get questionsState;
-  @override // book state
-  BooksState get booksState;
-  @override // follow action state
-  FollowState get followState;
-  @override
-  @JsonKey(ignore: true)
-  _$$UserProfileStateImplCopyWith<_$UserProfileStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
