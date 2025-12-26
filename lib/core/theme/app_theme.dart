@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:testabd/core/theme/app_typography.dart';
 
 import 'app_colors.dart';
 
@@ -24,6 +25,11 @@ class AppTheme {
       onSurface: AppColors.textPrimary,
       onError: AppColors.textPrimary,
     ),
+    
+    // --------------------------------------------------
+    // TYPOGRAPHY
+    // --------------------------------------------------
+    textTheme: AppTypography.textTheme,
 
     // --------------------------------------------------
     // APP BAR

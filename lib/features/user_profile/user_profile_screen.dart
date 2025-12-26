@@ -280,6 +280,7 @@ class _ViewState extends State<_View> with SingleTickerProviderStateMixin {
                                             )
                                           : BorderSide.none,
                                       borderRadius: BorderRadius.circular(10),
+
                                     ),
                                     padding: const EdgeInsets.symmetric(
                                       vertical: 12,
@@ -705,14 +706,14 @@ class _PerformanceItem extends StatelessWidget {
                   color: color.withAlpha(50),
                   shape: BoxShape.circle,
                 ),
-                child: Icon(icon, color: color),
+                child: Icon(icon, color: color, size: 18),
               ),
               const Spacer(),
               Text(
                 value,
                 style: const TextStyle(
                   color: Colors.white,
-                  fontSize: 24,
+                  fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -724,9 +725,9 @@ class _PerformanceItem extends StatelessWidget {
           ),
           if (progress != null)
             LinearProgressIndicator(
-              value: progress,
-              backgroundColor: Colors.grey.shade800,
-              color: color,
+              value: (progress ?? 1) / 100,
+              valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
+              backgroundColor: Color(0xffD6D6D6),
               borderRadius: BorderRadius.circular(4),
             ),
         ],
@@ -830,10 +831,14 @@ class BookCard extends StatelessWidget {
         fit: StackFit.expand,
         children: [
           // Background cover image
-          Image.network(
-            book.coverUrl,
+          CachedNetworkImage(
+            imageUrl: book.coverUrl,
             fit: BoxFit.cover,
-            errorBuilder: (context, error, stackTrace) => Container(
+            placeholder: (_, __) => Container(
+              color: Colors.grey.shade800,
+              child: const Icon(Icons.book, size: 60, color: Colors.white54),
+            ),
+            errorWidget: (_, __, ___) => Container(
               color: Colors.grey.shade800,
               child: const Icon(Icons.book, size: 60, color: Colors.white54),
             ),
@@ -865,7 +870,7 @@ class BookCard extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 18,
+                    fontSize: 14,
                     fontWeight: FontWeight.bold,
                     shadows: [
                       Shadow(
@@ -885,20 +890,18 @@ class BookCard extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     color: Colors.white.withOpacity(0.9),
-                    fontSize: 14,
+                    fontSize: 12,
                   ),
                 ),
                 const SizedBox(height: 8),
 
-                _RatingStars(
-                  rating: book.rating,
-                ),
+                _RatingStars(rating: book.rating),
 
                 Text(
                   book.rating.toStringAsFixed(1),
                   style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 14,
+                    fontSize: 12,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -912,7 +915,6 @@ class BookCard extends StatelessWidget {
 }
 
 // ---------------- SUPPORTING WIDGETS ----------------
-
 class _RatingStars extends StatelessWidget {
   final double rating;
 
@@ -931,7 +933,7 @@ class _RatingStars extends StatelessWidget {
               : halfFilled
               ? Icons.star_half_rounded
               : Icons.star_border_rounded,
-          size: 18,
+          size: 14,
           color: const Color(0xFFFFC107),
         );
       }),
