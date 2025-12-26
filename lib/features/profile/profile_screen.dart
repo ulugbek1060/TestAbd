@@ -40,7 +40,11 @@ class ProfileScreen extends StatelessWidget {
           "@devmaverick",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        actions: const [Icon(Icons.more_vert), SizedBox(width: 12)],
+        actions: [
+          IconButton(onPressed: () {}, icon: Icon(Icons.light_mode_rounded)),
+          Icon(Icons.more_vert),
+          SizedBox(width: 12),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
