@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter/material.dart';
-
-class AppColors {
+class AppDarkColors {
   // --------------------------------------------------
   // BRAND (INSTAGRAM)
   // --------------------------------------------------
@@ -67,3 +65,70 @@ class AppColors {
   // --------------------------------------------------
   static const Color error = Color(0xFFED4956);
 }
+
+class AppColorsLight {
+  // --------------------------------------------------
+  // BRAND (INSTAGRAM)
+  // --------------------------------------------------
+  static const Color primary = Colors.white;
+  static const Color secondary = Color(0xFF405DE6);
+
+  static const Color instagramPurple = Color(0xFF833AB4);
+  static const Color instagramPink = Color(0xFFE1306C);
+  static const Color instagramOrange = Color(0xFFF56040);
+  static const Color instagramYellow = Color(0xFFFCAF45);
+
+  // Gradient used for buttons / highlights
+  static const LinearGradient instagramGradient = LinearGradient(
+    colors: [
+      instagramPurple,
+      instagramPink,
+      instagramOrange,
+      instagramYellow,
+    ],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
+
+  // --------------------------------------------------
+  // TEXT
+  // --------------------------------------------------
+  static const Color textPrimary = Color(0xFF000000);
+  static const Color textSecondary = Color(0xFF737373);
+
+  // --------------------------------------------------
+  // BACKGROUND & SURFACE
+  // --------------------------------------------------
+  static const Color scaffoldBackground = Colors.white;
+  static const Color surface = Color(0xFFF8F8F8);
+  static const Color surfaceVariant = Color(0xFFF1F1F1);
+
+  // --------------------------------------------------
+  // BORDERS & DIVIDERS
+  // --------------------------------------------------
+  static const Color outline = Color(0xFFDBDBDB);
+  static const Color divider = Color(0xFFE5E5E5);
+
+  // --------------------------------------------------
+  // INPUT
+  // --------------------------------------------------
+  static const Color inputFill = Color(0xFFF2F2F2);
+  static const Color inputFocusedBorder = instagramPink;
+
+  // --------------------------------------------------
+  // BUTTONS
+  // --------------------------------------------------
+  static const Color elevatedButtonText = Colors.white;
+  static const Color outlinedButtonBorder = Color(0xFFDBDBDB);
+
+  // --------------------------------------------------
+  // ICONS
+  // --------------------------------------------------
+  static const Color icon = Color(0xFF262626);
+
+  // --------------------------------------------------
+  // STATUS
+  // --------------------------------------------------
+  static const Color error = Color(0xFFED4956);
+}
+

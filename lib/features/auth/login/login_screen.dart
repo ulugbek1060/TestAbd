@@ -86,7 +86,7 @@ class _View extends StatelessWidget {
                         hintText: "Foydalanuvchi nomini kiriting",
                         prefixIcon: const Icon(
                           Icons.mail_outline,
-                          color: AppColors.textSecondary,
+                          color: AppDarkColors.textSecondary,
                         ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(14),
@@ -102,14 +102,14 @@ class _View extends StatelessWidget {
                         hintText: "Parol",
                         prefixIcon: const Icon(
                           Icons.lock,
-                          color: AppColors.textSecondary,
+                          color: AppDarkColors.textSecondary,
                         ),
                         suffixIcon: IconButton(
                           icon: Icon(
                             state.isPasswordVisible
                                 ? Icons.visibility
                                 : Icons.visibility_off,
-                            color: AppColors.textSecondary,
+                            color: AppDarkColors.textSecondary,
                           ),
                           onPressed: cubit.togglePasswordVisibility,
                         ),

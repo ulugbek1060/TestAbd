@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:testabd/core/theme/app_theme.dart';
+import 'package:testabd/core/utils/app_mode_service.dart';
 import 'package:testabd/di/app_config.dart';
 import 'package:testabd/router/app_router.dart';
 
@@ -57,14 +58,20 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: 'TestAbd',
-      theme: AppTheme.themeDark,
-      debugShowCheckedModeBanner: false,
-      themeMode: ThemeMode.light,
-      routerDelegate: appRouter.routerDelegate,
-      routeInformationParser: appRouter.routeInformationParser,
-      routeInformationProvider: appRouter.routeInformationProvider,
+    return StreamBuilder(
+      stream: locator<AppModeService>().stream,
+      builder: (context, asyncSnapshot) {
+        return MaterialApp.router(
+          title: 'TestAbd',
+          theme: AppTheme.themeLight,
+          darkTheme: AppTheme.themeDark,
+          debugShowCheckedModeBanner: false,
+          themeMode: asyncSnapshot.data,
+          routerDelegate: appRouter.routerDelegate,
+          routeInformationParser: appRouter.routeInformationParser,
+          routeInformationProvider: appRouter.routeInformationProvider,
+        );
+      }
     );
   }
 }

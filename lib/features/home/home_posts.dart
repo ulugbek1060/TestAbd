@@ -167,7 +167,7 @@ class QuestionCard extends StatelessWidget {
                 ),
 
                 /// divider
-                Divider(color: AppColors.textSecondary),
+                Divider(color: AppDarkColors.textSecondary),
 
                 /// question information
                 _BottomQuestionInformation(
