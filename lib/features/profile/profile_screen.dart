@@ -104,9 +104,45 @@ class _View extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Row(
                     children: [
-                      Expanded(child: _ActionButton(text: "Edit profile")),
+                      Expanded(
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Theme.of(
+                              context,
+                            ).colorScheme.surface,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                          onPressed: () {},
+                          child: Text(
+                            'Edit profile',
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.onSurface,
+                            ),
+                          ),
+                        ),
+                      ),
                       const SizedBox(width: 8),
-                      Expanded(child: _ActionButton(text: "Share profile")),
+                      Expanded(
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Theme.of(
+                              context,
+                            ).colorScheme.surface,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                          onPressed: () {},
+                          child: Text(
+                            'Share profile',
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.onSurface,
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -114,27 +150,6 @@ class _View extends StatelessWidget {
                 const SizedBox(height: 24),
 
                 /// Statistics Cards
-                _InfoCard(
-                  title: "Savollarga javob",
-                  leftLabel: "To'g'ri",
-                  leftValue: "60",
-                  rightLabel: "Xato",
-                  rightValue: "115",
-                ),
-
-                _InfoCard(
-                  title: "Aniqlik darajasi",
-                  centerValue: "34.29%",
-                  centerColor: Colors.green,
-                ),
-
-                _InfoCard(
-                  title: "Haftalik faollik",
-                  leftLabel: "Jami",
-                  leftValue: "2.0",
-                  rightLabel: "O'rtacha",
-                  rightValue: "0.3",
-                ),
               ],
             ),
           ),
@@ -195,51 +210,3 @@ class _ActionButton extends StatelessWidget {
     );
   }
 }
-
-class _InfoCard extends StatelessWidget {
-  final String title;
-  final String? leftLabel;
-  final String? leftValue;
-  final String? rightLabel;
-  final String? rightValue;
-  final String? centerValue;
-  final Color? centerColor;
-
-  const _InfoCard({
-    required this.title,
-    this.leftLabel,
-    this.leftValue,
-    this.rightLabel,
-    this.rightValue,
-    this.centerValue,
-    this.centerColor,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(16),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Text(
-                title,
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.onSurface,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-

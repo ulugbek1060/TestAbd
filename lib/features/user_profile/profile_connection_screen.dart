@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:testabd/core/theme/app_images.dart';
+import 'package:testabd/core/utils/formatters.dart';
 import 'package:testabd/core/widgets/loading_widget.dart';
 import 'package:testabd/di/app_config.dart';
 import 'package:testabd/domain/account/entities/user_connections_model.dart';
@@ -77,7 +78,9 @@ class _ViewState extends State<_View> {
         appBar: AppBar(
           title: const Text('Connections'),
           centerTitle: true,
-          bottom: const TabBar(
+          bottom: TabBar(
+            unselectedLabelColor: Theme.of(context).colorScheme.onSurface,
+            labelColor: Theme.of(context).colorScheme.onSurface,
             tabs: [
               Tab(text: 'Followers'),
               Tab(text: 'Following'),
@@ -87,9 +90,7 @@ class _ViewState extends State<_View> {
         body: BlocBuilder<ProfileConnectionCubit, ProfileConnectionState>(
           builder: (context, state) {
             if (state.isLoading) {
-              return Center(
-                child: ProgressView(),
-              );
+              return Center(child: ProgressView());
             }
 
             return TabBarView(
@@ -169,16 +170,23 @@ class UserTile extends StatelessWidget {
       ),
       title: Text(
         user.username,
-        style: const TextStyle(fontWeight: FontWeight.w600),
+        style: TextStyle(
+          fontWeight: FontWeight.w600,
+          fontSize: 16,
+          color: Theme.of(context).colorScheme.onSurface,
+        ),
       ),
-      subtitle: Text(user.username),
+      subtitle: Text(
+        capitalize(user.firstName),
+        style: TextStyle(color: Colors.grey),
+      ),
       trailing: SizedBox(
         height: 32,
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
             backgroundColor: user.isFollowing
-                ? Colors.grey.shade700
-                : const Color(0xFF3797EF),
+                ? Theme.of(context).colorScheme.onSurface.withAlpha(150)
+                : Colors.blue,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),
             ),
@@ -186,7 +194,10 @@ class UserTile extends StatelessWidget {
           onPressed: user.isLoading ? null : onTapFollow,
           child: user.isLoading
               ? SizedBox(width: 16, height: 16, child: const ProgressView())
-              : Text(user.isFollowing ? 'Unfollow' : 'Follow'),
+              : Text(
+                  user.isFollowing ? 'Unfollow' : 'Follow',
+                  style: TextStyle(color: Colors.white),
+                ),
         ),
       ),
     );

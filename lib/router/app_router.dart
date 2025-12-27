@@ -58,6 +58,7 @@ GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 final appRouter = GoRouter(
   navigatorKey: navigatorKey,
   debugLogDiagnostics: true,
+  initialLocation: AppRouter.initial,
   routes: [
     GoRoute(
       path: AppRouter.initial,

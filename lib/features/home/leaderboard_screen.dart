@@ -203,8 +203,8 @@ class TopUser extends StatelessWidget {
         const SizedBox(height: 8),
         Text(
           name,
-          style: const TextStyle(
-            color: Colors.white,
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.onSurface,
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -237,7 +237,6 @@ class _LeaderboardList extends StatelessWidget {
     final cubit = context.read<LeaderboardCubit>();
     return BlocBuilder<LeaderboardCubit, LeaderboardState>(
       builder: (context, state) {
-
         // global loading
         if (state.isLoading) {
           return SliverFillRemaining(child: Center(child: ProgressView()));
@@ -325,8 +324,8 @@ class _ListTile extends StatelessWidget {
             Expanded(
               child: Text(
                 user.username,
-                style: const TextStyle(
-                  color: Colors.white,
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onSurface,
                   fontWeight: FontWeight.w500,
                 ),
                 maxLines: 1,
@@ -350,8 +349,8 @@ class _ListTile extends StatelessWidget {
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: user.isFollowing
-                      ? Colors.grey.shade700
-                      : const Color(0xFF3797EF),
+                      ? Theme.of(context).colorScheme.onSurface.withAlpha(150)
+                      : Colors.blue,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
@@ -359,7 +358,10 @@ class _ListTile extends StatelessWidget {
                 onPressed: user.isLoading ? null : onFollowTap,
                 child: user.isLoading
                     ? const ProgressView()
-                    : Text(user.isFollowing ? 'Unfollow' : 'Follow'),
+                    : Text(
+                        user.isFollowing ? 'Unfollow' : 'Follow',
+                        style: TextStyle(color: Colors.white),
+                      ),
               ),
             ),
           ],

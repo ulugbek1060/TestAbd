@@ -14,12 +14,7 @@ class AppDarkColors {
 
   // Gradient used for buttons / highlights
   static const LinearGradient instagramGradient = LinearGradient(
-    colors: [
-      instagramPurple,
-      instagramPink,
-      instagramOrange,
-      instagramYellow,
-    ],
+    colors: [instagramPurple, instagramPink, instagramOrange, instagramYellow],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
@@ -80,12 +75,7 @@ class AppColorsLight {
 
   // Gradient used for buttons / highlights
   static const LinearGradient instagramGradient = LinearGradient(
-    colors: [
-      instagramPurple,
-      instagramPink,
-      instagramOrange,
-      instagramYellow,
-    ],
+    colors: [instagramPurple, instagramPink, instagramOrange, instagramYellow],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
@@ -132,3 +122,9 @@ class AppColorsLight {
   static const Color error = Color(0xFFED4956);
 }
 
+abstract class AppColors {
+
+  static Color onSurfaceColor(BuildContext context) =>
+      Theme.of(context).colorScheme.onSurface.withAlpha(20);
+
+}

@@ -20,9 +20,11 @@ class ShellScreen extends StatelessWidget {
       bottomNavigationBar: BottomNavigationBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
-        unselectedIconTheme: const IconThemeData(color: Colors.white),
-        unselectedLabelStyle: const TextStyle(
-          color: Colors.white,
+        unselectedIconTheme: IconThemeData(
+          color: colorScheme.onSurface.withAlpha(120),
+        ),
+        unselectedLabelStyle: TextStyle(
+          color: colorScheme.onSurface,
           fontSize: 12,
         ),
         selectedIconTheme: IconThemeData(color: colorScheme.secondary),
@@ -69,7 +71,6 @@ class ShellScreen extends StatelessWidget {
         ],
         selectedItemColor: colorScheme.secondary,
         currentIndex: navShell.currentIndex,
-        unselectedItemColor: Colors.white,
         type: BottomNavigationBarType.fixed,
         onTap: (index) => navShell.goBranch(index),
       ),

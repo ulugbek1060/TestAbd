@@ -2,13 +2,14 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:testabd/core/theme/app_colors.dart';
 import 'package:testabd/core/theme/app_images.dart';
+import 'package:testabd/core/utils/formatters.dart';
 import 'package:testabd/core/utils/question_difficulty_x.dart';
 import 'package:testabd/core/widgets/loading_widget.dart';
 import 'package:testabd/di/app_config.dart';
-import 'package:testabd/features/user_profile/block_card.dart';
+import 'package:testabd/domain/question_difficulty.dart';
 import 'package:testabd/features/user_profile/profile_connection_screen.dart';
-import 'package:testabd/features/user_profile/question_card.dart';
 import 'package:testabd/features/user_profile/user_profile_cubit.dart';
 import 'package:testabd/features/user_profile/user_profile_state.dart';
 import 'package:testabd/router/app_router.dart';
@@ -69,18 +70,15 @@ class _ViewState extends State<_View> with SingleTickerProviderStateMixin {
           onRefresh: cubit.refresh,
           color: Theme.of(context).colorScheme.secondary,
           child: Scaffold(
-            backgroundColor: Colors.black,
-
             /// appBar
             appBar: AppBar(
-              backgroundColor: Colors.black,
               elevation: 0,
               centerTitle: false,
               title: Text(
                 cubit.username,
-                style: Theme.of(
-                  context,
-                ).textTheme.titleLarge?.copyWith(color: Colors.white),
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
               ),
             ),
 
@@ -142,7 +140,7 @@ class _ViewState extends State<_View> with SingleTickerProviderStateMixin {
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
                                     // followers
-                                    GestureDetector(
+                                    _StatItem(
                                       onTap: () => context.push(
                                         AppRouter.profileConnectionWithUserId(
                                           userId: state.profile?.user?.id ?? 0,
@@ -151,29 +149,12 @@ class _ViewState extends State<_View> with SingleTickerProviderStateMixin {
                                               .name,
                                         ),
                                       ),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            '${state.profile?.user?.followersCount ?? 0}',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 24,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          Text(
-                                            'Followers',
-                                            style: TextStyle(
-                                              color: Colors.grey.shade400,
-                                              fontSize: 14,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+                                      title: 'Followers',
+                                      value:
+                                          '${state.profile?.user?.followersCount ?? 0}',
                                     ),
 
-                                    // following
-                                    GestureDetector(
+                                    _StatItem(
                                       onTap: () => context.push(
                                         AppRouter.profileConnectionWithUserId(
                                           userId: state.profile?.user?.id ?? 0,
@@ -182,25 +163,9 @@ class _ViewState extends State<_View> with SingleTickerProviderStateMixin {
                                               .name,
                                         ),
                                       ),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            '${state.profile?.user?.followingCount ?? 0}',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 24,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          Text(
-                                            'Following',
-                                            style: TextStyle(
-                                              color: Colors.grey.shade400,
-                                              fontSize: 14,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+                                      title: 'Following',
+                                      value:
+                                          '${state.profile?.user?.followingCount ?? 0}',
                                     ),
                                   ],
                                 ),
@@ -212,37 +177,27 @@ class _ViewState extends State<_View> with SingleTickerProviderStateMixin {
 
                       /// User bio section
                       SliverToBoxAdapter(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 12,
-                          ),
+                        child: Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                state.profile?.user?.getFullName ?? '',
+                                "Beginner Developer 👨‍💻",
                                 style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onSurface,
+                                  fontWeight: FontWeight.w600,
                                 ),
                               ),
-                              const SizedBox(height: 4),
+
+                              SizedBox(height: 4),
+
                               Text(
-                                '📚 Fantasy & Sci-Fi Lover | 🧠 Daily Quiz Master\n🎯 Learning Goals: Read 50 books this year',
-                                style: TextStyle(
-                                  color: Colors.grey.shade300,
-                                  fontSize: 14,
-                                ),
-                              ),
-                              const SizedBox(height: 4),
-                              const Text(
-                                '📍 Bookworm Academy',
-                                style: TextStyle(
-                                  color: Colors.blue,
-                                  fontSize: 14,
-                                ),
+                                "Learning • Practicing • Growing",
+                                style: TextStyle(color: Colors.grey),
                               ),
                             ],
                           ),
@@ -262,35 +217,24 @@ class _ViewState extends State<_View> with SingleTickerProviderStateMixin {
                             children: [
                               Expanded(
                                 child: ElevatedButton(
-                                  onPressed: state.followState.isLoading
-                                      ? null
-                                      : () => cubit.followAction(),
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor:
                                         state.profile?.user?.isFollowing ??
                                             false
-                                        ? Colors.transparent
-                                        : Colors.blue,
+                                        ? Theme.of(context).colorScheme.surface
+                                        : Colors.blueAccent,
                                     shape: RoundedRectangleBorder(
-                                      side:
-                                          state.profile?.user?.isFollowing ??
-                                              false
-                                          ? BorderSide(
-                                              color: Colors.white.withAlpha(70),
-                                            )
-                                          : BorderSide.none,
-                                      borderRadius: BorderRadius.circular(10),
-
-                                    ),
-                                    padding: const EdgeInsets.symmetric(
-                                      vertical: 12,
+                                      borderRadius: BorderRadius.circular(8),
                                     ),
                                   ),
+                                  onPressed: state.followState.isLoading
+                                      ? null
+                                      : cubit.followAction,
                                   child: state.followState.isLoading
                                       ? SizedBox(
                                           width: 18,
                                           height: 18,
-                                          child: ProgressView(),
+                                          child: ProgressView(strokeWidth: 3),
                                         )
                                       : Text(
                                           state.profile?.user?.isFollowing ??
@@ -298,7 +242,16 @@ class _ViewState extends State<_View> with SingleTickerProviderStateMixin {
                                               ? "Followed"
                                               : "Follow",
                                           style: TextStyle(
-                                            color: Colors.white,
+                                            color:
+                                                state
+                                                        .profile
+                                                        ?.user
+                                                        ?.isFollowing ??
+                                                    false
+                                                ? Theme.of(
+                                                    context,
+                                                  ).colorScheme.onSurface
+                                                : Colors.white,
                                             fontWeight: FontWeight.bold,
                                             fontSize: 16,
                                           ),
@@ -306,22 +259,24 @@ class _ViewState extends State<_View> with SingleTickerProviderStateMixin {
                                 ),
                               ),
                               const SizedBox(width: 8),
-                              Container(
-                                width: 50,
-                                height: 50,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                    color: Colors.grey.shade600,
+                              Expanded(
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Theme.of(
+                                      context,
+                                    ).colorScheme.surface,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
                                   ),
-                                ),
-                                child: IconButton(
-                                  onPressed: () {
-                                    // TODO share action
-                                  },
-                                  icon: const Icon(
-                                    Icons.share_outlined,
-                                    color: Colors.white,
+                                  onPressed: () {},
+                                  child: Text(
+                                    'Share profile',
+                                    style: TextStyle(
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.onSurface,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -334,11 +289,7 @@ class _ViewState extends State<_View> with SingleTickerProviderStateMixin {
                       SliverMainAxisGroup(
                         slivers: [
                           SliverPadding(
-                            padding: const EdgeInsets.only(
-                              left: 16,
-                              right: 16,
-                              top: 6,
-                            ),
+                            padding: const EdgeInsets.only(left: 16, right: 16),
                             sliver: SliverToBoxAdapter(
                               child: Column(
                                 children: [
@@ -346,15 +297,20 @@ class _ViewState extends State<_View> with SingleTickerProviderStateMixin {
                                     children: [
                                       Icon(
                                         Icons.analytics_rounded,
-                                        color: Colors.white,
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.onSurface.withAlpha(120),
                                       ),
                                       const SizedBox(width: 8),
-                                      const Text(
+                                      Text(
                                         'Quiz Performance',
                                         style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 20,
+                                          fontSize: 16,
                                           fontWeight: FontWeight.bold,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onSurface
+                                              .withAlpha(120),
                                         ),
                                       ),
                                     ],
@@ -427,9 +383,14 @@ class _ViewState extends State<_View> with SingleTickerProviderStateMixin {
                       SliverPersistentHeader(
                         pinned: true,
                         delegate: _SliverAppBarDelegate(
-                          backgroundColor: Colors.black,
+                          backgroundColor: Theme.of(
+                            context,
+                          ).scaffoldBackgroundColor,
                           TabBar(
-                            unselectedLabelColor: Colors.white,
+                            unselectedLabelColor: Theme.of(
+                              context,
+                            ).colorScheme.onSurface,
+                            labelColor: Theme.of(context).colorScheme.onSurface,
                             onTap: (index) {
                               setState(() {
                                 switch (index) {
@@ -481,6 +442,9 @@ class _ViewState extends State<_View> with SingleTickerProviderStateMixin {
   }
 }
 
+// ------------------------------------------------------
+// Block question section
+// ------------------------------------------------------
 class _BlocksSection extends StatelessWidget {
   final BlocksState state;
   final bool isEnabled;
@@ -546,6 +510,176 @@ class _BlocksSection extends StatelessWidget {
   }
 }
 
+class QuestionCollectionCard extends StatelessWidget {
+  final String title;
+  final String description;
+  final int questionCount;
+  final DateTime createdAt;
+  final VoidCallback onTap;
+
+  const QuestionCollectionCard({
+    super.key,
+    required this.title,
+    required this.description,
+    required this.questionCount,
+    required this.createdAt,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppColors.onSurfaceColor(context),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // --------------------------------------------------
+              // TITLE ROW
+              // --------------------------------------------------
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        color: Theme.of(context).colorScheme.onSurface,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: AppColors.onSurfaceColor(context),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      size: 12,
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 8),
+
+              // --------------------------------------------------
+              // DESCRIPTION
+              // --------------------------------------------------
+              Text(
+                description,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  height: 1.3,
+                ),
+              ),
+
+              const Spacer(),
+
+              // --------------------------------------------------
+              // INFO
+              // --------------------------------------------------
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _InfoChip(
+                    icon: Icons.help_outline,
+                    label: "$questionCount questions",
+                  ),
+                  const SizedBox(height: 6),
+                  _InfoChip(icon: Icons.schedule, label: formatDate(createdAt)),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _InfoChip extends StatelessWidget {
+  final IconData icon;
+  final String label;
+
+  const _InfoChip({required this.icon, required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      decoration: BoxDecoration(
+        color: AppColors.onSurfaceColor(context),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            icon,
+            size: 14,
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
+          ),
+          const SizedBox(width: 6),
+          Text(
+            label,
+            style: Theme.of(context).textTheme.labelSmall?.copyWith(
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _StatItem extends StatelessWidget {
+  final String title;
+  final String value;
+  final VoidCallback? onTap;
+
+  const _StatItem({required this.title, required this.value, this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        children: [
+          Text(
+            value,
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            title,
+            style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ------------------------------------------------------
+// Book section
+// ------------------------------------------------------
 class _QuestionsSection extends StatelessWidget {
   final QuestionsState state;
   final bool isEnabled;
@@ -613,6 +747,210 @@ class _QuestionsSection extends StatelessWidget {
   }
 }
 
+class QuestionCard extends StatelessWidget {
+  final String title;
+  final String description;
+  final DateTime? createdAt;
+  final int? correctAnswers;
+  final int? wrongAnswers;
+  final QuestionDifficulty difficulty;
+  final void Function()? onTap;
+
+  const QuestionCard({
+    super.key,
+    required this.title,
+    required this.description,
+    this.createdAt,
+    required this.correctAnswers,
+    required this.wrongAnswers,
+    required this.difficulty,
+    this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.surface,
+          borderRadius: BorderRadius.circular(20),
+          // boxShadow: [
+          //   BoxShadow(
+          //     color: Theme.of(context).colorScheme.onSurface.withOpacity(0.1),
+          //     blurRadius: 12,
+          //     offset: const Offset(0, 0),
+          //   ),
+          // ],
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              /// Title row + difficulty
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Text(
+                      title,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: theme.textTheme.titleSmall?.copyWith(
+                        color: Theme.of(context).colorScheme.onSurface,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  _DifficultyChip(
+                    label: difficulty.name.toUpperCase(),
+                    color: difficulty.color,
+                  ),
+                ],
+              ),
+              const SizedBox(height: 4),
+
+              /// Description
+              Text(
+                description,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: Colors.grey,
+                  height: 1.4,
+                ),
+              ),
+
+              const Spacer(),
+
+              /// Stats row
+              Row(
+                children: [
+                  _QuestionStatItem(
+                    icon: Icons.check_circle_outline,
+                    value: correctAnswers,
+                    color: const Color(0xFF4CAF50),
+                  ),
+                  const SizedBox(width: 8),
+                  _QuestionStatItem(
+                    icon: Icons.cancel_outlined,
+                    value: wrongAnswers,
+                    color: const Color(0xFFF44336),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              _DateChip(date: formatDate(createdAt)),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _DifficultyChip extends StatelessWidget {
+  final String label;
+  final Color color;
+
+  const _DifficultyChip({required this.label, required this.color});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        color: color.withOpacity(0.15),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: color.withOpacity(0.4)),
+      ),
+      child: Text(
+        label,
+        style: Theme.of(context).textTheme.labelSmall?.copyWith(
+          color: color,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    );
+  }
+}
+
+class _QuestionStatItem extends StatelessWidget {
+  final IconData icon;
+  final int? value;
+  final Color color;
+
+  const _QuestionStatItem({
+    required this.icon,
+    required this.value,
+    required this.color,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        color: color.withOpacity(0.12),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 14, color: color),
+          const SizedBox(width: 6),
+          Text(
+            value?.toString() ?? '0',
+            style: Theme.of(context).textTheme.labelSmall?.copyWith(
+              color: color,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _DateChip extends StatelessWidget {
+  final String date;
+
+  const _DateChip({required this.date});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      decoration: BoxDecoration(
+        color: AppColors.onSurfaceColor(context),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Row(
+        children: [
+          Icon(
+            Icons.schedule,
+            size: 14,
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
+          const SizedBox(width: 6),
+          Text(
+            date,
+            style: Theme.of(context).textTheme.labelSmall?.copyWith(
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ------------------------------------------------------
+// Book section
+// ------------------------------------------------------
 class _BooksSections extends StatelessWidget {
   final BooksState state;
   final bool isEnabled;
@@ -667,98 +1005,6 @@ class _BooksSections extends StatelessWidget {
         }, childCount: books.length),
       ),
     );
-  }
-}
-
-class _PerformanceItem extends StatelessWidget {
-  final String title;
-  final String value;
-  final IconData icon;
-  final Color color;
-  final double? progress;
-
-  const _PerformanceItem({
-    required this.title,
-    required this.value,
-    required this.icon,
-    required this.color,
-    this.progress,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.grey.shade900,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: color.withAlpha(50),
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(icon, color: color, size: 18),
-              ),
-              const Spacer(),
-              Text(
-                value,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-          Text(
-            title,
-            style: TextStyle(color: Colors.grey.shade400, fontSize: 14),
-          ),
-          if (progress != null)
-            LinearProgressIndicator(
-              value: (progress ?? 1) / 100,
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
-              backgroundColor: Color(0xffD6D6D6),
-              borderRadius: BorderRadius.circular(4),
-            ),
-        ],
-      ),
-    );
-  }
-}
-
-class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
-  final Color backgroundColor;
-
-  _SliverAppBarDelegate(this._tabBar, {required this.backgroundColor});
-
-  final TabBar _tabBar;
-
-  @override
-  double get minExtent => _tabBar.preferredSize.height;
-
-  @override
-  double get maxExtent => _tabBar.preferredSize.height;
-
-  @override
-  Widget build(
-    BuildContext context,
-    double shrinkOffset,
-    bool overlapsContent,
-  ) => Container(color: backgroundColor, child: _tabBar);
-
-  @override
-  bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
-    return true;
   }
 }
 
@@ -914,7 +1160,6 @@ class BookCard extends StatelessWidget {
   }
 }
 
-// ---------------- SUPPORTING WIDGETS ----------------
 class _RatingStars extends StatelessWidget {
   final double rating;
 
@@ -940,3 +1185,236 @@ class _RatingStars extends StatelessWidget {
     );
   }
 }
+
+// ------------------------------------------------------
+// Section Items
+// ------------------------------------------------------
+class _PerformanceItem extends StatelessWidget {
+  final String title;
+  final String value;
+  final IconData icon;
+  final Color color;
+  final double? progress;
+
+  const _PerformanceItem({
+    required this.title,
+    required this.value,
+    required this.icon,
+    required this.color,
+    this.progress,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surface,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: color.withAlpha(50),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(icon, color: color, size: 18),
+              ),
+              const Spacer(),
+              Text(
+                value,
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onSurface,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+          Text(title, style: TextStyle(color: Colors.grey, fontSize: 14)),
+          if (progress != null)
+            LinearProgressIndicator(
+              value: (progress ?? 1) / 100,
+              valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
+              backgroundColor: Color(0xffD6D6D6),
+              borderRadius: BorderRadius.circular(4),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
+  final Color backgroundColor;
+
+  _SliverAppBarDelegate(this._tabBar, {required this.backgroundColor});
+
+  final TabBar _tabBar;
+
+  @override
+  double get minExtent => _tabBar.preferredSize.height;
+
+  @override
+  double get maxExtent => _tabBar.preferredSize.height;
+
+  @override
+  Widget build(
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) => Container(color: backgroundColor, child: _tabBar);
+
+  @override
+  bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
+    return true;
+  }
+}
+
+// class BookCard extends StatelessWidget {
+//   final String name;
+//   final String author;
+//   final double rating; // 0.0 - 5.0
+//   final String coverImage;
+//   final VoidCallback? onTap;
+//
+//   const BookCard({
+//     super.key,
+//     required this.name,
+//     required this.author,
+//     required this.rating,
+//     required this.coverImage,
+//     this.onTap,
+//   });
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     final theme = Theme.of(context);
+//     return GestureDetector(
+//       onTap: onTap,
+//       child: Container(
+//         height: 220,
+//         decoration: BoxDecoration(
+//           borderRadius: BorderRadius.circular(20),
+//           boxShadow: [
+//             BoxShadow(
+//               color: Colors.black.withOpacity(0.6),
+//               blurRadius: 20,
+//               offset: const Offset(0, 8),
+//             ),
+//           ],
+//         ),
+//         child: ClipRRect(
+//           borderRadius: BorderRadius.circular(20),
+//           child: Stack(
+//             fit: StackFit.expand,
+//             children: [
+//               /// Cover image (fills card)
+//               Image.network(
+//                 coverImage,
+//                 fit: BoxFit.cover,
+//                 errorBuilder: (_, __, ___) => Container(
+//                   color: Colors.white.withOpacity(0.05),
+//                   child: const Icon(Icons.book, color: Colors.white54, size: 40),
+//                 ),
+//               ),
+//
+//               /// Dark gradient overlay
+//               Container(
+//                 decoration: BoxDecoration(
+//                   gradient: LinearGradient(
+//                     begin: Alignment.topCenter,
+//                     end: Alignment.bottomCenter,
+//                     colors: [
+//                       Colors.black.withOpacity(0.05),
+//                       Colors.black.withOpacity(0.85),
+//                     ],
+//                   ),
+//                 ),
+//               ),
+//
+//               // Bottom content
+//               Positioned(
+//                 left: 16,
+//                 right: 16,
+//                 bottom: 14,
+//                 child: Column(
+//                   crossAxisAlignment: CrossAxisAlignment.start,
+//                   children: [
+//                     Text(
+//                       name,
+//                       maxLines: 2,
+//                       overflow: TextOverflow.ellipsis,
+//                       style: theme.textTheme.titleMedium?.copyWith(
+//                         color: Colors.white,
+//                         fontWeight: FontWeight.w600,
+//                       ),
+//                     ),
+//                     const SizedBox(height: 4),
+//                     Text(
+//                       author,
+//                       maxLines: 1,
+//                       overflow: TextOverflow.ellipsis,
+//                       style: theme.textTheme.bodySmall?.copyWith(
+//                         color: Colors.white70,
+//                       ),
+//                     ),
+//                     const SizedBox(height: 6),
+//                     Row(
+//                       children: [
+//                         _RatingStars(rating: rating),
+//                         const SizedBox(width: 6),
+//                         Text(
+//                           rating.toStringAsFixed(1),
+//                           style: theme.textTheme.labelMedium?.copyWith(
+//                             color: Colors.white70,
+//                             fontWeight: FontWeight.w600,
+//                           ),
+//                         ),
+//                       ],
+//                     ),
+//                   ],
+//                 ),
+//               ),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
+//
+// // ---------------- SUPPORTING WIDGETS ----------------
+//
+// class _RatingStars extends StatelessWidget {
+//   final double rating;
+//
+//   const _RatingStars({required this.rating});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Row(
+//       children: List.generate(5, (index) {
+//         final filled = rating >= index + 1;
+//         final halfFilled = rating > index && rating < index + 1;
+//
+//         return Icon(
+//           filled
+//               ? Icons.star_rounded
+//               : halfFilled
+//               ? Icons.star_half_rounded
+//               : Icons.star_border_rounded,
+//           size: 18,
+//           color: const Color(0xFFFFC107),
+//         );
+//       }),
+//     );
+//   }
+// }
