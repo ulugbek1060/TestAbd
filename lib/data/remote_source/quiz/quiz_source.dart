@@ -31,6 +31,8 @@ abstract class QuizSource {
 
   Future<BlockQuestionsResponse> getBlockTests(int blockId);
 
+  Future<dynamic> bookmarkQuestions(int questionId);
+
   /// https://backend.testabd.uz/quiz/random/
   Future<RandomQuestionModel> getRandomQuestion(int page, int pageSize);
 }
@@ -142,6 +144,22 @@ class QuizSourceImpl implements QuizSource {
       final response = await _dio.get(
         '/quiz/random/',
         queryParameters: {'page': page, 'page_size': pageSize},
+      );
+      return RandomQuestionModel.fromJson(response.data);
+    } on DioException catch (error) {
+      throw error.handleDioException();
+    } catch (e, stackTrace) {
+      throw UnknownException(e.toString(), stackTrace: stackTrace);
+    }
+  }
+
+  @override
+  Future<dynamic> bookmarkQuestions(int questionId) async {
+    // {"question":512}
+    try {
+      final response = await _dio.post(
+        '/quiz/question-bookmarks/',
+        data: { "question": questionId },
       );
       return RandomQuestionModel.fromJson(response.data);
     } on DioException catch (error) {
