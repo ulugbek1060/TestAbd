@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:testabd/core/errors/app_exception.dart';
 import 'package:testabd/core/utils/app_message_handler.dart';
 import 'package:testabd/di/app_config.dart';
 import 'package:testabd/features/home/home_cubit.dart';
@@ -83,9 +84,7 @@ class _ViewState extends State<_View> {
                   padding: const EdgeInsets.all(8.0),
                   child: OutlinedButton(
                     style: OutlinedButton.styleFrom(side: BorderSide.none),
-                    onPressed: () {
-                      context.push(AppRouter.leaderboard);
-                    },
+                    onPressed: () => context.push(AppRouter.leaderboard),
                     child: Text('Meroschi'),
                   ),
                 ),

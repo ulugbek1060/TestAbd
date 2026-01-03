@@ -22,8 +22,7 @@ class QuizRepositoryImpl extends QuizRepository {
   }) async {
     try {
       final result = await _quizSource.getFollowedQuestions(page, pageSize);
-      // return Right(result.toDomain());
-      return Left(UnknownException('Error'));
+      return Right(result.toDomain());
     } on AppException catch (e) {
       return Left(e);
     } catch (e, stackTrace) {

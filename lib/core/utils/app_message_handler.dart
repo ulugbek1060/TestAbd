@@ -77,6 +77,7 @@ extension MessageTypeXOnAppException on AppException {
 
 abstract class AppMessageHandler {
   void handleDialog(AppException exception);
+
   void handleSnackBar(AppException exception);
 }
 
@@ -93,6 +94,10 @@ class AppMessenger implements AppMessageHandler {
     _isDialogEnabled = true;
     showModalBottomSheet(
       context: context,
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(12.0)),
+      ),
       builder: (context) {
         final theme = Theme.of(context);
 
@@ -124,6 +129,7 @@ class AppMessenger implements AppMessageHandler {
                 title,
                 style: theme.textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.onSurface,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -132,7 +138,9 @@ class AppMessenger implements AppMessageHandler {
 
               Text(
                 message,
-                style: theme.textTheme.bodyMedium,
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
                 textAlign: TextAlign.center,
               ),
 
