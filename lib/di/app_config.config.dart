@@ -16,6 +16,7 @@ import 'package:shared_preferences/shared_preferences.dart' as _i460;
 
 import '../core/services/session_service.dart' as _i371;
 import '../core/services/token_service.dart' as _i792;
+import '../core/utils/app_message_handler.dart' as _i877;
 import '../core/utils/app_mode_service.dart' as _i555;
 import '../core/utils/dio_interceptor.dart' as _i900;
 import '../core/utils/follow_listeners.dart' as _i244;
@@ -62,6 +63,7 @@ extension GetItInjectableX on _i174.GetIt {
         () => appModule.provideDioBaseOptions());
     gh.lazySingleton<_i528.PrettyDioLogger>(
         () => appModule.providePrettyDioLogger());
+    gh.singleton<_i877.AppMessageHandler>(() => _i877.AppMessenger());
     gh.lazySingleton<_i244.UserFollowListener>(
       () => _i244.ConnectionFollowListener(),
       instanceName: 'ConnectionFollowListener',
@@ -78,8 +80,8 @@ extension GetItInjectableX on _i174.GetIt {
       instanceName: 'UserProfileFollowListener',
       dispose: _i244.disposeMethod,
     );
-    gh.lazySingleton<_i555.AppModeService>(
-        () => _i555.AppModeServiceImpl(gh<_i460.SharedPreferences>()));
+    gh.lazySingleton<_i555.AppSettingsService>(
+        () => _i555.AppSettingsServiceImpl(gh<_i460.SharedPreferences>()));
     gh.lazySingleton<_i244.UserFollowListener>(
       () => _i244.LeaderboardFollowListener(),
       instanceName: 'LeaderboardFollowListener',
@@ -111,14 +113,16 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i371.SessionService>(),
           gh<_i792.TokenService>(),
         ));
-    gh.factory<_i639.HomeCubit>(
-        () => _i639.HomeCubit(gh<_i156.QuizRepository>()));
     gh.factory<_i760.ProfileCubit>(() => _i760.ProfileCubit(
           gh<_i893.AuthRepository>(),
-          gh<_i555.AppModeService>(),
+          gh<_i555.AppSettingsService>(),
         ));
     gh.lazySingleton<_i575.LeaderboardRepository>(() =>
         _i317.LeaderboardRepositoryImpl(gh<_i259.LeaderboardSocketService>()));
+    gh.factory<_i639.HomeCubit>(() => _i639.HomeCubit(
+          gh<_i156.QuizRepository>(),
+          gh<_i877.AppMessageHandler>(),
+        ));
     gh.factoryParam<_i470.ProfileConnectionCubit, int, dynamic>((
       userId,
       _,

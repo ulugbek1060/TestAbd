@@ -1,3 +1,11 @@
 {
-  "helloWorld": "Hello, World!"
+  "@@locale": "ru",
+  "error_network_title": "Нет подключения к интернету",
+  "error_timeout_title": "Время ожидания истекло",
+  "error_bad_request_title": "Неверный запрос",
+  "error_unauthorized_title": "Нет доступа",
+  "error_not_found_title": "Не найдено",
+  "error_server_title": "Ошибка сервера",
+  "error_storage_title": "Ошибка хранилища",
+  "error_unknown_title": "Неизвестная ошибка"
 }

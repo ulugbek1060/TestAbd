@@ -1,3 +1,11 @@
 {
-  "helloWorld": "Hello, World!"
+  "@@locale": "en",
+  "error_network_title": "No Internet Connection",
+  "error_timeout_title": "Request Timed Out",
+  "error_bad_request_title": "Invalid Request",
+  "error_unauthorized_title": "Unauthorized",
+  "error_not_found_title": "Not Found",
+  "error_server_title": "Server Error",
+  "error_storage_title": "Storage Error",
+  "error_unknown_title": "Unexpected Error"
 }

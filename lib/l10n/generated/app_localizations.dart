@@ -100,11 +100,53 @@ abstract class AppLocalizations {
     Locale('uz'),
   ];
 
-  /// No description provided for @helloWorld.
+  /// No description provided for @error_network_title.
   ///
   /// In uz, this message translates to:
-  /// **'Hello, World!'**
-  String get helloWorld;
+  /// **'Internet mavjud emas'**
+  String get error_network_title;
+
+  /// No description provided for @error_timeout_title.
+  ///
+  /// In uz, this message translates to:
+  /// **'So‘rov vaqti tugadi'**
+  String get error_timeout_title;
+
+  /// No description provided for @error_bad_request_title.
+  ///
+  /// In uz, this message translates to:
+  /// **'Noto‘g‘ri so‘rov'**
+  String get error_bad_request_title;
+
+  /// No description provided for @error_unauthorized_title.
+  ///
+  /// In uz, this message translates to:
+  /// **'Ruxsat yo‘q'**
+  String get error_unauthorized_title;
+
+  /// No description provided for @error_not_found_title.
+  ///
+  /// In uz, this message translates to:
+  /// **'Topilmadi'**
+  String get error_not_found_title;
+
+  /// No description provided for @error_server_title.
+  ///
+  /// In uz, this message translates to:
+  /// **'Server xatosi'**
+  String get error_server_title;
+
+  /// No description provided for @error_storage_title.
+  ///
+  /// In uz, this message translates to:
+  /// **'Xotira xatosi'**
+  String get error_storage_title;
+
+  /// No description provided for @error_unknown_title.
+  ///
+  /// In uz, this message translates to:
+  /// **'Kutilmagan xatolik'**
+  String get error_unknown_title;
 }
 
 class _AppLocalizationsDelegate

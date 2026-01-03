@@ -9,5 +9,26 @@ class AppLocalizationsUz extends AppLocalizations {
   AppLocalizationsUz([String locale = 'uz']) : super(locale);
 
   @override
-  String get helloWorld => 'Hello, World!';
+  String get error_network_title => 'Internet mavjud emas';
+
+  @override
+  String get error_timeout_title => 'So‘rov vaqti tugadi';
+
+  @override
+  String get error_bad_request_title => 'Noto‘g‘ri so‘rov';
+
+  @override
+  String get error_unauthorized_title => 'Ruxsat yo‘q';
+
+  @override
+  String get error_not_found_title => 'Topilmadi';
+
+  @override
+  String get error_server_title => 'Server xatosi';
+
+  @override
+  String get error_storage_title => 'Xotira xatosi';
+
+  @override
+  String get error_unknown_title => 'Kutilmagan xatolik';
 }

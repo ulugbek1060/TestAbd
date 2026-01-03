@@ -8,6 +8,7 @@ import 'package:testabd/di/app_config.dart';
 import 'package:testabd/router/app_router.dart';
 
 import 'core/services/session_service.dart';
+import 'l10n/generated/app_localizations.dart';
 
 var logger = Logger(printer: PrettyPrinter());
 
@@ -15,9 +16,7 @@ var loggerNoStack = Logger(printer: PrettyPrinter(methodCount: 0));
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   await init();
-
   runApp(const MyApp());
 }
 
@@ -59,7 +58,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: locator<AppModeService>().stream,
+      stream: locator<AppSettingsService>().stream,
       builder: (context, asyncSnapshot) {
         return MaterialApp.router(
           title: 'TestAbd',
@@ -67,6 +66,9 @@ class _MyAppState extends State<MyApp> {
           darkTheme: AppTheme.themeDark,
           debugShowCheckedModeBanner: false,
           themeMode: asyncSnapshot.data,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          locale: Locale('ru'),
           routerDelegate: appRouter.routerDelegate,
           routeInformationParser: appRouter.routeInformationParser,
           routeInformationProvider: appRouter.routeInformationProvider,

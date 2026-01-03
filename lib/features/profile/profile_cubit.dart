@@ -11,7 +11,7 @@ import 'package:testabd/main.dart';
 @injectable
 class ProfileCubit extends Cubit<ProfileState> {
   final AuthRepository _authRepository;
-  final AppModeService _appModeService;
+  final AppSettingsService _appModeService;
 
   late final StreamSubscription _themeSubscription;
 

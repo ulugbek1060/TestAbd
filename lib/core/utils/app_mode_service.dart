@@ -6,14 +6,14 @@ import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
-abstract class AppModeService {
+abstract class AppSettingsService {
   Stream<ThemeMode> get stream;
   ThemeMode get current;
   void changeMode(ThemeMode mode);
 }
 
-@LazySingleton(as: AppModeService)
-class AppModeServiceImpl implements AppModeService {
+@LazySingleton(as: AppSettingsService)
+class AppSettingsServiceImpl implements AppSettingsService {
   final SharedPreferences _prefs;
 
   static const _modeKey = 'mode';
@@ -21,7 +21,7 @@ class AppModeServiceImpl implements AppModeService {
   final BehaviorSubject<ThemeMode> _modeSubject =
   BehaviorSubject<ThemeMode>();
 
-  AppModeServiceImpl(this._prefs) {
+  AppSettingsServiceImpl(this._prefs) {
     _init();
   }
 

@@ -9,5 +9,26 @@ class AppLocalizationsRu extends AppLocalizations {
   AppLocalizationsRu([String locale = 'ru']) : super(locale);
 
   @override
-  String get helloWorld => 'Hello, World!';
+  String get error_network_title => 'Нет подключения к интернету';
+
+  @override
+  String get error_timeout_title => 'Время ожидания истекло';
+
+  @override
+  String get error_bad_request_title => 'Неверный запрос';
+
+  @override
+  String get error_unauthorized_title => 'Нет доступа';
+
+  @override
+  String get error_not_found_title => 'Не найдено';
+
+  @override
+  String get error_server_title => 'Ошибка сервера';
+
+  @override
+  String get error_storage_title => 'Ошибка хранилища';
+
+  @override
+  String get error_unknown_title => 'Неизвестная ошибка';
 }

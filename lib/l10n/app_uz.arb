@@ -1,3 +1,11 @@
 {
-  "helloWorld": "Hello, World!"
+  "@@locale": "uz",
+  "error_network_title": "Internet mavjud emas",
+  "error_timeout_title": "So‘rov vaqti tugadi",
+  "error_bad_request_title": "Noto‘g‘ri so‘rov",
+  "error_unauthorized_title": "Ruxsat yo‘q",
+  "error_not_found_title": "Topilmadi",
+  "error_server_title": "Server xatosi",
+  "error_storage_title": "Xotira xatosi",
+  "error_unknown_title": "Kutilmagan xatolik"
 }

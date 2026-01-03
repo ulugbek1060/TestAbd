@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:testabd/core/utils/app_message_handler.dart';
 import 'package:testabd/domain/quiz/entities/check_answer_model.dart';
 import 'package:testabd/domain/quiz/entities/quiz_item.dart';
 import 'package:testabd/domain/quiz/quiz_repository.dart';
@@ -11,8 +12,9 @@ import 'home_state.dart';
 class HomeCubit extends Cubit<HomeState> {
   final QuizRepository _quizRepository;
   final int _pageSize = 10;
+  final AppMessageHandler _messageHandler;
 
-  HomeCubit(this._quizRepository) : super(HomeState());
+  HomeCubit(this._quizRepository, this._messageHandler) : super(HomeState());
 
   Future<void> refresh() async {
     // update follow state to new empty state
@@ -44,8 +46,7 @@ class HomeCubit extends Cubit<HomeState> {
 
     result.fold(
       // set new state
-      (err){
-        logger.d(err);
+      (err) {
         _updateFollowedState(
           followedQuizState.copyWith(
             isLoading: false,
@@ -54,6 +55,8 @@ class HomeCubit extends Cubit<HomeState> {
           ),
         );
 
+        // handle message
+        _messageHandler.handleDialog(err);
       },
       (data) {
         final followedState = state.followedQuizStata;

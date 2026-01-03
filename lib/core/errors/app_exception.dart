@@ -9,7 +9,10 @@ extension DioExceptionTypeX on DioException {
         return TimeoutException("Connection timed out", stackTrace: stackTrace);
 
       case DioExceptionType.connectionError:
-        return NetworkException("No internet connection", stackTrace: stackTrace);
+        return NetworkException(
+          "No internet connection",
+          stackTrace: stackTrace,
+        );
 
       case DioExceptionType.badResponse:
         final status = response?.statusCode;
@@ -21,14 +24,26 @@ extension DioExceptionTypeX on DioException {
             stackTrace: stackTrace,
           );
         } else if (status == 401) {
-          return UnauthorizedException("Unauthorized access", code: status, stackTrace: stackTrace);
+          return UnauthorizedException(
+            "Unauthorized access",
+            code: status,
+            stackTrace: stackTrace,
+          );
         } else if (status == 404) {
           return NotFoundException("Resource not found");
         } else if (status != null && status >= 500) {
-          return ServerException("Server error", code: status, stackTrace: stackTrace);
+          return ServerException(
+            "Server error",
+            code: status,
+            stackTrace: stackTrace,
+          );
         }
 
-        return ServerException("Unexpected server error", code: status, stackTrace: stackTrace);
+        return ServerException(
+          "Unexpected server error",
+          code: status,
+          stackTrace: stackTrace,
+        );
 
       case DioExceptionType.cancel:
         return UnknownException("Request cancelled", stackTrace: stackTrace);
@@ -38,9 +53,15 @@ extension DioExceptionTypeX on DioException {
 
       case DioExceptionType.unknown:
         if (message?.contains("SocketException") ?? false) {
-          return NetworkException("No Internet connection", stackTrace: stackTrace);
+          return NetworkException(
+            "No Internet connection",
+            stackTrace: stackTrace,
+          );
         }
-        return UnknownException(message ?? "Unknown error", stackTrace: stackTrace);
+        return UnknownException(
+          message ?? "Unknown error",
+          stackTrace: stackTrace,
+        );
       default:
         return UnknownException("Unknown error", stackTrace: stackTrace);
     }
@@ -67,16 +88,19 @@ class TimeoutException extends AppException {
 
 class ServerException extends AppException {
   final int? code;
+
   const ServerException(super.message, {this.code, super.stackTrace});
 }
 
 class BadRequestException extends AppException {
   final int? code;
+
   const BadRequestException(super.message, {this.code, super.stackTrace});
 }
 
 class UnauthorizedException extends AppException {
   final int? code;
+
   const UnauthorizedException(super.message, {this.code, super.stackTrace});
 }
 
@@ -91,4 +115,3 @@ class UnknownException extends AppException {
 class HiveError extends AppException {
   HiveError(super.message, {super.stackTrace});
 }
-
