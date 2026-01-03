@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:testabd/core/theme/app_icons.dart';
+import 'package:testabd/core/theme/app_images.dart';
 import 'package:testabd/di/app_config.dart';
 import 'package:testabd/features/profile/profile_cubit.dart';
 import 'package:testabd/features/profile/profile_state.dart';
@@ -31,7 +33,6 @@ class _ViewState extends State<_View> with SingleTickerProviderStateMixin {
   late var _blockKey;
   late var _questionsKey;
   late var _booksKey;
-
 
   @override
   void initState() {
@@ -151,43 +152,131 @@ class _ViewState extends State<_View> with SingleTickerProviderStateMixin {
                           ),
                         ),
                       ),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Theme.of(
-                              context,
-                            ).colorScheme.surface,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                          ),
-                          onPressed: () {},
-                          child: Text(
-                            'Share profile',
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.onSurface,
-                            ),
-                          ),
-                        ),
-                      ),
                     ],
                   ),
                 ),
               ),
 
               /// Statistics Cards
-              SliverPadding(
-                padding: EdgeInsets.only(left: 16, right: 16, top: 16),
-                sliver: SliverToBoxAdapter(
-                  child: _PerformanceItem(
-                    title: "Statistics",
-                    value: "22",
-                    icon: Icons.eleven_mp,
-                    color: Colors.green,
-                    progress: 30,
+              SliverMainAxisGroup(
+                slivers: [
+                  SliverPadding(
+                    padding: const EdgeInsets.only(
+                      top: 8.0,
+                      left: 16,
+                      right: 16,
+                      bottom: 8,
+                    ),
+                    sliver: SliverToBoxAdapter(
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.analytics_rounded,
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onSurface.withAlpha(150),
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            'Statistics',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.onSurface.withAlpha(120),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                ),
+
+                  SliverPadding(
+                    padding: const EdgeInsets.only(top: 6, left: 16, right: 16),
+                    sliver: SliverGrid(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 12,
+                            mainAxisSpacing: 12,
+                            childAspectRatio: 1.5,
+                          ),
+                      delegate: SliverChildListDelegate([
+                        _PerformanceItem(
+                          title: 'Coins',
+                          value: '12311231',
+                          icon: Container(
+                            width: 40,
+                            height: 40,
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: Colors.yellow.withAlpha(50),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Image.asset(AppIcons.coin),
+                          ),
+                          color: Colors.blue,
+                        ),
+                        _PerformanceItem(
+                          title: 'Correct Answers',
+                          value: '0',
+                          icon: Container(
+                            width: 40,
+                            height: 40,
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: Colors.green.withAlpha(50),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              Icons.check_circle,
+                              color: Colors.green,
+                            ),
+                          ),
+                          color: Colors.green,
+                        ),
+                        _PerformanceItem(
+                          title: 'Wrong Answers',
+                          value: '0',
+                          icon: Container(
+                            width: 40,
+                            height: 40,
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: Colors.red.withAlpha(50),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              Icons.cancel,
+                              color: Colors.red,
+                            ),
+                          ),
+                          color: Colors.red,
+                        ),
+                        _PerformanceItem(
+                          title: 'Accuracy',
+                          value: '0',
+                          icon: Container(
+                            width: 40,
+                            height: 40,
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: Colors.red.withAlpha(50),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              Icons.line_weight,
+                              color: Colors.red,
+                            ),
+                          ),
+                          color: Colors.green,
+                          progress: 30,
+                        ),
+                      ]),
+                    ),
+                  ),
+                ],
               ),
 
               /// tabBar
@@ -261,7 +350,7 @@ class _StatItem extends StatelessWidget {
 class _PerformanceItem extends StatelessWidget {
   final String title;
   final String value;
-  final IconData icon;
+  final Widget icon;
   final Color color;
   final double? progress;
 
@@ -288,14 +377,7 @@ class _PerformanceItem extends StatelessWidget {
         children: [
           Row(
             children: [
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: color.withAlpha(50),
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(icon, color: color, size: 18),
-              ),
+              icon,
               const Spacer(),
               Text(
                 value,

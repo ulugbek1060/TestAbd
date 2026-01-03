@@ -37,6 +37,15 @@ class ProfileCubit extends Cubit<ProfileState> {
     return super.close();
   }
 
+  /// 1. followers
+
+  /// 2. my_tests
+
+  /// 3. countries
+
+  /// 4. recent
+
+
   void toggleMode() {
     final current = _appModeService.current;
     final next = switch (current) {
