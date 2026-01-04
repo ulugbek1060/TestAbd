@@ -17,8 +17,12 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$ProfileState {
   bool get isLoading => throw _privateConstructorUsedError;
-  String? get error => throw _privateConstructorUsedError; // app mode state
-  AppModeState? get appModeState => throw _privateConstructorUsedError;
+  String? get error => throw _privateConstructorUsedError; // theme state
+  AppModeState? get appModeState =>
+      throw _privateConstructorUsedError; // main data state
+  MyInfoModel? get myInfoModel =>
+      throw _privateConstructorUsedError; // user followers
+  UserConnectionsModel get connections => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ProfileStateCopyWith<ProfileState> get copyWith =>
@@ -31,7 +35,12 @@ abstract class $ProfileStateCopyWith<$Res> {
           ProfileState value, $Res Function(ProfileState) then) =
       _$ProfileStateCopyWithImpl<$Res, ProfileState>;
   @useResult
-  $Res call({bool isLoading, String? error, AppModeState? appModeState});
+  $Res call(
+      {bool isLoading,
+      String? error,
+      AppModeState? appModeState,
+      MyInfoModel? myInfoModel,
+      UserConnectionsModel connections});
 
   $AppModeStateCopyWith<$Res>? get appModeState;
 }
@@ -52,6 +61,8 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
     Object? isLoading = null,
     Object? error = freezed,
     Object? appModeState = freezed,
+    Object? myInfoModel = freezed,
+    Object? connections = null,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
@@ -66,6 +77,14 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
           ? _value.appModeState
           : appModeState // ignore: cast_nullable_to_non_nullable
               as AppModeState?,
+      myInfoModel: freezed == myInfoModel
+          ? _value.myInfoModel
+          : myInfoModel // ignore: cast_nullable_to_non_nullable
+              as MyInfoModel?,
+      connections: null == connections
+          ? _value.connections
+          : connections // ignore: cast_nullable_to_non_nullable
+              as UserConnectionsModel,
     ) as $Val);
   }
 
@@ -90,7 +109,12 @@ abstract class _$$ProfileStateImplCopyWith<$Res>
       __$$ProfileStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool isLoading, String? error, AppModeState? appModeState});
+  $Res call(
+      {bool isLoading,
+      String? error,
+      AppModeState? appModeState,
+      MyInfoModel? myInfoModel,
+      UserConnectionsModel connections});
 
   @override
   $AppModeStateCopyWith<$Res>? get appModeState;
@@ -110,6 +134,8 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
     Object? isLoading = null,
     Object? error = freezed,
     Object? appModeState = freezed,
+    Object? myInfoModel = freezed,
+    Object? connections = null,
   }) {
     return _then(_$ProfileStateImpl(
       isLoading: null == isLoading
@@ -124,6 +150,14 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
           ? _value.appModeState
           : appModeState // ignore: cast_nullable_to_non_nullable
               as AppModeState?,
+      myInfoModel: freezed == myInfoModel
+          ? _value.myInfoModel
+          : myInfoModel // ignore: cast_nullable_to_non_nullable
+              as MyInfoModel?,
+      connections: null == connections
+          ? _value.connections
+          : connections // ignore: cast_nullable_to_non_nullable
+              as UserConnectionsModel,
     ));
   }
 }
@@ -132,7 +166,11 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
 
 class _$ProfileStateImpl implements _ProfileState {
   const _$ProfileStateImpl(
-      {this.isLoading = false, this.error = null, this.appModeState});
+      {this.isLoading = false,
+      this.error = null,
+      this.appModeState,
+      this.myInfoModel,
+      this.connections = const UserConnectionsModel()});
 
   @override
   @JsonKey()
@@ -140,13 +178,20 @@ class _$ProfileStateImpl implements _ProfileState {
   @override
   @JsonKey()
   final String? error;
-// app mode state
+// theme state
   @override
   final AppModeState? appModeState;
+// main data state
+  @override
+  final MyInfoModel? myInfoModel;
+// user followers
+  @override
+  @JsonKey()
+  final UserConnectionsModel connections;
 
   @override
   String toString() {
-    return 'ProfileState(isLoading: $isLoading, error: $error, appModeState: $appModeState)';
+    return 'ProfileState(isLoading: $isLoading, error: $error, appModeState: $appModeState, myInfoModel: $myInfoModel, connections: $connections)';
   }
 
   @override
@@ -158,11 +203,16 @@ class _$ProfileStateImpl implements _ProfileState {
                 other.isLoading == isLoading) &&
             (identical(other.error, error) || other.error == error) &&
             (identical(other.appModeState, appModeState) ||
-                other.appModeState == appModeState));
+                other.appModeState == appModeState) &&
+            (identical(other.myInfoModel, myInfoModel) ||
+                other.myInfoModel == myInfoModel) &&
+            (identical(other.connections, connections) ||
+                other.connections == connections));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, isLoading, error, appModeState);
+  int get hashCode => Object.hash(
+      runtimeType, isLoading, error, appModeState, myInfoModel, connections);
 
   @JsonKey(ignore: true)
   @override
@@ -175,14 +225,20 @@ abstract class _ProfileState implements ProfileState {
   const factory _ProfileState(
       {final bool isLoading,
       final String? error,
-      final AppModeState? appModeState}) = _$ProfileStateImpl;
+      final AppModeState? appModeState,
+      final MyInfoModel? myInfoModel,
+      final UserConnectionsModel connections}) = _$ProfileStateImpl;
 
   @override
   bool get isLoading;
   @override
   String? get error;
-  @override // app mode state
+  @override // theme state
   AppModeState? get appModeState;
+  @override // main data state
+  MyInfoModel? get myInfoModel;
+  @override // user followers
+  UserConnectionsModel get connections;
   @override
   @JsonKey(ignore: true)
   _$$ProfileStateImplCopyWith<_$ProfileStateImpl> get copyWith =>

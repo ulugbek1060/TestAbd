@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ProgressView extends StatelessWidget {
+
   const ProgressView({super.key, this.strokeWidth, this.color, this.padding});
 
   final Color? color;

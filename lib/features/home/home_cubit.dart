@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:testabd/core/utils/app_message_handler.dart';
+import 'package:testabd/domain/account/account_repository.dart';
 import 'package:testabd/domain/quiz/entities/check_answer_model.dart';
 import 'package:testabd/domain/quiz/entities/quiz_item.dart';
 import 'package:testabd/domain/quiz/quiz_repository.dart';
@@ -11,10 +12,14 @@ import 'home_state.dart';
 @injectable
 class HomeCubit extends Cubit<HomeState> {
   final QuizRepository _quizRepository;
+  final AccountRepository _accountRepository;
   final int _pageSize = 10;
   final AppMessageHandler _messageHandler;
 
-  HomeCubit(this._quizRepository, this._messageHandler) : super(HomeState());
+  HomeCubit(this._quizRepository, this._accountRepository, this._messageHandler)
+    : super(HomeState()) {
+    _fetchUserInfo();
+  }
 
   Future<void> refresh() async {
     // update follow state to new empty state
@@ -22,6 +27,13 @@ class HomeCubit extends Cubit<HomeState> {
 
     // load quiz
     await loadQuiz();
+  }
+
+  Future<void> _fetchUserInfo() async {
+    final result = await _accountRepository.fetchMyInfo();
+    result.fold((error) {
+      _messageHandler.handleDialog(error);
+    }, (value) {});
   }
 
   // ---------------------------------------------------------------------------

@@ -83,6 +83,12 @@ class MyInfoModel extends Equatable {
     this.userPermissions,
   });
 
+  double findAccuracy() {
+    return double.parse(
+      (((correctCount ?? 0) / (testsSolved ?? 1)) * 100).toStringAsFixed(2),
+    );
+  }
+
   @override
   List<Object?> get props => [
     id,

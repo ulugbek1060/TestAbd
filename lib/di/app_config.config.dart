@@ -71,6 +71,8 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.singleton<_i792.TokenService>(
         () => _i792.SharedPrefsTokenService(gh<_i460.SharedPreferences>()));
+    gh.lazySingleton<_i555.AppSettingsService>(
+        () => _i555.AppSettingsServiceImpl(gh<_i460.SharedPreferences>()));
     gh.singleton<_i371.SessionService>(
         () => _i371.SessionServiceImpl(gh<_i460.SharedPreferences>()));
     gh.lazySingleton<_i1067.WSNotificationsSource>(
@@ -80,8 +82,6 @@ extension GetItInjectableX on _i174.GetIt {
       instanceName: 'UserProfileFollowListener',
       dispose: _i244.disposeMethod,
     );
-    gh.lazySingleton<_i555.AppSettingsService>(
-        () => _i555.AppSettingsServiceImpl(gh<_i460.SharedPreferences>()));
     gh.lazySingleton<_i244.UserFollowListener>(
       () => _i244.LeaderboardFollowListener(),
       instanceName: 'LeaderboardFollowListener',
@@ -104,24 +104,17 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i259.WsLeaderboardSourceImpl(gh<_i361.Dio>()));
     gh.lazySingleton<_i156.QuizRepository>(
         () => _i75.QuizRepositoryImpl(gh<_i792.QuizSource>()));
-    gh.lazySingleton<_i575.AccountRepository>(() => _i317.AccountRepositoryImpl(
-          gh<_i65.AccountSource>(),
-          gh<_i259.WsLeaderboardSource>(),
-        ));
     gh.singleton<_i893.AuthRepository>(() => _i461.AuthRepositoryImpl(
           gh<_i142.AuthSource>(),
           gh<_i371.SessionService>(),
           gh<_i792.TokenService>(),
         ));
-    gh.factory<_i760.ProfileCubit>(() => _i760.ProfileCubit(
-          gh<_i893.AuthRepository>(),
-          gh<_i555.AppSettingsService>(),
-        ));
     gh.lazySingleton<_i575.LeaderboardRepository>(() =>
         _i317.LeaderboardRepositoryImpl(gh<_i259.LeaderboardSocketService>()));
-    gh.factory<_i639.HomeCubit>(() => _i639.HomeCubit(
-          gh<_i156.QuizRepository>(),
-          gh<_i877.AppMessageHandler>(),
+    gh.lazySingleton<_i575.AccountRepository>(() => _i317.AccountRepositoryImpl(
+          gh<_i65.AccountSource>(),
+          gh<_i656.MyInfoHiveService>(),
+          gh<_i259.WsLeaderboardSource>(),
         ));
     gh.factoryParam<_i470.ProfileConnectionCubit, int, dynamic>((
       userId,
@@ -162,6 +155,17 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i163.RegisterCubit(gh<_i893.AuthRepository>()));
     gh.factory<_i958.LoginCubit>(
         () => _i958.LoginCubit(gh<_i893.AuthRepository>()));
+    gh.factory<_i760.ProfileCubit>(() => _i760.ProfileCubit(
+          gh<_i893.AuthRepository>(),
+          gh<_i575.AccountRepository>(),
+          gh<_i555.AppSettingsService>(),
+          gh<_i877.AppMessageHandler>(),
+        ));
+    gh.factory<_i639.HomeCubit>(() => _i639.HomeCubit(
+          gh<_i156.QuizRepository>(),
+          gh<_i575.AccountRepository>(),
+          gh<_i877.AppMessageHandler>(),
+        ));
     return this;
   }
 }

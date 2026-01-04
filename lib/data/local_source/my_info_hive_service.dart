@@ -14,7 +14,7 @@ class MyInfoHiveService {
   late LazyBox<MyInfoDb> _box;
 
   final StreamController<MyInfoDb?> _controller =
-      BehaviorSubject<MyInfoDb?>.seeded(null);
+          BehaviorSubject<MyInfoDb?>.seeded(null);
 
   MyInfoHiveService() { init(); }
 

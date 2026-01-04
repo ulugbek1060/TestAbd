@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import 'package:testabd/core/errors/app_exception.dart';
+import 'package:testabd/data/local_source/my_info_hive_service.dart';
 import 'package:testabd/data/mappers.dart';
 import 'package:testabd/data/remote_source/account/account_source.dart';
 import 'package:testabd/data/remote_source/account/ws_leaderboard_source.dart';
@@ -15,15 +16,26 @@ import 'package:testabd/main.dart';
 @LazySingleton(as: AccountRepository)
 class AccountRepositoryImpl implements AccountRepository {
   final AccountSource _accountSource;
+  final MyInfoHiveService _hiveService;
   final WsLeaderboardSource _leaderboardSource;
 
-
-  AccountRepositoryImpl(this._accountSource, this._leaderboardSource);
+  AccountRepositoryImpl(
+    this._accountSource,
+    this._hiveService,
+    this._leaderboardSource,
+  );
 
   @override
-  Future<Either<AppException, MyInfoModel>> getMyInfo() async {
+  Stream<MyInfoModel?> get userInfoStream =>
+      _hiveService.userStream.map((e) => e?.toDomain());
+
+  @override
+  Future<Either<AppException, MyInfoModel>> fetchMyInfo() async {
     try {
       final result = await _accountSource.getUserInfo();
+      // lad from remote
+      _hiveService.saveMyInfo(result.toDb());
+      // return the result
       return Right(result.toDomain());
     } on AppException catch (e) {
       return Left(e);
