@@ -92,7 +92,6 @@ final appRouter = GoRouter(
         return CupertinoPage(child: UserProfileScreen(username: username));
       },
     ),
-
     GoRoute(
       path: AppRouter.profileConnection,
       pageBuilder: (context, state) {
@@ -106,7 +105,6 @@ final appRouter = GoRouter(
         );
       },
     ),
-
     GoRoute(
       path: AppRouter.questionDetail,
       pageBuilder: (context, state) {
@@ -118,7 +116,6 @@ final appRouter = GoRouter(
         );
       },
     ),
-
     GoRoute(
       path: AppRouter.blockQuestions,
       pageBuilder: (context, state) {
@@ -134,7 +131,6 @@ final appRouter = GoRouter(
         return CupertinoPage(child: LeaderboardScreen());
       },
     ),
-
     StatefulShellRoute(
       parentNavigatorKey: navigatorKey,
       navigatorContainerBuilder: (_, navShell, children) =>

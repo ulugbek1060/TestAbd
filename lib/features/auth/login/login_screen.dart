@@ -62,7 +62,9 @@ class _View extends StatelessWidget {
                 Text.rich(
                   TextSpan(
                     text: "TestAbd'ga qo'shiling\n",
-                    style: Theme.of(context).textTheme.titleSmall,
+                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
                     children: [
                       TextSpan(
                         text:
@@ -82,6 +84,9 @@ class _View extends StatelessWidget {
                   children: [
                     /// Username input
                     TextField(
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
                       decoration: InputDecoration(
                         hintText: "Foydalanuvchi nomini kiriting",
                         prefixIcon: const Icon(
@@ -98,6 +103,9 @@ class _View extends StatelessWidget {
 
                     /// Password input
                     TextField(
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
                       decoration: InputDecoration(
                         hintText: "Parol",
                         prefixIcon: const Icon(
@@ -184,7 +192,10 @@ class _View extends StatelessWidget {
                       child: Text.rich(
                         TextSpan(
                           text: "Hisobingiz yo'qmi? ",
-                          style: Theme.of(context).textTheme.bodySmall,
+                          style: Theme.of(context).textTheme.bodySmall
+                              ?.copyWith(
+                                color: Theme.of(context).colorScheme.onSurface,
+                              ),
                           children: [
                             TextSpan(
                               text: "Ro'yxatdan o'tish",
@@ -209,7 +220,9 @@ class _View extends StatelessWidget {
                 Text.rich(
                   TextSpan(
                     text: "Kirish orqali siz bizning ",
-                    style: Theme.of(context).textTheme.bodySmall,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
                     children: [
                       TextSpan(
                         text: "Foydalanish shartlari ",
