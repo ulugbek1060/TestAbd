@@ -1,10 +1,10 @@
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import 'package:testabd/core/errors/app_exception.dart';
-import 'package:testabd/data/mappers.dart';
 import 'package:testabd/data/remote_source/quiz/quiz_source.dart';
-import 'package:testabd/domain/quiz/entities/check_answer_model.dart';
+import 'package:testabd/domain/entity/check_answer_model.dart';
 import 'package:testabd/domain/quiz/entities/global_quiz_model.dart';
+import 'package:testabd/domain/quiz/entities/my_bookmarked_quiz_model.dart';
 import 'package:testabd/domain/quiz/entities/quiz_item.dart';
 import 'package:testabd/domain/quiz/entities/topics_model.dart';
 import 'package:testabd/domain/quiz/quiz_repository.dart';
@@ -22,7 +22,7 @@ class QuizRepositoryImpl extends QuizRepository {
   }) async {
     try {
       final result = await _quizSource.getFollowedQuestions(page, pageSize);
-      return Right(result.toDomain());
+      return Right(GlobalQuizModel.fromResponse(result));
     } on AppException catch (e) {
       return Left(e);
     } catch (e, stackTrace) {
@@ -42,7 +42,7 @@ class QuizRepositoryImpl extends QuizRepository {
         selectedAnswers,
         duration,
       );
-      return Right(result.toDomain());
+      return Right(CheckAnswerModel.fromResponse(result));
     } on AppException catch (e) {
       return Left(e);
     } catch (e, stackTrace) {
@@ -62,7 +62,7 @@ class QuizRepositoryImpl extends QuizRepository {
         page: page,
         pageSize: pageSize,
       );
-      return Right(result.toDomain());
+      return Right(TopicsModel.fromResponse(result));
     } on AppException catch (e) {
       return Left(e);
     } catch (e, stackTrace) {
@@ -76,8 +76,21 @@ class QuizRepositoryImpl extends QuizRepository {
   ) async {
     try {
       final result = await _quizSource.getUserQuestions(userId);
-      final list = result.map((e) => e.toDomain()).toList();
+      final list = result.map((e) => QuizItem.fromResponse(e)).toList();
       return Right(list);
+    } on AppException catch (e) {
+      return Left(e);
+    } catch (e, stackTrace) {
+      return Left(UnknownException(e.toString(), stackTrace: stackTrace));
+    }
+  }
+
+  @override
+  Future<Either<AppException, MyBookmarkedQuizModel>>
+  getBookmarkedQuiz() async {
+    try {
+      final result = await _quizSource.getBookmarkedQuiz();
+      return Right(MyBookmarkedQuizModel.fromResponse(result));
     } on AppException catch (e) {
       return Left(e);
     } catch (e, stackTrace) {

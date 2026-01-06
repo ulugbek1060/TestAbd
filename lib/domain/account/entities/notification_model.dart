@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:testabd/data/remote_source/account/model/notifications_response.dart';
 
 class NotificationModel extends Equatable {
   final int? id;
@@ -20,6 +21,19 @@ class NotificationModel extends Equatable {
     this.createdAt,
     this.isRead,
   });
+
+  static NotificationModel fromResponse(NotificationsResponse response){
+    return NotificationModel(
+      id: response.id,
+      verb: response.verb,
+      message: response.message,
+      actor: response.actor,
+      contentType: response.contentType,
+      objectId: response.objectId,
+      createdAt: DateTime.tryParse(response.createdAt ?? ''),
+      isRead: response.isRead,
+    );
+  }
 
   @override
   List<Object?> get props => [

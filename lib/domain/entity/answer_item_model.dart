@@ -1,13 +1,13 @@
 import 'package:equatable/equatable.dart';
 
-class AnswerItem extends Equatable {
+class AnswerItemModel extends Equatable {
   final int? id;
   final String? letter;
   final String? answerText;
   final bool isCorrect;
   final bool isLoading;
 
-  const AnswerItem({
+  const AnswerItemModel({
     this.id,
     this.letter,
     this.answerText,
@@ -15,14 +15,14 @@ class AnswerItem extends Equatable {
     this.isLoading = false,
   });
 
-  AnswerItem copyWith({
+  AnswerItemModel copyWith({
     int? id,
     String? letter,
     String? answerText,
     bool? isCorrect,
     bool? isLoading,
   }) {
-    return AnswerItem(
+    return AnswerItemModel(
       id: id ?? this.id,
       letter: letter ?? this.letter,
       answerText: answerText ?? this.answerText,

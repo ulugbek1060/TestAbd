@@ -63,7 +63,7 @@ class RandomQuestionModel with _$RandomQuestionModel {
     @JsonKey(name: 'is_following')
     bool? isFollowing,
     @JsonKey(name: 'category')
-    CategoryModel? category,
+    Category? category,
   }) = _RandomQuestionModel;
 
   factory RandomQuestionModel.fromJson(Map<String, dynamic> json) =>
@@ -109,8 +109,8 @@ class QuestionUserModel with _$QuestionUserModel {
 }
 
 @freezed
-class CategoryModel with _$CategoryModel {
-  const factory CategoryModel({
+class Category with _$Category {
+  const factory Category({
     @JsonKey(name: 'id')
     int? id,
     @JsonKey(name: 'total_tests')
@@ -127,8 +127,8 @@ class CategoryModel with _$CategoryModel {
     String? emoji,
     @JsonKey(name: 'image')
     String? image,
-  }) = _CategoryModel;
+  }) = _Category;
 
-  factory CategoryModel.fromJson(Map<String, dynamic> json) =>
-      _$CategoryModelFromJson(json);
+  factory Category.fromJson(Map<String, dynamic> json) =>
+      _$CategoryFromJson(json);
 }

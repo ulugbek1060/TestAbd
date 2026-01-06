@@ -79,8 +79,7 @@ class _ViewState extends State<_View> with SingleTickerProviderStateMixin {
                   tests: state.myInfoModel?.testsSolved?.toString() ?? '0',
                   followers: state.connections.followers.length.toString(),
                   followings: state.connections.following.length.toString(),
-                  fullname:
-                      '${state.myInfoModel?.firstName} ${state.myInfoModel?.lastName}',
+                  fullname: '${state.myInfoModel?.firstName} ${state.myInfoModel?.lastName}',
                   bio: state.myInfoModel?.bio ?? '',
                   onTestsTap: () {},
                   onFollowersTap: () {},

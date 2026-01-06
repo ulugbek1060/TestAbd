@@ -289,7 +289,7 @@ mixin _$RandomQuestionModel {
   @JsonKey(name: 'is_following')
   bool? get isFollowing => throw _privateConstructorUsedError;
   @JsonKey(name: 'category')
-  CategoryModel? get category => throw _privateConstructorUsedError;
+  Category? get category => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -324,10 +324,10 @@ abstract class $RandomQuestionModelCopyWith<$Res> {
       @JsonKey(name: 'round_image') String? roundImage,
       @JsonKey(name: 'is_bookmarked') bool? isBookmarked,
       @JsonKey(name: 'is_following') bool? isFollowing,
-      @JsonKey(name: 'category') CategoryModel? category});
+      @JsonKey(name: 'category') Category? category});
 
   $QuestionUserModelCopyWith<$Res>? get user;
-  $CategoryModelCopyWith<$Res>? get category;
+  $CategoryCopyWith<$Res>? get category;
 }
 
 /// @nodoc
@@ -449,7 +449,7 @@ class _$RandomQuestionModelCopyWithImpl<$Res, $Val extends RandomQuestionModel>
       category: freezed == category
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
-              as CategoryModel?,
+              as Category?,
     ) as $Val);
   }
 
@@ -467,12 +467,12 @@ class _$RandomQuestionModelCopyWithImpl<$Res, $Val extends RandomQuestionModel>
 
   @override
   @pragma('vm:prefer-inline')
-  $CategoryModelCopyWith<$Res>? get category {
+  $CategoryCopyWith<$Res>? get category {
     if (_value.category == null) {
       return null;
     }
 
-    return $CategoryModelCopyWith<$Res>(_value.category!, (value) {
+    return $CategoryCopyWith<$Res>(_value.category!, (value) {
       return _then(_value.copyWith(category: value) as $Val);
     });
   }
@@ -507,12 +507,12 @@ abstract class _$$RandomQuestionModelImplCopyWith<$Res>
       @JsonKey(name: 'round_image') String? roundImage,
       @JsonKey(name: 'is_bookmarked') bool? isBookmarked,
       @JsonKey(name: 'is_following') bool? isFollowing,
-      @JsonKey(name: 'category') CategoryModel? category});
+      @JsonKey(name: 'category') Category? category});
 
   @override
   $QuestionUserModelCopyWith<$Res>? get user;
   @override
-  $CategoryModelCopyWith<$Res>? get category;
+  $CategoryCopyWith<$Res>? get category;
 }
 
 /// @nodoc
@@ -632,7 +632,7 @@ class __$$RandomQuestionModelImplCopyWithImpl<$Res>
       category: freezed == category
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
-              as CategoryModel?,
+              as Category?,
     ));
   }
 }
@@ -735,7 +735,7 @@ class _$RandomQuestionModelImpl implements _RandomQuestionModel {
   final bool? isFollowing;
   @override
   @JsonKey(name: 'category')
-  final CategoryModel? category;
+  final Category? category;
 
   @override
   String toString() {
@@ -851,7 +851,7 @@ abstract class _RandomQuestionModel implements RandomQuestionModel {
           @JsonKey(name: 'round_image') final String? roundImage,
           @JsonKey(name: 'is_bookmarked') final bool? isBookmarked,
           @JsonKey(name: 'is_following') final bool? isFollowing,
-          @JsonKey(name: 'category') final CategoryModel? category}) =
+          @JsonKey(name: 'category') final Category? category}) =
       _$RandomQuestionModelImpl;
 
   factory _RandomQuestionModel.fromJson(Map<String, dynamic> json) =
@@ -919,7 +919,7 @@ abstract class _RandomQuestionModel implements RandomQuestionModel {
   bool? get isFollowing;
   @override
   @JsonKey(name: 'category')
-  CategoryModel? get category;
+  Category? get category;
   @override
   @JsonKey(ignore: true)
   _$$RandomQuestionModelImplCopyWith<_$RandomQuestionModelImpl> get copyWith =>
@@ -1407,12 +1407,12 @@ abstract class _QuestionUserModel implements QuestionUserModel {
       throw _privateConstructorUsedError;
 }
 
-CategoryModel _$CategoryModelFromJson(Map<String, dynamic> json) {
-  return _CategoryModel.fromJson(json);
+Category _$CategoryFromJson(Map<String, dynamic> json) {
+  return _Category.fromJson(json);
 }
 
 /// @nodoc
-mixin _$CategoryModel {
+mixin _$Category {
   @JsonKey(name: 'id')
   int? get id => throw _privateConstructorUsedError;
   @JsonKey(name: 'total_tests')
@@ -1432,15 +1432,14 @@ mixin _$CategoryModel {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $CategoryModelCopyWith<CategoryModel> get copyWith =>
+  $CategoryCopyWith<Category> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $CategoryModelCopyWith<$Res> {
-  factory $CategoryModelCopyWith(
-          CategoryModel value, $Res Function(CategoryModel) then) =
-      _$CategoryModelCopyWithImpl<$Res, CategoryModel>;
+abstract class $CategoryCopyWith<$Res> {
+  factory $CategoryCopyWith(Category value, $Res Function(Category) then) =
+      _$CategoryCopyWithImpl<$Res, Category>;
   @useResult
   $Res call(
       {@JsonKey(name: 'id') int? id,
@@ -1454,9 +1453,9 @@ abstract class $CategoryModelCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$CategoryModelCopyWithImpl<$Res, $Val extends CategoryModel>
-    implements $CategoryModelCopyWith<$Res> {
-  _$CategoryModelCopyWithImpl(this._value, this._then);
+class _$CategoryCopyWithImpl<$Res, $Val extends Category>
+    implements $CategoryCopyWith<$Res> {
+  _$CategoryCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -1513,11 +1512,11 @@ class _$CategoryModelCopyWithImpl<$Res, $Val extends CategoryModel>
 }
 
 /// @nodoc
-abstract class _$$CategoryModelImplCopyWith<$Res>
-    implements $CategoryModelCopyWith<$Res> {
-  factory _$$CategoryModelImplCopyWith(
-          _$CategoryModelImpl value, $Res Function(_$CategoryModelImpl) then) =
-      __$$CategoryModelImplCopyWithImpl<$Res>;
+abstract class _$$CategoryImplCopyWith<$Res>
+    implements $CategoryCopyWith<$Res> {
+  factory _$$CategoryImplCopyWith(
+          _$CategoryImpl value, $Res Function(_$CategoryImpl) then) =
+      __$$CategoryImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -1532,11 +1531,11 @@ abstract class _$$CategoryModelImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$CategoryModelImplCopyWithImpl<$Res>
-    extends _$CategoryModelCopyWithImpl<$Res, _$CategoryModelImpl>
-    implements _$$CategoryModelImplCopyWith<$Res> {
-  __$$CategoryModelImplCopyWithImpl(
-      _$CategoryModelImpl _value, $Res Function(_$CategoryModelImpl) _then)
+class __$$CategoryImplCopyWithImpl<$Res>
+    extends _$CategoryCopyWithImpl<$Res, _$CategoryImpl>
+    implements _$$CategoryImplCopyWith<$Res> {
+  __$$CategoryImplCopyWithImpl(
+      _$CategoryImpl _value, $Res Function(_$CategoryImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -1551,7 +1550,7 @@ class __$$CategoryModelImplCopyWithImpl<$Res>
     Object? emoji = freezed,
     Object? image = freezed,
   }) {
-    return _then(_$CategoryModelImpl(
+    return _then(_$CategoryImpl(
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -1590,8 +1589,8 @@ class __$$CategoryModelImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$CategoryModelImpl implements _CategoryModel {
-  const _$CategoryModelImpl(
+class _$CategoryImpl implements _Category {
+  const _$CategoryImpl(
       {@JsonKey(name: 'id') this.id,
       @JsonKey(name: 'total_tests') this.totalTests,
       @JsonKey(name: 'total_questions') this.totalQuestions,
@@ -1601,8 +1600,8 @@ class _$CategoryModelImpl implements _CategoryModel {
       @JsonKey(name: 'emoji') this.emoji,
       @JsonKey(name: 'image') this.image});
 
-  factory _$CategoryModelImpl.fromJson(Map<String, dynamic> json) =>
-      _$$CategoryModelImplFromJson(json);
+  factory _$CategoryImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CategoryImplFromJson(json);
 
   @override
   @JsonKey(name: 'id')
@@ -1631,14 +1630,14 @@ class _$CategoryModelImpl implements _CategoryModel {
 
   @override
   String toString() {
-    return 'CategoryModel(id: $id, totalTests: $totalTests, totalQuestions: $totalQuestions, title: $title, slug: $slug, description: $description, emoji: $emoji, image: $image)';
+    return 'Category(id: $id, totalTests: $totalTests, totalQuestions: $totalQuestions, title: $title, slug: $slug, description: $description, emoji: $emoji, image: $image)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$CategoryModelImpl &&
+            other is _$CategoryImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.totalTests, totalTests) ||
                 other.totalTests == totalTests) &&
@@ -1660,19 +1659,19 @@ class _$CategoryModelImpl implements _CategoryModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$CategoryModelImplCopyWith<_$CategoryModelImpl> get copyWith =>
-      __$$CategoryModelImplCopyWithImpl<_$CategoryModelImpl>(this, _$identity);
+  _$$CategoryImplCopyWith<_$CategoryImpl> get copyWith =>
+      __$$CategoryImplCopyWithImpl<_$CategoryImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$CategoryModelImplToJson(
+    return _$$CategoryImplToJson(
       this,
     );
   }
 }
 
-abstract class _CategoryModel implements CategoryModel {
-  const factory _CategoryModel(
+abstract class _Category implements Category {
+  const factory _Category(
       {@JsonKey(name: 'id') final int? id,
       @JsonKey(name: 'total_tests') final int? totalTests,
       @JsonKey(name: 'total_questions') final int? totalQuestions,
@@ -1680,10 +1679,10 @@ abstract class _CategoryModel implements CategoryModel {
       @JsonKey(name: 'slug') final String? slug,
       @JsonKey(name: 'description') final String? description,
       @JsonKey(name: 'emoji') final String? emoji,
-      @JsonKey(name: 'image') final String? image}) = _$CategoryModelImpl;
+      @JsonKey(name: 'image') final String? image}) = _$CategoryImpl;
 
-  factory _CategoryModel.fromJson(Map<String, dynamic> json) =
-      _$CategoryModelImpl.fromJson;
+  factory _Category.fromJson(Map<String, dynamic> json) =
+      _$CategoryImpl.fromJson;
 
   @override
   @JsonKey(name: 'id')
@@ -1711,6 +1710,6 @@ abstract class _CategoryModel implements CategoryModel {
   String? get image;
   @override
   @JsonKey(ignore: true)
-  _$$CategoryModelImplCopyWith<_$CategoryModelImpl> get copyWith =>
+  _$$CategoryImplCopyWith<_$CategoryImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

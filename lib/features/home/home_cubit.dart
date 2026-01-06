@@ -2,7 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:testabd/core/utils/app_message_handler.dart';
 import 'package:testabd/domain/account/account_repository.dart';
-import 'package:testabd/domain/quiz/entities/check_answer_model.dart';
+import 'package:testabd/domain/entity/check_answer_model.dart';
 import 'package:testabd/domain/quiz/entities/quiz_item.dart';
 import 'package:testabd/domain/quiz/quiz_repository.dart';
 import 'package:testabd/main.dart';

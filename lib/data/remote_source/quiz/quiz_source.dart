@@ -3,6 +3,7 @@ import 'package:injectable/injectable.dart';
 import 'package:testabd/core/errors/app_exception.dart';
 import 'package:testabd/data/remote_source/quiz/models/answer_response.dart';
 import 'package:testabd/data/remote_source/quiz/models/followed_questions_response.dart';
+import 'package:testabd/data/remote_source/quiz/models/my_bookmarked_quiz_response.dart';
 import 'package:testabd/data/remote_source/quiz/models/random_questions_response.dart';
 import 'package:testabd/data/remote_source/quiz/models/topic_related_questions_response.dart';
 import 'package:testabd/data/remote_source/quiz/models/user_question_response.dart';
@@ -33,7 +34,8 @@ abstract class QuizSource {
 
   Future<dynamic> bookmarkQuestions(int questionId);
 
-  /// https://backend.testabd.uz/quiz/random/
+  Future<MyBookmarkedQuizResponse> getBookmarkedQuiz();
+
   Future<RandomQuestionModel> getRandomQuestion(int page, int pageSize);
 }
 
@@ -159,9 +161,21 @@ class QuizSourceImpl implements QuizSource {
     try {
       final response = await _dio.post(
         '/quiz/question-bookmarks/',
-        data: { "question": questionId },
+        data: {"question": questionId},
       );
       return RandomQuestionModel.fromJson(response.data);
+    } on DioException catch (error) {
+      throw error.handleDioException();
+    } catch (e, stackTrace) {
+      throw UnknownException(e.toString(), stackTrace: stackTrace);
+    }
+  }
+
+  @override
+  Future<MyBookmarkedQuizResponse> getBookmarkedQuiz() async {
+    try {
+      final response = await _dio.get('/quiz/question-bookmarks/');
+      return MyBookmarkedQuizResponse.fromJson(response.data);
     } on DioException catch (error) {
       throw error.handleDioException();
     } catch (e, stackTrace) {

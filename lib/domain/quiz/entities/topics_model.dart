@@ -1,5 +1,8 @@
 import 'package:equatable/equatable.dart';
-import 'package:testabd/domain/quiz/entities/category_model.dart';
+import 'package:testabd/data/remote_source/quiz/models/topic_related_questions_response.dart';
+import 'package:testabd/domain/entity/answer_item_model.dart';
+import 'package:testabd/domain/entity/category_model.dart';
+import 'package:testabd/domain/entity/user_item_model.dart';
 
 class TopicsModel extends Equatable {
   final int? count;
@@ -16,12 +19,21 @@ class TopicsModel extends Equatable {
 
   @override
   List<Object?> get props => [count, next, previous, results];
+
+  static TopicsModel fromResponse(TopicRelatedQuestionsResponse response) {
+    return TopicsModel(
+      count: response.count,
+      next: response.next,
+      previous: response.previous,
+      results: response.results.map((e) => TopicItem.fromResponse(e)).toList(),
+    );
+  }
 }
 
 // -------------------------------------------------------------
 class TopicItem extends Equatable {
   final int? id;
-  final TopicUserShort? user;
+  final UserItemModel? user;
   final String? title;
   final String? description;
   final String? category;
@@ -66,6 +78,34 @@ class TopicItem extends Equatable {
     this.questions = const [],
   });
 
+  static TopicItem fromResponse(TopicQuestionItemResponse response) {
+    return TopicItem(
+      id: response.id,
+      user: UserItemModel.fromResponse1(response.user),
+      title: response.title,
+      description: response.description,
+      category: response.category,
+      visibility: response.visibility,
+      accessMode: response.access_mode,
+      participantRoles: response.participant_roles,
+      maxParticipants: response.max_participants,
+      startTime: response.start_time,
+      endTime: response.end_time,
+      minScoreToFinish: response.min_score_to_finish,
+      participantCountToFinish: response.participant_count_to_finish,
+      country: response.country,
+      region: response.region,
+      district: response.district,
+      isRegionPremium: response.is_region_premium,
+      createdAt: DateTime.parse(response.created_at ?? ''),
+      difficultyPercentage: response.difficulty_percentage,
+      totalQuestions: response.total_questions,
+      questions: response.questions
+          .map((e) => TopicQuestion.fromResponse(e))
+          .toList(),
+    );
+  }
+
   @override
   List<Object?> get props => [
     id,
@@ -101,7 +141,7 @@ class TopicQuestion extends Equatable {
   final String? questionType;
   final int? orderIndex;
   final String? media;
-  final List<TopicAnswer> answers;
+  final List<AnswerItemModel> answers;
   final String? testDescription;
   final String? correctAnswerText;
   final String? answerLanguage;
@@ -109,7 +149,7 @@ class TopicQuestion extends Equatable {
   final int? wrongCount;
   final double? difficultyPercentage;
   final int? userAttemptCount;
-  final TopicUserShort? user;
+  final UserItemModel? user;
   final String? createdAt;
   final String? roundImage;
   final bool? isBookmarked;
@@ -140,6 +180,57 @@ class TopicQuestion extends Equatable {
     this.category,
   });
 
+  static TopicQuestion fromResponse(TopicQuestionResponse response) {
+    return TopicQuestion(
+      id: response.id,
+      test: response.test,
+      testTitle: response.test_title,
+      questionText: response.question_text,
+      questionType: response.question_type,
+      orderIndex: response.order_index,
+      media: response.media,
+      answers: response.answers
+          .map(
+            (e) => AnswerItemModel(
+              id: e.id,
+              letter: e.letter,
+              answerText: e.answer_text,
+              isCorrect: e.is_correct ?? false,
+            ),
+          )
+          .toList(),
+      testDescription: response.test_description,
+      correctAnswerText: response.correct_answer_text,
+      answerLanguage: response.answer_language,
+      correctCount: response.correct_count,
+      wrongCount: response.wrong_count,
+      difficultyPercentage: response.difficulty_percentage,
+      userAttemptCount: response.user_attempt_count,
+      user: UserItemModel(
+        id: response.user?.id,
+        username: response.user?.username,
+        profileImage: response.user?.profile_image,
+        isBadged: response.user?.is_badged,
+        isPremium: response.user?.is_premium,
+        isFollowing: response.user?.is_following,
+      ),
+      createdAt: response.created_at,
+      roundImage: response.round_image,
+      isBookmarked: response.is_bookmarked,
+      isFollowing: response.is_following,
+      category: CategoryModel(
+        id: response.category?.id,
+        totalTests: response.category?.total_tests,
+        totalQuestions: response.category?.total_questions,
+        title: response.category?.title,
+        slug: response.category?.slug,
+        description: response.category?.description,
+        emoji: response.category?.emoji,
+        image: response.category?.image,
+      ),
+    );
+  }
+
   @override
   List<Object?> get props => [
     id,
@@ -164,45 +255,4 @@ class TopicQuestion extends Equatable {
     isFollowing,
     category,
   ];
-}
-
-// -------------------------------------------------------------
-class TopicAnswer extends Equatable {
-  final int? id;
-  final String? letter;
-  final String? answerText;
-  final bool? isCorrect;
-
-  const TopicAnswer({
-    this.id,
-    this.letter,
-    this.answerText,
-    this.isCorrect,
-  });
-
-  @override
-  List<Object?> get props => [id, letter, answerText, isCorrect];
-}
-
-// -------------------------------------------------------------
-class TopicUserShort extends Equatable {
-  final int? id;
-  final String? username;
-  final String? profileImage;
-  final bool? isBadged;
-  final bool? isPremium;
-  final bool? isFollowing;
-
-  const TopicUserShort({
-    this.id,
-    this.username,
-    this.profileImage,
-    this.isBadged,
-    this.isPremium,
-    this.isFollowing,
-  });
-
-  @override
-  List<Object?> get props =>
-      [id, username, profileImage, isBadged, isPremium, isFollowing];
 }

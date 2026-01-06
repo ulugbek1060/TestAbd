@@ -62,8 +62,6 @@ extension DioExceptionTypeX on DioException {
           message ?? "Unknown error",
           stackTrace: stackTrace,
         );
-      default:
-        return UnknownException("Unknown error", stackTrace: stackTrace);
     }
   }
 }
@@ -88,7 +86,6 @@ class TimeoutException extends AppException {
 
 class ServerException extends AppException {
   final int? code;
-
   const ServerException(super.message, {this.code, super.stackTrace});
 }
 

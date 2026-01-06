@@ -3,7 +3,6 @@ import 'package:injectable/injectable.dart';
 import 'package:testabd/core/errors/app_exception.dart';
 import 'package:testabd/core/services/session_service.dart';
 import 'package:testabd/core/services/token_service.dart';
-import 'package:testabd/data/mappers.dart';
 import 'package:testabd/data/remote_source/auth/auth_source.dart';
 import 'package:testabd/domain/auth/auth_repository.dart';
 import 'package:testabd/domain/auth/entities/register_model.dart';
@@ -34,7 +33,7 @@ class AuthRepositoryImpl implements AuthRepository {
         password,
         referralCode,
       );
-      return Right(result.toDomain());
+      return Right(RegisterModel.fromResponse(result));
     } on AppException catch (e) {
       return Left(e);
     } catch (e, stackTrace) {

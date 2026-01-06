@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
+import 'package:testabd/data/remote_source/account/model/user_connections_response.dart';
 
 class UserConnectionsModel extends Equatable {
   final List<UserConnectionModel> followers;
@@ -101,6 +102,35 @@ class UserConnectionsModel extends Equatable {
 
   @override
   List<Object?> get props => [followers, following];
+
+  static UserConnectionsModel fromResponse(UserConnectionsResponse result) {
+    return UserConnectionsModel(
+      followers: result.followers
+          .map(
+            (e) => UserConnectionModel(
+              id: e.id ?? 0,
+              username: e.username ?? '',
+              firstName: e.first_name ?? '',
+              lastName: e.last_name ?? '',
+              profileImage: e.profile_image,
+              isFollowing: e.is_following ?? false,
+            ),
+          )
+          .toList(),
+      following: result.following
+          .map(
+            (e) => UserConnectionModel(
+              id: e.id ?? 0,
+              username: e.username ?? '',
+              firstName: e.first_name ?? '',
+              lastName: e.last_name ?? '',
+              profileImage: e.profile_image,
+              isFollowing: e.is_following ?? false,
+            ),
+          )
+          .toList(),
+    );
+  }
 }
 
 class UserConnectionModel extends Equatable {
@@ -189,6 +219,6 @@ class UserConnectionModel extends Equatable {
     profileImage,
     isFollowing,
     isLoading,
-    isMe
+    isMe,
   ];
 }

@@ -41,7 +41,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     // listen the my info subscription
     _myInfoSubscription = _accountRepository.userInfoStream.listen((event) {
       // fetch user connections
-      _fetchConnections(event?.id);
+      fetchConnections(event?.id);
 
       // emit state
       emit(state.copyWith(myInfoModel: event));
@@ -74,7 +74,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     emit(state.copyWith(isLoading: false));
   }
 
-  Future<void> _fetchConnections(int? userId) async {
+  Future<void> fetchConnections(int? userId) async {
     if (userId == null) return;
     final result = await _accountRepository.getUserConnections(userId);
     result.fold(

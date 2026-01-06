@@ -60,7 +60,7 @@ _$RandomQuestionModelImpl _$$RandomQuestionModelImplFromJson(
       isFollowing: json['is_following'] as bool?,
       category: json['category'] == null
           ? null
-          : CategoryModel.fromJson(json['category'] as Map<String, dynamic>),
+          : Category.fromJson(json['category'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$RandomQuestionModelImplToJson(
@@ -127,8 +127,8 @@ Map<String, dynamic> _$$QuestionUserModelImplToJson(
       'is_following': instance.isFollowing,
     };
 
-_$CategoryModelImpl _$$CategoryModelImplFromJson(Map<String, dynamic> json) =>
-    _$CategoryModelImpl(
+_$CategoryImpl _$$CategoryImplFromJson(Map<String, dynamic> json) =>
+    _$CategoryImpl(
       id: (json['id'] as num?)?.toInt(),
       totalTests: (json['total_tests'] as num?)?.toInt(),
       totalQuestions: (json['total_questions'] as num?)?.toInt(),
@@ -139,7 +139,7 @@ _$CategoryModelImpl _$$CategoryModelImplFromJson(Map<String, dynamic> json) =>
       image: json['image'] as String?,
     );
 
-Map<String, dynamic> _$$CategoryModelImplToJson(_$CategoryModelImpl instance) =>
+Map<String, dynamic> _$$CategoryImplToJson(_$CategoryImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'total_tests': instance.totalTests,

@@ -1,12 +1,14 @@
 import 'package:equatable/equatable.dart';
-import 'package:testabd/domain/quiz/entities/answer_item.dart';
-
-import 'category_model.dart';
+import 'package:testabd/data/remote_source/quiz/models/user_question_response.dart';
+import 'package:testabd/domain/entity/category_model.dart';
+import 'package:testabd/domain/entity/user_item_model.dart';
+import 'package:testabd/domain/entity/answer_item_model.dart';
 
 enum QuestionType {
   multiple,
   single,
   trueFalse;
+
   static QuestionType fromString(String? type) {
     if (type == 'multiple') {
       return multiple;
@@ -28,12 +30,8 @@ class QuizItem extends Equatable {
   final QuestionType? questionType;
   final int? orderIndex;
   final String? media;
-  final List<AnswerItem> answers;
-
-  // used for answer submission
+  final List<AnswerItemModel> answers;
   final List<int> myAnswersId;
-
-  // used for answer submission and check
   final bool isCorrect;
   final String? testDescription;
   final String? correctAnswerText;
@@ -42,7 +40,7 @@ class QuizItem extends Equatable {
   final int? wrongCount;
   final double? difficultyPercentage;
   final int? userAttemptCount;
-  final User? user;
+  final UserItemModel? user;
   final DateTime? createdAt;
   final String? roundImage;
   final bool? isBookmarked;
@@ -81,7 +79,7 @@ class QuizItem extends Equatable {
 
   QuizItem copyWith({
     List<int>? myAnswersId,
-    List<AnswerItem>? answers,
+    List<AnswerItemModel>? answers,
     bool? isCorrect,
     bool? isLoading,
     bool? isCompleted,
@@ -115,6 +113,48 @@ class QuizItem extends Equatable {
     );
   }
 
+  static QuizItem fromResponse(UserQuestionResponse response) {
+    return QuizItem(
+      id: response.id,
+      test: response.test,
+      testTitle: response.test_title,
+      questionText: response.question_text,
+      questionType: QuestionType.fromString(response.question_type),
+      orderIndex: response.order_index,
+      media: response.media,
+      answers: response.answers
+          .map(
+            (a) => AnswerItemModel(
+              id: a.id,
+              letter: a.letter,
+              answerText: a.answer_text,
+              isCorrect: a.is_correct ?? false,
+            ),
+          )
+          .toList(),
+      testDescription: response.test_description,
+      correctAnswerText: response.correct_answer_text,
+      answerLanguage: response.answer_language,
+      correctCount: response.correct_count,
+      wrongCount: response.wrong_count,
+      difficultyPercentage: response.difficulty_percentage,
+      userAttemptCount: response.user_attempt_count,
+      user: UserItemModel(
+        id: response.user!.id,
+        username: response.user!.username,
+        profileImage: response.user!.profile_image,
+        isBadged: response.user!.is_badged,
+        isPremium: response.user!.is_premium,
+        isFollowing: response.user!.is_following,
+      ),
+      createdAt: DateTime.parse(response.created_at ?? ''),
+      roundImage: response.round_image,
+      isBookmarked: response.is_bookmarked,
+      isFollowing: response.is_following,
+      category: null,
+    );
+  }
+
   @override
   List<Object?> get props => [
     id,
@@ -142,33 +182,5 @@ class QuizItem extends Equatable {
     category,
     isLoading,
     isCompleted,
-  ];
-}
-
-class User extends Equatable {
-  final int? id;
-  final String? username;
-  final String? profileImage;
-  final bool? isBadged;
-  final bool? isPremium;
-  final bool? isFollowing;
-
-  const User({
-    this.id,
-    this.username,
-    this.profileImage,
-    this.isBadged,
-    this.isPremium,
-    this.isFollowing,
-  });
-
-  @override
-  List<Object?> get props => [
-    id,
-    username,
-    profileImage,
-    isBadged,
-    isPremium,
-    isFollowing,
   ];
 }

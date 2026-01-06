@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:testabd/data/remote_source/account/model/leaderboard_response.dart';
 
 class LeaderboardModel extends Equatable {
   final int count;
@@ -15,6 +16,34 @@ class LeaderboardModel extends Equatable {
 
   @override
   List<Object?> get props => [count, next, previous, users];
+
+  static LeaderboardModel fromResponse(LeaderboardResponse result) {
+    return LeaderboardModel(
+      count: result.count ?? 0,
+      next: result.next,
+      previous: result.previous,
+      users: result.results
+          .map(
+            (e) => LeaderboardUser(
+              id: e.id ?? 0,
+              username: e.username ?? '',
+              profileImage: e.profile_image,
+              createdTests: e.created_tests ?? 0,
+              coins: e.coins ?? 0,
+              todayRank: e.today_rank ?? 0,
+              yesterdayRank: e.yesterday_rank ?? 0,
+              rankChange: e.rank_change,
+              rankChangeValue: e.rank_change_value ?? 0,
+              testsSolved: e.tests_solved ?? 0,
+              avgTime: e.avg_time ?? 0.0,
+              followers: e.followers ?? 0,
+              following: e.following ?? 0,
+              isFollowing: e.is_following ?? false,
+            ),
+          )
+          .toList(),
+    );
+  }
 }
 
 class LeaderboardUser extends Equatable {
@@ -104,6 +133,6 @@ class LeaderboardUser extends Equatable {
     followers,
     following,
     isFollowing,
-    isLoading
+    isLoading,
   ];
 }

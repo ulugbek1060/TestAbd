@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:testabd/core/utils/formatters.dart';
+import 'package:testabd/data/remote_source/account/model/user_profile_response.dart';
 
 class UserProfileModel extends Equatable {
   final UserModel? user;
@@ -16,6 +17,31 @@ class UserProfileModel extends Equatable {
 
   UserProfileModel setFollowing(bool isFollowing) {
     return copyWith(user: user?.copyWith(isFollowing: isFollowing));
+  }
+
+  static UserProfileModel fromResponse(UserProfileResponse? response) {
+    return UserProfileModel(
+      user: UserModel(
+        id: response?.user?.id,
+        username: response?.user?.username,
+        firstName: response?.user?.firstName,
+        lastName: response?.user?.lastName,
+        bio: response?.user?.bio,
+        profileImage: response?.user?.profileImage,
+        followersCount: response?.user?.followersCount,
+        followingCount: response?.user?.followingCount,
+        isFollowing: response?.user?.isFollowing,
+        level: response?.user?.level,
+        joinDate: DateTime.tryParse(response?.user?.joinDate ?? ''),
+        coins: response?.user?.coins,
+      ),
+      stats: UserStatsModel(
+        totalTests: response?.stats?.totalTests,
+        correctAnswers: response?.stats?.correctAnswers,
+        wrongAnswers: response?.stats?.wrongAnswers,
+        accuracy: response?.stats?.accuracy,
+      ),
+    );
   }
 
   @override

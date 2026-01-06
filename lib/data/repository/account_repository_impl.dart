@@ -2,7 +2,6 @@ import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import 'package:testabd/core/errors/app_exception.dart';
 import 'package:testabd/data/local_source/my_info_hive_service.dart';
-import 'package:testabd/data/mappers.dart';
 import 'package:testabd/data/remote_source/account/account_source.dart';
 import 'package:testabd/data/remote_source/account/ws_leaderboard_source.dart';
 import 'package:testabd/domain/account/account_repository.dart';
@@ -27,16 +26,16 @@ class AccountRepositoryImpl implements AccountRepository {
 
   @override
   Stream<MyInfoModel?> get userInfoStream =>
-      _hiveService.userStream.map((e) => e?.toDomain());
+      _hiveService.userStream.map((e) => MyInfoModel.fromDb(e));
 
   @override
   Future<Either<AppException, MyInfoModel>> fetchMyInfo() async {
     try {
       final result = await _accountSource.getUserInfo();
-      // lad from remote
-      _hiveService.saveMyInfo(result.toDb());
-      // return the result
-      return Right(result.toDomain());
+      final model = MyInfoModel.fromResponse(result);
+      final dbModel = MyInfoModel.toDb(model);
+      _hiveService.saveMyInfo(dbModel);
+      return Right(model);
     } on AppException catch (e) {
       return Left(e);
     } catch (e, stackTrace) {
@@ -48,7 +47,7 @@ class AccountRepositoryImpl implements AccountRepository {
   Future<Either<AppException, NotificationModel>> getNotifications() async {
     try {
       final result = await _accountSource.notifications();
-      return Right(result.toDomain());
+      return Right(NotificationModel.fromResponse(result));
     } on AppException catch (e) {
       return Left(e);
     } catch (e, stackTrace) {
@@ -75,7 +74,7 @@ class AccountRepositoryImpl implements AccountRepository {
   ) async {
     try {
       final result = await _accountSource.getProfile(username);
-      return Right(result.toDomain());
+      return Right(UserProfileModel.fromResponse(result));
     } on AppException catch (e) {
       return Left(e);
     } catch (e, stackTrace) {
@@ -89,7 +88,7 @@ class AccountRepositoryImpl implements AccountRepository {
   ) async {
     try {
       final result = await _accountSource.getFollowers(userId);
-      return Right(result.toDomain());
+      return Right(UserConnectionsModel.fromResponse(result));
     } on AppException catch (e) {
       return Left(e);
     } catch (e, stackTrace) {
@@ -116,7 +115,7 @@ class AccountRepositoryImpl implements AccountRepository {
   ) async {
     try {
       final result = await _leaderboardSource.getLeaderboard(page, pageSize);
-      return Right(result.toDomain());
+      return Right(LeaderboardModel.fromResponse(result));
     } on AppException catch (e) {
       return Left(e);
     } catch (e, stackTrace) {

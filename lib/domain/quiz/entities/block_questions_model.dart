@@ -1,7 +1,10 @@
 
+import 'package:testabd/domain/entity/user_item_model.dart';
+import 'package:testabd/domain/entity/answer_item_model.dart';
+
 class BlockQuestionsModel {
   final int? id;
-  final BlockUserShortModel? user;
+  final UserItemModel? user;
   final String? title;
   final String? description;
   final String? category;
@@ -20,7 +23,7 @@ class BlockQuestionsModel {
   final String? createdAt;
   final double? difficultyPercentage;
   final int? totalQuestions;
-  final List<BlockQuestionModel>? questions;
+  final List<BlockQuestionItem>? questions;
   final bool? isBookmarked;
   final int? participantCount;
   final double? averageQuestionDifficulty;
@@ -59,7 +62,7 @@ class BlockQuestionsModel {
   });
 }
 
-class BlockQuestionModel {
+class BlockQuestionItem {
   final int? id;
   final int? test;
   final String? testTitle;
@@ -67,7 +70,7 @@ class BlockQuestionModel {
   final String? questionType;
   final int? orderIndex;
   final String? media;
-  final List<BlockAnswerModel>? answers;
+  final List<AnswerItemModel>? answers;
   final String? testDescription;
   final String? correctAnswerText;
   final String? answerLanguage;
@@ -75,14 +78,14 @@ class BlockQuestionModel {
   final int? wrongCount;
   final double? difficultyPercentage;
   final int? userAttemptCount;
-  final BlockUserShortModel? user;
+  final UserItemModel? user;
   final String? createdAt;
   final String? roundImage;
   final bool? isBookmarked;
   final bool? isFollowing;
   final int? category;
 
-  const BlockQuestionModel({
+  const BlockQuestionItem({
     this.id,
     this.test,
     this.testTitle,
@@ -104,38 +107,6 @@ class BlockQuestionModel {
     this.isBookmarked,
     this.isFollowing,
     this.category,
-  });
-}
-
-class BlockAnswerModel {
-  final int? id;
-  final String? letter;
-  final String? answerText;
-  final bool? isCorrect;
-
-  const BlockAnswerModel({
-    this.id,
-    this.letter,
-    this.answerText,
-    this.isCorrect,
-  });
-}
-
-class BlockUserShortModel {
-  final int? id;
-  final String? username;
-  final String? profileImage;
-  final bool? isBadged;
-  final bool? isPremium;
-  final bool? isFollowing;
-
-  const BlockUserShortModel({
-    this.id,
-    this.username,
-    this.profileImage,
-    this.isBadged,
-    this.isPremium,
-    this.isFollowing,
   });
 }
 

@@ -1,4 +1,7 @@
-class RegisterModel {
+import 'package:equatable/equatable.dart';
+import 'package:testabd/data/remote_source/auth/model/user_register_response.dart';
+
+class RegisterModel with EquatableMixin {
   final int? id;
   final String? username;
   final String? email;
@@ -15,7 +18,23 @@ class RegisterModel {
     this.referralCode,
   });
 
+  static RegisterModel fromResponse(UserRegisterResponse? response) {
+    return RegisterModel(
+      id: response?.id,
+      username: response?.username,
+      email: response?.email,
+      token: response?.token,
+      referralCode: response?.referralCode,
+    );
+  }
+
   @override
-  String toString() =>
-      'RegisterModel(id: $id, username: $username, email: $email, password: $password, token: $token, referralCode: $referralCode)';
+  List<Object?> get props => [
+    id,
+    username,
+    email,
+    password,
+    token,
+    referralCode,
+  ];
 }

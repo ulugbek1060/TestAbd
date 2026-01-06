@@ -9,7 +9,7 @@ import 'package:testabd/core/theme/app_colors.dart';
 import 'package:testabd/core/theme/app_images.dart';
 import 'package:testabd/core/utils/formatters.dart';
 import 'package:testabd/core/widgets/loading_widget.dart';
-import 'package:testabd/domain/quiz/entities/answer_item.dart';
+import 'package:testabd/domain/entity/answer_item_model.dart';
 import 'package:testabd/domain/quiz/entities/quiz_item.dart';
 import 'package:testabd/features/home/home_cubit.dart';
 import 'package:testabd/features/home/home_state.dart';
@@ -188,7 +188,7 @@ class QuestionCard extends StatelessWidget {
 }
 
 class MultipleAnswerCard extends StatelessWidget {
-  final List<AnswerItem> answers;
+  final List<AnswerItemModel> answers;
   final List<int> myAnswersId;
   final bool isCompleted;
   final bool isLoading;
@@ -225,7 +225,7 @@ class MultipleAnswerCard extends StatelessWidget {
     );
   }
 
-  Widget _buildItem(BuildContext context, AnswerItem answer) {
+  Widget _buildItem(BuildContext context, AnswerItemModel answer) {
     final selected = myAnswersId.contains(answer.id);
     final correct = answer.isCorrect;
 
@@ -266,7 +266,7 @@ class MultipleAnswerCard extends StatelessWidget {
     return Colors.white;
   }
 
-  Widget _buildLeadingIcon(AnswerItem answer) {
+  Widget _buildLeadingIcon(AnswerItemModel answer) {
     final selected = myAnswersId.contains(answer.id);
     return Checkbox(
       value: selected,
@@ -288,7 +288,7 @@ class MultipleAnswerCard extends StatelessWidget {
 }
 
 class SingleAnswerCard extends StatelessWidget {
-  final List<AnswerItem> answers;
+  final List<AnswerItemModel> answers;
   final List<int> myAnswersId;
   final bool isCompleted;
   final void Function(int? answerId) onSubmitTap;
@@ -335,14 +335,14 @@ class SingleAnswerCard extends StatelessWidget {
     );
   }
 
-  Widget getLeading(BuildContext context, AnswerItem answer) => CircleAvatar(
+  Widget getLeading(BuildContext context, AnswerItemModel answer) => CircleAvatar(
     backgroundColor: Colors.grey,
     child: answer.isLoading
         ? ProgressView(color: Colors.white)
         : getIcon(context, answer),
   );
 
-  Color getBorderColor(AnswerItem answer) {
+  Color getBorderColor(AnswerItemModel answer) {
     final selected = myAnswersId.contains(answer.id);
     final correct = answer.isCorrect;
 
@@ -357,7 +357,7 @@ class SingleAnswerCard extends StatelessWidget {
     return Colors.white;
   }
 
-  Widget getIcon(BuildContext context, AnswerItem answer) {
+  Widget getIcon(BuildContext context, AnswerItemModel answer) {
     final selected = myAnswersId.contains(answer.id);
     final correct = answer.isCorrect;
 
@@ -388,7 +388,7 @@ class SingleAnswerCard extends StatelessWidget {
 }
 
 class TrueFalseAnswerCard extends StatelessWidget {
-  final List<AnswerItem> answers;
+  final List<AnswerItemModel> answers;
   final List<int> myAnswersId;
   final bool isCompleted;
   final void Function(int? answerId) onSubmitTap;
@@ -435,7 +435,7 @@ class TrueFalseAnswerCard extends StatelessWidget {
     );
   }
 
-  Color getBorderColor(AnswerItem answer) {
+  Color getBorderColor(AnswerItemModel answer) {
     final selected = myAnswersId.contains(answer.id);
     final correct = answer.isCorrect;
 
@@ -450,7 +450,7 @@ class TrueFalseAnswerCard extends StatelessWidget {
     return Colors.white;
   }
 
-  Widget getIcon(BuildContext context, AnswerItem answer, int index) {
+  Widget getIcon(BuildContext context, AnswerItemModel answer, int index) {
     final selected = myAnswersId.contains(answer.id);
     final correct = answer.isCorrect;
     final isThumbUp = index == 0;
@@ -482,7 +482,7 @@ class TrueFalseAnswerCard extends StatelessWidget {
 
 class _AnswersList extends StatelessWidget {
   final int? questionId;
-  final List<AnswerItem> answers;
+  final List<AnswerItemModel> answers;
   final List<int> myAnswersId;
   final QuestionType? questionType;
   final bool isCompleted;
