@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:testabd/core/utils/follow_listeners.dart';
 import 'package:testabd/domain/account/account_repository.dart';
-import 'package:testabd/features/user_profile/profile_connection_state.dart';
+import 'package:testabd/features/user_profile/user_connection_state.dart';
 
 @injectable
 class ProfileConnectionCubit extends Cubit<ProfileConnectionState> {

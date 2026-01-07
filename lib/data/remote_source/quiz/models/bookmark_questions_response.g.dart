@@ -1,14 +1,14 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'my_bookmarked_quiz_response.dart';
+part of 'bookmark_questions_response.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$MyBookmarkedQuizResponseImpl _$$MyBookmarkedQuizResponseImplFromJson(
+_$BookmarkQuestionsResponseImpl _$$BookmarkQuestionsResponseImplFromJson(
         Map<String, dynamic> json) =>
-    _$MyBookmarkedQuizResponseImpl(
+    _$BookmarkQuestionsResponseImpl(
       count: (json['count'] as num?)?.toInt(),
       next: json['next'] as String?,
       previous: json['previous'] as String?,
@@ -19,8 +19,8 @@ _$MyBookmarkedQuizResponseImpl _$$MyBookmarkedQuizResponseImplFromJson(
           const [],
     );
 
-Map<String, dynamic> _$$MyBookmarkedQuizResponseImplToJson(
-        _$MyBookmarkedQuizResponseImpl instance) =>
+Map<String, dynamic> _$$BookmarkQuestionsResponseImplToJson(
+        _$BookmarkQuestionsResponseImpl instance) =>
     <String, dynamic>{
       'count': instance.count,
       'next': instance.next,

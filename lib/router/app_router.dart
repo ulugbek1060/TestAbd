@@ -8,12 +8,14 @@ import 'package:testabd/features/home/leaderboard_screen.dart';
 import 'package:testabd/features/home/notifications_screen.dart';
 import 'package:testabd/features/init/init_screen.dart';
 import 'package:testabd/features/library/library_screen.dart';
+import 'package:testabd/features/profile/bookmark_questions_screen.dart';
+import 'package:testabd/features/profile/edit_profile_screen.dart';
 import 'package:testabd/features/profile/profile_screen.dart';
 import 'package:testabd/features/root/shell_screen.dart';
 import 'package:testabd/features/search/search_screen.dart';
 import 'package:testabd/features/testabd/test_screen.dart';
 import 'package:testabd/features/user_profile/block_questions_screen.dart';
-import 'package:testabd/features/user_profile/profile_connection_screen.dart';
+import 'package:testabd/features/user_profile/user_connection_screen.dart';
 import 'package:testabd/features/user_profile/question_detail_screen.dart';
 import 'package:testabd/features/user_profile/user_profile_screen.dart' hide LibraryScreen;
 
@@ -30,6 +32,8 @@ abstract class AppRouter {
   static const notifications = '/notifications';
   static const userProfile = '/user_profile/:username';
   static const leaderboard = '/leaderboard';
+  static const editProfile = '/edit_profile';
+  static const bookmarkQuestions = '/bookmark_questions';
 
   static String userProfileWithUsername(String username) =>
       '/user_profile/$username';
@@ -129,6 +133,18 @@ final appRouter = GoRouter(
       path: AppRouter.leaderboard,
       pageBuilder: (context, state) {
         return CupertinoPage(child: LeaderboardScreen());
+      },
+    ),
+    GoRoute(
+      path: AppRouter.editProfile,
+      pageBuilder: (context, state) {
+        return CupertinoPage(child: EditProfileScreen());
+      },
+    ),
+    GoRoute(
+      path: AppRouter.bookmarkQuestions,
+      pageBuilder: (context, state) {
+        return CupertinoPage(child: BookmarkQuestionsScreen());
       },
     ),
     StatefulShellRoute(

@@ -1,23 +1,25 @@
-import 'package:testabd/data/remote_source/quiz/models/my_bookmarked_quiz_response.dart';
+import 'package:testabd/data/remote_source/quiz/models/bookmark_questions_response.dart';
 import 'package:testabd/domain/entity/category_model.dart';
 import 'package:testabd/domain/entity/question_detail_model.dart';
 import 'package:testabd/domain/entity/user_item_model.dart';
 
-class MyBookmarkedQuizModel {
+class QuestionsBookmarkModel {
   final int? count;
   final String? next;
   final String? previous;
   final List<BookmarkedQuizItem> results;
 
-  const MyBookmarkedQuizModel({
-    required this.count,
-    required this.results,
+  const QuestionsBookmarkModel({
+    this.count,
+    this.results = const [],
     this.next,
     this.previous,
   });
 
-  static MyBookmarkedQuizModel fromResponse(MyBookmarkedQuizResponse response) {
-    return MyBookmarkedQuizModel(
+  static QuestionsBookmarkModel fromResponse(
+    BookmarkQuestionsResponse response,
+  ) {
+    return QuestionsBookmarkModel(
       count: response.count,
       next: response.next,
       previous: response.previous,

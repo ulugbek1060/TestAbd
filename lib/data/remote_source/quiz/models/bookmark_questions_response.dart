@@ -1,20 +1,19 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'my_bookmarked_quiz_response.freezed.dart';
-
-part 'my_bookmarked_quiz_response.g.dart';
+part 'bookmark_questions_response.freezed.dart';
+part 'bookmark_questions_response.g.dart';
 
 @freezed
-class MyBookmarkedQuizResponse with _$MyBookmarkedQuizResponse {
-  const factory MyBookmarkedQuizResponse({
+class BookmarkQuestionsResponse with _$BookmarkQuestionsResponse {
+  const factory BookmarkQuestionsResponse({
     int? count,
     String? next,
     String? previous,
     @Default([]) List<BookmarkedQuizResult> results,
-  }) = _MyBookmarkedQuizResponse;
+  }) = _BookmarkQuestionsResponse;
 
-  factory MyBookmarkedQuizResponse.fromJson(Map<String, dynamic> json) =>
-      _$MyBookmarkedQuizResponseFromJson(json);
+  factory BookmarkQuestionsResponse.fromJson(Map<String, dynamic> json) =>
+      _$BookmarkQuestionsResponseFromJson(json);
 }
 
 /* -------------------- RESULT -------------------- */
@@ -33,7 +32,6 @@ class BookmarkedQuizResult with _$BookmarkedQuizResult {
 }
 
 /* -------------------- USER -------------------- */
-
 @freezed
 class QuizUser with _$QuizUser {
   const factory QuizUser({

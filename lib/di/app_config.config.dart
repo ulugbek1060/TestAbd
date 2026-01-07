@@ -37,8 +37,9 @@ import '../features/auth/login/login_cubit.dart' as _i958;
 import '../features/auth/register/register_cubit.dart' as _i163;
 import '../features/home/home_cubit.dart' as _i639;
 import '../features/home/leaderboard_cubit.dart' as _i279;
+import '../features/profile/bookmark_questions_cubit.dart' as _i137;
 import '../features/profile/profile_cubit.dart' as _i760;
-import '../features/user_profile/profile_connection_cubit.dart' as _i470;
+import '../features/user_profile/user_connection_cubit.dart' as _i470;
 import '../features/user_profile/user_profile_cubit.dart' as _i230;
 import 'app_module.dart' as _i460;
 
@@ -111,6 +112,10 @@ extension GetItInjectableX on _i174.GetIt {
         ));
     gh.lazySingleton<_i575.LeaderboardRepository>(() =>
         _i317.LeaderboardRepositoryImpl(gh<_i259.LeaderboardSocketService>()));
+    gh.factory<_i137.BookmarkQuestionsCubit>(() => _i137.BookmarkQuestionsCubit(
+          gh<_i156.QuizRepository>(),
+          gh<_i877.AppMessageHandler>(),
+        ));
     gh.lazySingleton<_i575.AccountRepository>(() => _i317.AccountRepositoryImpl(
           gh<_i65.AccountSource>(),
           gh<_i656.MyInfoHiveService>(),
@@ -151,16 +156,17 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i244.UserFollowListener>(
               instanceName: 'LeaderboardFollowListener'),
         ));
-    gh.factory<_i163.RegisterCubit>(
-        () => _i163.RegisterCubit(gh<_i893.AuthRepository>()));
-    gh.factory<_i958.LoginCubit>(
-        () => _i958.LoginCubit(gh<_i893.AuthRepository>()));
     gh.factory<_i760.ProfileCubit>(() => _i760.ProfileCubit(
           gh<_i893.AuthRepository>(),
           gh<_i575.AccountRepository>(),
           gh<_i555.AppSettingsService>(),
+          gh<_i156.QuizRepository>(),
           gh<_i877.AppMessageHandler>(),
         ));
+    gh.factory<_i163.RegisterCubit>(
+        () => _i163.RegisterCubit(gh<_i893.AuthRepository>()));
+    gh.factory<_i958.LoginCubit>(
+        () => _i958.LoginCubit(gh<_i893.AuthRepository>()));
     gh.factory<_i639.HomeCubit>(() => _i639.HomeCubit(
           gh<_i156.QuizRepository>(),
           gh<_i575.AccountRepository>(),

@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:testabd/core/errors/app_exception.dart';
 import 'package:testabd/domain/entity/check_answer_model.dart';
 import 'package:testabd/domain/quiz/entities/global_quiz_model.dart';
-import 'package:testabd/domain/quiz/entities/my_bookmarked_quiz_model.dart';
+import 'package:testabd/domain/quiz/entities/questions_bookmark_model.dart';
 import 'package:testabd/domain/quiz/entities/quiz_item.dart';
 import 'package:testabd/domain/quiz/entities/topics_model.dart';
 
@@ -26,6 +26,6 @@ abstract class QuizRepository {
     int? pageSize,
   });
 
-  Future<Either<AppException, MyBookmarkedQuizModel>> getBookmarkedQuiz();
+  Future<Either<AppException, QuestionsBookmarkModel>> getQuestionsBookmark();
 
 }

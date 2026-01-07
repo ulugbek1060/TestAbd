@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'my_bookmarked_quiz_response.dart';
+part of 'bookmark_questions_response.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,13 +14,13 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-MyBookmarkedQuizResponse _$MyBookmarkedQuizResponseFromJson(
+BookmarkQuestionsResponse _$BookmarkQuestionsResponseFromJson(
     Map<String, dynamic> json) {
-  return _MyBookmarkedQuizResponse.fromJson(json);
+  return _BookmarkQuestionsResponse.fromJson(json);
 }
 
 /// @nodoc
-mixin _$MyBookmarkedQuizResponse {
+mixin _$BookmarkQuestionsResponse {
   int? get count => throw _privateConstructorUsedError;
   String? get next => throw _privateConstructorUsedError;
   String? get previous => throw _privateConstructorUsedError;
@@ -28,15 +28,15 @@ mixin _$MyBookmarkedQuizResponse {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $MyBookmarkedQuizResponseCopyWith<MyBookmarkedQuizResponse> get copyWith =>
+  $BookmarkQuestionsResponseCopyWith<BookmarkQuestionsResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $MyBookmarkedQuizResponseCopyWith<$Res> {
-  factory $MyBookmarkedQuizResponseCopyWith(MyBookmarkedQuizResponse value,
-          $Res Function(MyBookmarkedQuizResponse) then) =
-      _$MyBookmarkedQuizResponseCopyWithImpl<$Res, MyBookmarkedQuizResponse>;
+abstract class $BookmarkQuestionsResponseCopyWith<$Res> {
+  factory $BookmarkQuestionsResponseCopyWith(BookmarkQuestionsResponse value,
+          $Res Function(BookmarkQuestionsResponse) then) =
+      _$BookmarkQuestionsResponseCopyWithImpl<$Res, BookmarkQuestionsResponse>;
   @useResult
   $Res call(
       {int? count,
@@ -46,10 +46,10 @@ abstract class $MyBookmarkedQuizResponseCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$MyBookmarkedQuizResponseCopyWithImpl<$Res,
-        $Val extends MyBookmarkedQuizResponse>
-    implements $MyBookmarkedQuizResponseCopyWith<$Res> {
-  _$MyBookmarkedQuizResponseCopyWithImpl(this._value, this._then);
+class _$BookmarkQuestionsResponseCopyWithImpl<$Res,
+        $Val extends BookmarkQuestionsResponse>
+    implements $BookmarkQuestionsResponseCopyWith<$Res> {
+  _$BookmarkQuestionsResponseCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -86,12 +86,12 @@ class _$MyBookmarkedQuizResponseCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$MyBookmarkedQuizResponseImplCopyWith<$Res>
-    implements $MyBookmarkedQuizResponseCopyWith<$Res> {
-  factory _$$MyBookmarkedQuizResponseImplCopyWith(
-          _$MyBookmarkedQuizResponseImpl value,
-          $Res Function(_$MyBookmarkedQuizResponseImpl) then) =
-      __$$MyBookmarkedQuizResponseImplCopyWithImpl<$Res>;
+abstract class _$$BookmarkQuestionsResponseImplCopyWith<$Res>
+    implements $BookmarkQuestionsResponseCopyWith<$Res> {
+  factory _$$BookmarkQuestionsResponseImplCopyWith(
+          _$BookmarkQuestionsResponseImpl value,
+          $Res Function(_$BookmarkQuestionsResponseImpl) then) =
+      __$$BookmarkQuestionsResponseImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -102,13 +102,13 @@ abstract class _$$MyBookmarkedQuizResponseImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$MyBookmarkedQuizResponseImplCopyWithImpl<$Res>
-    extends _$MyBookmarkedQuizResponseCopyWithImpl<$Res,
-        _$MyBookmarkedQuizResponseImpl>
-    implements _$$MyBookmarkedQuizResponseImplCopyWith<$Res> {
-  __$$MyBookmarkedQuizResponseImplCopyWithImpl(
-      _$MyBookmarkedQuizResponseImpl _value,
-      $Res Function(_$MyBookmarkedQuizResponseImpl) _then)
+class __$$BookmarkQuestionsResponseImplCopyWithImpl<$Res>
+    extends _$BookmarkQuestionsResponseCopyWithImpl<$Res,
+        _$BookmarkQuestionsResponseImpl>
+    implements _$$BookmarkQuestionsResponseImplCopyWith<$Res> {
+  __$$BookmarkQuestionsResponseImplCopyWithImpl(
+      _$BookmarkQuestionsResponseImpl _value,
+      $Res Function(_$BookmarkQuestionsResponseImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -119,7 +119,7 @@ class __$$MyBookmarkedQuizResponseImplCopyWithImpl<$Res>
     Object? previous = freezed,
     Object? results = null,
   }) {
-    return _then(_$MyBookmarkedQuizResponseImpl(
+    return _then(_$BookmarkQuestionsResponseImpl(
       count: freezed == count
           ? _value.count
           : count // ignore: cast_nullable_to_non_nullable
@@ -142,16 +142,16 @@ class __$$MyBookmarkedQuizResponseImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$MyBookmarkedQuizResponseImpl implements _MyBookmarkedQuizResponse {
-  const _$MyBookmarkedQuizResponseImpl(
+class _$BookmarkQuestionsResponseImpl implements _BookmarkQuestionsResponse {
+  const _$BookmarkQuestionsResponseImpl(
       {this.count,
       this.next,
       this.previous,
       final List<BookmarkedQuizResult> results = const []})
       : _results = results;
 
-  factory _$MyBookmarkedQuizResponseImpl.fromJson(Map<String, dynamic> json) =>
-      _$$MyBookmarkedQuizResponseImplFromJson(json);
+  factory _$BookmarkQuestionsResponseImpl.fromJson(Map<String, dynamic> json) =>
+      _$$BookmarkQuestionsResponseImplFromJson(json);
 
   @override
   final int? count;
@@ -170,14 +170,14 @@ class _$MyBookmarkedQuizResponseImpl implements _MyBookmarkedQuizResponse {
 
   @override
   String toString() {
-    return 'MyBookmarkedQuizResponse(count: $count, next: $next, previous: $previous, results: $results)';
+    return 'BookmarkQuestionsResponse(count: $count, next: $next, previous: $previous, results: $results)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$MyBookmarkedQuizResponseImpl &&
+            other is _$BookmarkQuestionsResponseImpl &&
             (identical(other.count, count) || other.count == count) &&
             (identical(other.next, next) || other.next == next) &&
             (identical(other.previous, previous) ||
@@ -193,28 +193,28 @@ class _$MyBookmarkedQuizResponseImpl implements _MyBookmarkedQuizResponse {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$MyBookmarkedQuizResponseImplCopyWith<_$MyBookmarkedQuizResponseImpl>
-      get copyWith => __$$MyBookmarkedQuizResponseImplCopyWithImpl<
-          _$MyBookmarkedQuizResponseImpl>(this, _$identity);
+  _$$BookmarkQuestionsResponseImplCopyWith<_$BookmarkQuestionsResponseImpl>
+      get copyWith => __$$BookmarkQuestionsResponseImplCopyWithImpl<
+          _$BookmarkQuestionsResponseImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$MyBookmarkedQuizResponseImplToJson(
+    return _$$BookmarkQuestionsResponseImplToJson(
       this,
     );
   }
 }
 
-abstract class _MyBookmarkedQuizResponse implements MyBookmarkedQuizResponse {
-  const factory _MyBookmarkedQuizResponse(
+abstract class _BookmarkQuestionsResponse implements BookmarkQuestionsResponse {
+  const factory _BookmarkQuestionsResponse(
           {final int? count,
           final String? next,
           final String? previous,
           final List<BookmarkedQuizResult> results}) =
-      _$MyBookmarkedQuizResponseImpl;
+      _$BookmarkQuestionsResponseImpl;
 
-  factory _MyBookmarkedQuizResponse.fromJson(Map<String, dynamic> json) =
-      _$MyBookmarkedQuizResponseImpl.fromJson;
+  factory _BookmarkQuestionsResponse.fromJson(Map<String, dynamic> json) =
+      _$BookmarkQuestionsResponseImpl.fromJson;
 
   @override
   int? get count;
@@ -226,7 +226,7 @@ abstract class _MyBookmarkedQuizResponse implements MyBookmarkedQuizResponse {
   List<BookmarkedQuizResult> get results;
   @override
   @JsonKey(ignore: true)
-  _$$MyBookmarkedQuizResponseImplCopyWith<_$MyBookmarkedQuizResponseImpl>
+  _$$BookmarkQuestionsResponseImplCopyWith<_$BookmarkQuestionsResponseImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 

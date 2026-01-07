@@ -7,8 +7,8 @@ import 'package:testabd/core/utils/formatters.dart';
 import 'package:testabd/core/widgets/loading_widget.dart';
 import 'package:testabd/di/app_config.dart';
 import 'package:testabd/domain/account/entities/user_connections_model.dart';
-import 'package:testabd/features/user_profile/profile_connection_cubit.dart';
-import 'package:testabd/features/user_profile/profile_connection_state.dart';
+import 'package:testabd/features/user_profile/user_connection_cubit.dart';
+import 'package:testabd/features/user_profile/user_connection_state.dart';
 import 'package:testabd/router/app_router.dart';
 
 enum ProfileConnectionEnum {
