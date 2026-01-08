@@ -10,9 +10,9 @@ import 'package:testabd/features/home/notifications_screen.dart';
 import 'package:testabd/features/init/init_screen.dart';
 import 'package:testabd/features/library/library_screen.dart';
 import 'package:testabd/features/profile/bookmark_questions_screen.dart';
-import 'package:testabd/features/profile/edit_profile_screen.dart';
 import 'package:testabd/features/profile/profile_connection_screen.dart';
 import 'package:testabd/features/profile/profile_screen.dart';
+import 'package:testabd/features/profile/settings/edit_profile_screen.dart';
 import 'package:testabd/features/root/shell_screen.dart';
 import 'package:testabd/features/search/search_screen.dart';
 import 'package:testabd/features/testabd/test_screen.dart';
@@ -143,7 +143,7 @@ final appRouter = GoRouter(
     GoRoute(
       path: AppRouter.editProfile,
       pageBuilder: (context, state) {
-        return CupertinoPage(child: EditProfileScreen());
+        return CupertinoPage(child: EditAndSettingsScreen());
       },
     ),
     GoRoute(
