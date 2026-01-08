@@ -8,15 +8,15 @@ class UserFollowEvent {
   UserFollowEvent(this.userId, this.isFollowing);
 }
 
-abstract class UserFollowListener {
+abstract class ConnectionFollowEventListener {
   Stream<UserFollowEvent> get followStream;
   void publish(UserFollowEvent event);
   void dispose();
 }
 
 @named
-@LazySingleton(as: UserFollowListener, dispose: disposeMethod)
-class ConnectionFollowListener implements UserFollowListener {
+@LazySingleton(as: ConnectionFollowEventListener, dispose: disposeMethod)
+class ConnectionFollowListener implements ConnectionFollowEventListener {
   final PublishSubject<UserFollowEvent> _followSubject =
       PublishSubject<UserFollowEvent>();
 
@@ -35,8 +35,28 @@ class ConnectionFollowListener implements UserFollowListener {
 }
 
 @named
-@LazySingleton(as: UserFollowListener, dispose: disposeMethod)
-class UserProfileFollowListener implements UserFollowListener {
+@LazySingleton(as: ConnectionFollowEventListener, dispose: disposeMethod)
+class ProfileFollowListener implements ConnectionFollowEventListener {
+  final PublishSubject<UserFollowEvent> _followSubject =
+  PublishSubject<UserFollowEvent>();
+
+  @override
+  Stream<UserFollowEvent> get followStream => _followSubject.stream;
+
+  @override
+  void publish(UserFollowEvent event) {
+    _followSubject.add(event);
+  }
+
+  @override
+  void dispose() {
+    _followSubject.close();
+  }
+}
+
+@named
+@LazySingleton(as: ConnectionFollowEventListener, dispose: disposeMethod)
+class UserFollowListener implements ConnectionFollowEventListener {
   final PublishSubject<UserFollowEvent> _followSubject =
       PublishSubject<UserFollowEvent>();
 
@@ -55,8 +75,8 @@ class UserProfileFollowListener implements UserFollowListener {
 }
 
 @named
-@LazySingleton(as: UserFollowListener, dispose: disposeMethod)
-class LeaderboardFollowListener implements UserFollowListener {
+@LazySingleton(as: ConnectionFollowEventListener, dispose: disposeMethod)
+class LeaderboardFollowListener implements ConnectionFollowEventListener {
   final PublishSubject<UserFollowEvent> _followSubject =
       PublishSubject<UserFollowEvent>();
 
@@ -75,6 +95,6 @@ class LeaderboardFollowListener implements UserFollowListener {
 }
 
 // dispose 
-void disposeMethod(UserFollowListener listener) {
+void disposeMethod(ConnectionFollowEventListener listener) {
   listener.dispose();
 }

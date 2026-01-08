@@ -61,6 +61,7 @@ class UserModel extends Equatable {
   final String? level;
   final DateTime? joinDate;
   final int? coins;
+  final bool isMe;
 
   const UserModel({
     this.id,
@@ -75,6 +76,7 @@ class UserModel extends Equatable {
     this.level,
     this.joinDate,
     this.coins,
+    this.isMe = false,
   });
 
   // get full name
@@ -104,6 +106,7 @@ class UserModel extends Equatable {
     String? level,
     DateTime? joinDate,
     int? coins,
+    bool? isMe,
   }) {
     return UserModel(
       id: id ?? this.id,
@@ -118,6 +121,7 @@ class UserModel extends Equatable {
       level: level ?? this.level,
       joinDate: joinDate ?? this.joinDate,
       coins: coins ?? this.coins,
+      isMe: isMe ?? this.isMe,
     );
   }
 
@@ -135,6 +139,7 @@ class UserModel extends Equatable {
     level,
     joinDate,
     coins,
+    isMe
   ];
 }
 

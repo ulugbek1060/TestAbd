@@ -11,9 +11,10 @@ import 'package:testabd/features/users/user_profile_state.dart';
 class UserProfileCubit extends Cubit<UserProfileState> {
   final AccountRepository _accountRepository;
   final QuizRepository _quizRepository;
-  final UserFollowListener _connectionFollowListener;
-  final UserFollowListener _userProfileFollowListener;
-  final UserFollowListener _leaderboardFollowListener;
+  final ConnectionFollowEventListener _connectionFollowListener;
+  final ConnectionFollowEventListener _userProfileFollowListener;
+  final ConnectionFollowEventListener _leaderboardFollowListener;
+  final ConnectionFollowEventListener _profileFollowListener;
   late StreamSubscription<UserFollowEvent> _followSubscription;
   final String username;
 
@@ -24,14 +25,15 @@ class UserProfileCubit extends Cubit<UserProfileState> {
     @factoryParam this.username,
     this._accountRepository,
     this._quizRepository,
-   @Named.from(ConnectionFollowListener) this._connectionFollowListener,
-   @Named.from(UserProfileFollowListener) this._userProfileFollowListener,
-   @Named.from(LeaderboardFollowListener) this._leaderboardFollowListener,
+    @Named.from(ConnectionFollowListener) this._connectionFollowListener,
+    @Named.from(UserFollowListener) this._userProfileFollowListener,
+    @Named.from(LeaderboardFollowListener) this._leaderboardFollowListener,
+    @Named.from(ProfileFollowListener) this._profileFollowListener,
   ) : super(UserProfileState()) {
-
-    _followSubscription = _userProfileFollowListener.followStream.listen((event) {
-      if (state.profile?.user?.id == event.userId){
-
+    _followSubscription = _userProfileFollowListener.followStream.listen((
+      event,
+    ) {
+      if (state.profile?.user?.id == event.userId) {
         // for updating follow button
         final profile = state.profile?.setFollowing(event.isFollowing);
         emit(state.copyWith(profile: profile));
@@ -50,21 +52,28 @@ class UserProfileCubit extends Cubit<UserProfileState> {
 
   /// main loading
   Future<void> load() async {
-
     if (state.isLoading) return;
 
     emit(state.copyWith(isLoading: true, error: null));
 
-    // delay
-    await Future.delayed(const Duration(milliseconds: 500));
-
     final result = await _accountRepository.getUserProfile(username);
+
+    final userInfo = await _accountRepository.userInfoStream.first;
+    final id = userInfo?.id;
+
     result.fold(
       (error) {
         emit(state.copyWith(isLoading: false, error: error.message));
       },
       (value) {
-        emit(state.copyWith(isLoading: false, profile: value));
+        emit(
+          state.copyWith(
+            isLoading: false,
+            profile: value.copyWith(
+              user: value.user?.copyWith(isMe: value.user?.id == id),
+            ),
+          ),
+        );
 
         /// load topics
         loadBlocks();
@@ -124,9 +133,7 @@ class UserProfileCubit extends Cubit<UserProfileState> {
     if (questionsState.isLoading) return;
 
     emit(
-      state.copyWith(
-          questionsState: questionsState.copyWith(isLoading: true)
-      ),
+      state.copyWith(questionsState: questionsState.copyWith(isLoading: true)),
     );
     final result = await _quizRepository.getUserQuestions(userId);
     result.fold(
@@ -191,7 +198,12 @@ class UserProfileCubit extends Cubit<UserProfileState> {
         _connectionFollowListener.publish(UserFollowEvent(userId, isFollowing));
 
         /// publish follow event to [leaderboard_cubit]
-        _leaderboardFollowListener.publish(UserFollowEvent(userId, isFollowing));
+        _leaderboardFollowListener.publish(
+          UserFollowEvent(userId, isFollowing),
+        );
+
+        /// publish follow event to [profile_connection_cubit]
+        _profileFollowListener.publish(UserFollowEvent(userId, isFollowing));
 
         // load user detail
         _loadUserDetailSilently();
@@ -211,5 +223,4 @@ class UserProfileCubit extends Cubit<UserProfileState> {
       );
     });
   }
-
 }

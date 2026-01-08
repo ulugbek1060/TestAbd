@@ -56,9 +56,7 @@ class _ViewState extends State<_View> {
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
-      initialIndex: widget.connectionType == ConnectionsEnum.following
-          ? 1
-          : 0,
+      initialIndex: widget.connectionType == ConnectionsEnum.following ? 1 : 0,
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Connections'),
@@ -114,6 +112,7 @@ class _ConnectionsList extends StatelessWidget {
         itemBuilder: (context, index) {
           final user = users[index];
           return UserTile(
+            isSuperUser: user.isMe,
             user: user,
             onTap: () =>
                 context.push(AppRouter.userProfileWithUsername(user.username)),
@@ -127,6 +126,7 @@ class _ConnectionsList extends StatelessWidget {
 
 class UserTile extends StatelessWidget {
   final UserConnectionModel user;
+  final bool isSuperUser;
   final VoidCallback onTap;
   final VoidCallback onTapFollow;
 
@@ -134,6 +134,7 @@ class UserTile extends StatelessWidget {
     super.key,
     required this.user,
     required this.onTap,
+    required this.isSuperUser,
     required this.onTapFollow,
   });
 
@@ -165,26 +166,32 @@ class UserTile extends StatelessWidget {
         capitalize(user.firstName),
         style: TextStyle(color: Colors.grey),
       ),
-      trailing: SizedBox(
-        height: 32,
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: user.isFollowing
-                ? Theme.of(context).colorScheme.onSurface.withAlpha(150)
-                : Colors.blue,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
-          ),
-          onPressed: user.isLoading ? null : onTapFollow,
-          child: user.isLoading
-              ? SizedBox(width: 16, height: 16, child: const ProgressView())
-              : Text(
-                  user.isFollowing ? 'Unfollow' : 'Follow',
-                  style: TextStyle(color: Colors.white),
+      trailing: isSuperUser
+          ? null
+          : SizedBox(
+              height: 32,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: user.isFollowing
+                      ? Theme.of(context).colorScheme.onSurface.withAlpha(150)
+                      : Colors.blue,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
                 ),
-        ),
-      ),
+                onPressed: user.isLoading ? null : onTapFollow,
+                child: user.isLoading
+                    ? SizedBox(
+                        width: 16,
+                        height: 16,
+                        child: const ProgressView(),
+                      )
+                    : Text(
+                        user.isFollowing ? 'Unfollow' : 'Follow',
+                        style: TextStyle(color: Colors.white),
+                      ),
+              ),
+            ),
     );
   }
 }

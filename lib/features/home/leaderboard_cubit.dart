@@ -12,7 +12,7 @@ import 'leaderboard_state.dart';
 class LeaderboardCubit extends Cubit<LeaderboardState> {
   final LeaderboardRepository _leaderboardRepository;
   final AccountRepository _accountRepository;
-  final UserFollowListener _followListener;
+  final ConnectionFollowEventListener _followListener;
   late StreamSubscription _subscription;
   static const int _pageSize = 20;
 

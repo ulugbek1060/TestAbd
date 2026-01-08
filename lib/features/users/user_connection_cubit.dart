@@ -10,8 +10,8 @@ import 'package:testabd/features/users/user_connection_state.dart';
 class UserConnectionCubit extends Cubit<UserConnectionState> {
   final int userId;
   final AccountRepository _accountRepository;
-  final UserFollowListener _connectionFollowListener;
-  final UserFollowListener _userProfileFollowListener;
+  final ConnectionFollowEventListener _connectionFollowListener;
+  final ConnectionFollowEventListener _userProfileFollowListener;
 
   late StreamSubscription<UserFollowEvent> _followSubscription;
 
@@ -20,9 +20,11 @@ class UserConnectionCubit extends Cubit<UserConnectionState> {
     @factoryParam this.userId,
     this._accountRepository,
     @Named.from(ConnectionFollowListener) this._connectionFollowListener,
-    @Named.from(UserProfileFollowListener) this._userProfileFollowListener,
+    @Named.from(UserFollowListener) this._userProfileFollowListener,
   ) : super(UserConnectionState()) {
-    _followSubscription = _connectionFollowListener.followStream.listen((event) {
+    _followSubscription = _connectionFollowListener.followStream.listen((
+      event,
+    ) {
       final connections = state.connections.setFollowingByUserId(
         event.userId,
         event.isFollowing,
@@ -37,22 +39,29 @@ class UserConnectionCubit extends Cubit<UserConnectionState> {
     return super.close();
   }
 
-
   Future<void> load() async {
     if (state.isLoading) return;
 
     emit(state.copyWith(isLoading: true));
 
     // delay
-    await Future.delayed(const Duration(milliseconds: 500));
-
     final result = await _accountRepository.getUserConnections(userId);
+
+    final userInfo = await _accountRepository.userInfoStream.first;
+    final id = userInfo?.id;
+
     result.fold(
       (error) {
         emit(state.copyWith(isLoading: false, error: error.message));
       },
       (value) {
-        emit(state.copyWith(isLoading: false, connections: value, error: null));
+        emit(
+          state.copyWith(
+            isLoading: false,
+            connections: value.toggleIsMe(id),
+            error: null,
+          ),
+        );
       },
     );
   }

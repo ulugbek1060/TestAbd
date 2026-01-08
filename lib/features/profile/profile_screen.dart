@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:testabd/core/theme/app_icons.dart';
 import 'package:testabd/core/theme/app_images.dart';
+import 'package:testabd/core/utils/connections_enum.dart';
 import 'package:testabd/core/widgets/loading_widget.dart';
 import 'package:testabd/di/app_config.dart';
 import 'package:testabd/features/profile/profile_cubit.dart';
@@ -98,8 +99,16 @@ class _ViewState extends State<_View> with SingleTickerProviderStateMixin {
                             '${state.myInfoModel?.firstName} ${state.myInfoModel?.lastName}',
                         bio: state.myInfoModel?.bio ?? '',
                         onTestsTap: () {},
-                        onFollowersTap: () {},
-                        onFollowingTap: () {},
+                        onFollowersTap: () => context.push(
+                          AppRouter.profileConnectionWithUserId(
+                            connectionType: ConnectionsEnum.followers.name,
+                          ),
+                        ),
+                        onFollowingTap: () => context.push(
+                          AppRouter.profileConnectionWithUserId(
+                            connectionType: ConnectionsEnum.following.name,
+                          ),
+                        ),
                         onEditProfileTap: () =>
                             context.push(AppRouter.editProfile),
                       ),
@@ -225,13 +234,13 @@ class HeaderSection extends StatelessWidget {
                 /// Stats
                 Expanded(
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      _StatItem(
-                        title: "Tests",
-                        value: tests,
-                        onTap: onTestsTap,
-                      ),
+                      // _StatItem(
+                      //   title: "Tests",
+                      //   value: tests,
+                      //   onTap: onTestsTap,
+                      // ),
                       _StatItem(
                         title: "Followers",
                         value: followers,

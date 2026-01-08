@@ -141,7 +141,7 @@ class _ViewState extends State<_View> with SingleTickerProviderStateMixin {
                                     // followers
                                     _StatItem(
                                       onTap: () => context.push(
-                                        AppRouter.profileConnectionWithUserId(
+                                        AppRouter.userConnectionWithUserId(
                                           userId: state.profile?.user?.id ?? 0,
                                           connectionType:
                                               ConnectionsEnum.followers.name,
@@ -154,7 +154,7 @@ class _ViewState extends State<_View> with SingleTickerProviderStateMixin {
 
                                     _StatItem(
                                       onTap: () => context.push(
-                                        AppRouter.profileConnectionWithUserId(
+                                        AppRouter.userConnectionWithUserId(
                                           userId: state.profile?.user?.id ?? 0,
                                           connectionType:
                                               ConnectionsEnum.following.name,
@@ -212,50 +212,55 @@ class _ViewState extends State<_View> with SingleTickerProviderStateMixin {
                           ),
                           child: Row(
                             children: [
-                              Expanded(
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor:
-                                        state.profile?.user?.isFollowing ??
-                                            false
-                                        ? Theme.of(context).colorScheme.surface
-                                        : Colors.blueAccent,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                  ),
-                                  onPressed: state.followState.isLoading
-                                      ? null
-                                      : cubit.followAction,
-                                  child: state.followState.isLoading
-                                      ? SizedBox(
-                                          width: 18,
-                                          height: 18,
-                                          child: ProgressView(strokeWidth: 3),
-                                        )
-                                      : Text(
+                              if (!(state.profile?.user?.isMe == true))
+                                Expanded(
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor:
                                           state.profile?.user?.isFollowing ??
-                                                  false
-                                              ? "Followed"
-                                              : "Follow",
-                                          style: TextStyle(
-                                            color:
-                                                state
-                                                        .profile
-                                                        ?.user
-                                                        ?.isFollowing ??
+                                              false
+                                          ? Theme.of(
+                                              context,
+                                            ).colorScheme.surface
+                                          : Colors.blueAccent,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                    ),
+                                    onPressed: state.followState.isLoading
+                                        ? null
+                                        : cubit.followAction,
+                                    child: state.followState.isLoading
+                                        ? SizedBox(
+                                            width: 18,
+                                            height: 18,
+                                            child: ProgressView(strokeWidth: 3),
+                                          )
+                                        : Text(
+                                            state.profile?.user?.isFollowing ??
                                                     false
-                                                ? Theme.of(
-                                                    context,
-                                                  ).colorScheme.onSurface
-                                                : Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16,
+                                                ? "Followed"
+                                                : "Follow",
+                                            style: TextStyle(
+                                              color:
+                                                  state
+                                                          .profile
+                                                          ?.user
+                                                          ?.isFollowing ??
+                                                      false
+                                                  ? Theme.of(
+                                                      context,
+                                                    ).colorScheme.onSurface
+                                                  : Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
+                                            ),
                                           ),
-                                        ),
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(width: 8),
+
+                              if (!(state.profile?.user?.isMe == true))
+                                const SizedBox(width: 8),
                               Expanded(
                                 child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(

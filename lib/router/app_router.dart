@@ -11,6 +11,7 @@ import 'package:testabd/features/init/init_screen.dart';
 import 'package:testabd/features/library/library_screen.dart';
 import 'package:testabd/features/profile/bookmark_questions_screen.dart';
 import 'package:testabd/features/profile/edit_profile_screen.dart';
+import 'package:testabd/features/profile/profile_connection_screen.dart';
 import 'package:testabd/features/profile/profile_screen.dart';
 import 'package:testabd/features/root/shell_screen.dart';
 import 'package:testabd/features/search/search_screen.dart';
@@ -19,6 +20,7 @@ import 'package:testabd/features/users/block_questions_screen.dart';
 import 'package:testabd/features/users/question_detail_screen.dart';
 import 'package:testabd/features/users/user_connection_screen.dart';
 import 'package:testabd/features/users/user_profile_screen.dart';
+import 'package:testabd/main.dart';
 
 abstract class AppRouter {
   static const initial = '/';
@@ -35,16 +37,29 @@ abstract class AppRouter {
   static const leaderboard = '/leaderboard';
   static const editProfile = '/edit_profile';
   static const bookmarkQuestions = '/bookmark_questions';
+
   static String userProfileWithUsername(String username) => '/users/$username';
-  static const profileConnection = '/profile_connection/:user_id/:connection_type';
-  static String profileConnectionWithUserId({
+
+  static const userConnection = '/user_connection/:user_id/:connection_type';
+
+  static String userConnectionWithUserId({
     required int userId,
     required String connectionType,
-  }) => '/profile_connection/$userId/$connectionType';
+  }) => '/user_connection/$userId/$connectionType';
+
+  static const profileConnection = '/profile_connection/:connection_type';
+
+  static String profileConnectionWithUserId({required String connectionType}) =>
+      '/profile_connection/$connectionType';
+
   static const questionDetail = '/question_detail/:questionId';
-  static String questionDetailWithQuestionId(int questionId) => '/question_detail/$questionId';
+
+  static String questionDetailWithQuestionId(int questionId) =>
+      '/question_detail/$questionId';
   static const blockQuestions = '/block_questions/:blockId';
-  static String blockQuestionsWithBlockId(int blockId) => '/block_questions/$blockId';
+
+  static String blockQuestionsWithBlockId(int blockId) =>
+      '/block_questions/$blockId';
 }
 
 GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -87,7 +102,7 @@ final appRouter = GoRouter(
       },
     ),
     GoRoute(
-      path: AppRouter.profileConnection,
+      path: AppRouter.userConnection,
       pageBuilder: (context, state) {
         final userId = state.pathParameters['user_id']!;
         final connectionType = state.pathParameters['connection_type']!;
@@ -135,6 +150,17 @@ final appRouter = GoRouter(
       path: AppRouter.bookmarkQuestions,
       pageBuilder: (context, state) {
         return CupertinoPage(child: BookmarkQuestionsScreen());
+      },
+    ),
+    GoRoute(
+      path: AppRouter.profileConnection,
+      pageBuilder: (context, state) {
+        final connectionType = state.pathParameters['connection_type']!;
+        return CupertinoPage(
+          child: ProfileConnectionScreen(
+            connectionType: ConnectionsEnum.fromString(connectionType),
+          ),
+        );
       },
     ),
     StatefulShellRoute(
