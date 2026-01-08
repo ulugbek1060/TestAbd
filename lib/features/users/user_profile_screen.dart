@@ -4,13 +4,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:testabd/core/theme/app_colors.dart';
 import 'package:testabd/core/theme/app_images.dart';
+import 'package:testabd/core/utils/connections_enum.dart';
 import 'package:testabd/core/utils/formatters.dart';
 import 'package:testabd/core/widgets/loading_widget.dart';
 import 'package:testabd/di/app_config.dart';
 import 'package:testabd/domain/question_difficulty.dart';
-import 'package:testabd/features/user_profile/user_connection_screen.dart';
-import 'package:testabd/features/user_profile/user_profile_cubit.dart';
-import 'package:testabd/features/user_profile/user_profile_state.dart';
+import 'package:testabd/features/users/user_profile_cubit.dart';
+import 'package:testabd/features/users/user_profile_state.dart';
 import 'package:testabd/router/app_router.dart';
 
 enum PageType { block, questions, books }
@@ -143,9 +143,8 @@ class _ViewState extends State<_View> with SingleTickerProviderStateMixin {
                                       onTap: () => context.push(
                                         AppRouter.profileConnectionWithUserId(
                                           userId: state.profile?.user?.id ?? 0,
-                                          connectionType: ProfileConnectionEnum
-                                              .followers
-                                              .name,
+                                          connectionType:
+                                              ConnectionsEnum.followers.name,
                                         ),
                                       ),
                                       title: 'Followers',
@@ -157,9 +156,8 @@ class _ViewState extends State<_View> with SingleTickerProviderStateMixin {
                                       onTap: () => context.push(
                                         AppRouter.profileConnectionWithUserId(
                                           userId: state.profile?.user?.id ?? 0,
-                                          connectionType: ProfileConnectionEnum
-                                              .following
-                                              .name,
+                                          connectionType:
+                                              ConnectionsEnum.following.name,
                                         ),
                                       ),
                                       title: 'Following',

@@ -5,8 +5,7 @@ import 'package:injectable/injectable.dart';
 import 'package:testabd/core/utils/follow_listeners.dart';
 import 'package:testabd/domain/account/account_repository.dart';
 import 'package:testabd/domain/quiz/quiz_repository.dart';
-import 'package:testabd/features/user_profile/user_profile_state.dart';
-import 'package:testabd/main.dart';
+import 'package:testabd/features/users/user_profile_state.dart';
 
 @injectable
 class UserProfileCubit extends Cubit<UserProfileState> {

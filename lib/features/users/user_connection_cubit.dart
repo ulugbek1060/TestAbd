@@ -4,10 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:testabd/core/utils/follow_listeners.dart';
 import 'package:testabd/domain/account/account_repository.dart';
-import 'package:testabd/features/user_profile/user_connection_state.dart';
+import 'package:testabd/features/users/user_connection_state.dart';
 
 @injectable
-class ProfileConnectionCubit extends Cubit<ProfileConnectionState> {
+class UserConnectionCubit extends Cubit<UserConnectionState> {
   final int userId;
   final AccountRepository _accountRepository;
   final UserFollowListener _connectionFollowListener;
@@ -16,12 +16,12 @@ class ProfileConnectionCubit extends Cubit<ProfileConnectionState> {
   late StreamSubscription<UserFollowEvent> _followSubscription;
 
   @factoryMethod
-  ProfileConnectionCubit.create(
+  UserConnectionCubit.create(
     @factoryParam this.userId,
     this._accountRepository,
     @Named.from(ConnectionFollowListener) this._connectionFollowListener,
     @Named.from(UserProfileFollowListener) this._userProfileFollowListener,
-  ) : super(ProfileConnectionState()) {
+  ) : super(UserConnectionState()) {
     _followSubscription = _connectionFollowListener.followStream.listen((event) {
       final connections = state.connections.setFollowingByUserId(
         event.userId,

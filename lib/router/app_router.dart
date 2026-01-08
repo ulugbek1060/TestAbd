@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
+import 'package:testabd/core/utils/connections_enum.dart';
 import 'package:testabd/features/auth/forgotpswd/forgot_pswd_screen.dart';
 import 'package:testabd/features/auth/login/login_screen.dart';
 import 'package:testabd/features/auth/register/register_screen.dart';
@@ -14,10 +15,10 @@ import 'package:testabd/features/profile/profile_screen.dart';
 import 'package:testabd/features/root/shell_screen.dart';
 import 'package:testabd/features/search/search_screen.dart';
 import 'package:testabd/features/testabd/test_screen.dart';
-import 'package:testabd/features/user_profile/block_questions_screen.dart';
-import 'package:testabd/features/user_profile/user_connection_screen.dart';
-import 'package:testabd/features/user_profile/question_detail_screen.dart';
-import 'package:testabd/features/user_profile/user_profile_screen.dart' hide LibraryScreen;
+import 'package:testabd/features/users/block_questions_screen.dart';
+import 'package:testabd/features/users/question_detail_screen.dart';
+import 'package:testabd/features/users/user_connection_screen.dart';
+import 'package:testabd/features/users/user_profile_screen.dart';
 
 abstract class AppRouter {
   static const initial = '/';
@@ -30,13 +31,12 @@ abstract class AppRouter {
   static const library = '/library';
   static const profile = '/profile';
   static const notifications = '/notifications';
-  static const userProfile = '/user_profile/:username';
+  static const userProfile = '/users/:username';
   static const leaderboard = '/leaderboard';
   static const editProfile = '/edit_profile';
   static const bookmarkQuestions = '/bookmark_questions';
 
-  static String userProfileWithUsername(String username) =>
-      '/user_profile/$username';
+  static String userProfileWithUsername(String username) => '/users/$username';
 
   static const profileConnection =
       '/profile_connection/:user_id/:connection_type';
@@ -102,9 +102,9 @@ final appRouter = GoRouter(
         final userId = state.pathParameters['user_id']!;
         final connectionType = state.pathParameters['connection_type']!;
         return CupertinoPage(
-          child: ProfileConnectionScreen(
+          child: UserConnectionScreen(
             userId: int.tryParse(userId) ?? -1,
-            connectionType: ProfileConnectionEnum.fromString(connectionType),
+            connectionType: ConnectionsEnum.fromString(connectionType),
           ),
         );
       },

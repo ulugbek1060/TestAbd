@@ -3,35 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:testabd/core/theme/app_images.dart';
+import 'package:testabd/core/utils/connections_enum.dart';
 import 'package:testabd/core/utils/formatters.dart';
 import 'package:testabd/core/widgets/loading_widget.dart';
 import 'package:testabd/di/app_config.dart';
 import 'package:testabd/domain/account/entities/user_connections_model.dart';
-import 'package:testabd/features/user_profile/user_connection_cubit.dart';
-import 'package:testabd/features/user_profile/user_connection_state.dart';
+import 'package:testabd/features/users/user_connection_cubit.dart';
+import 'package:testabd/features/users/user_connection_state.dart';
 import 'package:testabd/router/app_router.dart';
 
-enum ProfileConnectionEnum {
-  following,
-  followers;
-
-  static ProfileConnectionEnum fromString(String value) {
-    switch (value) {
-      case 'following':
-        return following;
-      case 'followers':
-        return followers;
-      default:
-        return following;
-    }
-  }
-}
-
-class ProfileConnectionScreen extends StatelessWidget {
+class UserConnectionScreen extends StatelessWidget {
   final int userId;
-  final ProfileConnectionEnum connectionType;
+  final ConnectionsEnum connectionType;
 
-  const ProfileConnectionScreen({
+  const UserConnectionScreen({
     super.key,
     required this.userId,
     required this.connectionType,
@@ -40,7 +25,7 @@ class ProfileConnectionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => locator<ProfileConnectionCubit>(param1: userId)..load(),
+      create: (_) => locator<UserConnectionCubit>(param1: userId)..load(),
       child: _View(userId: userId, connectionType: connectionType),
     );
   }
@@ -48,7 +33,7 @@ class ProfileConnectionScreen extends StatelessWidget {
 
 class _View extends StatefulWidget {
   final int userId;
-  final ProfileConnectionEnum connectionType;
+  final ConnectionsEnum connectionType;
 
   const _View({required this.userId, required this.connectionType});
 
@@ -71,7 +56,7 @@ class _ViewState extends State<_View> {
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
-      initialIndex: widget.connectionType == ProfileConnectionEnum.following
+      initialIndex: widget.connectionType == ConnectionsEnum.following
           ? 1
           : 0,
       child: Scaffold(
@@ -87,7 +72,7 @@ class _ViewState extends State<_View> {
             ],
           ),
         ),
-        body: BlocBuilder<ProfileConnectionCubit, ProfileConnectionState>(
+        body: BlocBuilder<UserConnectionCubit, UserConnectionState>(
           builder: (context, state) {
             if (state.isLoading) {
               return Center(child: ProgressView());
@@ -119,7 +104,7 @@ class _ConnectionsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cubit = context.read<ProfileConnectionCubit>();
+    final cubit = context.read<UserConnectionCubit>();
     return RefreshIndicator(
       onRefresh: cubit.refresh,
       color: Theme.of(context).colorScheme.secondary,

@@ -39,8 +39,8 @@ import '../features/home/home_cubit.dart' as _i639;
 import '../features/home/leaderboard_cubit.dart' as _i279;
 import '../features/profile/bookmark_questions_cubit.dart' as _i137;
 import '../features/profile/profile_cubit.dart' as _i760;
-import '../features/user_profile/user_connection_cubit.dart' as _i470;
-import '../features/user_profile/user_profile_cubit.dart' as _i230;
+import '../features/users/user_connection_cubit.dart' as _i297;
+import '../features/users/user_profile_cubit.dart' as _i445;
 import 'app_module.dart' as _i460;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -121,11 +121,11 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i656.MyInfoHiveService>(),
           gh<_i259.WsLeaderboardSource>(),
         ));
-    gh.factoryParam<_i470.ProfileConnectionCubit, int, dynamic>((
+    gh.factoryParam<_i297.UserConnectionCubit, int, dynamic>((
       userId,
       _,
     ) =>
-        _i470.ProfileConnectionCubit.create(
+        _i297.UserConnectionCubit.create(
           userId,
           gh<_i575.AccountRepository>(),
           gh<_i244.UserFollowListener>(
@@ -141,11 +141,11 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i244.UserFollowListener>(
               instanceName: 'LeaderboardFollowListener'),
         ));
-    gh.factoryParam<_i230.UserProfileCubit, String, dynamic>((
+    gh.factoryParam<_i445.UserProfileCubit, String, dynamic>((
       username,
       _,
     ) =>
-        _i230.UserProfileCubit.create(
+        _i445.UserProfileCubit.create(
           username,
           gh<_i575.AccountRepository>(),
           gh<_i156.QuizRepository>(),
