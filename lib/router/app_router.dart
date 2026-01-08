@@ -35,26 +35,16 @@ abstract class AppRouter {
   static const leaderboard = '/leaderboard';
   static const editProfile = '/edit_profile';
   static const bookmarkQuestions = '/bookmark_questions';
-
   static String userProfileWithUsername(String username) => '/users/$username';
-
-  static const profileConnection =
-      '/profile_connection/:user_id/:connection_type';
-
+  static const profileConnection = '/profile_connection/:user_id/:connection_type';
   static String profileConnectionWithUserId({
     required int userId,
     required String connectionType,
   }) => '/profile_connection/$userId/$connectionType';
-
   static const questionDetail = '/question_detail/:questionId';
-
-  static String questionDetailWithQuestionId(int questionId) =>
-      '/question_detail/$questionId';
-
+  static String questionDetailWithQuestionId(int questionId) => '/question_detail/$questionId';
   static const blockQuestions = '/block_questions/:blockId';
-
-  static String blockQuestionsWithBlockId(int blockId) =>
-      '/block_questions/$blockId';
+  static String blockQuestionsWithBlockId(int blockId) => '/block_questions/$blockId';
 }
 
 GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();

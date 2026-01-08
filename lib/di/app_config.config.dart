@@ -38,6 +38,7 @@ import '../features/auth/register/register_cubit.dart' as _i163;
 import '../features/home/home_cubit.dart' as _i639;
 import '../features/home/leaderboard_cubit.dart' as _i279;
 import '../features/profile/bookmark_questions_cubit.dart' as _i137;
+import '../features/profile/profile_connection_cubit.dart' as _i570;
 import '../features/profile/profile_cubit.dart' as _i760;
 import '../features/users/user_connection_cubit.dart' as _i297;
 import '../features/users/user_profile_cubit.dart' as _i445;
@@ -55,6 +56,8 @@ extension GetItInjectableX on _i174.GetIt {
       environmentFilter,
     );
     final appModule = _$AppModule();
+    gh.factory<_i570.ProfileConnectionCubit>(
+        () => _i570.ProfileConnectionCubit());
     await gh.singletonAsync<_i460.SharedPreferences>(
       () => appModule.getSharedPrefs(),
       preResolve: true,
