@@ -64,12 +64,7 @@ class _ViewState extends State<_View> with SingleTickerProviderStateMixin {
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               actions: [
-                IconButton(
-                  onPressed: cubit.toggleMode,
-                  icon: state.appModeState is DarkMode
-                      ? const Icon(Icons.light_mode_rounded)
-                      : const Icon(Icons.dark_mode_rounded),
-                ),
+
                 Icon(Icons.more_vert),
                 SizedBox(width: 12),
               ],

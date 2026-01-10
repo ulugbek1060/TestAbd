@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:testabd/di/app_config.dart';
+import 'package:testabd/features/profile/profile_state.dart';
+import 'package:testabd/features/profile/settings/edit_profile_cubit.dart';
+import 'package:testabd/features/profile/settings/edit_profile_state.dart';
 import 'package:testabd/router/app_router.dart';
 
 class EditProfileScreen extends StatelessWidget {
@@ -7,7 +12,10 @@ class EditProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _View();
+    return BlocProvider(
+      create: (context) => locator<EditProfileCubit>(),
+      child: _View(),
+    );
   }
 }
 
@@ -16,57 +24,66 @@ class _View extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<EditProfileCubit>();
+
     return Scaffold(
       appBar: AppBar(title: const Text("Edit & Settings"), centerTitle: true),
 
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          _Section(title: "Profile Information"),
-          _ProfileTile(
-            title: "Personal Information",
-            description:
-                "Update your name, email address, phone number, and biographical details.",
-            onTap: () => context.push(AppRouter.editUserData),
-          ),
+      body: BlocBuilder<EditProfileCubit, EditProfileState>(
+        builder: (context, state) {
+          return ListView(
+            padding: const EdgeInsets.all(16),
+            children: [
+              _Section(title: "Profile Information"),
+              _ProfileTile(
+                title: "Personal Information",
+                description:
+                    "Update your name, email address, phone number, and biographical details.",
+                onTap: () => context.push(AppRouter.editUserData),
+              ),
 
-          SizedBox(height: 24),
+              SizedBox(height: 24),
 
-          _Section(title: "Location"),
-          _ProfileTile(
-            title: "Regional Settings",
-            description:
-                "Manage your country, state, and city for localized content and time zones.",
-            onTap: () => context.push(AppRouter.editUserLocation),
-          ),
+              _Section(title: "Location"),
+              _ProfileTile(
+                title: "Regional Settings",
+                description:
+                    "Manage your country, state, and city for localized content and time zones.",
+                onTap: () => context.push(AppRouter.editUserLocation),
+              ),
 
-          SizedBox(height: 24),
+              SizedBox(height: 24),
 
-          _Section(title: "App Preferences"),
-          _ProfileTile(
-            title: "Theme Settings",
-            description: "Switch between light and dark modes or sync with your system preferences.",
-            onTap: () {},
-            trailing: Icon(Icons.light_mode_rounded),
-          ),
-          _ProfileTile(
-            title: "Language",
-            description:
-            "Select your preferred language for this application, independent of your device's global settings.",
-            onTap: () {},
-          ),
+              _Section(title: "App Preferences"),
+              _ProfileTile(
+                title: "Theme Settings",
+                description:
+                    "Switch between light and dark modes or sync with your system preferences.",
+                onTap: cubit.toggleMode,
+                trailing: state.appModeState is DarkMode
+                    ? const Icon(Icons.light_mode_rounded)
+                    : const Icon(Icons.dark_mode_rounded),
+              ),
+              _ProfileTile(
+                title: "Language",
+                description:
+                    "Select your preferred language for this application, independent of your device's global settings.",
+                onTap: () {},
+              ),
 
-          SizedBox(height: 24),
+              SizedBox(height: 24),
 
-          _Section(title: "Referral"),
-          _ProfileTile(
-            title: 'Refer & Earn',
-            description:
-                'Invite your network and stack up credits for your next purchase.',
-            onTap: () {},
-            trailing: const Icon(Icons.history),
-          ),
-        ],
+              _Section(title: "Referral"),
+              _ProfileTile(
+                title: 'Refer & Earn',
+                description:
+                    'Invite your network and stack up credits for your next purchase.',
+                onTap: () {},
+                trailing: const Icon(Icons.history),
+              ),
+            ],
+          );
+        },
       ),
     );
   }

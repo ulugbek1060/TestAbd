@@ -31,4 +31,22 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get error_unknown_title => 'Неизвестная ошибка';
+
+  @override
+  String get languageEnglish => 'Английский';
+
+  @override
+  String get languageUzbek => 'Узбекский';
+
+  @override
+  String get languageRussian => 'Русский';
+
+  @override
+  String get en => 'En';
+
+  @override
+  String get ru => 'Ру';
+
+  @override
+  String get uz => 'Уз';
 }

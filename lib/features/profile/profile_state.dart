@@ -10,8 +10,6 @@ class ProfileState with _$ProfileState {
   const factory ProfileState({
     @Default(false) bool isLoading,
     @Default(null) String? error,
-    // theme state
-    AppModeState? appModeState,
     // main data state
     MyInfoModel? myInfoModel,
     // user followers

@@ -30,16 +30,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     this._quizRepository,
     this._messageHandler,
   ) : super(ProfileState()) {
-    // listen theme updates
-    _themeSubscription = _appModeService.stream.listen((event) {
-      emit(
-        state.copyWith(
-          appModeState: event == ThemeMode.dark
-              ? const AppModeState.dark()
-              : const AppModeState.light(),
-        ),
-      );
-    });
+
 
     // listen the my info subscription
     _myInfoSubscription = _accountRepository.userInfoStream.listen((event) {
@@ -168,17 +159,6 @@ class ProfileCubit extends Cubit<ProfileState> {
   Future<void> fetchRecent() async {
     // TODO fetch recent
   }
-
-  void toggleMode() {
-    final current = _appModeService.current;
-    final next = switch (current) {
-      ThemeMode.light => ThemeMode.dark,
-      ThemeMode.dark => ThemeMode.light,
-      ThemeMode.system => ThemeMode.light,
-    };
-    _appModeService.changeMode(next);
-  }
-
   // logout
   void logout() async {
     final result = await _authRepository.logout();

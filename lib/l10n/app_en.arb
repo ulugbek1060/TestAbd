@@ -7,5 +7,11 @@
   "error_not_found_title": "Not Found",
   "error_server_title": "Server Error",
   "error_storage_title": "Storage Error",
-  "error_unknown_title": "Unexpected Error"
+  "error_unknown_title": "Unexpected Error",
+  "languageEnglish": "English",
+  "languageUzbek": "Uzbek",
+  "languageRussian": "Russian",
+  "en": "En",
+  "ru": "Ru",
+  "uz": "Uz"
 }

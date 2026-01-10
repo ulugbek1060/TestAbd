@@ -31,4 +31,22 @@ class AppLocalizationsUz extends AppLocalizations {
 
   @override
   String get error_unknown_title => 'Kutilmagan xatolik';
+
+  @override
+  String get languageEnglish => 'Inglizcha';
+
+  @override
+  String get languageUzbek => 'O‘zbekcha';
+
+  @override
+  String get languageRussian => 'Ruscha';
+
+  @override
+  String get en => 'En';
+
+  @override
+  String get ru => 'Ru';
+
+  @override
+  String get uz => 'Uz';
 }

@@ -31,4 +31,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get error_unknown_title => 'Unexpected Error';
+
+  @override
+  String get languageEnglish => 'English';
+
+  @override
+  String get languageUzbek => 'Uzbek';
+
+  @override
+  String get languageRussian => 'Russian';
+
+  @override
+  String get en => 'En';
+
+  @override
+  String get ru => 'Ru';
+
+  @override
+  String get uz => 'Uz';
 }

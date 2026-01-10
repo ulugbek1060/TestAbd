@@ -17,7 +17,8 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$EditProfileState {
   bool get isLoading => throw _privateConstructorUsedError;
-  String? get error => throw _privateConstructorUsedError;
+  String? get error => throw _privateConstructorUsedError; // theme state
+  AppModeState? get appModeState => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $EditProfileStateCopyWith<EditProfileState> get copyWith =>
@@ -30,7 +31,9 @@ abstract class $EditProfileStateCopyWith<$Res> {
           EditProfileState value, $Res Function(EditProfileState) then) =
       _$EditProfileStateCopyWithImpl<$Res, EditProfileState>;
   @useResult
-  $Res call({bool isLoading, String? error});
+  $Res call({bool isLoading, String? error, AppModeState? appModeState});
+
+  $AppModeStateCopyWith<$Res>? get appModeState;
 }
 
 /// @nodoc
@@ -48,6 +51,7 @@ class _$EditProfileStateCopyWithImpl<$Res, $Val extends EditProfileState>
   $Res call({
     Object? isLoading = null,
     Object? error = freezed,
+    Object? appModeState = freezed,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
@@ -58,7 +62,23 @@ class _$EditProfileStateCopyWithImpl<$Res, $Val extends EditProfileState>
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
               as String?,
+      appModeState: freezed == appModeState
+          ? _value.appModeState
+          : appModeState // ignore: cast_nullable_to_non_nullable
+              as AppModeState?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $AppModeStateCopyWith<$Res>? get appModeState {
+    if (_value.appModeState == null) {
+      return null;
+    }
+
+    return $AppModeStateCopyWith<$Res>(_value.appModeState!, (value) {
+      return _then(_value.copyWith(appModeState: value) as $Val);
+    });
   }
 }
 
@@ -70,7 +90,10 @@ abstract class _$$EditProfileStateImplCopyWith<$Res>
       __$$EditProfileStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool isLoading, String? error});
+  $Res call({bool isLoading, String? error, AppModeState? appModeState});
+
+  @override
+  $AppModeStateCopyWith<$Res>? get appModeState;
 }
 
 /// @nodoc
@@ -86,6 +109,7 @@ class __$$EditProfileStateImplCopyWithImpl<$Res>
   $Res call({
     Object? isLoading = null,
     Object? error = freezed,
+    Object? appModeState = freezed,
   }) {
     return _then(_$EditProfileStateImpl(
       isLoading: null == isLoading
@@ -96,6 +120,10 @@ class __$$EditProfileStateImplCopyWithImpl<$Res>
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
               as String?,
+      appModeState: freezed == appModeState
+          ? _value.appModeState
+          : appModeState // ignore: cast_nullable_to_non_nullable
+              as AppModeState?,
     ));
   }
 }
@@ -103,17 +131,21 @@ class __$$EditProfileStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$EditProfileStateImpl implements _EditProfileState {
-  const _$EditProfileStateImpl({this.isLoading = false, this.error});
+  const _$EditProfileStateImpl(
+      {this.isLoading = false, this.error, this.appModeState});
 
   @override
   @JsonKey()
   final bool isLoading;
   @override
   final String? error;
+// theme state
+  @override
+  final AppModeState? appModeState;
 
   @override
   String toString() {
-    return 'EditProfileState(isLoading: $isLoading, error: $error)';
+    return 'EditProfileState(isLoading: $isLoading, error: $error, appModeState: $appModeState)';
   }
 
   @override
@@ -123,11 +155,13 @@ class _$EditProfileStateImpl implements _EditProfileState {
             other is _$EditProfileStateImpl &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
-            (identical(other.error, error) || other.error == error));
+            (identical(other.error, error) || other.error == error) &&
+            (identical(other.appModeState, appModeState) ||
+                other.appModeState == appModeState));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, isLoading, error);
+  int get hashCode => Object.hash(runtimeType, isLoading, error, appModeState);
 
   @JsonKey(ignore: true)
   @override
@@ -138,13 +172,17 @@ class _$EditProfileStateImpl implements _EditProfileState {
 }
 
 abstract class _EditProfileState implements EditProfileState {
-  const factory _EditProfileState({final bool isLoading, final String? error}) =
-      _$EditProfileStateImpl;
+  const factory _EditProfileState(
+      {final bool isLoading,
+      final String? error,
+      final AppModeState? appModeState}) = _$EditProfileStateImpl;
 
   @override
   bool get isLoading;
   @override
   String? get error;
+  @override // theme state
+  AppModeState? get appModeState;
   @override
   @JsonKey(ignore: true)
   _$$EditProfileStateImplCopyWith<_$EditProfileStateImpl> get copyWith =>

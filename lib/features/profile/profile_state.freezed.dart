@@ -17,9 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$ProfileState {
   bool get isLoading => throw _privateConstructorUsedError;
-  String? get error => throw _privateConstructorUsedError; // theme state
-  AppModeState? get appModeState =>
-      throw _privateConstructorUsedError; // main data state
+  String? get error => throw _privateConstructorUsedError; // main data state
   MyInfoModel? get myInfoModel =>
       throw _privateConstructorUsedError; // user followers
   UserConnectionsState get userConnectionsState =>
@@ -41,12 +39,10 @@ abstract class $ProfileStateCopyWith<$Res> {
   $Res call(
       {bool isLoading,
       String? error,
-      AppModeState? appModeState,
       MyInfoModel? myInfoModel,
       UserConnectionsState userConnectionsState,
       QuestionsBookmarkState questionsBookmarkState});
 
-  $AppModeStateCopyWith<$Res>? get appModeState;
   $UserConnectionsStateCopyWith<$Res> get userConnectionsState;
   $QuestionsBookmarkStateCopyWith<$Res> get questionsBookmarkState;
 }
@@ -66,7 +62,6 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
   $Res call({
     Object? isLoading = null,
     Object? error = freezed,
-    Object? appModeState = freezed,
     Object? myInfoModel = freezed,
     Object? userConnectionsState = null,
     Object? questionsBookmarkState = null,
@@ -80,10 +75,6 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
               as String?,
-      appModeState: freezed == appModeState
-          ? _value.appModeState
-          : appModeState // ignore: cast_nullable_to_non_nullable
-              as AppModeState?,
       myInfoModel: freezed == myInfoModel
           ? _value.myInfoModel
           : myInfoModel // ignore: cast_nullable_to_non_nullable
@@ -97,18 +88,6 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
           : questionsBookmarkState // ignore: cast_nullable_to_non_nullable
               as QuestionsBookmarkState,
     ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $AppModeStateCopyWith<$Res>? get appModeState {
-    if (_value.appModeState == null) {
-      return null;
-    }
-
-    return $AppModeStateCopyWith<$Res>(_value.appModeState!, (value) {
-      return _then(_value.copyWith(appModeState: value) as $Val);
-    });
   }
 
   @override
@@ -141,13 +120,10 @@ abstract class _$$ProfileStateImplCopyWith<$Res>
   $Res call(
       {bool isLoading,
       String? error,
-      AppModeState? appModeState,
       MyInfoModel? myInfoModel,
       UserConnectionsState userConnectionsState,
       QuestionsBookmarkState questionsBookmarkState});
 
-  @override
-  $AppModeStateCopyWith<$Res>? get appModeState;
   @override
   $UserConnectionsStateCopyWith<$Res> get userConnectionsState;
   @override
@@ -167,7 +143,6 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
   $Res call({
     Object? isLoading = null,
     Object? error = freezed,
-    Object? appModeState = freezed,
     Object? myInfoModel = freezed,
     Object? userConnectionsState = null,
     Object? questionsBookmarkState = null,
@@ -181,10 +156,6 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
               as String?,
-      appModeState: freezed == appModeState
-          ? _value.appModeState
-          : appModeState // ignore: cast_nullable_to_non_nullable
-              as AppModeState?,
       myInfoModel: freezed == myInfoModel
           ? _value.myInfoModel
           : myInfoModel // ignore: cast_nullable_to_non_nullable
@@ -207,7 +178,6 @@ class _$ProfileStateImpl implements _ProfileState {
   const _$ProfileStateImpl(
       {this.isLoading = false,
       this.error = null,
-      this.appModeState,
       this.myInfoModel,
       this.userConnectionsState = const UserConnectionsState(),
       this.questionsBookmarkState = const QuestionsBookmarkState()});
@@ -218,9 +188,6 @@ class _$ProfileStateImpl implements _ProfileState {
   @override
   @JsonKey()
   final String? error;
-// theme state
-  @override
-  final AppModeState? appModeState;
 // main data state
   @override
   final MyInfoModel? myInfoModel;
@@ -235,7 +202,7 @@ class _$ProfileStateImpl implements _ProfileState {
 
   @override
   String toString() {
-    return 'ProfileState(isLoading: $isLoading, error: $error, appModeState: $appModeState, myInfoModel: $myInfoModel, userConnectionsState: $userConnectionsState, questionsBookmarkState: $questionsBookmarkState)';
+    return 'ProfileState(isLoading: $isLoading, error: $error, myInfoModel: $myInfoModel, userConnectionsState: $userConnectionsState, questionsBookmarkState: $questionsBookmarkState)';
   }
 
   @override
@@ -246,8 +213,6 @@ class _$ProfileStateImpl implements _ProfileState {
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
             (identical(other.error, error) || other.error == error) &&
-            (identical(other.appModeState, appModeState) ||
-                other.appModeState == appModeState) &&
             (identical(other.myInfoModel, myInfoModel) ||
                 other.myInfoModel == myInfoModel) &&
             (identical(other.userConnectionsState, userConnectionsState) ||
@@ -257,8 +222,8 @@ class _$ProfileStateImpl implements _ProfileState {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, isLoading, error, appModeState,
-      myInfoModel, userConnectionsState, questionsBookmarkState);
+  int get hashCode => Object.hash(runtimeType, isLoading, error, myInfoModel,
+      userConnectionsState, questionsBookmarkState);
 
   @JsonKey(ignore: true)
   @override
@@ -271,7 +236,6 @@ abstract class _ProfileState implements ProfileState {
   const factory _ProfileState(
           {final bool isLoading,
           final String? error,
-          final AppModeState? appModeState,
           final MyInfoModel? myInfoModel,
           final UserConnectionsState userConnectionsState,
           final QuestionsBookmarkState questionsBookmarkState}) =
@@ -281,8 +245,6 @@ abstract class _ProfileState implements ProfileState {
   bool get isLoading;
   @override
   String? get error;
-  @override // theme state
-  AppModeState? get appModeState;
   @override // main data state
   MyInfoModel? get myInfoModel;
   @override // user followers

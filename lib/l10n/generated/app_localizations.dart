@@ -147,6 +147,42 @@ abstract class AppLocalizations {
   /// In uz, this message translates to:
   /// **'Kutilmagan xatolik'**
   String get error_unknown_title;
+
+  /// No description provided for @languageEnglish.
+  ///
+  /// In uz, this message translates to:
+  /// **'Inglizcha'**
+  String get languageEnglish;
+
+  /// No description provided for @languageUzbek.
+  ///
+  /// In uz, this message translates to:
+  /// **'O‘zbekcha'**
+  String get languageUzbek;
+
+  /// No description provided for @languageRussian.
+  ///
+  /// In uz, this message translates to:
+  /// **'Ruscha'**
+  String get languageRussian;
+
+  /// No description provided for @en.
+  ///
+  /// In uz, this message translates to:
+  /// **'En'**
+  String get en;
+
+  /// No description provided for @ru.
+  ///
+  /// In uz, this message translates to:
+  /// **'Ru'**
+  String get ru;
+
+  /// No description provided for @uz.
+  ///
+  /// In uz, this message translates to:
+  /// **'Uz'**
+  String get uz;
 }
 
 class _AppLocalizationsDelegate

@@ -13,9 +13,7 @@ import 'package:testabd/features/library/library_screen.dart';
 import 'package:testabd/features/profile/bookmark_questions_screen.dart';
 import 'package:testabd/features/profile/profile_connection_screen.dart';
 import 'package:testabd/features/profile/profile_screen.dart';
-import 'package:testabd/features/profile/settings/app_mode_bottom_sheet.dart';
 import 'package:testabd/features/profile/settings/edit_profile_screen.dart';
-import 'package:testabd/features/profile/settings/edit_user_data_screen.dart';
 import 'package:testabd/features/profile/settings/edit_user_location_screen.dart';
 import 'package:testabd/features/root/shell_screen.dart';
 import 'package:testabd/features/search/search_screen.dart';
@@ -42,7 +40,7 @@ abstract class AppRouter {
   static const bookmarkQuestions = '/bookmark_questions';
   static const editUserData = '/edit_user_data';
   static const editUserLocation = '/edit_user_location';
-  static const appMode = '/app_mode';
+  static const langBottomSheet = '/lang_bottom_sheet';
 
   static String userProfileWithUsername(String username) => '/users/$username';
 
@@ -175,17 +173,6 @@ final appRouter = GoRouter(
         // final connectionType = state.pathParameters['connection_type']!;
         return CupertinoPage(child: EditUserLocationScreen());
       },
-    ),
-    GoRoute(
-      path: AppRouter.appMode,
-      pageBuilder:  (context, state) => ModalBottomSheetPage(
-        key: state.pageKey,
-        isScrollControlled: true,
-        draggableScrollSheetBuilder:
-            (context, scrollController) => AppModeBottomSheet(
-          scrollController: scrollController,
-        ),
-      ),
     ),
     StatefulShellRoute(
       parentNavigatorKey: navigatorKey,

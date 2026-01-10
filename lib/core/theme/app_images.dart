@@ -5,5 +5,10 @@ class AppImages {
   static const String rank2 = 'assets/images/rank_2.png';
   static const String rank3 = 'assets/images/rank_3.png';
   static const String defaultAvatar = 'assets/images/default_avatar.png';
+
+  // flags
+  static const String fAmerica = 'assets/images/flag_american.png';
+  static const String fRussian = 'assets/images/flag_russian.png';
+  static const String fUzbek = 'assets/images/flag_uzb.png';
 }
 

@@ -7,5 +7,11 @@
   "error_not_found_title": "Не найдено",
   "error_server_title": "Ошибка сервера",
   "error_storage_title": "Ошибка хранилища",
-  "error_unknown_title": "Неизвестная ошибка"
+  "error_unknown_title": "Неизвестная ошибка",
+  "languageEnglish": "Английский",
+  "languageUzbek": "Узбекский",
+  "languageRussian": "Русский",
+  "en": "En",
+  "ru": "Ру",
+  "uz": "Уз"
 }

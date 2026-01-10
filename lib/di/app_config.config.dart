@@ -40,6 +40,7 @@ import '../features/home/leaderboard_cubit.dart' as _i279;
 import '../features/profile/bookmark_questions_cubit.dart' as _i137;
 import '../features/profile/profile_connection_cubit.dart' as _i570;
 import '../features/profile/profile_cubit.dart' as _i760;
+import '../features/profile/settings/edit_profile_cubit.dart' as _i523;
 import '../features/users/user_connection_cubit.dart' as _i297;
 import '../features/users/user_profile_cubit.dart' as _i445;
 import 'app_module.dart' as _i460;
@@ -96,6 +97,8 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.singleton<_i259.LeaderboardSocketService>(
         () => _i259.LeaderboardSocketServiceImpl(gh<_i792.TokenService>()));
+    gh.factory<_i523.EditProfileCubit>(
+        () => _i523.EditProfileCubit(gh<_i555.AppSettingsService>()));
     gh.singleton<_i900.DioInterceptor>(
         () => _i900.DioInterceptor(gh<_i792.TokenService>()));
     gh.factory<_i361.Dio>(() => appModule.provideDio(
