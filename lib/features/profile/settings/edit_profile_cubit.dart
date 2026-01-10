@@ -1,8 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-
-part 'edit_profile_state.dart';
+import 'package:testabd/core/utils/app_mode_service.dart';
+import 'package:testabd/features/profile/settings/edit_profile_state.dart';
 
 class EditProfileCubit extends Cubit<EditProfileState> {
-  EditProfileCubit() : super(EditProfileInitial());
+  final AppSettingsService _appModeService;
+
+  EditProfileCubit(this._appModeService) : super(EditProfileState());
 }

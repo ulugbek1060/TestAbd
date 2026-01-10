@@ -1,6 +1,11 @@
-part of 'edit_profile_cubit.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-@immutable
-sealed class EditProfileState {}
+part 'edit_profile_state.freezed.dart';
 
-final class EditProfileInitial extends EditProfileState {}
+@freezed
+class EditProfileState with _$EditProfileState {
+  const factory EditProfileState({
+    @Default(false) bool isLoading,
+    String? error,
+}) = _EditProfileState;
+}

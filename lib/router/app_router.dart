@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:testabd/core/utils/connections_enum.dart';
 import 'package:testabd/features/auth/forgotpswd/forgot_pswd_screen.dart';
@@ -12,7 +13,10 @@ import 'package:testabd/features/library/library_screen.dart';
 import 'package:testabd/features/profile/bookmark_questions_screen.dart';
 import 'package:testabd/features/profile/profile_connection_screen.dart';
 import 'package:testabd/features/profile/profile_screen.dart';
+import 'package:testabd/features/profile/settings/app_mode_bottom_sheet.dart';
 import 'package:testabd/features/profile/settings/edit_profile_screen.dart';
+import 'package:testabd/features/profile/settings/edit_user_data_screen.dart';
+import 'package:testabd/features/profile/settings/edit_user_location_screen.dart';
 import 'package:testabd/features/root/shell_screen.dart';
 import 'package:testabd/features/search/search_screen.dart';
 import 'package:testabd/features/testabd/test_screen.dart';
@@ -20,7 +24,6 @@ import 'package:testabd/features/users/block_questions_screen.dart';
 import 'package:testabd/features/users/question_detail_screen.dart';
 import 'package:testabd/features/users/user_connection_screen.dart';
 import 'package:testabd/features/users/user_profile_screen.dart';
-import 'package:testabd/main.dart';
 
 abstract class AppRouter {
   static const initial = '/';
@@ -37,6 +40,9 @@ abstract class AppRouter {
   static const leaderboard = '/leaderboard';
   static const editProfile = '/edit_profile';
   static const bookmarkQuestions = '/bookmark_questions';
+  static const editUserData = '/edit_user_data';
+  static const editUserLocation = '/edit_user_location';
+  static const appMode = '/app_mode';
 
   static String userProfileWithUsername(String username) => '/users/$username';
 
@@ -143,7 +149,7 @@ final appRouter = GoRouter(
     GoRoute(
       path: AppRouter.editProfile,
       pageBuilder: (context, state) {
-        return CupertinoPage(child: EditAndSettingsScreen());
+        return CupertinoPage(child: EditProfileScreen());
       },
     ),
     GoRoute(
@@ -162,6 +168,24 @@ final appRouter = GoRouter(
           ),
         );
       },
+    ),
+    GoRoute(
+      path: AppRouter.editUserLocation,
+      pageBuilder: (context, state) {
+        // final connectionType = state.pathParameters['connection_type']!;
+        return CupertinoPage(child: EditUserLocationScreen());
+      },
+    ),
+    GoRoute(
+      path: AppRouter.appMode,
+      pageBuilder:  (context, state) => ModalBottomSheetPage(
+        key: state.pageKey,
+        isScrollControlled: true,
+        draggableScrollSheetBuilder:
+            (context, scrollController) => AppModeBottomSheet(
+          scrollController: scrollController,
+        ),
+      ),
     ),
     StatefulShellRoute(
       parentNavigatorKey: navigatorKey,
@@ -214,3 +238,57 @@ final appRouter = GoRouter(
     ),
   ],
 );
+
+class ModalBottomSheetPage<T> extends Page<T> {
+  const ModalBottomSheetPage({
+    this.draggableScrollSheetBuilder,
+    this.builder,
+    this.enableDrag = true,
+    this.isDismissible = true,
+    this.isScrollControlled = true,
+    super.key,
+    super.name,
+    super.arguments,
+    super.restorationId,
+  }) : assert(
+         (builder != null && draggableScrollSheetBuilder == null) ||
+             (builder == null && draggableScrollSheetBuilder != null),
+         'Provide EITHER builder OR draggableScrollSheetBuilder, not both',
+       );
+
+  final ScrollableWidgetBuilder? draggableScrollSheetBuilder;
+  final WidgetBuilder? builder;
+  final bool enableDrag;
+  final bool isDismissible;
+  final bool isScrollControlled;
+
+  @override
+  Route<T> createRoute(BuildContext context) {
+    return ModalBottomSheetRoute<T>(
+      settings: this,
+      backgroundColor: Colors.transparent,
+      builder: (ctx) => draggableScrollSheetBuilder != null
+          ? DraggableScrollableSheet(
+              initialChildSize: 0.5,
+              minChildSize: 0.25,
+              maxChildSize: 0.9,
+              expand: false,
+              builder: draggableScrollSheetBuilder!,
+            )
+          : builder!.call(ctx),
+      useSafeArea: true,
+      isScrollControlled: isScrollControlled,
+      enableDrag: enableDrag,
+      isDismissible: isDismissible,
+      constraints: draggableScrollSheetBuilder != null
+          ? BoxConstraints(
+              maxHeight: MediaQuery.sizeOf(context).height * 0.8,
+              minHeight: MediaQuery.sizeOf(context).height * 0.3,
+            )
+          : BoxConstraints(
+              maxHeight: MediaQuery.sizeOf(context).height * 0.85,
+              minHeight: MediaQuery.sizeOf(context).height * 0.85,
+            ),
+    );
+  }
+}
