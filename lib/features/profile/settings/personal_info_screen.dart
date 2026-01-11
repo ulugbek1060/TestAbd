@@ -1,15 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:testabd/core/theme/app_images.dart';
 
-class EditUserDataScreen extends StatelessWidget {
-  const EditUserDataScreen({super.key});
+import '../../../core/theme/app_images.dart';
 
+class PersonalInfoScreen extends StatelessWidget {
+  const PersonalInfoScreen({super.key});
   @override
-  Widget build(BuildContext context) {
-    return const _View();
-  }
+  Widget build(BuildContext context) => const _View();
 }
+
 class _View extends StatefulWidget {
   const _View({super.key});
 
@@ -196,4 +195,3 @@ class _InputField extends StatelessWidget {
     );
   }
 }
-

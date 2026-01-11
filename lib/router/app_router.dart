@@ -16,6 +16,9 @@ import 'package:testabd/features/profile/profile_screen.dart';
 import 'package:testabd/features/profile/settings/edit_profile_screen.dart';
 import 'package:testabd/features/profile/settings/edit_user_location_screen.dart';
 import 'package:testabd/features/profile/settings/language_bottom_sheet.dart';
+import 'package:testabd/features/profile/settings/personal_info_screen.dart';
+import 'package:testabd/features/profile/settings/referral_screen.dart';
+import 'package:testabd/features/profile/settings/regional_settings_screen.dart';
 import 'package:testabd/features/root/shell_screen.dart';
 import 'package:testabd/features/search/search_screen.dart';
 import 'package:testabd/features/testabd/test_screen.dart';
@@ -39,9 +42,9 @@ abstract class AppRouter {
   static const leaderboard = '/leaderboard';
   static const editProfile = '/edit_profile';
   static const bookmarkQuestions = '/bookmark_questions';
-  static const editUserData = '/edit_user_data';
-  static const editUserLocation = '/edit_user_location';
-  static const langBottomSheet = '/lang_bottom_sheet';
+  static const referrals = '/referrals';
+  static const personalInfo = '/personal_info';
+  static const regionalInfo = '/regional_info';
 
   static String userProfileWithUsername(String username) => '/users/$username';
 
@@ -169,10 +172,24 @@ final appRouter = GoRouter(
       },
     ),
     GoRoute(
-      path: AppRouter.editUserLocation,
+      path: AppRouter.regionalInfo,
       pageBuilder: (context, state) {
         // final connectionType = state.pathParameters['connection_type']!;
-        return CupertinoPage(child: EditUserLocationScreen());
+        return CupertinoPage(child: RegionalSettingsScreen());
+      },
+    ),
+    GoRoute(
+      path: AppRouter.referrals,
+      pageBuilder: (context, state) {
+        // final connectionType = state.pathParameters['connection_type']!;
+        return CupertinoPage(child: ReferralScreen());
+      },
+    ),
+    GoRoute(
+      path: AppRouter.personalInfo,
+      pageBuilder: (context, state) {
+        // final connectionType = state.pathParameters['connection_type']!;
+        return CupertinoPage(child: PersonalInfoScreen());
       },
     ),
     // GoRoute(

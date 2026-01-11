@@ -26,12 +26,16 @@ class _View extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
+
+          TelegramBotCard(),
+          SizedBox(height: 24),
+
           _Section(title: "Profile Information"),
           _ProfileTile(
             title: "Personal Information",
             description:
                 "Update your name, email address, phone number, and biographical details.",
-            onTap: () => context.push(AppRouter.editUserData),
+            onTap: () => context.push(AppRouter.personalInfo),
           ),
 
           SizedBox(height: 24),
@@ -41,7 +45,7 @@ class _View extends StatelessWidget {
             title: "Regional Settings",
             description:
                 "Manage your country, state, and city for localized content and time zones.",
-            onTap: () => context.push(AppRouter.editUserLocation),
+            onTap: () => context.push(AppRouter.regionalInfo),
           ),
 
           SizedBox(height: 24),
@@ -90,9 +94,12 @@ class _View extends StatelessWidget {
             title: 'Refer & Earn',
             description:
                 'Invite your network and stack up credits for your next purchase.',
-            onTap: () {},
+            onTap: () => context.push(AppRouter.referrals),
             trailing: const Icon(Icons.history),
           ),
+
+          // 100
+          SizedBox(height: 100),
         ],
       ),
     );
@@ -151,3 +158,161 @@ class _ProfileTile extends StatelessWidget {
     );
   }
 }
+
+
+/// -------------------- Telegram card ----------------------
+class TelegramBotCard extends StatelessWidget {
+  const TelegramBotCard({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(24),
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Color(0xFF3B82F6),
+            Color(0xFF9333EA),
+            Color(0xFFEC4899),
+          ],
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // 🔹 HEADER
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: const Icon(Icons.smart_toy, color: Colors.white, size: 28),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: const [
+                    Text(
+                      "🚀 Telegram Bot orqali boshqaring!",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                    SizedBox(height: 6),
+                    Text(
+                      "Profil ma'lumotlaringizni yanada qulay boshqaring",
+                      style: TextStyle(
+                        color: Colors.white70,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 20),
+
+          // 🔹 FEATURES BOX
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.15),
+              borderRadius: BorderRadius.circular(18),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: const [
+                Text(
+                  "✨ Telegram botimizning afzalliklari:",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                SizedBox(height: 12),
+                _FeatureItem(icon: "🔥", text: "Tezkor profil yangilash"),
+                _FeatureItem(icon: "📱", text: "Mobil qurilmada qulay foydalanish"),
+                _FeatureItem(icon: "🔔", text: "Real vaqtda bildirishnomalar"),
+                _FeatureItem(icon: "⚡", text: "Bir necha sekundda sozlash"),
+              ],
+            ),
+          ),
+
+          const SizedBox(height: 20),
+
+          // 🔹 BUTTON
+          InkWell(
+            borderRadius: BorderRadius.circular(32),
+            onTap: () {
+              // TODO: open telegram link
+            },
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(32),
+              ),
+              child: Row(
+                children: const [
+                  Icon(Icons.smart_toy, color: Color(0xFF2563EB)),
+                  SizedBox(width: 8),
+                  Text(
+                    "@TestAbdUzBot",
+                    style: TextStyle(
+                      color: Color(0xFF2563EB),
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  Spacer(),
+                  Icon(Icons.open_in_new, color: Color(0xFF2563EB)),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _FeatureItem extends StatelessWidget {
+  final String icon;
+  final String text;
+
+  const _FeatureItem({
+    required this.icon,
+    required this.text,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: Row(
+        children: [
+          Text(icon, style: const TextStyle(fontSize: 18)),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              text,
+              style: const TextStyle(color: Colors.white70),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
