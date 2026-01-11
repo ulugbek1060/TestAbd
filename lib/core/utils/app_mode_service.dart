@@ -10,6 +10,7 @@ abstract class AppSettingsService {
   Stream<ThemeMode> get stream;
   ThemeMode get current;
   void changeMode(ThemeMode mode);
+  void toggleDarkAndLight();
 }
 
 @LazySingleton(as: AppSettingsService)
@@ -30,7 +31,7 @@ class AppSettingsServiceImpl implements AppSettingsService {
 
     final mode = ThemeMode.values.firstWhere(
           (e) => e.name == stored,
-      orElse: () => ThemeMode.system,
+      orElse: () => ThemeMode.light,
     );
 
     _modeSubject.add(mode);
@@ -48,5 +49,16 @@ class AppSettingsServiceImpl implements AppSettingsService {
 
     _prefs.setString(_modeKey, mode.name);
     _modeSubject.add(mode);
+  }
+
+  @override
+  void toggleDarkAndLight() {
+    if (current == ThemeMode.dark) {
+      _prefs.setString(_modeKey, ThemeMode.light.name);
+      _modeSubject.add(ThemeMode.light);
+    } else {
+      _prefs.setString(_modeKey, ThemeMode.dark.name);
+      _modeSubject.add(ThemeMode.dark);
+    }
   }
 }

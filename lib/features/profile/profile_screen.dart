@@ -63,11 +63,11 @@ class _ViewState extends State<_View> with SingleTickerProviderStateMixin {
                 '@${state.myInfoModel?.username}',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              actions: [
-
-                Icon(Icons.more_vert),
-                SizedBox(width: 12),
-              ],
+              // actions: [
+              //
+              //   Icon(Icons.more_vert),
+              //   SizedBox(width: 12),
+              // ],
             ),
             body: state.isLoading
                 ? const Center(child: ProgressView())

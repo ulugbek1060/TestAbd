@@ -66,7 +66,7 @@ List<Locale> get supportedLocales => [Locale('uz'), Locale('ru'), Locale('en')];
 
 /// Interface for language local storage service.
 abstract class LanguageService {
-  Stream<Locale> get getStream;
+  Stream<Locale> get stream;
   Locale get getLang;
   Future<bool> saveLanguage(Locale data);
 }
@@ -94,7 +94,7 @@ class LanguageServiceImpl implements LanguageService {
   }
 
   @override
-  Stream<Locale> get getStream => _subject.stream.distinct();
+  Stream<Locale> get stream => _subject.stream.distinct();
 
   @override
   Locale get getLang => _subject.value;

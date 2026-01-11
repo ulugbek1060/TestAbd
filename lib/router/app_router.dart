@@ -15,6 +15,7 @@ import 'package:testabd/features/profile/profile_connection_screen.dart';
 import 'package:testabd/features/profile/profile_screen.dart';
 import 'package:testabd/features/profile/settings/edit_profile_screen.dart';
 import 'package:testabd/features/profile/settings/edit_user_location_screen.dart';
+import 'package:testabd/features/profile/settings/language_bottom_sheet.dart';
 import 'package:testabd/features/root/shell_screen.dart';
 import 'package:testabd/features/search/search_screen.dart';
 import 'package:testabd/features/testabd/test_screen.dart';
@@ -174,6 +175,24 @@ final appRouter = GoRouter(
         return CupertinoPage(child: EditUserLocationScreen());
       },
     ),
+    // GoRoute(
+    //   path: AppRouter.langBottomSheet,
+    //   pageBuilder: (context, state) {
+    //     // final connectionType = state.pathParameters['connection_type']!;
+    //     return ModalBottomSheetPage(
+    //       draggableScrollSheetBuilder: (_, __) => DraggableScrollableSheet(
+    //         // initialChildSize: 0.5,
+    //         minChildSize: 0.25,
+    //         maxChildSize: 0.9,
+    //         expand: true,
+    //         builder: (_, __) => LanguageBottomSheet(),
+    //       ),
+    //       // builder: (context) => LanguageBottomSheet(),
+    //       enableDrag: false,
+    //       isScrollControlled: false,
+    //     );
+    //   },
+    // ),
     StatefulShellRoute(
       parentNavigatorKey: navigatorKey,
       navigatorContainerBuilder: (_, navShell, children) =>

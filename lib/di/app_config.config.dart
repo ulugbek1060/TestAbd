@@ -20,6 +20,7 @@ import '../core/utils/app_message_handler.dart' as _i877;
 import '../core/utils/app_mode_service.dart' as _i555;
 import '../core/utils/dio_interceptor.dart' as _i900;
 import '../core/utils/follow_listeners.dart' as _i244;
+import '../core/utils/language_service.dart' as _i456;
 import '../data/local_source/my_info_hive_service.dart' as _i656;
 import '../data/remote_source/account/account_source.dart' as _i65;
 import '../data/remote_source/account/ws_leaderboard_source.dart' as _i259;
@@ -40,7 +41,6 @@ import '../features/home/leaderboard_cubit.dart' as _i279;
 import '../features/profile/bookmark_questions_cubit.dart' as _i137;
 import '../features/profile/profile_connection_cubit.dart' as _i570;
 import '../features/profile/profile_cubit.dart' as _i760;
-import '../features/profile/settings/edit_profile_cubit.dart' as _i523;
 import '../features/users/user_connection_cubit.dart' as _i297;
 import '../features/users/user_profile_cubit.dart' as _i445;
 import 'app_module.dart' as _i460;
@@ -84,6 +84,8 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.singleton<_i792.TokenService>(
         () => _i792.SharedPrefsTokenService(gh<_i460.SharedPreferences>()));
+    gh.singleton<_i456.LanguageService>(
+        () => _i456.LanguageServiceImpl(gh<_i460.SharedPreferences>()));
     gh.lazySingleton<_i555.AppSettingsService>(
         () => _i555.AppSettingsServiceImpl(gh<_i460.SharedPreferences>()));
     gh.singleton<_i371.SessionService>(
@@ -97,8 +99,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.singleton<_i259.LeaderboardSocketService>(
         () => _i259.LeaderboardSocketServiceImpl(gh<_i792.TokenService>()));
-    gh.factory<_i523.EditProfileCubit>(
-        () => _i523.EditProfileCubit(gh<_i555.AppSettingsService>()));
     gh.singleton<_i900.DioInterceptor>(
         () => _i900.DioInterceptor(gh<_i792.TokenService>()));
     gh.factory<_i361.Dio>(() => appModule.provideDio(

@@ -20,12 +20,6 @@ class ProfileState with _$ProfileState {
 }
 
 @freezed
-class AppModeState  with _$AppModeState {
-  const factory AppModeState.light() = LightMode;
-  const factory AppModeState.dark() = DarkMode;
-}
-
-@freezed
 class UserConnectionsState with _$UserConnectionsState {
   const factory UserConnectionsState({
     @Default(false) bool isLoading,
