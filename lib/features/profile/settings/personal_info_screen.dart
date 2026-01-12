@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:testabd/core/widgets/loading_widget.dart';
 import 'package:testabd/di/app_config.dart';
 import 'package:testabd/domain/account/entities/personal_info_dto.dart';
 import 'package:testabd/features/profile/settings/personal_info_cubit.dart';
@@ -113,53 +114,55 @@ class _ViewState extends State<_View> {
                 ),
 
           // 🔽 SCROLLABLE BODY
-          body: SingleChildScrollView(
-            padding: const EdgeInsets.fromLTRB(16, 16, 16, 100),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _ProfileImagePicker(enabled: state.isEditable),
+          body: state.status == PersonalInfoStatus.loading
+              ? ProgressView()
+              : SingleChildScrollView(
+                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 100),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _ProfileImagePicker(enabled: state.isEditable),
 
-                const SizedBox(height: 24),
-                _InputField(
-                  label: "Username",
-                  hint: "Username",
-                  controller: _usernameTextController,
-                  enabled: state.isEditable,
+                      const SizedBox(height: 24),
+                      _InputField(
+                        label: "Username",
+                        hint: "Username",
+                        controller: _usernameTextController,
+                        enabled: state.isEditable,
+                      ),
+                      _InputField(
+                        label: "Ism",
+                        hint: "Ismingizni kiriting",
+                        controller: _nameTextController,
+                        enabled: state.isEditable,
+                      ),
+                      _InputField(
+                        label: "Familiya",
+                        hint: "Familiyangizni kiriting",
+                        controller: _lastnameTextController,
+                        enabled: state.isEditable,
+                      ),
+                      _InputField(
+                        label: "Email",
+                        controller: _emailTextController,
+                        enabled: state.isEditable,
+                      ),
+                      _InputField(
+                        label: "Telefon raqami",
+                        hint: "+998 xx xxx xx xx",
+                        controller: _phoneNumberTextController,
+                        enabled: state.isEditable,
+                      ),
+                      _InputField(
+                        label: "Bio",
+                        hint: "O‘zingiz haqingizda ma’lumot bering...",
+                        maxLines: 4,
+                        controller: _bioTextController,
+                        enabled: state.isEditable,
+                      ),
+                    ],
+                  ),
                 ),
-                _InputField(
-                  label: "Ism",
-                  hint: "Ismingizni kiriting",
-                  controller: _nameTextController,
-                  enabled: state.isEditable,
-                ),
-                _InputField(
-                  label: "Familiya",
-                  hint: "Familiyangizni kiriting",
-                  controller: _lastnameTextController,
-                  enabled: state.isEditable,
-                ),
-                _InputField(
-                  label: "Email",
-                  controller: _emailTextController,
-                  enabled: state.isEditable,
-                ),
-                _InputField(
-                  label: "Telefon raqami",
-                  hint: "+998 xx xxx xx xx",
-                  controller: _phoneNumberTextController,
-                  enabled: state.isEditable,
-                ),
-                _InputField(
-                  label: "Bio",
-                  hint: "O‘zingiz haqingizda ma’lumot bering...",
-                  maxLines: 4,
-                  controller: _bioTextController,
-                  enabled: state.isEditable,
-                ),
-              ],
-            ),
-          ),
         );
       },
     );
