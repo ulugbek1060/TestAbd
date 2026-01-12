@@ -18,7 +18,7 @@ class MyInfoDbAdapter extends TypeAdapter<MyInfoDb> {
     };
     return MyInfoDb(
       id: fields[0] as int?,
-      country: fields[1] as String?,
+      country: fields[1] as CountryModelDb?,
       region: fields[2] as String?,
       district: fields[3] as String?,
       settlement: fields[4] as String?,
@@ -150,6 +150,52 @@ class MyInfoDbAdapter extends TypeAdapter<MyInfoDb> {
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is MyInfoDbAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
+
+class CountryModelDbAdapter extends TypeAdapter<CountryModelDb> {
+  @override
+  final int typeId = 2;
+
+  @override
+  CountryModelDb read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return CountryModelDb(
+      id: fields[0] as int?,
+      name: fields[1] as String?,
+      code: fields[2] as String?,
+      lat: fields[3] as double?,
+      lon: fields[4] as double?,
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, CountryModelDb obj) {
+    writer
+      ..writeByte(5)
+      ..writeByte(0)
+      ..write(obj.id)
+      ..writeByte(1)
+      ..write(obj.name)
+      ..writeByte(2)
+      ..write(obj.code)
+      ..writeByte(3)
+      ..write(obj.lat)
+      ..writeByte(4)
+      ..write(obj.lon);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is CountryModelDbAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

@@ -6,10 +6,12 @@ part of 'my_info_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$MeResponseImpl _$$MeResponseImplFromJson(Map<String, dynamic> json) =>
-    _$MeResponseImpl(
+_$MyInfoResponseImpl _$$MyInfoResponseImplFromJson(Map<String, dynamic> json) =>
+    _$MyInfoResponseImpl(
       id: (json['id'] as num?)?.toInt(),
-      country: json['country'] as String?,
+      country: json['country'] == null
+          ? null
+          : MyInfoCountry.fromJson(json['country'] as Map<String, dynamic>),
       region: json['region'] as String?,
       district: json['district'] as String?,
       settlement: json['settlement'] as String?,
@@ -61,7 +63,8 @@ _$MeResponseImpl _$$MeResponseImplFromJson(Map<String, dynamic> json) =>
           const [],
     );
 
-Map<String, dynamic> _$$MeResponseImplToJson(_$MeResponseImpl instance) =>
+Map<String, dynamic> _$$MyInfoResponseImplToJson(
+        _$MyInfoResponseImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'country': instance.country,
@@ -102,6 +105,24 @@ Map<String, dynamic> _$$MeResponseImplToJson(_$MeResponseImpl instance) =>
       'invited_by': instance.invitedBy,
       'groups': instance.groups,
       'user_permissions': instance.userPermissions,
+    };
+
+_$MyInfoCountryImpl _$$MyInfoCountryImplFromJson(Map<String, dynamic> json) =>
+    _$MyInfoCountryImpl(
+      id: (json['id'] as num?)?.toInt(),
+      name: json['name'] as String?,
+      code: json['code'] as String?,
+      lat: (json['lat'] as num?)?.toDouble(),
+      lon: (json['lon'] as num?)?.toDouble(),
+    );
+
+Map<String, dynamic> _$$MyInfoCountryImplToJson(_$MyInfoCountryImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'code': instance.code,
+      'lat': instance.lat,
+      'lon': instance.lon,
     };
 
 _$WeeklyTestCountImpl _$$WeeklyTestCountImplFromJson(

@@ -1,6 +1,16 @@
-part of 'personal_info_cubit.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:testabd/domain/account/entities/my_info_model.dart';
 
-@immutable
-sealed class PersonalInfoState {}
+part 'personal_info_state.freezed.dart';
 
-final class PersonalInfoInitial extends PersonalInfoState {}
+enum PersonalInfoStatus { initial, loading, success, error }
+
+@freezed
+class PersonalInfoState with _$PersonalInfoState {
+  const factory PersonalInfoState({
+    @Default(PersonalInfoStatus.initial) PersonalInfoStatus status,
+    @Default(null) MyInfoModel? myInfo,
+    String? error,
+    @Default(false) bool isEditable,
+  }) = _PersonalInfoState;
+}

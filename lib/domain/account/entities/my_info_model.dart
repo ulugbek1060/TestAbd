@@ -1,11 +1,12 @@
 import 'package:equatable/equatable.dart';
 import 'package:testabd/data/local_source/entities/my_info_db.dart';
 import 'package:testabd/data/remote_source/account/model/my_info_response.dart';
+import 'package:testabd/domain/account/entities/country_model.dart';
 import 'package:testabd/domain/entity/weekly_test_count_model.dart';
 
 class MyInfoModel extends Equatable {
   final int? id;
-  final String? country;
+  final CountryModel? country;
   final String? region;
   final String? district;
   final String? settlement;
@@ -95,7 +96,13 @@ class MyInfoModel extends Equatable {
   static MyInfoModel fromResponse(MyInfoResponse? response) {
     return MyInfoModel(
       id: response?.id,
-      country: response?.country,
+      country: CountryModel(
+        id: response?.country?.id,
+        name: response?.country?.name,
+        code: response?.country?.code,
+        lat: response?.country?.lat,
+        lon: response?.country?.lon,
+      ),
       region: response?.region,
       district: response?.district,
       settlement: response?.settlement,
@@ -147,7 +154,13 @@ class MyInfoModel extends Equatable {
   static MyInfoModel fromDb(MyInfoDb? dbModel) {
     return MyInfoModel(
       id: dbModel?.id,
-      country: dbModel?.country,
+      country: CountryModel(
+        id: dbModel?.country?.id,
+        name: dbModel?.country?.name,
+        code: dbModel?.country?.code,
+        lat: dbModel?.country?.lat,
+        lon: dbModel?.country?.lon,
+      ),
       region: dbModel?.region,
       district: dbModel?.district,
       settlement: dbModel?.settlement,
@@ -199,7 +212,13 @@ class MyInfoModel extends Equatable {
   static MyInfoDb toDb(MyInfoModel? model) {
     return MyInfoDb(
       id: model?.id,
-      country: model?.country,
+      country: CountryModelDb(
+        id: model?.country?.id,
+        name: model?.country?.name,
+        code: model?.country?.code,
+        lat: model?.country?.lat,
+        lon: model?.country?.lon,
+      ),
       region: model?.region,
       district: model?.district,
       settlement: model?.settlement,

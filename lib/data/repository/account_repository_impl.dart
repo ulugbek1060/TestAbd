@@ -8,6 +8,7 @@ import 'package:testabd/domain/account/account_repository.dart';
 import 'package:testabd/domain/account/entities/leaderboard_model.dart';
 import 'package:testabd/domain/account/entities/my_info_model.dart';
 import 'package:testabd/domain/account/entities/notification_model.dart';
+import 'package:testabd/domain/account/entities/personal_info_dto.dart';
 import 'package:testabd/domain/account/entities/user_connections_model.dart';
 import 'package:testabd/domain/account/entities/user_profile_model.dart';
 import 'package:testabd/main.dart';
@@ -116,6 +117,25 @@ class AccountRepositoryImpl implements AccountRepository {
     try {
       final result = await _leaderboardSource.getLeaderboard(page, pageSize);
       return Right(LeaderboardModel.fromResponse(result));
+    } on AppException catch (e) {
+      return Left(e);
+    } catch (e, stackTrace) {
+      return Left(UnknownException(e.toString(), stackTrace: stackTrace));
+    }
+  }
+
+  @override
+  Future<Either<AppException, Unit>> changePersonalInfo(
+    PersonalInfoDto personalInfoDto,
+  ) async {
+    try {
+      final result = await _accountSource.changePersonalInfo(
+        personalInfoDto.toJson(),
+      );
+      final model = MyInfoModel.fromResponse(result);
+      final dbModel = MyInfoModel.toDb(model);
+      _hiveService.saveMyInfo(dbModel);
+      return Right(unit);
     } on AppException catch (e) {
       return Left(e);
     } catch (e, stackTrace) {

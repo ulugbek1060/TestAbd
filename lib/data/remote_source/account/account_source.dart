@@ -5,8 +5,7 @@ import 'package:testabd/data/remote_source/account/model/user_connections_respon
 import 'package:testabd/data/remote_source/account/model/user_profile_response.dart';
 import 'package:testabd/data/remote_source/account/model/my_info_response.dart';
 import 'package:testabd/data/remote_source/account/model/notifications_response.dart';
-
-
+import 'package:testabd/domain/account/entities/personal_info_dto.dart';
 
 abstract class AccountSource {
   Future<MyInfoResponse> getUserInfo();
@@ -15,15 +14,15 @@ abstract class AccountSource {
   Future<UserProfileResponse> getProfile(String username);
   Future<UserConnectionsResponse> getFollowers(int userId);
   Future<String> followUser(int userId);
+  Future<MyInfoResponse> changePersonalInfo(Map<String, dynamic> data);
 }
 
 @Injectable(as: AccountSource)
-class AccountSourceImpl implements AccountSource{
+class AccountSourceImpl implements AccountSource {
   final Dio _dio;
 
   AccountSourceImpl(this._dio);
 
-  /// /accounts/me/
   @override
   Future<MyInfoResponse> getUserInfo() async {
     try {
@@ -36,7 +35,6 @@ class AccountSourceImpl implements AccountSource{
     }
   }
 
-  /// /accounts/notifications/
   @override
   Future<NotificationsResponse> notifications() async {
     try {
@@ -49,7 +47,6 @@ class AccountSourceImpl implements AccountSource{
     }
   }
 
-  /// /account/stories/
   @override
   Future<dynamic> getStories() async {
     try {
@@ -62,7 +59,6 @@ class AccountSourceImpl implements AccountSource{
     }
   }
 
-  /// /accounts/profile/{username}
   @override
   Future<UserProfileResponse> getProfile(String username) async {
     try {
@@ -75,9 +71,8 @@ class AccountSourceImpl implements AccountSource{
     }
   }
 
-  /// accounts/followers/{userId}/
   @override
-  Future<UserConnectionsResponse> getFollowers(int userId)  async {
+  Future<UserConnectionsResponse> getFollowers(int userId) async {
     try {
       final response = await _dio.get("/accounts/followers/$userId");
       return UserConnectionsResponse.fromJson(response.data);
@@ -88,7 +83,6 @@ class AccountSourceImpl implements AccountSource{
     }
   }
 
-  /// /accounts/followers/{userId}/toggle/
   @override
   Future<String> followUser(int userId) async {
     try {
@@ -101,4 +95,15 @@ class AccountSourceImpl implements AccountSource{
     }
   }
 
+  @override
+  Future<MyInfoResponse> changePersonalInfo(Map<String, dynamic> data) async {
+    try {
+      final response = await _dio.patch("/accounts/me/update/", data: data);
+      return MyInfoResponse.fromJson(response.data);
+    } on DioException catch (e) {
+      throw e.handleDioException();
+    } catch (e, stackTrace) {
+      throw UnknownException(e.toString(), stackTrace: stackTrace);
+    }
+  }
 }

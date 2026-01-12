@@ -7,120 +7,83 @@ part 'my_info_db.g.dart';
 class MyInfoDb extends HiveObject with EquatableMixin {
   @HiveField(0)
   final int? id;
-
   @HiveField(1)
-  final String? country;
-
+  final CountryModelDb? country;
   @HiveField(2)
   final String? region;
-
   @HiveField(3)
   final String? district;
-
   @HiveField(4)
   final String? settlement;
-
   @HiveField(5)
-  final List<String>? categoriesOfInterest; // Changed to List<String> (common for category IDs/names)
-
+  final List<String>? categoriesOfInterest;
   @HiveField(6)
   final double? coinPercentage;
-
   @HiveField(7)
   final WeeklyTestCountDb? weeklyTestCount;
-
   @HiveField(8)
   final int? streakDay;
-
   @HiveField(9)
   final int? testsSolved;
-
   @HiveField(10)
   final int? correctCount;
-
   @HiveField(11)
   final int? wrongCount;
-
   @HiveField(12)
   final double? averageTime;
-
   @HiveField(13)
   final DateTime? lastLogin;
-
   @HiveField(14)
   final bool? isSuperuser;
-
   @HiveField(15)
   final String? username;
-
   @HiveField(16)
   final String? firstName;
-
   @HiveField(17)
   final String? lastName;
-
   @HiveField(18)
   final String? email;
-
   @HiveField(19)
   final bool? isStaff;
-
   @HiveField(20)
   final DateTime? dateJoined;
-
   @HiveField(21)
   final String? profileImage;
-
   @HiveField(22)
   final String? bio;
-
   @HiveField(23)
   final String? phoneNumber;
-
   @HiveField(24)
   final DateTime? createdAt;
-
   @HiveField(25)
   final bool? isActive;
-
   @HiveField(26)
   final String? role;
-
   @HiveField(27)
   final bool? isPremium;
-
   @HiveField(28)
   final bool? isBadged;
-
   @HiveField(29)
   final DateTime? joinDate;
-
   @HiveField(30)
   final String? level;
-
   @HiveField(31)
   final int? liveQuizScore;
-
   @HiveField(32)
   final bool? isEmailVerified;
-
   @HiveField(33)
   final int? coins;
-
   @HiveField(34)
   final String? referralCode;
-
   @HiveField(35)
   final String? telegramId;
-
   @HiveField(36)
-  final dynamic invitedBy; // Remains dynamic (can be null, int, String, etc.)
-
+  final dynamic invitedBy;
   @HiveField(37)
-  final List<String>? groups; // Assuming List<String> for group IDs/names
+  final List<String>? groups;
 
   @HiveField(38)
-  final List<String>? userPermissions; // Assuming List<String> for permissions
+  final List<String>? userPermissions;
 
   MyInfoDb({
     this.id,
@@ -208,26 +171,51 @@ class MyInfoDb extends HiveObject with EquatableMixin {
   ];
 }
 
+@HiveType(typeId: 2)
+class CountryModelDb extends HiveObject with EquatableMixin {
+  @HiveField(0)
+  final int? id;
+  @HiveField(1)
+  final String? name;
+  @HiveField(2)
+  final String? code;
+  @HiveField(3)
+  final double? lat;
+  @HiveField(4)
+  final double? lon;
+
+  CountryModelDb({
+    required this.id,
+    required this.name,
+    required this.code,
+    required this.lat,
+    required this.lon,
+  });
+
+  @override
+  List<Object?> get props => [
+    id,
+    name,
+    code,
+    lat,
+    lon,
+  ];
+}
+
 @HiveType(typeId: 1)
 class WeeklyTestCountDb extends HiveObject with EquatableMixin {
   @HiveField(0)
   final int? dush;
-
   @HiveField(1)
   final int? sesh;
-
   @HiveField(2)
   final int? chor;
-
   @HiveField(3)
   final int? pay;
-
   @HiveField(4)
   final int? jum;
-
   @HiveField(5)
   final int? shan;
-
   @HiveField(6)
   final int? yak;
 

@@ -1,27 +1,28 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'my_info_response.freezed.dart';
-
 part 'my_info_response.g.dart';
 
 @freezed
 class MyInfoResponse with _$MyInfoResponse {
   const factory MyInfoResponse({
     @JsonKey(name: 'id') int? id,
-    @JsonKey(name: 'country') String? country,
+    @JsonKey(name: 'country') MyInfoCountry? country,
     @JsonKey(name: 'region') String? region,
     @JsonKey(name: 'district') String? district,
     @JsonKey(name: 'settlement') String? settlement,
+
     @JsonKey(name: 'categories_of_interest')
     @Default([]) List<String> categoriesOfInterest,
+
     @JsonKey(name: 'coin_percentage') double? coinPercentage,
-    @JsonKey(name: 'weekly_test_count')
-    WeeklyTestCount? weeklyTestCount,
+    @JsonKey(name: 'weekly_test_count') WeeklyTestCount? weeklyTestCount,
     @JsonKey(name: 'streak_day') int? streakDay,
     @JsonKey(name: 'tests_solved') int? testsSolved,
     @JsonKey(name: 'correct_count') int? correctCount,
     @JsonKey(name: 'wrong_count') int? wrongCount,
     @JsonKey(name: 'average_time') double? averageTime,
+
     @JsonKey(name: 'last_login') String? lastLogin,
     @JsonKey(name: 'is_superuser') bool? isSuperuser,
     @JsonKey(name: 'username') String? username,
@@ -46,13 +47,28 @@ class MyInfoResponse with _$MyInfoResponse {
     @JsonKey(name: 'referral_code') String? referralCode,
     @JsonKey(name: 'telegram_id') String? telegramId,
     @JsonKey(name: 'invited_by') String? invitedBy,
+
     @JsonKey(name: 'groups') @Default([]) List<String> groups,
     @JsonKey(name: 'user_permissions')
     @Default([]) List<String> userPermissions,
-  }) = _MeResponse;
+  }) = _MyInfoResponse;
 
   factory MyInfoResponse.fromJson(Map<String, dynamic> json) =>
       _$MyInfoResponseFromJson(json);
+}
+
+@freezed
+class MyInfoCountry with _$MyInfoCountry {
+  const factory MyInfoCountry({
+    @JsonKey(name: 'id') int? id,
+    @JsonKey(name: 'name') String? name,
+    @JsonKey(name: 'code') String? code,
+    @JsonKey(name: 'lat') double? lat,
+    @JsonKey(name: 'lon') double? lon,
+  }) = _MyInfoCountry;
+
+  factory MyInfoCountry.fromJson(Map<String, dynamic> json) =>
+      _$MyInfoCountryFromJson(json);
 }
 
 @freezed

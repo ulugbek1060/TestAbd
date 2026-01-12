@@ -27,8 +27,8 @@ class _View extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         children: [
 
-          TelegramBotCard(),
-          SizedBox(height: 24),
+          // TelegramBotCard(),
+          // SizedBox(height: 24),
 
           _Section(title: "Profile Information"),
           _ProfileTile(
@@ -65,6 +65,7 @@ class _View extends StatelessWidget {
               },
             ),
           ),
+          SizedBox(height: 16),
           _ProfileTile(
             title: "Language",
             description:
