@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:testabd/di/app_config.dart';
+import 'package:testabd/domain/account/entities/personal_info_dto.dart';
 import 'package:testabd/features/profile/settings/personal_info_cubit.dart';
 import 'package:testabd/features/profile/settings/personal_info_state.dart';
 
@@ -25,6 +26,7 @@ class _View extends StatefulWidget {
 }
 
 class _ViewState extends State<_View> {
+  late final TextEditingController _usernameTextController;
   late final TextEditingController _nameTextController;
   late final TextEditingController _lastnameTextController;
   late final TextEditingController _emailTextController;
@@ -33,6 +35,7 @@ class _ViewState extends State<_View> {
 
   @override
   void initState() {
+    _usernameTextController = TextEditingController();
     _nameTextController = TextEditingController();
     _lastnameTextController = TextEditingController();
     _emailTextController = TextEditingController();
@@ -41,12 +44,25 @@ class _ViewState extends State<_View> {
     super.initState();
   }
 
+  void onSaveChanges() {
+    final dto = PersonalInfoDto(
+      username: _usernameTextController.text,
+      firstName: _nameTextController.text,
+      lastName: _lastnameTextController.text,
+      email: _emailTextController.text,
+      phoneNumber: _phoneNumberTextController.text,
+      bio: _bioTextController.text,
+    );
+    context.read<PersonalInfoCubit>().changePersonalInfo(dto);
+  }
+
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<PersonalInfoCubit>();
 
     return BlocConsumer<PersonalInfoCubit, PersonalInfoState>(
       listener: (context, state) {
+        _usernameTextController.text = state.myInfo?.username ?? '';
         _emailTextController.text = state.myInfo?.email ?? '';
         _nameTextController.text = state.myInfo?.firstName ?? '';
         _lastnameTextController.text = state.myInfo?.lastName ?? '';
@@ -77,9 +93,7 @@ class _ViewState extends State<_View> {
                     child: SizedBox(
                       height: 52,
                       child: ElevatedButton(
-                        onPressed: () {
-                          // TODO: Save profile changes
-                        },
+                        onPressed: onSaveChanges,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.blueAccent,
                           shape: RoundedRectangleBorder(
@@ -107,7 +121,12 @@ class _ViewState extends State<_View> {
                 _ProfileImagePicker(enabled: state.isEditable),
 
                 const SizedBox(height: 24),
-
+                _InputField(
+                  label: "Username",
+                  hint: "Username",
+                  controller: _usernameTextController,
+                  enabled: state.isEditable,
+                ),
                 _InputField(
                   label: "Ism",
                   hint: "Ismingizni kiriting",

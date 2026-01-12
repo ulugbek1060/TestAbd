@@ -1,4 +1,6 @@
-class PersonalInfoDto {
+import 'package:equatable/equatable.dart';
+
+class PersonalInfoDto with EquatableMixin {
   final String firstName;
   final String lastName;
   final String username;
@@ -26,4 +28,15 @@ class PersonalInfoDto {
     'phone_number': phoneNumber,
     'country': countryId,
   };
+
+  @override
+  List<Object?> get props => [
+    firstName,
+    lastName,
+    username,
+    bio,
+    email,
+    phoneNumber,
+    countryId,
+  ];
 }

@@ -29,7 +29,18 @@ class PersonalInfoCubit extends Cubit<PersonalInfoState> {
     return super.close();
   }
   Future<void> changePersonalInfo(PersonalInfoDto personalInfoDto) async {
+    final oldDto = PersonalInfoDto(
+      firstName: state.myInfo?.firstName ?? "",
+      lastName: state.myInfo?.lastName ?? "",
+      username: state.myInfo?.username ?? "",
+      bio: state.myInfo?.bio ?? "",
+      email: state.myInfo?.email ?? "",
+      phoneNumber: state.myInfo?.phoneNumber ?? "",
+    );
+
+    if (oldDto == personalInfoDto) return;
     if (state.status == PersonalInfoStatus.loading) return;
+
     emit(state.copyWith(status: PersonalInfoStatus.loading));
     final result = await _accountRepository.changePersonalInfo(personalInfoDto);
     result.fold(

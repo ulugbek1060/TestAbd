@@ -18,8 +18,8 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$PersonalInfoState {
   PersonalInfoStatus get status => throw _privateConstructorUsedError;
   MyInfoModel? get myInfo => throw _privateConstructorUsedError;
-  String? get error => throw _privateConstructorUsedError;
   bool get isEditable => throw _privateConstructorUsedError;
+  String? get error => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PersonalInfoStateCopyWith<PersonalInfoState> get copyWith =>
@@ -35,8 +35,8 @@ abstract class $PersonalInfoStateCopyWith<$Res> {
   $Res call(
       {PersonalInfoStatus status,
       MyInfoModel? myInfo,
-      String? error,
-      bool isEditable});
+      bool isEditable,
+      String? error});
 }
 
 /// @nodoc
@@ -54,8 +54,8 @@ class _$PersonalInfoStateCopyWithImpl<$Res, $Val extends PersonalInfoState>
   $Res call({
     Object? status = null,
     Object? myInfo = freezed,
-    Object? error = freezed,
     Object? isEditable = null,
+    Object? error = freezed,
   }) {
     return _then(_value.copyWith(
       status: null == status
@@ -66,14 +66,14 @@ class _$PersonalInfoStateCopyWithImpl<$Res, $Val extends PersonalInfoState>
           ? _value.myInfo
           : myInfo // ignore: cast_nullable_to_non_nullable
               as MyInfoModel?,
-      error: freezed == error
-          ? _value.error
-          : error // ignore: cast_nullable_to_non_nullable
-              as String?,
       isEditable: null == isEditable
           ? _value.isEditable
           : isEditable // ignore: cast_nullable_to_non_nullable
               as bool,
+      error: freezed == error
+          ? _value.error
+          : error // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -89,8 +89,8 @@ abstract class _$$PersonalInfoStateImplCopyWith<$Res>
   $Res call(
       {PersonalInfoStatus status,
       MyInfoModel? myInfo,
-      String? error,
-      bool isEditable});
+      bool isEditable,
+      String? error});
 }
 
 /// @nodoc
@@ -106,8 +106,8 @@ class __$$PersonalInfoStateImplCopyWithImpl<$Res>
   $Res call({
     Object? status = null,
     Object? myInfo = freezed,
-    Object? error = freezed,
     Object? isEditable = null,
+    Object? error = freezed,
   }) {
     return _then(_$PersonalInfoStateImpl(
       status: null == status
@@ -118,14 +118,14 @@ class __$$PersonalInfoStateImplCopyWithImpl<$Res>
           ? _value.myInfo
           : myInfo // ignore: cast_nullable_to_non_nullable
               as MyInfoModel?,
-      error: freezed == error
-          ? _value.error
-          : error // ignore: cast_nullable_to_non_nullable
-              as String?,
       isEditable: null == isEditable
           ? _value.isEditable
           : isEditable // ignore: cast_nullable_to_non_nullable
               as bool,
+      error: freezed == error
+          ? _value.error
+          : error // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -136,8 +136,8 @@ class _$PersonalInfoStateImpl implements _PersonalInfoState {
   const _$PersonalInfoStateImpl(
       {this.status = PersonalInfoStatus.initial,
       this.myInfo = null,
-      this.error,
-      this.isEditable = false});
+      this.isEditable = false,
+      this.error});
 
   @override
   @JsonKey()
@@ -146,14 +146,14 @@ class _$PersonalInfoStateImpl implements _PersonalInfoState {
   @JsonKey()
   final MyInfoModel? myInfo;
   @override
-  final String? error;
-  @override
   @JsonKey()
   final bool isEditable;
+  @override
+  final String? error;
 
   @override
   String toString() {
-    return 'PersonalInfoState(status: $status, myInfo: $myInfo, error: $error, isEditable: $isEditable)';
+    return 'PersonalInfoState(status: $status, myInfo: $myInfo, isEditable: $isEditable, error: $error)';
   }
 
   @override
@@ -163,14 +163,14 @@ class _$PersonalInfoStateImpl implements _PersonalInfoState {
             other is _$PersonalInfoStateImpl &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.myInfo, myInfo) || other.myInfo == myInfo) &&
-            (identical(other.error, error) || other.error == error) &&
             (identical(other.isEditable, isEditable) ||
-                other.isEditable == isEditable));
+                other.isEditable == isEditable) &&
+            (identical(other.error, error) || other.error == error));
   }
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, status, myInfo, error, isEditable);
+      Object.hash(runtimeType, status, myInfo, isEditable, error);
 
   @JsonKey(ignore: true)
   @override
@@ -184,17 +184,17 @@ abstract class _PersonalInfoState implements PersonalInfoState {
   const factory _PersonalInfoState(
       {final PersonalInfoStatus status,
       final MyInfoModel? myInfo,
-      final String? error,
-      final bool isEditable}) = _$PersonalInfoStateImpl;
+      final bool isEditable,
+      final String? error}) = _$PersonalInfoStateImpl;
 
   @override
   PersonalInfoStatus get status;
   @override
   MyInfoModel? get myInfo;
   @override
-  String? get error;
-  @override
   bool get isEditable;
+  @override
+  String? get error;
   @override
   @JsonKey(ignore: true)
   _$$PersonalInfoStateImplCopyWith<_$PersonalInfoStateImpl> get copyWith =>
