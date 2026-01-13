@@ -1,11 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:testabd/core/errors/app_exception.dart';
+import 'package:testabd/data/remote_source/account/model/countries_response.dart';
 import 'package:testabd/data/remote_source/account/model/user_connections_response.dart';
 import 'package:testabd/data/remote_source/account/model/user_profile_response.dart';
 import 'package:testabd/data/remote_source/account/model/my_info_response.dart';
 import 'package:testabd/data/remote_source/account/model/notifications_response.dart';
 import 'package:testabd/domain/account/entities/personal_info_dto.dart';
+import 'package:testabd/main.dart';
 
 abstract class AccountSource {
   Future<MyInfoResponse> getUserInfo();
@@ -15,6 +17,10 @@ abstract class AccountSource {
   Future<UserConnectionsResponse> getFollowers(int userId);
   Future<String> followUser(int userId);
   Future<MyInfoResponse> changePersonalInfo(Map<String, dynamic> data);
+  Future<CountriesResponse> getCountries();
+  // Future<RegionsResponse> getRegions();
+  // Future<CitiesResponse> getCities(int regionId);
+  // Future<DistrictsResponse> getDistricts(int cityId);
 }
 
 @Injectable(as: AccountSource)
@@ -106,4 +112,18 @@ class AccountSourceImpl implements AccountSource {
       throw UnknownException(e.toString(), stackTrace: stackTrace);
     }
   }
+
+  @override
+  Future<CountriesResponse> getCountries() async {
+    try {
+      final response = await _dio.get("/accounts/countries/");
+      return CountriesResponse.fromJson(response.data);
+    } on DioException catch (e) {
+      throw e.handleDioException();
+    } catch (e, stackTrace) {
+      throw UnknownException(e.toString(), stackTrace: stackTrace);
+    }
+  }
+
+
 }

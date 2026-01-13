@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:testabd/core/errors/app_exception.dart';
+import 'package:testabd/domain/account/entities/country_model.dart';
 import 'package:testabd/domain/account/entities/leaderboard_model.dart';
 import 'package:testabd/domain/account/entities/my_info_model.dart';
 import 'package:testabd/domain/account/entities/notification_model.dart';
@@ -17,6 +18,7 @@ abstract class AccountRepository {
   Future<Either<AppException, String>> followUser(int userId);
   Future<Either<AppException, LeaderboardModel>> getLeaderboard(int page, int pageSize);
   Future<Either<AppException, Unit>> changePersonalInfo(PersonalInfoDto personalInfoDto);
+  Future<Either<AppException, List<CountryModel>>> getCountries();
 }
 
 abstract class LeaderboardRepository {

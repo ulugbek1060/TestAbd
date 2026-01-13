@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:testabd/core/widgets/loading_widget.dart';
 import 'package:testabd/di/app_config.dart';
 import 'package:testabd/domain/account/entities/personal_info_dto.dart';
@@ -34,8 +37,25 @@ class _ViewState extends State<_View> {
   late final TextEditingController _phoneNumberTextController;
   late final TextEditingController _bioTextController;
 
+  File? _image;
+  late final ImagePicker _picker;
+
+  Future<void> _pickImage(ImageSource source) async {
+    final XFile? selectedFile = await _picker.pickImage(
+      source: source,
+      imageQuality: 80, // Optional: compresses image
+    );
+
+    if (selectedFile != null) {
+      setState(() {
+        _image = File(selectedFile.path);
+      });
+    }
+  }
+
   @override
   void initState() {
+    _picker = ImagePicker();
     _usernameTextController = TextEditingController();
     _nameTextController = TextEditingController();
     _lastnameTextController = TextEditingController();
@@ -121,7 +141,40 @@ class _ViewState extends State<_View> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _ProfileImagePicker(enabled: state.isEditable),
+
+
+                      _ProfileImagePicker(
+                        enabled: state.isEditable,
+                        imageUrl: state.myInfo?.profileImage ?? '',
+                        onPickImage: () {
+                          showModalBottomSheet(
+                            context: context,
+                            builder: (context) => SafeArea(
+                              child: Wrap(
+                                children: [
+                                  ListTile(
+                                    leading: const Icon(Icons.photo_library),
+                                    title: const Text('Gallery'),
+                                    onTap: () {
+                                      Navigator.of(context).pop();
+                                      _pickImage(ImageSource.gallery);
+                                    },
+                                  ),
+                                  ListTile(
+                                    leading: const Icon(Icons.camera_alt),
+                                    title: const Text('Camera'),
+                                    onTap: () {
+                                      Navigator.of(context).pop();
+                                      _pickImage(ImageSource.camera);
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+
 
                       const SizedBox(height: 24),
                       _InputField(
@@ -171,8 +224,14 @@ class _ViewState extends State<_View> {
 
 class _ProfileImagePicker extends StatelessWidget {
   final bool enabled;
+  final String imageUrl;
+  final VoidCallback onPickImage;
 
-  const _ProfileImagePicker({required this.enabled});
+  const _ProfileImagePicker({
+    required this.enabled,
+    required this.imageUrl,
+    required this.onPickImage,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -184,7 +243,7 @@ class _ProfileImagePicker extends StatelessWidget {
             child: CachedNetworkImage(
               width: 90,
               height: 90,
-              imageUrl: '',
+              imageUrl: imageUrl,
               fit: BoxFit.cover,
               placeholder: (_, __) =>
                   Image.asset(AppImages.defaultAvatar, fit: BoxFit.cover),
@@ -197,9 +256,7 @@ class _ProfileImagePicker extends StatelessWidget {
 
           if (enabled)
             TextButton.icon(
-              onPressed: () {
-                // TODO: Pick image
-              },
+              onPressed: onPickImage,
               icon: const Icon(Icons.upload),
               label: const Text("Yangi rasm yuklash"),
             ),

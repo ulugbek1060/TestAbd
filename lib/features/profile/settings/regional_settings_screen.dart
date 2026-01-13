@@ -1,13 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:testabd/di/app_config.dart';
+import 'package:testabd/features/profile/settings/regional_settings_cubit.dart';
 
-class RegionalSettingsScreen extends StatefulWidget {
+class RegionalSettingsScreen extends StatelessWidget {
   const RegionalSettingsScreen({super.key});
 
   @override
-  State<RegionalSettingsScreen> createState() => _RegionalSettingsScreenState();
+  Widget build(BuildContext context) => BlocProvider(
+    create: (context) => locator<RegionalSettingsCubit>(),
+    child: const _View(),
+  );
 }
 
-class _RegionalSettingsScreenState extends State<RegionalSettingsScreen> {
+class _View extends StatefulWidget {
+  const _View({super.key});
+
+  @override
+  State<_View> createState() => _ViewView();
+}
+
+class _ViewView extends State<_View> {
   String country = "Uzbekistan";
   String? region;
   String? district;
@@ -22,6 +35,13 @@ class _RegionalSettingsScreenState extends State<RegionalSettingsScreen> {
         children: [
           const _Header(),
           const SizedBox(height: 24),
+
+          ElevatedButton(
+            onPressed: () {
+              context.read<RegionalSettingsCubit>().fetchCountries();
+            },
+            child: Text("fetchCountries"),
+          ),
 
           _DropdownField(
             label: "Davlat",

@@ -1,6 +1,14 @@
-part of 'regional_settings_cubit.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:testabd/domain/account/entities/country_model.dart';
 
-@immutable
-sealed class RegionalSettingsState {}
+part 'regional_settings_state.freezed.dart';
 
-final class RegionalSettingsInitial extends RegionalSettingsState {}
+@freezed
+class RegionalSettingsState with _$RegionalSettingsState {
+  const factory RegionalSettingsState({
+    @Default(false) bool isEditable,
+    String? error,
+    @Default(false) bool isLoading,
+    @Default([]) List<CountryModel> countries,
+  }) = _RegionalSettingsState;
+}

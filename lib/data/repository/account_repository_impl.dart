@@ -5,6 +5,7 @@ import 'package:testabd/data/local_source/my_info_hive_service.dart';
 import 'package:testabd/data/remote_source/account/account_source.dart';
 import 'package:testabd/data/remote_source/account/ws_leaderboard_source.dart';
 import 'package:testabd/domain/account/account_repository.dart';
+import 'package:testabd/domain/account/entities/country_model.dart';
 import 'package:testabd/domain/account/entities/leaderboard_model.dart';
 import 'package:testabd/domain/account/entities/my_info_model.dart';
 import 'package:testabd/domain/account/entities/notification_model.dart';
@@ -136,6 +137,20 @@ class AccountRepositoryImpl implements AccountRepository {
       final dbModel = MyInfoModel.toDb(model);
       _hiveService.saveMyInfo(dbModel);
       return Right(unit);
+    } on AppException catch (e) {
+      return Left(e);
+    } catch (e, stackTrace) {
+      return Left(UnknownException(e.toString(), stackTrace: stackTrace));
+    }
+  }
+
+  @override
+  Future<Either<AppException, List<CountryModel>>> getCountries() async {
+    try {
+      final result = await _accountSource.getCountries();
+      return Right(
+        result.countries.map((e) => CountryModel.fromResponse(e)).toList(),
+      );
     } on AppException catch (e) {
       return Left(e);
     } catch (e, stackTrace) {
