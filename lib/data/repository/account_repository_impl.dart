@@ -148,9 +148,34 @@ class AccountRepositoryImpl implements AccountRepository {
   Future<Either<AppException, List<CountryModel>>> getCountries() async {
     try {
       final result = await _accountSource.getCountries();
-      return Right(
-        result.countries.map((e) => CountryModel.fromResponse(e)).toList(),
-      );
+      final list = result.countries
+          .map((e) => CountryModel.fromResponse(e))
+          .toList();
+      return Right(list);
+    } on AppException catch (e) {
+      return Left(e);
+    } catch (e, stackTrace) {
+      return Left(UnknownException(e.toString(), stackTrace: stackTrace));
+    }
+  }
+
+  @override
+  Future<dynamic> getDistricts(int? districtId) async {
+    try {
+      final result = await _accountSource.getRegions(districtId);
+      return Right(unit);
+    } on AppException catch (e) {
+      return Left(e);
+    } catch (e, stackTrace) {
+      return Left(UnknownException(e.toString(), stackTrace: stackTrace));
+    }
+  }
+
+  @override
+  Future<dynamic> getRegions(int? countryId) async {
+    try {
+      final result = await _accountSource.getRegions(countryId);
+      return Right(unit);
     } on AppException catch (e) {
       return Left(e);
     } catch (e, stackTrace) {

@@ -20,4 +20,13 @@ class RegionalSettingsCubit extends Cubit<RegionalSettingsState> {
       (r) => emit(state.copyWith(isLoading: false, countries: r)),
     );
   }
+
+  Future<void> fetchRegions(int? districtId) async {
+    // emit(state.copyWith(isLoading: true));
+    final result = await _accountRepository.getRegions(districtId);
+    result.fold(
+      (l) => emit(state.copyWith(isLoading: false, error: l.message)),
+      (r) => emit(state.copyWith(isLoading: false, countries: r)),
+    );
+  }
 }

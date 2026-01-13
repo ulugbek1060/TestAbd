@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:testabd/core/errors/app_exception.dart';
 import 'package:testabd/data/remote_source/account/model/countries_response.dart';
+import 'package:testabd/data/remote_source/account/model/regions_response.dart';
 import 'package:testabd/data/remote_source/account/model/user_connections_response.dart';
 import 'package:testabd/data/remote_source/account/model/user_profile_response.dart';
 import 'package:testabd/data/remote_source/account/model/my_info_response.dart';
@@ -18,9 +19,7 @@ abstract class AccountSource {
   Future<String> followUser(int userId);
   Future<MyInfoResponse> changePersonalInfo(Map<String, dynamic> data);
   Future<CountriesResponse> getCountries();
-  // Future<RegionsResponse> getRegions();
-  // Future<CitiesResponse> getCities(int regionId);
-  // Future<DistrictsResponse> getDistricts(int cityId);
+  Future<RegionsResponse> getRegions(int? countryId);
 }
 
 @Injectable(as: AccountSource)
@@ -125,5 +124,15 @@ class AccountSourceImpl implements AccountSource {
     }
   }
 
-
+  @override
+  Future<RegionsResponse> getRegions(int? countryId) async {
+    try {
+      final response = await _dio.get("/accounts/regions/$countryId/");
+      return response.data;
+    } on DioException catch (e) {
+      throw e.handleDioException();
+    } catch (e, stackTrace) {
+      throw UnknownException(e.toString(), stackTrace: stackTrace);
+    }
+  }
 }

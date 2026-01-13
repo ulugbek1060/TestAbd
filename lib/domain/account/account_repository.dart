@@ -19,6 +19,8 @@ abstract class AccountRepository {
   Future<Either<AppException, LeaderboardModel>> getLeaderboard(int page, int pageSize);
   Future<Either<AppException, Unit>> changePersonalInfo(PersonalInfoDto personalInfoDto);
   Future<Either<AppException, List<CountryModel>>> getCountries();
+  Future<dynamic> getDistricts(int? districtId);
+  Future<dynamic> getRegions(int? countryId);
 }
 
 abstract class LeaderboardRepository {

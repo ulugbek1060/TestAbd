@@ -38,7 +38,7 @@ class _ViewView extends State<_View> {
 
           ElevatedButton(
             onPressed: () {
-              context.read<RegionalSettingsCubit>().fetchCountries();
+              context.read<RegionalSettingsCubit>().fetchRegions(1);
             },
             child: Text("fetchCountries"),
           ),
