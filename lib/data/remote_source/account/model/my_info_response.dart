@@ -7,14 +7,12 @@ part 'my_info_response.g.dart';
 class MyInfoResponse with _$MyInfoResponse {
   const factory MyInfoResponse({
     @JsonKey(name: 'id') int? id,
-    @JsonKey(name: 'country') MyInfoCountry? country,
-    @JsonKey(name: 'region') String? region,
-    @JsonKey(name: 'district') String? district,
-    @JsonKey(name: 'settlement') String? settlement,
-
+    @JsonKey(name: 'country') CountryInfo? country,
+    @JsonKey(name: 'region') RegionInfo? region,
+    @JsonKey(name: 'district') DistrictInfo? district,
+    @JsonKey(name: 'settlement') SettlementInfo? settlement,
     @JsonKey(name: 'categories_of_interest')
     @Default([]) List<String> categoriesOfInterest,
-
     @JsonKey(name: 'coin_percentage') double? coinPercentage,
     @JsonKey(name: 'weekly_test_count') WeeklyTestCount? weeklyTestCount,
     @JsonKey(name: 'streak_day') int? streakDay,
@@ -58,17 +56,59 @@ class MyInfoResponse with _$MyInfoResponse {
 }
 
 @freezed
-class MyInfoCountry with _$MyInfoCountry {
-  const factory MyInfoCountry({
+class CountryInfo with _$CountryInfo {
+  const factory CountryInfo({
     @JsonKey(name: 'id') int? id,
     @JsonKey(name: 'name') String? name,
     @JsonKey(name: 'code') String? code,
     @JsonKey(name: 'lat') double? lat,
     @JsonKey(name: 'lon') double? lon,
-  }) = _MyInfoCountry;
+  }) = _CountryInfo;
 
-  factory MyInfoCountry.fromJson(Map<String, dynamic> json) =>
-      _$MyInfoCountryFromJson(json);
+  factory CountryInfo.fromJson(Map<String, dynamic> json) =>
+      _$CountryInfoFromJson(json);
+}
+
+@freezed
+class RegionInfo with _$RegionInfo {
+  const factory RegionInfo({
+    @JsonKey(name: 'id') int? id,
+    @JsonKey(name: 'country') int? country,
+    @JsonKey(name: 'name') String? name,
+    @JsonKey(name: 'lat') double? lat,
+    @JsonKey(name: 'lon') double? lon,
+  }) = _RegionInfo;
+
+  factory RegionInfo.fromJson(Map<String, dynamic> json) =>
+      _$RegionInfoFromJson(json);
+}
+
+@freezed
+class DistrictInfo with _$DistrictInfo {
+  const factory DistrictInfo({
+    @JsonKey(name: 'id') int? id,
+    @JsonKey(name: 'region') int? region,
+    @JsonKey(name: 'name') String? name,
+    @JsonKey(name: 'lat') double? lat,
+    @JsonKey(name: 'lon') double? lon,
+  }) = _DistrictInfo;
+
+  factory DistrictInfo.fromJson(Map<String, dynamic> json) =>
+      _$DistrictInfoFromJson(json);
+}
+
+@freezed
+class SettlementInfo with _$SettlementInfo {
+  const factory SettlementInfo({
+    @JsonKey(name: 'id') int? id,
+    @JsonKey(name: 'district') int? district,
+    @JsonKey(name: 'name') String? name,
+    @JsonKey(name: 'lat') double? lat,
+    @JsonKey(name: 'lon') double? lon,
+  }) = _SettlementInfo;
+
+  factory SettlementInfo.fromJson(Map<String, dynamic> json) =>
+      _$SettlementInfoFromJson(json);
 }
 
 @freezed

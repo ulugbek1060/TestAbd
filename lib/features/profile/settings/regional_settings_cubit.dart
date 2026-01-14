@@ -46,6 +46,7 @@ class RegionalSettingsCubit extends Cubit<RegionalSettingsState> {
   }
 
   Future<void> fetchRegions(int? districtId) async {
+    if (districtId == null) return;
     if (state.regions.isLoading) return;
 
     emit(
@@ -79,6 +80,7 @@ class RegionalSettingsCubit extends Cubit<RegionalSettingsState> {
   }
 
   Future<void> fetchDistricts(int? regionId) async {
+    if (regionId == null) return;
     if (state.districts.isLoading) return;
 
     emit(
@@ -112,6 +114,40 @@ class RegionalSettingsCubit extends Cubit<RegionalSettingsState> {
     );
   }
 
+  Future<void> fetchSettlements(int? districtId) async {
+    if (districtId == null) return;
+    if (state.settlement.isLoading) return;
+
+    emit(
+      state.copyWith(
+        settlement: state.settlement.copyWith(isLoading: true, selected: null),
+      ),
+    );
+
+    final result = await _accountRepository.getSettlements(districtId);
+    result.fold((error) {
+      emit(
+        state.copyWith(
+          settlement: state.settlement.copyWith(
+            error: error.message,
+            isLoading: false,
+          ),
+        ),
+      );
+      _appMessageHandler.handleDialog(error);
+    }, (value) {
+      emit(
+        state.copyWith(
+          settlement: state.settlement.copyWith(
+            error: null,
+            isLoading: false,
+            settlements: value,
+          ),
+        ),
+      );
+    });
+  }
+
   Future<void> selectCountry(int? id) async {
     if (id == null) return;
     final country = state.countries.countries.firstWhere((e) => e.id == id);
@@ -134,6 +170,6 @@ class RegionalSettingsCubit extends Cubit<RegionalSettingsState> {
     emit(
       state.copyWith(districts: state.districts.copyWith(selected: district)),
     );
+    fetchSettlements(id);
   }
-
 }

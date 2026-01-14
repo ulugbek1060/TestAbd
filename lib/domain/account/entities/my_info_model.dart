@@ -2,14 +2,17 @@ import 'package:equatable/equatable.dart';
 import 'package:testabd/data/local_source/entities/my_info_db.dart';
 import 'package:testabd/data/remote_source/account/model/my_info_response.dart';
 import 'package:testabd/domain/account/entities/country_model.dart';
+import 'package:testabd/domain/account/entities/district_model.dart';
+import 'package:testabd/domain/account/entities/region_model.dart';
+import 'package:testabd/domain/account/entities/settlement_model.dart';
 import 'package:testabd/domain/entity/weekly_test_count_model.dart';
 
 class MyInfoModel extends Equatable {
   final int? id;
   final CountryModel? country;
-  final String? region;
-  final String? district;
-  final String? settlement;
+  final RegionModel? region;
+  final DistrictModel? district;
+  final SettlementModel? settlement;
   final List<String>? categoriesOfInterest;
   final double? coinPercentage;
   final WeeklyTestCountModel? weeklyTestCount;
@@ -103,9 +106,26 @@ class MyInfoModel extends Equatable {
         lat: response?.country?.lat,
         lon: response?.country?.lon,
       ),
-      region: response?.region,
-      district: response?.district,
-      settlement: response?.settlement,
+      region: RegionModel(
+        id: response?.region?.id,
+        name: response?.region?.name,
+        lat: response?.region?.lat,
+        lon: response?.region?.lon,
+      ),
+      district: DistrictModel(
+        id: response?.district?.id,
+        name: response?.district?.name,
+        lat: response?.district?.lat,
+        lon: response?.district?.lon,
+        region: response?.district?.region,
+      ),
+      settlement: SettlementModel(
+        id: response?.settlement?.id,
+        name: response?.settlement?.name,
+        lat: response?.settlement?.lat,
+        lon: response?.settlement?.lon,
+        district: response?.settlement?.district,
+      ),
       categoriesOfInterest: response?.categoriesOfInterest,
       coinPercentage: response?.coinPercentage,
       weeklyTestCount: WeeklyTestCountModel(
@@ -212,7 +232,7 @@ class MyInfoModel extends Equatable {
   static MyInfoDb toDb(MyInfoModel? model) {
     return MyInfoDb(
       id: model?.id,
-      country: CountryModelDb(
+      country: CountryHiveModel(
         id: model?.country?.id,
         name: model?.country?.name,
         code: model?.country?.code,

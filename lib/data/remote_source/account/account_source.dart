@@ -4,12 +4,11 @@ import 'package:testabd/core/errors/app_exception.dart';
 import 'package:testabd/data/remote_source/account/model/country_item_response.dart';
 import 'package:testabd/data/remote_source/account/model/district_item_response.dart';
 import 'package:testabd/data/remote_source/account/model/region_item_response.dart';
+import 'package:testabd/data/remote_source/account/model/settlement_item_response.dart';
 import 'package:testabd/data/remote_source/account/model/user_connections_response.dart';
 import 'package:testabd/data/remote_source/account/model/user_profile_response.dart';
 import 'package:testabd/data/remote_source/account/model/my_info_response.dart';
 import 'package:testabd/data/remote_source/account/model/notifications_response.dart';
-import 'package:testabd/domain/account/entities/personal_info_dto.dart';
-import 'package:testabd/main.dart';
 
 abstract class AccountSource {
   Future<MyInfoResponse> getUserInfo();
@@ -18,10 +17,11 @@ abstract class AccountSource {
   Future<UserProfileResponse> getProfile(String username);
   Future<UserConnectionsResponse> getFollowers(int userId);
   Future<String> followUser(int userId);
-  Future<MyInfoResponse> changePersonalInfo(Map<String, dynamic> data);
+  Future<MyInfoResponse> updateMyInfo(Map<String, dynamic> data);
   Future<List<CountryItemResponse>> getCountries();
   Future<List<RegionItemResponse>> getRegions(int? countryId);
   Future<List<DistrictItemResponse>> getDistricts(int? regionId);
+  Future<List<SettlementItemResponse>> getSettlements(int? districtId);
 }
 
 @Injectable(as: AccountSource)
@@ -103,7 +103,7 @@ class AccountSourceImpl implements AccountSource {
   }
 
   @override
-  Future<MyInfoResponse> changePersonalInfo(Map<String, dynamic> data) async {
+  Future<MyInfoResponse> updateMyInfo(Map<String, dynamic> data) async {
     try {
       final response = await _dio.patch("/accounts/me/update/", data: data);
       return MyInfoResponse.fromJson(response.data);
@@ -148,6 +148,20 @@ class AccountSourceImpl implements AccountSource {
       final response = await _dio.get("/accounts/districts/$regionId/");
       return (response.data as List<dynamic>)
           .map((e) => DistrictItemResponse.fromJson(e))
+          .toList();
+    } on DioException catch (e) {
+      throw e.handleDioException();
+    } catch (e, stackTrace) {
+      throw UnknownException(e.toString(), stackTrace: stackTrace);
+    }
+  }
+
+  @override
+  Future<List<SettlementItemResponse>> getSettlements(int? districtId) async {
+    try {
+      final response = await _dio.get("/accounts/settlements/$districtId/");
+      return (response.data as List<dynamic>)
+          .map((e) => SettlementItemResponse.fromJson(e))
           .toList();
     } on DioException catch (e) {
       throw e.handleDioException();

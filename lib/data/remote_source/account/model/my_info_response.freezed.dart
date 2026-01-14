@@ -23,13 +23,13 @@ mixin _$MyInfoResponse {
   @JsonKey(name: 'id')
   int? get id => throw _privateConstructorUsedError;
   @JsonKey(name: 'country')
-  MyInfoCountry? get country => throw _privateConstructorUsedError;
+  CountryInfo? get country => throw _privateConstructorUsedError;
   @JsonKey(name: 'region')
-  String? get region => throw _privateConstructorUsedError;
+  RegionInfo? get region => throw _privateConstructorUsedError;
   @JsonKey(name: 'district')
-  String? get district => throw _privateConstructorUsedError;
+  DistrictInfo? get district => throw _privateConstructorUsedError;
   @JsonKey(name: 'settlement')
-  String? get settlement => throw _privateConstructorUsedError;
+  SettlementInfo? get settlement => throw _privateConstructorUsedError;
   @JsonKey(name: 'categories_of_interest')
   List<String> get categoriesOfInterest => throw _privateConstructorUsedError;
   @JsonKey(name: 'coin_percentage')
@@ -113,10 +113,10 @@ abstract class $MyInfoResponseCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: 'id') int? id,
-      @JsonKey(name: 'country') MyInfoCountry? country,
-      @JsonKey(name: 'region') String? region,
-      @JsonKey(name: 'district') String? district,
-      @JsonKey(name: 'settlement') String? settlement,
+      @JsonKey(name: 'country') CountryInfo? country,
+      @JsonKey(name: 'region') RegionInfo? region,
+      @JsonKey(name: 'district') DistrictInfo? district,
+      @JsonKey(name: 'settlement') SettlementInfo? settlement,
       @JsonKey(name: 'categories_of_interest')
       List<String> categoriesOfInterest,
       @JsonKey(name: 'coin_percentage') double? coinPercentage,
@@ -153,7 +153,10 @@ abstract class $MyInfoResponseCopyWith<$Res> {
       @JsonKey(name: 'groups') List<String> groups,
       @JsonKey(name: 'user_permissions') List<String> userPermissions});
 
-  $MyInfoCountryCopyWith<$Res>? get country;
+  $CountryInfoCopyWith<$Res>? get country;
+  $RegionInfoCopyWith<$Res>? get region;
+  $DistrictInfoCopyWith<$Res>? get district;
+  $SettlementInfoCopyWith<$Res>? get settlement;
   $WeeklyTestCountCopyWith<$Res>? get weeklyTestCount;
 }
 
@@ -218,19 +221,19 @@ class _$MyInfoResponseCopyWithImpl<$Res, $Val extends MyInfoResponse>
       country: freezed == country
           ? _value.country
           : country // ignore: cast_nullable_to_non_nullable
-              as MyInfoCountry?,
+              as CountryInfo?,
       region: freezed == region
           ? _value.region
           : region // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as RegionInfo?,
       district: freezed == district
           ? _value.district
           : district // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as DistrictInfo?,
       settlement: freezed == settlement
           ? _value.settlement
           : settlement // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as SettlementInfo?,
       categoriesOfInterest: null == categoriesOfInterest
           ? _value.categoriesOfInterest
           : categoriesOfInterest // ignore: cast_nullable_to_non_nullable
@@ -372,13 +375,49 @@ class _$MyInfoResponseCopyWithImpl<$Res, $Val extends MyInfoResponse>
 
   @override
   @pragma('vm:prefer-inline')
-  $MyInfoCountryCopyWith<$Res>? get country {
+  $CountryInfoCopyWith<$Res>? get country {
     if (_value.country == null) {
       return null;
     }
 
-    return $MyInfoCountryCopyWith<$Res>(_value.country!, (value) {
+    return $CountryInfoCopyWith<$Res>(_value.country!, (value) {
       return _then(_value.copyWith(country: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $RegionInfoCopyWith<$Res>? get region {
+    if (_value.region == null) {
+      return null;
+    }
+
+    return $RegionInfoCopyWith<$Res>(_value.region!, (value) {
+      return _then(_value.copyWith(region: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $DistrictInfoCopyWith<$Res>? get district {
+    if (_value.district == null) {
+      return null;
+    }
+
+    return $DistrictInfoCopyWith<$Res>(_value.district!, (value) {
+      return _then(_value.copyWith(district: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $SettlementInfoCopyWith<$Res>? get settlement {
+    if (_value.settlement == null) {
+      return null;
+    }
+
+    return $SettlementInfoCopyWith<$Res>(_value.settlement!, (value) {
+      return _then(_value.copyWith(settlement: value) as $Val);
     });
   }
 
@@ -405,10 +444,10 @@ abstract class _$$MyInfoResponseImplCopyWith<$Res>
   @useResult
   $Res call(
       {@JsonKey(name: 'id') int? id,
-      @JsonKey(name: 'country') MyInfoCountry? country,
-      @JsonKey(name: 'region') String? region,
-      @JsonKey(name: 'district') String? district,
-      @JsonKey(name: 'settlement') String? settlement,
+      @JsonKey(name: 'country') CountryInfo? country,
+      @JsonKey(name: 'region') RegionInfo? region,
+      @JsonKey(name: 'district') DistrictInfo? district,
+      @JsonKey(name: 'settlement') SettlementInfo? settlement,
       @JsonKey(name: 'categories_of_interest')
       List<String> categoriesOfInterest,
       @JsonKey(name: 'coin_percentage') double? coinPercentage,
@@ -446,7 +485,13 @@ abstract class _$$MyInfoResponseImplCopyWith<$Res>
       @JsonKey(name: 'user_permissions') List<String> userPermissions});
 
   @override
-  $MyInfoCountryCopyWith<$Res>? get country;
+  $CountryInfoCopyWith<$Res>? get country;
+  @override
+  $RegionInfoCopyWith<$Res>? get region;
+  @override
+  $DistrictInfoCopyWith<$Res>? get district;
+  @override
+  $SettlementInfoCopyWith<$Res>? get settlement;
   @override
   $WeeklyTestCountCopyWith<$Res>? get weeklyTestCount;
 }
@@ -510,19 +555,19 @@ class __$$MyInfoResponseImplCopyWithImpl<$Res>
       country: freezed == country
           ? _value.country
           : country // ignore: cast_nullable_to_non_nullable
-              as MyInfoCountry?,
+              as CountryInfo?,
       region: freezed == region
           ? _value.region
           : region // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as RegionInfo?,
       district: freezed == district
           ? _value.district
           : district // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as DistrictInfo?,
       settlement: freezed == settlement
           ? _value.settlement
           : settlement // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as SettlementInfo?,
       categoriesOfInterest: null == categoriesOfInterest
           ? _value._categoriesOfInterest
           : categoriesOfInterest // ignore: cast_nullable_to_non_nullable
@@ -720,16 +765,16 @@ class _$MyInfoResponseImpl implements _MyInfoResponse {
   final int? id;
   @override
   @JsonKey(name: 'country')
-  final MyInfoCountry? country;
+  final CountryInfo? country;
   @override
   @JsonKey(name: 'region')
-  final String? region;
+  final RegionInfo? region;
   @override
   @JsonKey(name: 'district')
-  final String? district;
+  final DistrictInfo? district;
   @override
   @JsonKey(name: 'settlement')
-  final String? settlement;
+  final SettlementInfo? settlement;
   final List<String> _categoriesOfInterest;
   @override
   @JsonKey(name: 'categories_of_interest')
@@ -994,10 +1039,10 @@ class _$MyInfoResponseImpl implements _MyInfoResponse {
 abstract class _MyInfoResponse implements MyInfoResponse {
   const factory _MyInfoResponse(
       {@JsonKey(name: 'id') final int? id,
-      @JsonKey(name: 'country') final MyInfoCountry? country,
-      @JsonKey(name: 'region') final String? region,
-      @JsonKey(name: 'district') final String? district,
-      @JsonKey(name: 'settlement') final String? settlement,
+      @JsonKey(name: 'country') final CountryInfo? country,
+      @JsonKey(name: 'region') final RegionInfo? region,
+      @JsonKey(name: 'district') final DistrictInfo? district,
+      @JsonKey(name: 'settlement') final SettlementInfo? settlement,
       @JsonKey(name: 'categories_of_interest')
       final List<String> categoriesOfInterest,
       @JsonKey(name: 'coin_percentage') final double? coinPercentage,
@@ -1044,16 +1089,16 @@ abstract class _MyInfoResponse implements MyInfoResponse {
   int? get id;
   @override
   @JsonKey(name: 'country')
-  MyInfoCountry? get country;
+  CountryInfo? get country;
   @override
   @JsonKey(name: 'region')
-  String? get region;
+  RegionInfo? get region;
   @override
   @JsonKey(name: 'district')
-  String? get district;
+  DistrictInfo? get district;
   @override
   @JsonKey(name: 'settlement')
-  String? get settlement;
+  SettlementInfo? get settlement;
   @override
   @JsonKey(name: 'categories_of_interest')
   List<String> get categoriesOfInterest;
@@ -1162,12 +1207,12 @@ abstract class _MyInfoResponse implements MyInfoResponse {
       throw _privateConstructorUsedError;
 }
 
-MyInfoCountry _$MyInfoCountryFromJson(Map<String, dynamic> json) {
-  return _MyInfoCountry.fromJson(json);
+CountryInfo _$CountryInfoFromJson(Map<String, dynamic> json) {
+  return _CountryInfo.fromJson(json);
 }
 
 /// @nodoc
-mixin _$MyInfoCountry {
+mixin _$CountryInfo {
   @JsonKey(name: 'id')
   int? get id => throw _privateConstructorUsedError;
   @JsonKey(name: 'name')
@@ -1181,15 +1226,15 @@ mixin _$MyInfoCountry {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $MyInfoCountryCopyWith<MyInfoCountry> get copyWith =>
+  $CountryInfoCopyWith<CountryInfo> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $MyInfoCountryCopyWith<$Res> {
-  factory $MyInfoCountryCopyWith(
-          MyInfoCountry value, $Res Function(MyInfoCountry) then) =
-      _$MyInfoCountryCopyWithImpl<$Res, MyInfoCountry>;
+abstract class $CountryInfoCopyWith<$Res> {
+  factory $CountryInfoCopyWith(
+          CountryInfo value, $Res Function(CountryInfo) then) =
+      _$CountryInfoCopyWithImpl<$Res, CountryInfo>;
   @useResult
   $Res call(
       {@JsonKey(name: 'id') int? id,
@@ -1200,9 +1245,9 @@ abstract class $MyInfoCountryCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$MyInfoCountryCopyWithImpl<$Res, $Val extends MyInfoCountry>
-    implements $MyInfoCountryCopyWith<$Res> {
-  _$MyInfoCountryCopyWithImpl(this._value, this._then);
+class _$CountryInfoCopyWithImpl<$Res, $Val extends CountryInfo>
+    implements $CountryInfoCopyWith<$Res> {
+  _$CountryInfoCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -1244,11 +1289,11 @@ class _$MyInfoCountryCopyWithImpl<$Res, $Val extends MyInfoCountry>
 }
 
 /// @nodoc
-abstract class _$$MyInfoCountryImplCopyWith<$Res>
-    implements $MyInfoCountryCopyWith<$Res> {
-  factory _$$MyInfoCountryImplCopyWith(
-          _$MyInfoCountryImpl value, $Res Function(_$MyInfoCountryImpl) then) =
-      __$$MyInfoCountryImplCopyWithImpl<$Res>;
+abstract class _$$CountryInfoImplCopyWith<$Res>
+    implements $CountryInfoCopyWith<$Res> {
+  factory _$$CountryInfoImplCopyWith(
+          _$CountryInfoImpl value, $Res Function(_$CountryInfoImpl) then) =
+      __$$CountryInfoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -1260,11 +1305,11 @@ abstract class _$$MyInfoCountryImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$MyInfoCountryImplCopyWithImpl<$Res>
-    extends _$MyInfoCountryCopyWithImpl<$Res, _$MyInfoCountryImpl>
-    implements _$$MyInfoCountryImplCopyWith<$Res> {
-  __$$MyInfoCountryImplCopyWithImpl(
-      _$MyInfoCountryImpl _value, $Res Function(_$MyInfoCountryImpl) _then)
+class __$$CountryInfoImplCopyWithImpl<$Res>
+    extends _$CountryInfoCopyWithImpl<$Res, _$CountryInfoImpl>
+    implements _$$CountryInfoImplCopyWith<$Res> {
+  __$$CountryInfoImplCopyWithImpl(
+      _$CountryInfoImpl _value, $Res Function(_$CountryInfoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -1276,7 +1321,7 @@ class __$$MyInfoCountryImplCopyWithImpl<$Res>
     Object? lat = freezed,
     Object? lon = freezed,
   }) {
-    return _then(_$MyInfoCountryImpl(
+    return _then(_$CountryInfoImpl(
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -1303,16 +1348,16 @@ class __$$MyInfoCountryImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$MyInfoCountryImpl implements _MyInfoCountry {
-  const _$MyInfoCountryImpl(
+class _$CountryInfoImpl implements _CountryInfo {
+  const _$CountryInfoImpl(
       {@JsonKey(name: 'id') this.id,
       @JsonKey(name: 'name') this.name,
       @JsonKey(name: 'code') this.code,
       @JsonKey(name: 'lat') this.lat,
       @JsonKey(name: 'lon') this.lon});
 
-  factory _$MyInfoCountryImpl.fromJson(Map<String, dynamic> json) =>
-      _$$MyInfoCountryImplFromJson(json);
+  factory _$CountryInfoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CountryInfoImplFromJson(json);
 
   @override
   @JsonKey(name: 'id')
@@ -1332,14 +1377,14 @@ class _$MyInfoCountryImpl implements _MyInfoCountry {
 
   @override
   String toString() {
-    return 'MyInfoCountry(id: $id, name: $name, code: $code, lat: $lat, lon: $lon)';
+    return 'CountryInfo(id: $id, name: $name, code: $code, lat: $lat, lon: $lon)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$MyInfoCountryImpl &&
+            other is _$CountryInfoImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.code, code) || other.code == code) &&
@@ -1354,27 +1399,27 @@ class _$MyInfoCountryImpl implements _MyInfoCountry {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$MyInfoCountryImplCopyWith<_$MyInfoCountryImpl> get copyWith =>
-      __$$MyInfoCountryImplCopyWithImpl<_$MyInfoCountryImpl>(this, _$identity);
+  _$$CountryInfoImplCopyWith<_$CountryInfoImpl> get copyWith =>
+      __$$CountryInfoImplCopyWithImpl<_$CountryInfoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$MyInfoCountryImplToJson(
+    return _$$CountryInfoImplToJson(
       this,
     );
   }
 }
 
-abstract class _MyInfoCountry implements MyInfoCountry {
-  const factory _MyInfoCountry(
+abstract class _CountryInfo implements CountryInfo {
+  const factory _CountryInfo(
       {@JsonKey(name: 'id') final int? id,
       @JsonKey(name: 'name') final String? name,
       @JsonKey(name: 'code') final String? code,
       @JsonKey(name: 'lat') final double? lat,
-      @JsonKey(name: 'lon') final double? lon}) = _$MyInfoCountryImpl;
+      @JsonKey(name: 'lon') final double? lon}) = _$CountryInfoImpl;
 
-  factory _MyInfoCountry.fromJson(Map<String, dynamic> json) =
-      _$MyInfoCountryImpl.fromJson;
+  factory _CountryInfo.fromJson(Map<String, dynamic> json) =
+      _$CountryInfoImpl.fromJson;
 
   @override
   @JsonKey(name: 'id')
@@ -1393,7 +1438,714 @@ abstract class _MyInfoCountry implements MyInfoCountry {
   double? get lon;
   @override
   @JsonKey(ignore: true)
-  _$$MyInfoCountryImplCopyWith<_$MyInfoCountryImpl> get copyWith =>
+  _$$CountryInfoImplCopyWith<_$CountryInfoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+RegionInfo _$RegionInfoFromJson(Map<String, dynamic> json) {
+  return _RegionInfo.fromJson(json);
+}
+
+/// @nodoc
+mixin _$RegionInfo {
+  @JsonKey(name: 'id')
+  int? get id => throw _privateConstructorUsedError;
+  @JsonKey(name: 'country')
+  int? get country => throw _privateConstructorUsedError;
+  @JsonKey(name: 'name')
+  String? get name => throw _privateConstructorUsedError;
+  @JsonKey(name: 'lat')
+  double? get lat => throw _privateConstructorUsedError;
+  @JsonKey(name: 'lon')
+  double? get lon => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $RegionInfoCopyWith<RegionInfo> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RegionInfoCopyWith<$Res> {
+  factory $RegionInfoCopyWith(
+          RegionInfo value, $Res Function(RegionInfo) then) =
+      _$RegionInfoCopyWithImpl<$Res, RegionInfo>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'id') int? id,
+      @JsonKey(name: 'country') int? country,
+      @JsonKey(name: 'name') String? name,
+      @JsonKey(name: 'lat') double? lat,
+      @JsonKey(name: 'lon') double? lon});
+}
+
+/// @nodoc
+class _$RegionInfoCopyWithImpl<$Res, $Val extends RegionInfo>
+    implements $RegionInfoCopyWith<$Res> {
+  _$RegionInfoCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = freezed,
+    Object? country = freezed,
+    Object? name = freezed,
+    Object? lat = freezed,
+    Object? lon = freezed,
+  }) {
+    return _then(_value.copyWith(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
+      country: freezed == country
+          ? _value.country
+          : country // ignore: cast_nullable_to_non_nullable
+              as int?,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      lat: freezed == lat
+          ? _value.lat
+          : lat // ignore: cast_nullable_to_non_nullable
+              as double?,
+      lon: freezed == lon
+          ? _value.lon
+          : lon // ignore: cast_nullable_to_non_nullable
+              as double?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$RegionInfoImplCopyWith<$Res>
+    implements $RegionInfoCopyWith<$Res> {
+  factory _$$RegionInfoImplCopyWith(
+          _$RegionInfoImpl value, $Res Function(_$RegionInfoImpl) then) =
+      __$$RegionInfoImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'id') int? id,
+      @JsonKey(name: 'country') int? country,
+      @JsonKey(name: 'name') String? name,
+      @JsonKey(name: 'lat') double? lat,
+      @JsonKey(name: 'lon') double? lon});
+}
+
+/// @nodoc
+class __$$RegionInfoImplCopyWithImpl<$Res>
+    extends _$RegionInfoCopyWithImpl<$Res, _$RegionInfoImpl>
+    implements _$$RegionInfoImplCopyWith<$Res> {
+  __$$RegionInfoImplCopyWithImpl(
+      _$RegionInfoImpl _value, $Res Function(_$RegionInfoImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = freezed,
+    Object? country = freezed,
+    Object? name = freezed,
+    Object? lat = freezed,
+    Object? lon = freezed,
+  }) {
+    return _then(_$RegionInfoImpl(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
+      country: freezed == country
+          ? _value.country
+          : country // ignore: cast_nullable_to_non_nullable
+              as int?,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      lat: freezed == lat
+          ? _value.lat
+          : lat // ignore: cast_nullable_to_non_nullable
+              as double?,
+      lon: freezed == lon
+          ? _value.lon
+          : lon // ignore: cast_nullable_to_non_nullable
+              as double?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RegionInfoImpl implements _RegionInfo {
+  const _$RegionInfoImpl(
+      {@JsonKey(name: 'id') this.id,
+      @JsonKey(name: 'country') this.country,
+      @JsonKey(name: 'name') this.name,
+      @JsonKey(name: 'lat') this.lat,
+      @JsonKey(name: 'lon') this.lon});
+
+  factory _$RegionInfoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RegionInfoImplFromJson(json);
+
+  @override
+  @JsonKey(name: 'id')
+  final int? id;
+  @override
+  @JsonKey(name: 'country')
+  final int? country;
+  @override
+  @JsonKey(name: 'name')
+  final String? name;
+  @override
+  @JsonKey(name: 'lat')
+  final double? lat;
+  @override
+  @JsonKey(name: 'lon')
+  final double? lon;
+
+  @override
+  String toString() {
+    return 'RegionInfo(id: $id, country: $country, name: $name, lat: $lat, lon: $lon)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RegionInfoImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.country, country) || other.country == country) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.lat, lat) || other.lat == lat) &&
+            (identical(other.lon, lon) || other.lon == lon));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, country, name, lat, lon);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RegionInfoImplCopyWith<_$RegionInfoImpl> get copyWith =>
+      __$$RegionInfoImplCopyWithImpl<_$RegionInfoImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RegionInfoImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _RegionInfo implements RegionInfo {
+  const factory _RegionInfo(
+      {@JsonKey(name: 'id') final int? id,
+      @JsonKey(name: 'country') final int? country,
+      @JsonKey(name: 'name') final String? name,
+      @JsonKey(name: 'lat') final double? lat,
+      @JsonKey(name: 'lon') final double? lon}) = _$RegionInfoImpl;
+
+  factory _RegionInfo.fromJson(Map<String, dynamic> json) =
+      _$RegionInfoImpl.fromJson;
+
+  @override
+  @JsonKey(name: 'id')
+  int? get id;
+  @override
+  @JsonKey(name: 'country')
+  int? get country;
+  @override
+  @JsonKey(name: 'name')
+  String? get name;
+  @override
+  @JsonKey(name: 'lat')
+  double? get lat;
+  @override
+  @JsonKey(name: 'lon')
+  double? get lon;
+  @override
+  @JsonKey(ignore: true)
+  _$$RegionInfoImplCopyWith<_$RegionInfoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+DistrictInfo _$DistrictInfoFromJson(Map<String, dynamic> json) {
+  return _DistrictInfo.fromJson(json);
+}
+
+/// @nodoc
+mixin _$DistrictInfo {
+  @JsonKey(name: 'id')
+  int? get id => throw _privateConstructorUsedError;
+  @JsonKey(name: 'region')
+  int? get region => throw _privateConstructorUsedError;
+  @JsonKey(name: 'name')
+  String? get name => throw _privateConstructorUsedError;
+  @JsonKey(name: 'lat')
+  double? get lat => throw _privateConstructorUsedError;
+  @JsonKey(name: 'lon')
+  double? get lon => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $DistrictInfoCopyWith<DistrictInfo> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $DistrictInfoCopyWith<$Res> {
+  factory $DistrictInfoCopyWith(
+          DistrictInfo value, $Res Function(DistrictInfo) then) =
+      _$DistrictInfoCopyWithImpl<$Res, DistrictInfo>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'id') int? id,
+      @JsonKey(name: 'region') int? region,
+      @JsonKey(name: 'name') String? name,
+      @JsonKey(name: 'lat') double? lat,
+      @JsonKey(name: 'lon') double? lon});
+}
+
+/// @nodoc
+class _$DistrictInfoCopyWithImpl<$Res, $Val extends DistrictInfo>
+    implements $DistrictInfoCopyWith<$Res> {
+  _$DistrictInfoCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = freezed,
+    Object? region = freezed,
+    Object? name = freezed,
+    Object? lat = freezed,
+    Object? lon = freezed,
+  }) {
+    return _then(_value.copyWith(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
+      region: freezed == region
+          ? _value.region
+          : region // ignore: cast_nullable_to_non_nullable
+              as int?,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      lat: freezed == lat
+          ? _value.lat
+          : lat // ignore: cast_nullable_to_non_nullable
+              as double?,
+      lon: freezed == lon
+          ? _value.lon
+          : lon // ignore: cast_nullable_to_non_nullable
+              as double?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$DistrictInfoImplCopyWith<$Res>
+    implements $DistrictInfoCopyWith<$Res> {
+  factory _$$DistrictInfoImplCopyWith(
+          _$DistrictInfoImpl value, $Res Function(_$DistrictInfoImpl) then) =
+      __$$DistrictInfoImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'id') int? id,
+      @JsonKey(name: 'region') int? region,
+      @JsonKey(name: 'name') String? name,
+      @JsonKey(name: 'lat') double? lat,
+      @JsonKey(name: 'lon') double? lon});
+}
+
+/// @nodoc
+class __$$DistrictInfoImplCopyWithImpl<$Res>
+    extends _$DistrictInfoCopyWithImpl<$Res, _$DistrictInfoImpl>
+    implements _$$DistrictInfoImplCopyWith<$Res> {
+  __$$DistrictInfoImplCopyWithImpl(
+      _$DistrictInfoImpl _value, $Res Function(_$DistrictInfoImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = freezed,
+    Object? region = freezed,
+    Object? name = freezed,
+    Object? lat = freezed,
+    Object? lon = freezed,
+  }) {
+    return _then(_$DistrictInfoImpl(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
+      region: freezed == region
+          ? _value.region
+          : region // ignore: cast_nullable_to_non_nullable
+              as int?,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      lat: freezed == lat
+          ? _value.lat
+          : lat // ignore: cast_nullable_to_non_nullable
+              as double?,
+      lon: freezed == lon
+          ? _value.lon
+          : lon // ignore: cast_nullable_to_non_nullable
+              as double?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$DistrictInfoImpl implements _DistrictInfo {
+  const _$DistrictInfoImpl(
+      {@JsonKey(name: 'id') this.id,
+      @JsonKey(name: 'region') this.region,
+      @JsonKey(name: 'name') this.name,
+      @JsonKey(name: 'lat') this.lat,
+      @JsonKey(name: 'lon') this.lon});
+
+  factory _$DistrictInfoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$DistrictInfoImplFromJson(json);
+
+  @override
+  @JsonKey(name: 'id')
+  final int? id;
+  @override
+  @JsonKey(name: 'region')
+  final int? region;
+  @override
+  @JsonKey(name: 'name')
+  final String? name;
+  @override
+  @JsonKey(name: 'lat')
+  final double? lat;
+  @override
+  @JsonKey(name: 'lon')
+  final double? lon;
+
+  @override
+  String toString() {
+    return 'DistrictInfo(id: $id, region: $region, name: $name, lat: $lat, lon: $lon)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$DistrictInfoImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.region, region) || other.region == region) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.lat, lat) || other.lat == lat) &&
+            (identical(other.lon, lon) || other.lon == lon));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, region, name, lat, lon);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$DistrictInfoImplCopyWith<_$DistrictInfoImpl> get copyWith =>
+      __$$DistrictInfoImplCopyWithImpl<_$DistrictInfoImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$DistrictInfoImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _DistrictInfo implements DistrictInfo {
+  const factory _DistrictInfo(
+      {@JsonKey(name: 'id') final int? id,
+      @JsonKey(name: 'region') final int? region,
+      @JsonKey(name: 'name') final String? name,
+      @JsonKey(name: 'lat') final double? lat,
+      @JsonKey(name: 'lon') final double? lon}) = _$DistrictInfoImpl;
+
+  factory _DistrictInfo.fromJson(Map<String, dynamic> json) =
+      _$DistrictInfoImpl.fromJson;
+
+  @override
+  @JsonKey(name: 'id')
+  int? get id;
+  @override
+  @JsonKey(name: 'region')
+  int? get region;
+  @override
+  @JsonKey(name: 'name')
+  String? get name;
+  @override
+  @JsonKey(name: 'lat')
+  double? get lat;
+  @override
+  @JsonKey(name: 'lon')
+  double? get lon;
+  @override
+  @JsonKey(ignore: true)
+  _$$DistrictInfoImplCopyWith<_$DistrictInfoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+SettlementInfo _$SettlementInfoFromJson(Map<String, dynamic> json) {
+  return _SettlementInfo.fromJson(json);
+}
+
+/// @nodoc
+mixin _$SettlementInfo {
+  @JsonKey(name: 'id')
+  int? get id => throw _privateConstructorUsedError;
+  @JsonKey(name: 'district')
+  int? get district => throw _privateConstructorUsedError;
+  @JsonKey(name: 'name')
+  String? get name => throw _privateConstructorUsedError;
+  @JsonKey(name: 'lat')
+  double? get lat => throw _privateConstructorUsedError;
+  @JsonKey(name: 'lon')
+  double? get lon => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $SettlementInfoCopyWith<SettlementInfo> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $SettlementInfoCopyWith<$Res> {
+  factory $SettlementInfoCopyWith(
+          SettlementInfo value, $Res Function(SettlementInfo) then) =
+      _$SettlementInfoCopyWithImpl<$Res, SettlementInfo>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'id') int? id,
+      @JsonKey(name: 'district') int? district,
+      @JsonKey(name: 'name') String? name,
+      @JsonKey(name: 'lat') double? lat,
+      @JsonKey(name: 'lon') double? lon});
+}
+
+/// @nodoc
+class _$SettlementInfoCopyWithImpl<$Res, $Val extends SettlementInfo>
+    implements $SettlementInfoCopyWith<$Res> {
+  _$SettlementInfoCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = freezed,
+    Object? district = freezed,
+    Object? name = freezed,
+    Object? lat = freezed,
+    Object? lon = freezed,
+  }) {
+    return _then(_value.copyWith(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
+      district: freezed == district
+          ? _value.district
+          : district // ignore: cast_nullable_to_non_nullable
+              as int?,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      lat: freezed == lat
+          ? _value.lat
+          : lat // ignore: cast_nullable_to_non_nullable
+              as double?,
+      lon: freezed == lon
+          ? _value.lon
+          : lon // ignore: cast_nullable_to_non_nullable
+              as double?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$SettlementInfoImplCopyWith<$Res>
+    implements $SettlementInfoCopyWith<$Res> {
+  factory _$$SettlementInfoImplCopyWith(_$SettlementInfoImpl value,
+          $Res Function(_$SettlementInfoImpl) then) =
+      __$$SettlementInfoImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'id') int? id,
+      @JsonKey(name: 'district') int? district,
+      @JsonKey(name: 'name') String? name,
+      @JsonKey(name: 'lat') double? lat,
+      @JsonKey(name: 'lon') double? lon});
+}
+
+/// @nodoc
+class __$$SettlementInfoImplCopyWithImpl<$Res>
+    extends _$SettlementInfoCopyWithImpl<$Res, _$SettlementInfoImpl>
+    implements _$$SettlementInfoImplCopyWith<$Res> {
+  __$$SettlementInfoImplCopyWithImpl(
+      _$SettlementInfoImpl _value, $Res Function(_$SettlementInfoImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = freezed,
+    Object? district = freezed,
+    Object? name = freezed,
+    Object? lat = freezed,
+    Object? lon = freezed,
+  }) {
+    return _then(_$SettlementInfoImpl(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
+      district: freezed == district
+          ? _value.district
+          : district // ignore: cast_nullable_to_non_nullable
+              as int?,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      lat: freezed == lat
+          ? _value.lat
+          : lat // ignore: cast_nullable_to_non_nullable
+              as double?,
+      lon: freezed == lon
+          ? _value.lon
+          : lon // ignore: cast_nullable_to_non_nullable
+              as double?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$SettlementInfoImpl implements _SettlementInfo {
+  const _$SettlementInfoImpl(
+      {@JsonKey(name: 'id') this.id,
+      @JsonKey(name: 'district') this.district,
+      @JsonKey(name: 'name') this.name,
+      @JsonKey(name: 'lat') this.lat,
+      @JsonKey(name: 'lon') this.lon});
+
+  factory _$SettlementInfoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$SettlementInfoImplFromJson(json);
+
+  @override
+  @JsonKey(name: 'id')
+  final int? id;
+  @override
+  @JsonKey(name: 'district')
+  final int? district;
+  @override
+  @JsonKey(name: 'name')
+  final String? name;
+  @override
+  @JsonKey(name: 'lat')
+  final double? lat;
+  @override
+  @JsonKey(name: 'lon')
+  final double? lon;
+
+  @override
+  String toString() {
+    return 'SettlementInfo(id: $id, district: $district, name: $name, lat: $lat, lon: $lon)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$SettlementInfoImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.district, district) ||
+                other.district == district) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.lat, lat) || other.lat == lat) &&
+            (identical(other.lon, lon) || other.lon == lon));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, district, name, lat, lon);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SettlementInfoImplCopyWith<_$SettlementInfoImpl> get copyWith =>
+      __$$SettlementInfoImplCopyWithImpl<_$SettlementInfoImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$SettlementInfoImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _SettlementInfo implements SettlementInfo {
+  const factory _SettlementInfo(
+      {@JsonKey(name: 'id') final int? id,
+      @JsonKey(name: 'district') final int? district,
+      @JsonKey(name: 'name') final String? name,
+      @JsonKey(name: 'lat') final double? lat,
+      @JsonKey(name: 'lon') final double? lon}) = _$SettlementInfoImpl;
+
+  factory _SettlementInfo.fromJson(Map<String, dynamic> json) =
+      _$SettlementInfoImpl.fromJson;
+
+  @override
+  @JsonKey(name: 'id')
+  int? get id;
+  @override
+  @JsonKey(name: 'district')
+  int? get district;
+  @override
+  @JsonKey(name: 'name')
+  String? get name;
+  @override
+  @JsonKey(name: 'lat')
+  double? get lat;
+  @override
+  @JsonKey(name: 'lon')
+  double? get lon;
+  @override
+  @JsonKey(ignore: true)
+  _$$SettlementInfoImplCopyWith<_$SettlementInfoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

@@ -18,7 +18,7 @@ class MyInfoDbAdapter extends TypeAdapter<MyInfoDb> {
     };
     return MyInfoDb(
       id: fields[0] as int?,
-      country: fields[1] as CountryModelDb?,
+      country: fields[1] as CountryHiveModel?,
       region: fields[2] as String?,
       district: fields[3] as String?,
       settlement: fields[4] as String?,
@@ -154,17 +154,17 @@ class MyInfoDbAdapter extends TypeAdapter<MyInfoDb> {
           typeId == other.typeId;
 }
 
-class CountryModelDbAdapter extends TypeAdapter<CountryModelDb> {
+class CountryHiveModelAdapter extends TypeAdapter<CountryHiveModel> {
   @override
-  final int typeId = 2;
+  final int typeId = 1;
 
   @override
-  CountryModelDb read(BinaryReader reader) {
+  CountryHiveModel read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return CountryModelDb(
+    return CountryHiveModel(
       id: fields[0] as int?,
       name: fields[1] as String?,
       code: fields[2] as String?,
@@ -174,7 +174,7 @@ class CountryModelDbAdapter extends TypeAdapter<CountryModelDb> {
   }
 
   @override
-  void write(BinaryWriter writer, CountryModelDb obj) {
+  void write(BinaryWriter writer, CountryHiveModel obj) {
     writer
       ..writeByte(5)
       ..writeByte(0)
@@ -195,14 +195,143 @@ class CountryModelDbAdapter extends TypeAdapter<CountryModelDb> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is CountryModelDbAdapter &&
+      other is CountryHiveModelAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
+
+class RegionHiveModelAdapter extends TypeAdapter<RegionHiveModel> {
+  @override
+  final int typeId = 2;
+
+  @override
+  RegionHiveModel read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return RegionHiveModel(
+      name: fields[0] as String?,
+      lat: fields[1] as double?,
+      lon: fields[2] as double?,
+      country: fields[3] as int?,
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, RegionHiveModel obj) {
+    writer
+      ..writeByte(4)
+      ..writeByte(0)
+      ..write(obj.name)
+      ..writeByte(1)
+      ..write(obj.lat)
+      ..writeByte(2)
+      ..write(obj.lon)
+      ..writeByte(3)
+      ..write(obj.country);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is RegionHiveModelAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
+
+class DistrictHiveModelAdapter extends TypeAdapter<DistrictHiveModel> {
+  @override
+  final int typeId = 3;
+
+  @override
+  DistrictHiveModel read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return DistrictHiveModel(
+      name: fields[0] as String?,
+      lat: fields[1] as double?,
+      lon: fields[2] as double?,
+      region: fields[3] as int?,
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, DistrictHiveModel obj) {
+    writer
+      ..writeByte(4)
+      ..writeByte(0)
+      ..write(obj.name)
+      ..writeByte(1)
+      ..write(obj.lat)
+      ..writeByte(2)
+      ..write(obj.lon)
+      ..writeByte(3)
+      ..write(obj.region);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is DistrictHiveModelAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
+
+class SettlementHiveModelAdapter extends TypeAdapter<SettlementHiveModel> {
+  @override
+  final int typeId = 4;
+
+  @override
+  SettlementHiveModel read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return SettlementHiveModel(
+      name: fields[0] as String?,
+      lat: fields[1] as double?,
+      lon: fields[2] as double?,
+      district: fields[3] as int?,
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, SettlementHiveModel obj) {
+    writer
+      ..writeByte(4)
+      ..writeByte(0)
+      ..write(obj.name)
+      ..writeByte(1)
+      ..write(obj.lat)
+      ..writeByte(2)
+      ..write(obj.lon)
+      ..writeByte(3)
+      ..write(obj.district);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is SettlementHiveModelAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
 
 class WeeklyTestCountDbAdapter extends TypeAdapter<WeeklyTestCountDb> {
   @override
-  final int typeId = 1;
+  final int typeId = 5;
 
   @override
   WeeklyTestCountDb read(BinaryReader reader) {

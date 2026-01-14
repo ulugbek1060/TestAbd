@@ -2,6 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:testabd/domain/account/entities/country_model.dart';
 import 'package:testabd/domain/account/entities/district_model.dart';
 import 'package:testabd/domain/account/entities/region_model.dart';
+import 'package:testabd/domain/account/entities/settlement_model.dart';
 
 part 'regional_settings_state.freezed.dart';
 
@@ -12,6 +13,7 @@ class RegionalSettingsState with _$RegionalSettingsState {
     @Default(CountriesState()) CountriesState countries,
     @Default(RegionsState()) RegionsState regions,
     @Default(DistrictsState()) DistrictsState districts,
+    @Default(SettlementState()) SettlementState settlement,
   }) = _RegionalSettingsState;
 }
 
@@ -44,4 +46,14 @@ class DistrictsState with _$DistrictsState {
     DistrictModel? selected,
     @Default([]) List<DistrictModel> districts,
   }) = _DistrictsState;
+}
+
+@freezed
+class SettlementState with _$SettlementState {
+  const factory SettlementState({
+    @Default(false) bool isLoading,
+    String? error,
+    SettlementModel? selected,
+    @Default([]) List<SettlementModel> settlements,
+  }) = _SettlementState;
 }

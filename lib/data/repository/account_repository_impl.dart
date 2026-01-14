@@ -12,6 +12,7 @@ import 'package:testabd/domain/account/entities/my_info_model.dart';
 import 'package:testabd/domain/account/entities/notification_model.dart';
 import 'package:testabd/domain/account/entities/personal_info_dto.dart';
 import 'package:testabd/domain/account/entities/region_model.dart';
+import 'package:testabd/domain/account/entities/settlement_model.dart';
 import 'package:testabd/domain/account/entities/user_connections_model.dart';
 import 'package:testabd/domain/account/entities/user_profile_model.dart';
 import 'package:testabd/main.dart';
@@ -132,7 +133,7 @@ class AccountRepositoryImpl implements AccountRepository {
     PersonalInfoDto personalInfoDto,
   ) async {
     try {
-      final result = await _accountSource.changePersonalInfo(
+      final result = await _accountSource.updateMyInfo(
         personalInfoDto.toJson(),
       );
       final model = MyInfoModel.fromResponse(result);
@@ -176,11 +177,26 @@ class AccountRepositoryImpl implements AccountRepository {
 
   @override
   Future<Either<AppException, List<DistrictModel>>> getDistricts(
-      int? districtId,
-      ) async {
+    int? regionId,
+  ) async {
     try {
-      final result = await _accountSource.getDistricts(districtId);
+      final result = await _accountSource.getDistricts(regionId);
       final list = result.map((e) => DistrictModel.fromResponse(e)).toList();
+      return Right(list);
+    } on AppException catch (e) {
+      return Left(e);
+    } catch (e, stackTrace) {
+      return Left(UnknownException(e.toString(), stackTrace: stackTrace));
+    }
+  }
+
+  @override
+  Future<Either<AppException, List<SettlementModel>>> getSettlements(
+    int? districtId,
+  ) async {
+    try {
+      final result = await _accountSource.getSettlements(districtId);
+      final list = result.map((e) => SettlementModel.fromResponse(e)).toList();
       return Right(list);
     } on AppException catch (e) {
       return Left(e);

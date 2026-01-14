@@ -8,7 +8,7 @@ class MyInfoDb extends HiveObject with EquatableMixin {
   @HiveField(0)
   final int? id;
   @HiveField(1)
-  final CountryModelDb? country;
+  final CountryHiveModel? country;
   @HiveField(2)
   final String? region;
   @HiveField(3)
@@ -171,8 +171,8 @@ class MyInfoDb extends HiveObject with EquatableMixin {
   ];
 }
 
-@HiveType(typeId: 2)
-class CountryModelDb extends HiveObject with EquatableMixin {
+@HiveType(typeId: 1)
+class CountryHiveModel extends HiveObject with EquatableMixin {
   @HiveField(0)
   final int? id;
   @HiveField(1)
@@ -184,7 +184,7 @@ class CountryModelDb extends HiveObject with EquatableMixin {
   @HiveField(4)
   final double? lon;
 
-  CountryModelDb({
+  CountryHiveModel({
     required this.id,
     required this.name,
     required this.code,
@@ -202,7 +202,100 @@ class CountryModelDb extends HiveObject with EquatableMixin {
   ];
 }
 
-@HiveType(typeId: 1)
+@HiveType(typeId: 2)
+class RegionHiveModel extends HiveObject with EquatableMixin {
+  @HiveField(0)
+  final String? name;
+
+  @HiveField(1)
+  final double? lat;
+
+  @HiveField(2)
+  final double? lon;
+
+  /// Reference to country ID
+  @HiveField(3)
+  final int? country;
+
+  RegionHiveModel({
+    this.name,
+    this.lat,
+    this.lon,
+    this.country,
+  });
+
+  @override
+  List<Object?> get props => [
+    name,
+    lat,
+    lon,
+    country,
+  ];
+}
+
+@HiveType(typeId: 3)
+class DistrictHiveModel extends HiveObject with EquatableMixin {
+  @HiveField(0)
+  final String? name;
+
+  @HiveField(1)
+  final double? lat;
+
+  @HiveField(2)
+  final double? lon;
+
+  /// Reference to region ID
+  @HiveField(3)
+  final int? region;
+
+  DistrictHiveModel({
+    this.name,
+    this.lat,
+    this.lon,
+    this.region,
+  });
+
+  @override
+  List<Object?> get props => [
+    name,
+    lat,
+    lon,
+    region,
+  ];
+}
+
+@HiveType(typeId: 4)
+class SettlementHiveModel extends HiveObject with EquatableMixin {
+  @HiveField(0)
+  final String? name;
+
+  @HiveField(1)
+  final double? lat;
+
+  @HiveField(2)
+  final double? lon;
+
+  /// Reference to district ID
+  @HiveField(3)
+  final int? district;
+
+  SettlementHiveModel({
+    this.name,
+    this.lat,
+    this.lon,
+    this.district,
+  });
+
+  @override
+  List<Object?> get props => [
+    name,
+    lat,
+    lon,
+    district,
+  ];
+}
+
+@HiveType(typeId: 5)
 class WeeklyTestCountDb extends HiveObject with EquatableMixin {
   @HiveField(0)
   final int? dush;

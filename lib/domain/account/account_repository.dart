@@ -7,6 +7,7 @@ import 'package:testabd/domain/account/entities/my_info_model.dart';
 import 'package:testabd/domain/account/entities/notification_model.dart';
 import 'package:testabd/domain/account/entities/personal_info_dto.dart';
 import 'package:testabd/domain/account/entities/region_model.dart';
+import 'package:testabd/domain/account/entities/settlement_model.dart';
 import 'package:testabd/domain/account/entities/user_connections_model.dart';
 import 'package:testabd/domain/account/entities/user_profile_model.dart';
 
@@ -21,8 +22,9 @@ abstract class AccountRepository {
   Future<Either<AppException, LeaderboardModel>> getLeaderboard(int page, int pageSize);
   Future<Either<AppException, Unit>> changePersonalInfo(PersonalInfoDto personalInfoDto);
   Future<Either<AppException, List<CountryModel>>> getCountries();
-  Future<Either<AppException, List<DistrictModel>>> getDistricts(int? districtId);
+  Future<Either<AppException, List<DistrictModel>>> getDistricts(int? regionId);
   Future<Either<AppException, List<RegionModel>>> getRegions(int? countryId);
+  Future<Either<AppException, List<SettlementModel>>> getSettlements(int? districtId);
 }
 
 abstract class LeaderboardRepository {

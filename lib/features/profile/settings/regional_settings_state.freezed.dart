@@ -20,6 +20,7 @@ mixin _$RegionalSettingsState {
   CountriesState get countries => throw _privateConstructorUsedError;
   RegionsState get regions => throw _privateConstructorUsedError;
   DistrictsState get districts => throw _privateConstructorUsedError;
+  SettlementState get settlement => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $RegionalSettingsStateCopyWith<RegionalSettingsState> get copyWith =>
@@ -36,11 +37,13 @@ abstract class $RegionalSettingsStateCopyWith<$Res> {
       {bool isEditable,
       CountriesState countries,
       RegionsState regions,
-      DistrictsState districts});
+      DistrictsState districts,
+      SettlementState settlement});
 
   $CountriesStateCopyWith<$Res> get countries;
   $RegionsStateCopyWith<$Res> get regions;
   $DistrictsStateCopyWith<$Res> get districts;
+  $SettlementStateCopyWith<$Res> get settlement;
 }
 
 /// @nodoc
@@ -61,6 +64,7 @@ class _$RegionalSettingsStateCopyWithImpl<$Res,
     Object? countries = null,
     Object? regions = null,
     Object? districts = null,
+    Object? settlement = null,
   }) {
     return _then(_value.copyWith(
       isEditable: null == isEditable
@@ -79,6 +83,10 @@ class _$RegionalSettingsStateCopyWithImpl<$Res,
           ? _value.districts
           : districts // ignore: cast_nullable_to_non_nullable
               as DistrictsState,
+      settlement: null == settlement
+          ? _value.settlement
+          : settlement // ignore: cast_nullable_to_non_nullable
+              as SettlementState,
     ) as $Val);
   }
 
@@ -105,6 +113,14 @@ class _$RegionalSettingsStateCopyWithImpl<$Res,
       return _then(_value.copyWith(districts: value) as $Val);
     });
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $SettlementStateCopyWith<$Res> get settlement {
+    return $SettlementStateCopyWith<$Res>(_value.settlement, (value) {
+      return _then(_value.copyWith(settlement: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -120,7 +136,8 @@ abstract class _$$RegionalSettingsStateImplCopyWith<$Res>
       {bool isEditable,
       CountriesState countries,
       RegionsState regions,
-      DistrictsState districts});
+      DistrictsState districts,
+      SettlementState settlement});
 
   @override
   $CountriesStateCopyWith<$Res> get countries;
@@ -128,6 +145,8 @@ abstract class _$$RegionalSettingsStateImplCopyWith<$Res>
   $RegionsStateCopyWith<$Res> get regions;
   @override
   $DistrictsStateCopyWith<$Res> get districts;
+  @override
+  $SettlementStateCopyWith<$Res> get settlement;
 }
 
 /// @nodoc
@@ -146,6 +165,7 @@ class __$$RegionalSettingsStateImplCopyWithImpl<$Res>
     Object? countries = null,
     Object? regions = null,
     Object? districts = null,
+    Object? settlement = null,
   }) {
     return _then(_$RegionalSettingsStateImpl(
       isEditable: null == isEditable
@@ -164,6 +184,10 @@ class __$$RegionalSettingsStateImplCopyWithImpl<$Res>
           ? _value.districts
           : districts // ignore: cast_nullable_to_non_nullable
               as DistrictsState,
+      settlement: null == settlement
+          ? _value.settlement
+          : settlement // ignore: cast_nullable_to_non_nullable
+              as SettlementState,
     ));
   }
 }
@@ -175,7 +199,8 @@ class _$RegionalSettingsStateImpl implements _RegionalSettingsState {
       {this.isEditable = false,
       this.countries = const CountriesState(),
       this.regions = const RegionsState(),
-      this.districts = const DistrictsState()});
+      this.districts = const DistrictsState(),
+      this.settlement = const SettlementState()});
 
   @override
   @JsonKey()
@@ -189,10 +214,13 @@ class _$RegionalSettingsStateImpl implements _RegionalSettingsState {
   @override
   @JsonKey()
   final DistrictsState districts;
+  @override
+  @JsonKey()
+  final SettlementState settlement;
 
   @override
   String toString() {
-    return 'RegionalSettingsState(isEditable: $isEditable, countries: $countries, regions: $regions, districts: $districts)';
+    return 'RegionalSettingsState(isEditable: $isEditable, countries: $countries, regions: $regions, districts: $districts, settlement: $settlement)';
   }
 
   @override
@@ -206,12 +234,14 @@ class _$RegionalSettingsStateImpl implements _RegionalSettingsState {
                 other.countries == countries) &&
             (identical(other.regions, regions) || other.regions == regions) &&
             (identical(other.districts, districts) ||
-                other.districts == districts));
+                other.districts == districts) &&
+            (identical(other.settlement, settlement) ||
+                other.settlement == settlement));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, isEditable, countries, regions, districts);
+  int get hashCode => Object.hash(
+      runtimeType, isEditable, countries, regions, districts, settlement);
 
   @JsonKey(ignore: true)
   @override
@@ -226,7 +256,8 @@ abstract class _RegionalSettingsState implements RegionalSettingsState {
       {final bool isEditable,
       final CountriesState countries,
       final RegionsState regions,
-      final DistrictsState districts}) = _$RegionalSettingsStateImpl;
+      final DistrictsState districts,
+      final SettlementState settlement}) = _$RegionalSettingsStateImpl;
 
   @override
   bool get isEditable;
@@ -236,6 +267,8 @@ abstract class _RegionalSettingsState implements RegionalSettingsState {
   RegionsState get regions;
   @override
   DistrictsState get districts;
+  @override
+  SettlementState get settlement;
   @override
   @JsonKey(ignore: true)
   _$$RegionalSettingsStateImplCopyWith<_$RegionalSettingsStateImpl>
@@ -819,5 +852,199 @@ abstract class _DistrictsState implements DistrictsState {
   @override
   @JsonKey(ignore: true)
   _$$DistrictsStateImplCopyWith<_$DistrictsStateImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+mixin _$SettlementState {
+  bool get isLoading => throw _privateConstructorUsedError;
+  String? get error => throw _privateConstructorUsedError;
+  SettlementModel? get selected => throw _privateConstructorUsedError;
+  List<SettlementModel> get settlements => throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $SettlementStateCopyWith<SettlementState> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $SettlementStateCopyWith<$Res> {
+  factory $SettlementStateCopyWith(
+          SettlementState value, $Res Function(SettlementState) then) =
+      _$SettlementStateCopyWithImpl<$Res, SettlementState>;
+  @useResult
+  $Res call(
+      {bool isLoading,
+      String? error,
+      SettlementModel? selected,
+      List<SettlementModel> settlements});
+}
+
+/// @nodoc
+class _$SettlementStateCopyWithImpl<$Res, $Val extends SettlementState>
+    implements $SettlementStateCopyWith<$Res> {
+  _$SettlementStateCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? isLoading = null,
+    Object? error = freezed,
+    Object? selected = freezed,
+    Object? settlements = null,
+  }) {
+    return _then(_value.copyWith(
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      error: freezed == error
+          ? _value.error
+          : error // ignore: cast_nullable_to_non_nullable
+              as String?,
+      selected: freezed == selected
+          ? _value.selected
+          : selected // ignore: cast_nullable_to_non_nullable
+              as SettlementModel?,
+      settlements: null == settlements
+          ? _value.settlements
+          : settlements // ignore: cast_nullable_to_non_nullable
+              as List<SettlementModel>,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$SettlementStateImplCopyWith<$Res>
+    implements $SettlementStateCopyWith<$Res> {
+  factory _$$SettlementStateImplCopyWith(_$SettlementStateImpl value,
+          $Res Function(_$SettlementStateImpl) then) =
+      __$$SettlementStateImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {bool isLoading,
+      String? error,
+      SettlementModel? selected,
+      List<SettlementModel> settlements});
+}
+
+/// @nodoc
+class __$$SettlementStateImplCopyWithImpl<$Res>
+    extends _$SettlementStateCopyWithImpl<$Res, _$SettlementStateImpl>
+    implements _$$SettlementStateImplCopyWith<$Res> {
+  __$$SettlementStateImplCopyWithImpl(
+      _$SettlementStateImpl _value, $Res Function(_$SettlementStateImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? isLoading = null,
+    Object? error = freezed,
+    Object? selected = freezed,
+    Object? settlements = null,
+  }) {
+    return _then(_$SettlementStateImpl(
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      error: freezed == error
+          ? _value.error
+          : error // ignore: cast_nullable_to_non_nullable
+              as String?,
+      selected: freezed == selected
+          ? _value.selected
+          : selected // ignore: cast_nullable_to_non_nullable
+              as SettlementModel?,
+      settlements: null == settlements
+          ? _value._settlements
+          : settlements // ignore: cast_nullable_to_non_nullable
+              as List<SettlementModel>,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$SettlementStateImpl implements _SettlementState {
+  const _$SettlementStateImpl(
+      {this.isLoading = false,
+      this.error,
+      this.selected,
+      final List<SettlementModel> settlements = const []})
+      : _settlements = settlements;
+
+  @override
+  @JsonKey()
+  final bool isLoading;
+  @override
+  final String? error;
+  @override
+  final SettlementModel? selected;
+  final List<SettlementModel> _settlements;
+  @override
+  @JsonKey()
+  List<SettlementModel> get settlements {
+    if (_settlements is EqualUnmodifiableListView) return _settlements;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_settlements);
+  }
+
+  @override
+  String toString() {
+    return 'SettlementState(isLoading: $isLoading, error: $error, selected: $selected, settlements: $settlements)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$SettlementStateImpl &&
+            (identical(other.isLoading, isLoading) ||
+                other.isLoading == isLoading) &&
+            (identical(other.error, error) || other.error == error) &&
+            (identical(other.selected, selected) ||
+                other.selected == selected) &&
+            const DeepCollectionEquality()
+                .equals(other._settlements, _settlements));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, isLoading, error, selected,
+      const DeepCollectionEquality().hash(_settlements));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SettlementStateImplCopyWith<_$SettlementStateImpl> get copyWith =>
+      __$$SettlementStateImplCopyWithImpl<_$SettlementStateImpl>(
+          this, _$identity);
+}
+
+abstract class _SettlementState implements SettlementState {
+  const factory _SettlementState(
+      {final bool isLoading,
+      final String? error,
+      final SettlementModel? selected,
+      final List<SettlementModel> settlements}) = _$SettlementStateImpl;
+
+  @override
+  bool get isLoading;
+  @override
+  String? get error;
+  @override
+  SettlementModel? get selected;
+  @override
+  List<SettlementModel> get settlements;
+  @override
+  @JsonKey(ignore: true)
+  _$$SettlementStateImplCopyWith<_$SettlementStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

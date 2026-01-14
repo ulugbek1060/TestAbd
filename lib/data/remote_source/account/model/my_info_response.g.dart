@@ -11,10 +11,16 @@ _$MyInfoResponseImpl _$$MyInfoResponseImplFromJson(Map<String, dynamic> json) =>
       id: (json['id'] as num?)?.toInt(),
       country: json['country'] == null
           ? null
-          : MyInfoCountry.fromJson(json['country'] as Map<String, dynamic>),
-      region: json['region'] as String?,
-      district: json['district'] as String?,
-      settlement: json['settlement'] as String?,
+          : CountryInfo.fromJson(json['country'] as Map<String, dynamic>),
+      region: json['region'] == null
+          ? null
+          : RegionInfo.fromJson(json['region'] as Map<String, dynamic>),
+      district: json['district'] == null
+          ? null
+          : DistrictInfo.fromJson(json['district'] as Map<String, dynamic>),
+      settlement: json['settlement'] == null
+          ? null
+          : SettlementInfo.fromJson(json['settlement'] as Map<String, dynamic>),
       categoriesOfInterest: (json['categories_of_interest'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
@@ -107,8 +113,8 @@ Map<String, dynamic> _$$MyInfoResponseImplToJson(
       'user_permissions': instance.userPermissions,
     };
 
-_$MyInfoCountryImpl _$$MyInfoCountryImplFromJson(Map<String, dynamic> json) =>
-    _$MyInfoCountryImpl(
+_$CountryInfoImpl _$$CountryInfoImplFromJson(Map<String, dynamic> json) =>
+    _$CountryInfoImpl(
       id: (json['id'] as num?)?.toInt(),
       name: json['name'] as String?,
       code: json['code'] as String?,
@@ -116,11 +122,66 @@ _$MyInfoCountryImpl _$$MyInfoCountryImplFromJson(Map<String, dynamic> json) =>
       lon: (json['lon'] as num?)?.toDouble(),
     );
 
-Map<String, dynamic> _$$MyInfoCountryImplToJson(_$MyInfoCountryImpl instance) =>
+Map<String, dynamic> _$$CountryInfoImplToJson(_$CountryInfoImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'code': instance.code,
+      'lat': instance.lat,
+      'lon': instance.lon,
+    };
+
+_$RegionInfoImpl _$$RegionInfoImplFromJson(Map<String, dynamic> json) =>
+    _$RegionInfoImpl(
+      id: (json['id'] as num?)?.toInt(),
+      country: (json['country'] as num?)?.toInt(),
+      name: json['name'] as String?,
+      lat: (json['lat'] as num?)?.toDouble(),
+      lon: (json['lon'] as num?)?.toDouble(),
+    );
+
+Map<String, dynamic> _$$RegionInfoImplToJson(_$RegionInfoImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'country': instance.country,
+      'name': instance.name,
+      'lat': instance.lat,
+      'lon': instance.lon,
+    };
+
+_$DistrictInfoImpl _$$DistrictInfoImplFromJson(Map<String, dynamic> json) =>
+    _$DistrictInfoImpl(
+      id: (json['id'] as num?)?.toInt(),
+      region: (json['region'] as num?)?.toInt(),
+      name: json['name'] as String?,
+      lat: (json['lat'] as num?)?.toDouble(),
+      lon: (json['lon'] as num?)?.toDouble(),
+    );
+
+Map<String, dynamic> _$$DistrictInfoImplToJson(_$DistrictInfoImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'region': instance.region,
+      'name': instance.name,
+      'lat': instance.lat,
+      'lon': instance.lon,
+    };
+
+_$SettlementInfoImpl _$$SettlementInfoImplFromJson(Map<String, dynamic> json) =>
+    _$SettlementInfoImpl(
+      id: (json['id'] as num?)?.toInt(),
+      district: (json['district'] as num?)?.toInt(),
+      name: json['name'] as String?,
+      lat: (json['lat'] as num?)?.toDouble(),
+      lon: (json['lon'] as num?)?.toDouble(),
+    );
+
+Map<String, dynamic> _$$SettlementInfoImplToJson(
+        _$SettlementInfoImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'district': instance.district,
+      'name': instance.name,
       'lat': instance.lat,
       'lon': instance.lon,
     };

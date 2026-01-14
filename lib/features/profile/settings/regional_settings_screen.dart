@@ -37,6 +37,8 @@ class _View extends StatelessWidget {
             RegionSection(),
 
             DistrictsSection(),
+
+            SettlementSection(),
           ],
         ),
       ),
@@ -142,6 +144,30 @@ class DistrictsSection extends StatelessWidget {
           value: districtState.selected?.id,
           isLoading: districtState.isLoading,
           items: districtState.districts
+              .map((e) => DropdownMenuEntry<int>(label: e.name, value: e.id))
+              .toList(),
+          onChanged: context.read<RegionalSettingsCubit>().selectDistrict,
+        );
+      },
+    );
+  }
+}
+
+class SettlementSection extends StatelessWidget {
+  const SettlementSection({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<RegionalSettingsCubit, RegionalSettingsState>(
+      buildWhen: (s1, s2) => s1.districts != s2.districts,
+      builder: (context, state) {
+        final settlementState = state.settlement;
+        return _DropdownField(
+          label: "Settlement",
+          hint: "Settlementni tanlang",
+          value: settlementState.selected?.id,
+          isLoading: settlementState.isLoading,
+          items: settlementState.settlements
               .map((e) => DropdownMenuEntry<int>(label: e.name, value: e.id))
               .toList(),
           onChanged: context.read<RegionalSettingsCubit>().selectDistrict,
