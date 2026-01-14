@@ -9,11 +9,11 @@ class DistrictModel extends Equatable {
   final int? region;
 
   const DistrictModel({
-    required this.id,
-    required this.name,
-    required this.lat,
-    required this.lon,
-    required this.region,
+     this.id,
+     this.name,
+     this.lat,
+     this.lon,
+     this.region,
   });
 
   static DistrictModel fromResponse(DistrictItemResponse response) {

@@ -9,11 +9,11 @@ class SettlementModel extends Equatable {
   final int? district;
 
   const SettlementModel({
-    required this.id,
-    required this.name,
-    required this.lat,
-    required this.lon,
-    required this.district,
+    this.id,
+    this.name,
+    this.lat,
+    this.lon,
+    this.district,
   });
 
   static SettlementModel fromResponse(SettlementItemResponse response) {

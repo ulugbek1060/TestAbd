@@ -19,9 +19,9 @@ class MyInfoDbAdapter extends TypeAdapter<MyInfoDb> {
     return MyInfoDb(
       id: fields[0] as int?,
       country: fields[1] as CountryHiveModel?,
-      region: fields[2] as String?,
-      district: fields[3] as String?,
-      settlement: fields[4] as String?,
+      region: fields[2] as RegionHiveModel?,
+      district: fields[3] as DistrictHiveModel?,
+      settlement: fields[4] as SettlementHiveModel?,
       categoriesOfInterest: (fields[5] as List?)?.cast<String>(),
       coinPercentage: fields[6] as double?,
       weeklyTestCount: fields[7] as WeeklyTestCountDb?,

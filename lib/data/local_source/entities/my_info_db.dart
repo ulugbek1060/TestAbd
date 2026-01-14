@@ -10,11 +10,11 @@ class MyInfoDb extends HiveObject with EquatableMixin {
   @HiveField(1)
   final CountryHiveModel? country;
   @HiveField(2)
-  final String? region;
+  final RegionHiveModel? region;
   @HiveField(3)
-  final String? district;
+  final DistrictHiveModel? district;
   @HiveField(4)
-  final String? settlement;
+  final SettlementHiveModel? settlement;
   @HiveField(5)
   final List<String>? categoriesOfInterest;
   @HiveField(6)

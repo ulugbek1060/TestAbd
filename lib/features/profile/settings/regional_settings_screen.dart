@@ -16,7 +16,7 @@ class RegionalSettingsScreen extends StatelessWidget {
 }
 
 class _View extends StatelessWidget {
-  const _View({super.key});
+  const _View();
 
   @override
   Widget build(BuildContext context) {
@@ -144,7 +144,12 @@ class DistrictsSection extends StatelessWidget {
           value: districtState.selected?.id,
           isLoading: districtState.isLoading,
           items: districtState.districts
-              .map((e) => DropdownMenuEntry<int>(label: e.name, value: e.id))
+              .map(
+                (e) => DropdownMenuEntry<int>(
+                  label: e.name ?? '',
+                  value: e.id ?? -1,
+                ),
+              )
               .toList(),
           onChanged: context.read<RegionalSettingsCubit>().selectDistrict,
         );
@@ -168,7 +173,12 @@ class SettlementSection extends StatelessWidget {
           value: settlementState.selected?.id,
           isLoading: settlementState.isLoading,
           items: settlementState.settlements
-              .map((e) => DropdownMenuEntry<int>(label: e.name, value: e.id))
+              .map(
+                (e) => DropdownMenuEntry<int>(
+                  label: e.name ?? '',
+                  value: e.id ?? -1,
+                ),
+              )
               .toList(),
           onChanged: context.read<RegionalSettingsCubit>().selectDistrict,
         );
@@ -241,11 +251,9 @@ class _DropdownField extends StatelessWidget {
                   ),
                 ),
 
-                if (isLoading)
-                  const SizedBox(width: 8),
+                if (isLoading) const SizedBox(width: 8),
 
-                if (isLoading)
-                  ProgressView(),
+                if (isLoading) ProgressView(),
               ],
             ),
           ),

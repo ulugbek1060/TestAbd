@@ -23,7 +23,10 @@ class MyInfoHiveService {
     try {
       Hive.registerAdapter(MyInfoDbAdapter());
       Hive.registerAdapter(WeeklyTestCountDbAdapter());
-      Hive.registerAdapter(CountryModelDbAdapter());
+      Hive.registerAdapter(CountryHiveModelAdapter());
+      Hive.registerAdapter(RegionHiveModelAdapter());
+      Hive.registerAdapter(DistrictHiveModelAdapter());
+      Hive.registerAdapter(SettlementHiveModelAdapter());
       _box = await Hive.openLazyBox<MyInfoDb>(_boxName);
 
       final data = await getInfo();

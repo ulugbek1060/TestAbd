@@ -6,9 +6,9 @@ class RegionModel extends Equatable {
   final String? name;
   final double? lat;
   final double? lon;
-  final int? countryId;
+  final int? country;
 
-  const RegionModel({this.id, this.name, this.lat, this.lon, this.countryId});
+  const RegionModel({this.id, this.name, this.lat, this.lon, this.country});
 
   static RegionModel fromResponse(RegionItemResponse region) {
     return RegionModel(
@@ -16,10 +16,10 @@ class RegionModel extends Equatable {
       name: region.name,
       lat: region.lat,
       lon: region.lon,
-      countryId: region.country,
+      country: region.country,
     );
   }
 
   @override
-  List<Object?> get props => [id, name, lat, lon, countryId];
+  List<Object?> get props => [id, name, lat, lon, country];
 }
