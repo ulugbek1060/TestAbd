@@ -1,27 +1,14 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'countries_response.dart';
+part of 'country_item_response.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$CountriesResponseImpl _$$CountriesResponseImplFromJson(
+_$CountryItemResponseImpl _$$CountryItemResponseImplFromJson(
         Map<String, dynamic> json) =>
-    _$CountriesResponseImpl(
-      countries: (json['countries'] as List<dynamic>)
-          .map((e) => Country.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-
-Map<String, dynamic> _$$CountriesResponseImplToJson(
-        _$CountriesResponseImpl instance) =>
-    <String, dynamic>{
-      'countries': instance.countries,
-    };
-
-_$CountryImpl _$$CountryImplFromJson(Map<String, dynamic> json) =>
-    _$CountryImpl(
+    _$CountryItemResponseImpl(
       id: (json['id'] as num).toInt(),
       name: json['name'] as String,
       code: json['code'] as String,
@@ -29,7 +16,8 @@ _$CountryImpl _$$CountryImplFromJson(Map<String, dynamic> json) =>
       lon: (json['lon'] as num).toDouble(),
     );
 
-Map<String, dynamic> _$$CountryImplToJson(_$CountryImpl instance) =>
+Map<String, dynamic> _$$CountryItemResponseImplToJson(
+        _$CountryItemResponseImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,

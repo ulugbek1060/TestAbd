@@ -1,8 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:testabd/core/errors/app_exception.dart';
-import 'package:testabd/data/remote_source/account/model/countries_response.dart';
-import 'package:testabd/data/remote_source/account/model/regions_response.dart';
+import 'package:testabd/data/remote_source/account/model/country_item_response.dart';
+import 'package:testabd/data/remote_source/account/model/district_item_response.dart';
+import 'package:testabd/data/remote_source/account/model/region_item_response.dart';
 import 'package:testabd/data/remote_source/account/model/user_connections_response.dart';
 import 'package:testabd/data/remote_source/account/model/user_profile_response.dart';
 import 'package:testabd/data/remote_source/account/model/my_info_response.dart';
@@ -18,8 +19,9 @@ abstract class AccountSource {
   Future<UserConnectionsResponse> getFollowers(int userId);
   Future<String> followUser(int userId);
   Future<MyInfoResponse> changePersonalInfo(Map<String, dynamic> data);
-  Future<CountriesResponse> getCountries();
-  Future<RegionsResponse> getRegions(int? countryId);
+  Future<List<CountryItemResponse>> getCountries();
+  Future<List<RegionItemResponse>> getRegions(int? countryId);
+  Future<List<DistrictItemResponse>> getDistricts(int? regionId);
 }
 
 @Injectable(as: AccountSource)
@@ -113,10 +115,12 @@ class AccountSourceImpl implements AccountSource {
   }
 
   @override
-  Future<CountriesResponse> getCountries() async {
+  Future<List<CountryItemResponse>> getCountries() async {
     try {
       final response = await _dio.get("/accounts/countries/");
-      return CountriesResponse.fromJson(response.data);
+      return (response.data as List<dynamic>)
+          .map((e) => CountryItemResponse.fromJson(e))
+          .toList();
     } on DioException catch (e) {
       throw e.handleDioException();
     } catch (e, stackTrace) {
@@ -125,10 +129,26 @@ class AccountSourceImpl implements AccountSource {
   }
 
   @override
-  Future<RegionsResponse> getRegions(int? countryId) async {
+  Future<List<RegionItemResponse>> getRegions(int? countryId) async {
     try {
       final response = await _dio.get("/accounts/regions/$countryId/");
-      return response.data;
+      return (response.data as List<dynamic>)
+          .map((e) => RegionItemResponse.fromJson(e))
+          .toList();
+    } on DioException catch (e) {
+      throw e.handleDioException();
+    } catch (e, stackTrace) {
+      throw UnknownException(e.toString(), stackTrace: stackTrace);
+    }
+  }
+
+  @override
+  Future<List<DistrictItemResponse>> getDistricts(int? regionId) async {
+    try {
+      final response = await _dio.get("/accounts/districts/$regionId/");
+      return (response.data as List<dynamic>)
+          .map((e) => DistrictItemResponse.fromJson(e))
+          .toList();
     } on DioException catch (e) {
       throw e.handleDioException();
     } catch (e, stackTrace) {

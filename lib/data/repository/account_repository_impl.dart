@@ -6,10 +6,12 @@ import 'package:testabd/data/remote_source/account/account_source.dart';
 import 'package:testabd/data/remote_source/account/ws_leaderboard_source.dart';
 import 'package:testabd/domain/account/account_repository.dart';
 import 'package:testabd/domain/account/entities/country_model.dart';
+import 'package:testabd/domain/account/entities/district_model.dart';
 import 'package:testabd/domain/account/entities/leaderboard_model.dart';
 import 'package:testabd/domain/account/entities/my_info_model.dart';
 import 'package:testabd/domain/account/entities/notification_model.dart';
 import 'package:testabd/domain/account/entities/personal_info_dto.dart';
+import 'package:testabd/domain/account/entities/region_model.dart';
 import 'package:testabd/domain/account/entities/user_connections_model.dart';
 import 'package:testabd/domain/account/entities/user_profile_model.dart';
 import 'package:testabd/main.dart';
@@ -148,9 +150,7 @@ class AccountRepositoryImpl implements AccountRepository {
   Future<Either<AppException, List<CountryModel>>> getCountries() async {
     try {
       final result = await _accountSource.getCountries();
-      final list = result.countries
-          .map((e) => CountryModel.fromResponse(e))
-          .toList();
+      final list = result.map((e) => CountryModel.fromResponse(e)).toList();
       return Right(list);
     } on AppException catch (e) {
       return Left(e);
@@ -160,10 +160,13 @@ class AccountRepositoryImpl implements AccountRepository {
   }
 
   @override
-  Future<dynamic> getDistricts(int? districtId) async {
+  Future<Either<AppException, List<RegionModel>>> getRegions(
+    int? countryId,
+  ) async {
     try {
-      final result = await _accountSource.getRegions(districtId);
-      return Right(unit);
+      final result = await _accountSource.getRegions(countryId);
+      final list = result.map((e) => RegionModel.fromResponse(e)).toList();
+      return Right(list);
     } on AppException catch (e) {
       return Left(e);
     } catch (e, stackTrace) {
@@ -172,10 +175,13 @@ class AccountRepositoryImpl implements AccountRepository {
   }
 
   @override
-  Future<dynamic> getRegions(int? countryId) async {
+  Future<Either<AppException, List<DistrictModel>>> getDistricts(
+      int? districtId,
+      ) async {
     try {
-      final result = await _accountSource.getRegions(countryId);
-      return Right(unit);
+      final result = await _accountSource.getDistricts(districtId);
+      final list = result.map((e) => DistrictModel.fromResponse(e)).toList();
+      return Right(list);
     } on AppException catch (e) {
       return Left(e);
     } catch (e, stackTrace) {

@@ -17,9 +17,9 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$RegionalSettingsState {
   bool get isEditable => throw _privateConstructorUsedError;
-  String? get error => throw _privateConstructorUsedError;
-  bool get isLoading => throw _privateConstructorUsedError;
-  List<CountryModel> get countries => throw _privateConstructorUsedError;
+  CountriesState get countries => throw _privateConstructorUsedError;
+  RegionsState get regions => throw _privateConstructorUsedError;
+  DistrictsState get districts => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $RegionalSettingsStateCopyWith<RegionalSettingsState> get copyWith =>
@@ -34,9 +34,13 @@ abstract class $RegionalSettingsStateCopyWith<$Res> {
   @useResult
   $Res call(
       {bool isEditable,
-      String? error,
-      bool isLoading,
-      List<CountryModel> countries});
+      CountriesState countries,
+      RegionsState regions,
+      DistrictsState districts});
+
+  $CountriesStateCopyWith<$Res> get countries;
+  $RegionsStateCopyWith<$Res> get regions;
+  $DistrictsStateCopyWith<$Res> get districts;
 }
 
 /// @nodoc
@@ -54,28 +58,52 @@ class _$RegionalSettingsStateCopyWithImpl<$Res,
   @override
   $Res call({
     Object? isEditable = null,
-    Object? error = freezed,
-    Object? isLoading = null,
     Object? countries = null,
+    Object? regions = null,
+    Object? districts = null,
   }) {
     return _then(_value.copyWith(
       isEditable: null == isEditable
           ? _value.isEditable
           : isEditable // ignore: cast_nullable_to_non_nullable
               as bool,
-      error: freezed == error
-          ? _value.error
-          : error // ignore: cast_nullable_to_non_nullable
-              as String?,
-      isLoading: null == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
       countries: null == countries
           ? _value.countries
           : countries // ignore: cast_nullable_to_non_nullable
-              as List<CountryModel>,
+              as CountriesState,
+      regions: null == regions
+          ? _value.regions
+          : regions // ignore: cast_nullable_to_non_nullable
+              as RegionsState,
+      districts: null == districts
+          ? _value.districts
+          : districts // ignore: cast_nullable_to_non_nullable
+              as DistrictsState,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $CountriesStateCopyWith<$Res> get countries {
+    return $CountriesStateCopyWith<$Res>(_value.countries, (value) {
+      return _then(_value.copyWith(countries: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $RegionsStateCopyWith<$Res> get regions {
+    return $RegionsStateCopyWith<$Res>(_value.regions, (value) {
+      return _then(_value.copyWith(regions: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $DistrictsStateCopyWith<$Res> get districts {
+    return $DistrictsStateCopyWith<$Res>(_value.districts, (value) {
+      return _then(_value.copyWith(districts: value) as $Val);
+    });
   }
 }
 
@@ -90,9 +118,16 @@ abstract class _$$RegionalSettingsStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {bool isEditable,
-      String? error,
-      bool isLoading,
-      List<CountryModel> countries});
+      CountriesState countries,
+      RegionsState regions,
+      DistrictsState districts});
+
+  @override
+  $CountriesStateCopyWith<$Res> get countries;
+  @override
+  $RegionsStateCopyWith<$Res> get regions;
+  @override
+  $DistrictsStateCopyWith<$Res> get districts;
 }
 
 /// @nodoc
@@ -108,27 +143,27 @@ class __$$RegionalSettingsStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isEditable = null,
-    Object? error = freezed,
-    Object? isLoading = null,
     Object? countries = null,
+    Object? regions = null,
+    Object? districts = null,
   }) {
     return _then(_$RegionalSettingsStateImpl(
       isEditable: null == isEditable
           ? _value.isEditable
           : isEditable // ignore: cast_nullable_to_non_nullable
               as bool,
-      error: freezed == error
-          ? _value.error
-          : error // ignore: cast_nullable_to_non_nullable
-              as String?,
-      isLoading: null == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
       countries: null == countries
-          ? _value._countries
+          ? _value.countries
           : countries // ignore: cast_nullable_to_non_nullable
-              as List<CountryModel>,
+              as CountriesState,
+      regions: null == regions
+          ? _value.regions
+          : regions // ignore: cast_nullable_to_non_nullable
+              as RegionsState,
+      districts: null == districts
+          ? _value.districts
+          : districts // ignore: cast_nullable_to_non_nullable
+              as DistrictsState,
     ));
   }
 }
@@ -138,31 +173,26 @@ class __$$RegionalSettingsStateImplCopyWithImpl<$Res>
 class _$RegionalSettingsStateImpl implements _RegionalSettingsState {
   const _$RegionalSettingsStateImpl(
       {this.isEditable = false,
-      this.error,
-      this.isLoading = false,
-      final List<CountryModel> countries = const []})
-      : _countries = countries;
+      this.countries = const CountriesState(),
+      this.regions = const RegionsState(),
+      this.districts = const DistrictsState()});
 
   @override
   @JsonKey()
   final bool isEditable;
   @override
-  final String? error;
+  @JsonKey()
+  final CountriesState countries;
   @override
   @JsonKey()
-  final bool isLoading;
-  final List<CountryModel> _countries;
+  final RegionsState regions;
   @override
   @JsonKey()
-  List<CountryModel> get countries {
-    if (_countries is EqualUnmodifiableListView) return _countries;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_countries);
-  }
+  final DistrictsState districts;
 
   @override
   String toString() {
-    return 'RegionalSettingsState(isEditable: $isEditable, error: $error, isLoading: $isLoading, countries: $countries)';
+    return 'RegionalSettingsState(isEditable: $isEditable, countries: $countries, regions: $regions, districts: $districts)';
   }
 
   @override
@@ -172,16 +202,16 @@ class _$RegionalSettingsStateImpl implements _RegionalSettingsState {
             other is _$RegionalSettingsStateImpl &&
             (identical(other.isEditable, isEditable) ||
                 other.isEditable == isEditable) &&
-            (identical(other.error, error) || other.error == error) &&
-            (identical(other.isLoading, isLoading) ||
-                other.isLoading == isLoading) &&
-            const DeepCollectionEquality()
-                .equals(other._countries, _countries));
+            (identical(other.countries, countries) ||
+                other.countries == countries) &&
+            (identical(other.regions, regions) || other.regions == regions) &&
+            (identical(other.districts, districts) ||
+                other.districts == districts));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, isEditable, error, isLoading,
-      const DeepCollectionEquality().hash(_countries));
+  int get hashCode =>
+      Object.hash(runtimeType, isEditable, countries, regions, districts);
 
   @JsonKey(ignore: true)
   @override
@@ -194,20 +224,600 @@ class _$RegionalSettingsStateImpl implements _RegionalSettingsState {
 abstract class _RegionalSettingsState implements RegionalSettingsState {
   const factory _RegionalSettingsState(
       {final bool isEditable,
-      final String? error,
-      final bool isLoading,
-      final List<CountryModel> countries}) = _$RegionalSettingsStateImpl;
+      final CountriesState countries,
+      final RegionsState regions,
+      final DistrictsState districts}) = _$RegionalSettingsStateImpl;
 
   @override
   bool get isEditable;
   @override
-  String? get error;
+  CountriesState get countries;
   @override
-  bool get isLoading;
+  RegionsState get regions;
   @override
-  List<CountryModel> get countries;
+  DistrictsState get districts;
   @override
   @JsonKey(ignore: true)
   _$$RegionalSettingsStateImplCopyWith<_$RegionalSettingsStateImpl>
       get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+mixin _$CountriesState {
+  bool get isLoading => throw _privateConstructorUsedError;
+  String? get error => throw _privateConstructorUsedError;
+  CountryModel? get selected => throw _privateConstructorUsedError;
+  List<CountryModel> get countries => throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $CountriesStateCopyWith<CountriesState> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CountriesStateCopyWith<$Res> {
+  factory $CountriesStateCopyWith(
+          CountriesState value, $Res Function(CountriesState) then) =
+      _$CountriesStateCopyWithImpl<$Res, CountriesState>;
+  @useResult
+  $Res call(
+      {bool isLoading,
+      String? error,
+      CountryModel? selected,
+      List<CountryModel> countries});
+}
+
+/// @nodoc
+class _$CountriesStateCopyWithImpl<$Res, $Val extends CountriesState>
+    implements $CountriesStateCopyWith<$Res> {
+  _$CountriesStateCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? isLoading = null,
+    Object? error = freezed,
+    Object? selected = freezed,
+    Object? countries = null,
+  }) {
+    return _then(_value.copyWith(
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      error: freezed == error
+          ? _value.error
+          : error // ignore: cast_nullable_to_non_nullable
+              as String?,
+      selected: freezed == selected
+          ? _value.selected
+          : selected // ignore: cast_nullable_to_non_nullable
+              as CountryModel?,
+      countries: null == countries
+          ? _value.countries
+          : countries // ignore: cast_nullable_to_non_nullable
+              as List<CountryModel>,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$CountriesStateImplCopyWith<$Res>
+    implements $CountriesStateCopyWith<$Res> {
+  factory _$$CountriesStateImplCopyWith(_$CountriesStateImpl value,
+          $Res Function(_$CountriesStateImpl) then) =
+      __$$CountriesStateImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {bool isLoading,
+      String? error,
+      CountryModel? selected,
+      List<CountryModel> countries});
+}
+
+/// @nodoc
+class __$$CountriesStateImplCopyWithImpl<$Res>
+    extends _$CountriesStateCopyWithImpl<$Res, _$CountriesStateImpl>
+    implements _$$CountriesStateImplCopyWith<$Res> {
+  __$$CountriesStateImplCopyWithImpl(
+      _$CountriesStateImpl _value, $Res Function(_$CountriesStateImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? isLoading = null,
+    Object? error = freezed,
+    Object? selected = freezed,
+    Object? countries = null,
+  }) {
+    return _then(_$CountriesStateImpl(
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      error: freezed == error
+          ? _value.error
+          : error // ignore: cast_nullable_to_non_nullable
+              as String?,
+      selected: freezed == selected
+          ? _value.selected
+          : selected // ignore: cast_nullable_to_non_nullable
+              as CountryModel?,
+      countries: null == countries
+          ? _value._countries
+          : countries // ignore: cast_nullable_to_non_nullable
+              as List<CountryModel>,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$CountriesStateImpl implements _CountriesState {
+  const _$CountriesStateImpl(
+      {this.isLoading = false,
+      this.error,
+      this.selected,
+      final List<CountryModel> countries = const []})
+      : _countries = countries;
+
+  @override
+  @JsonKey()
+  final bool isLoading;
+  @override
+  final String? error;
+  @override
+  final CountryModel? selected;
+  final List<CountryModel> _countries;
+  @override
+  @JsonKey()
+  List<CountryModel> get countries {
+    if (_countries is EqualUnmodifiableListView) return _countries;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_countries);
+  }
+
+  @override
+  String toString() {
+    return 'CountriesState(isLoading: $isLoading, error: $error, selected: $selected, countries: $countries)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CountriesStateImpl &&
+            (identical(other.isLoading, isLoading) ||
+                other.isLoading == isLoading) &&
+            (identical(other.error, error) || other.error == error) &&
+            (identical(other.selected, selected) ||
+                other.selected == selected) &&
+            const DeepCollectionEquality()
+                .equals(other._countries, _countries));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, isLoading, error, selected,
+      const DeepCollectionEquality().hash(_countries));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CountriesStateImplCopyWith<_$CountriesStateImpl> get copyWith =>
+      __$$CountriesStateImplCopyWithImpl<_$CountriesStateImpl>(
+          this, _$identity);
+}
+
+abstract class _CountriesState implements CountriesState {
+  const factory _CountriesState(
+      {final bool isLoading,
+      final String? error,
+      final CountryModel? selected,
+      final List<CountryModel> countries}) = _$CountriesStateImpl;
+
+  @override
+  bool get isLoading;
+  @override
+  String? get error;
+  @override
+  CountryModel? get selected;
+  @override
+  List<CountryModel> get countries;
+  @override
+  @JsonKey(ignore: true)
+  _$$CountriesStateImplCopyWith<_$CountriesStateImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+mixin _$RegionsState {
+  bool get isLoading => throw _privateConstructorUsedError;
+  String? get error => throw _privateConstructorUsedError;
+  RegionModel? get selected => throw _privateConstructorUsedError;
+  List<RegionModel> get regions => throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $RegionsStateCopyWith<RegionsState> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RegionsStateCopyWith<$Res> {
+  factory $RegionsStateCopyWith(
+          RegionsState value, $Res Function(RegionsState) then) =
+      _$RegionsStateCopyWithImpl<$Res, RegionsState>;
+  @useResult
+  $Res call(
+      {bool isLoading,
+      String? error,
+      RegionModel? selected,
+      List<RegionModel> regions});
+}
+
+/// @nodoc
+class _$RegionsStateCopyWithImpl<$Res, $Val extends RegionsState>
+    implements $RegionsStateCopyWith<$Res> {
+  _$RegionsStateCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? isLoading = null,
+    Object? error = freezed,
+    Object? selected = freezed,
+    Object? regions = null,
+  }) {
+    return _then(_value.copyWith(
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      error: freezed == error
+          ? _value.error
+          : error // ignore: cast_nullable_to_non_nullable
+              as String?,
+      selected: freezed == selected
+          ? _value.selected
+          : selected // ignore: cast_nullable_to_non_nullable
+              as RegionModel?,
+      regions: null == regions
+          ? _value.regions
+          : regions // ignore: cast_nullable_to_non_nullable
+              as List<RegionModel>,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$RegionsStateImplCopyWith<$Res>
+    implements $RegionsStateCopyWith<$Res> {
+  factory _$$RegionsStateImplCopyWith(
+          _$RegionsStateImpl value, $Res Function(_$RegionsStateImpl) then) =
+      __$$RegionsStateImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {bool isLoading,
+      String? error,
+      RegionModel? selected,
+      List<RegionModel> regions});
+}
+
+/// @nodoc
+class __$$RegionsStateImplCopyWithImpl<$Res>
+    extends _$RegionsStateCopyWithImpl<$Res, _$RegionsStateImpl>
+    implements _$$RegionsStateImplCopyWith<$Res> {
+  __$$RegionsStateImplCopyWithImpl(
+      _$RegionsStateImpl _value, $Res Function(_$RegionsStateImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? isLoading = null,
+    Object? error = freezed,
+    Object? selected = freezed,
+    Object? regions = null,
+  }) {
+    return _then(_$RegionsStateImpl(
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      error: freezed == error
+          ? _value.error
+          : error // ignore: cast_nullable_to_non_nullable
+              as String?,
+      selected: freezed == selected
+          ? _value.selected
+          : selected // ignore: cast_nullable_to_non_nullable
+              as RegionModel?,
+      regions: null == regions
+          ? _value._regions
+          : regions // ignore: cast_nullable_to_non_nullable
+              as List<RegionModel>,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$RegionsStateImpl implements _RegionsState {
+  const _$RegionsStateImpl(
+      {this.isLoading = false,
+      this.error,
+      this.selected,
+      final List<RegionModel> regions = const []})
+      : _regions = regions;
+
+  @override
+  @JsonKey()
+  final bool isLoading;
+  @override
+  final String? error;
+  @override
+  final RegionModel? selected;
+  final List<RegionModel> _regions;
+  @override
+  @JsonKey()
+  List<RegionModel> get regions {
+    if (_regions is EqualUnmodifiableListView) return _regions;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_regions);
+  }
+
+  @override
+  String toString() {
+    return 'RegionsState(isLoading: $isLoading, error: $error, selected: $selected, regions: $regions)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RegionsStateImpl &&
+            (identical(other.isLoading, isLoading) ||
+                other.isLoading == isLoading) &&
+            (identical(other.error, error) || other.error == error) &&
+            (identical(other.selected, selected) ||
+                other.selected == selected) &&
+            const DeepCollectionEquality().equals(other._regions, _regions));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, isLoading, error, selected,
+      const DeepCollectionEquality().hash(_regions));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RegionsStateImplCopyWith<_$RegionsStateImpl> get copyWith =>
+      __$$RegionsStateImplCopyWithImpl<_$RegionsStateImpl>(this, _$identity);
+}
+
+abstract class _RegionsState implements RegionsState {
+  const factory _RegionsState(
+      {final bool isLoading,
+      final String? error,
+      final RegionModel? selected,
+      final List<RegionModel> regions}) = _$RegionsStateImpl;
+
+  @override
+  bool get isLoading;
+  @override
+  String? get error;
+  @override
+  RegionModel? get selected;
+  @override
+  List<RegionModel> get regions;
+  @override
+  @JsonKey(ignore: true)
+  _$$RegionsStateImplCopyWith<_$RegionsStateImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+mixin _$DistrictsState {
+  bool get isLoading => throw _privateConstructorUsedError;
+  String? get error => throw _privateConstructorUsedError;
+  DistrictModel? get selected => throw _privateConstructorUsedError;
+  List<DistrictModel> get districts => throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $DistrictsStateCopyWith<DistrictsState> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $DistrictsStateCopyWith<$Res> {
+  factory $DistrictsStateCopyWith(
+          DistrictsState value, $Res Function(DistrictsState) then) =
+      _$DistrictsStateCopyWithImpl<$Res, DistrictsState>;
+  @useResult
+  $Res call(
+      {bool isLoading,
+      String? error,
+      DistrictModel? selected,
+      List<DistrictModel> districts});
+}
+
+/// @nodoc
+class _$DistrictsStateCopyWithImpl<$Res, $Val extends DistrictsState>
+    implements $DistrictsStateCopyWith<$Res> {
+  _$DistrictsStateCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? isLoading = null,
+    Object? error = freezed,
+    Object? selected = freezed,
+    Object? districts = null,
+  }) {
+    return _then(_value.copyWith(
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      error: freezed == error
+          ? _value.error
+          : error // ignore: cast_nullable_to_non_nullable
+              as String?,
+      selected: freezed == selected
+          ? _value.selected
+          : selected // ignore: cast_nullable_to_non_nullable
+              as DistrictModel?,
+      districts: null == districts
+          ? _value.districts
+          : districts // ignore: cast_nullable_to_non_nullable
+              as List<DistrictModel>,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$DistrictsStateImplCopyWith<$Res>
+    implements $DistrictsStateCopyWith<$Res> {
+  factory _$$DistrictsStateImplCopyWith(_$DistrictsStateImpl value,
+          $Res Function(_$DistrictsStateImpl) then) =
+      __$$DistrictsStateImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {bool isLoading,
+      String? error,
+      DistrictModel? selected,
+      List<DistrictModel> districts});
+}
+
+/// @nodoc
+class __$$DistrictsStateImplCopyWithImpl<$Res>
+    extends _$DistrictsStateCopyWithImpl<$Res, _$DistrictsStateImpl>
+    implements _$$DistrictsStateImplCopyWith<$Res> {
+  __$$DistrictsStateImplCopyWithImpl(
+      _$DistrictsStateImpl _value, $Res Function(_$DistrictsStateImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? isLoading = null,
+    Object? error = freezed,
+    Object? selected = freezed,
+    Object? districts = null,
+  }) {
+    return _then(_$DistrictsStateImpl(
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      error: freezed == error
+          ? _value.error
+          : error // ignore: cast_nullable_to_non_nullable
+              as String?,
+      selected: freezed == selected
+          ? _value.selected
+          : selected // ignore: cast_nullable_to_non_nullable
+              as DistrictModel?,
+      districts: null == districts
+          ? _value._districts
+          : districts // ignore: cast_nullable_to_non_nullable
+              as List<DistrictModel>,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$DistrictsStateImpl implements _DistrictsState {
+  const _$DistrictsStateImpl(
+      {this.isLoading = false,
+      this.error,
+      this.selected,
+      final List<DistrictModel> districts = const []})
+      : _districts = districts;
+
+  @override
+  @JsonKey()
+  final bool isLoading;
+  @override
+  final String? error;
+  @override
+  final DistrictModel? selected;
+  final List<DistrictModel> _districts;
+  @override
+  @JsonKey()
+  List<DistrictModel> get districts {
+    if (_districts is EqualUnmodifiableListView) return _districts;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_districts);
+  }
+
+  @override
+  String toString() {
+    return 'DistrictsState(isLoading: $isLoading, error: $error, selected: $selected, districts: $districts)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$DistrictsStateImpl &&
+            (identical(other.isLoading, isLoading) ||
+                other.isLoading == isLoading) &&
+            (identical(other.error, error) || other.error == error) &&
+            (identical(other.selected, selected) ||
+                other.selected == selected) &&
+            const DeepCollectionEquality()
+                .equals(other._districts, _districts));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, isLoading, error, selected,
+      const DeepCollectionEquality().hash(_districts));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$DistrictsStateImplCopyWith<_$DistrictsStateImpl> get copyWith =>
+      __$$DistrictsStateImplCopyWithImpl<_$DistrictsStateImpl>(
+          this, _$identity);
+}
+
+abstract class _DistrictsState implements DistrictsState {
+  const factory _DistrictsState(
+      {final bool isLoading,
+      final String? error,
+      final DistrictModel? selected,
+      final List<DistrictModel> districts}) = _$DistrictsStateImpl;
+
+  @override
+  bool get isLoading;
+  @override
+  String? get error;
+  @override
+  DistrictModel? get selected;
+  @override
+  List<DistrictModel> get districts;
+  @override
+  @JsonKey(ignore: true)
+  _$$DistrictsStateImplCopyWith<_$DistrictsStateImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

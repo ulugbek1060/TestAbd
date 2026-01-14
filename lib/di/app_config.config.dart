@@ -134,8 +134,6 @@ extension GetItInjectableX on _i174.GetIt {
         ));
     gh.factory<_i36.ForgotPswdCubit>(
         () => _i36.ForgotPswdCubit(gh<_i893.AuthRepository>()));
-    gh.factory<_i877.RegionalSettingsCubit>(
-        () => _i877.RegionalSettingsCubit(gh<_i575.AccountRepository>()));
     gh.factory<_i760.ProfileCubit>(() => _i760.ProfileCubit(
           gh<_i893.AuthRepository>(),
           gh<_i575.AccountRepository>(),
@@ -189,6 +187,10 @@ extension GetItInjectableX on _i174.GetIt {
               instanceName: 'UserFollowListener'),
         ));
     gh.factory<_i688.PersonalInfoCubit>(() => _i688.PersonalInfoCubit(
+          gh<_i575.AccountRepository>(),
+          gh<_i877.AppMessageHandler>(),
+        ));
+    gh.factory<_i877.RegionalSettingsCubit>(() => _i877.RegionalSettingsCubit(
           gh<_i575.AccountRepository>(),
           gh<_i877.AppMessageHandler>(),
         ));

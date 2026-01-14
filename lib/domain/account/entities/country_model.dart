@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:testabd/data/remote_source/account/model/countries_response.dart';
+import 'package:testabd/data/remote_source/account/model/country_item_response.dart';
 
 class CountryModel with EquatableMixin {
   final int? id;
@@ -11,7 +11,7 @@ class CountryModel with EquatableMixin {
   CountryModel({this.id, this.name, this.code, this.lat, this.lon});
 
   // from response
-  static CountryModel fromResponse(Country country) {
+  static CountryModel fromResponse(CountryItemResponse country) {
     return CountryModel(
       id: country.id,
       name: country.name,
