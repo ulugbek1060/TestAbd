@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:collection/collection.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:testabd/core/utils/app_message_handler.dart';
@@ -9,8 +12,31 @@ class RegionalSettingsCubit extends Cubit<RegionalSettingsState> {
   final AccountRepository _accountRepository;
   final AppMessageHandler _appMessageHandler;
 
+  late final StreamSubscription<void> _subscription;
+
   RegionalSettingsCubit(this._accountRepository, this._appMessageHandler)
-    : super(RegionalSettingsState());
+    : super(RegionalSettingsState()) {
+    _subscription = _accountRepository.userInfoStream.listen((event) {
+      emit(
+        state.copyWith(
+          countries: state.countries.copyWith(selected: event?.country),
+          regions: state.regions.copyWith(selected: event?.region),
+          districts: state.districts.copyWith(selected: event?.district),
+          settlement: state.settlement.copyWith(selected: event?.settlement),
+        ),
+      );
+
+      fetchRegions(event?.region?.country);
+      fetchDistricts(event?.district?.region);
+      fetchSettlements(event?.settlement?.district);
+    });
+  }
+
+  @override
+  Future<void> close() {
+    _subscription.cancel();
+    return super.close();
+  }
 
   Future<void> fetchCountries() async {
     if (state.countries.isLoading) return;
@@ -125,27 +151,30 @@ class RegionalSettingsCubit extends Cubit<RegionalSettingsState> {
     );
 
     final result = await _accountRepository.getSettlements(districtId);
-    result.fold((error) {
-      emit(
-        state.copyWith(
-          settlement: state.settlement.copyWith(
-            error: error.message,
-            isLoading: false,
+    result.fold(
+      (error) {
+        emit(
+          state.copyWith(
+            settlement: state.settlement.copyWith(
+              error: error.message,
+              isLoading: false,
+            ),
           ),
-        ),
-      );
-      _appMessageHandler.handleDialog(error);
-    }, (value) {
-      emit(
-        state.copyWith(
-          settlement: state.settlement.copyWith(
-            error: null,
-            isLoading: false,
-            settlements: value,
+        );
+        _appMessageHandler.handleDialog(error);
+      },
+      (value) {
+        emit(
+          state.copyWith(
+            settlement: state.settlement.copyWith(
+              error: null,
+              isLoading: false,
+              settlements: value,
+            ),
           ),
-        ),
-      );
-    });
+        );
+      },
+    );
   }
 
   Future<void> selectCountry(int? id) async {
@@ -166,10 +195,16 @@ class RegionalSettingsCubit extends Cubit<RegionalSettingsState> {
 
   Future<void> selectDistrict(int? id) async {
     if (id == null) return;
-    final district = state.districts.districts.firstWhere((e) => e.id == id);
+    final district = state.districts.districts.firstWhereOrNull(
+      (e) => e.id == id,
+    );
     emit(
       state.copyWith(districts: state.districts.copyWith(selected: district)),
     );
     fetchSettlements(id);
+  }
+
+  void toggleEditableMode() {
+    emit(state.copyWith(isEditable: !state.isEditable));
   }
 }

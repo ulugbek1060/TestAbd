@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:testabd/domain/account/entities/country_model.dart';
 import 'package:testabd/domain/account/entities/district_model.dart';
+import 'package:testabd/domain/account/entities/my_info_model.dart';
 import 'package:testabd/domain/account/entities/region_model.dart';
 import 'package:testabd/domain/account/entities/settlement_model.dart';
 

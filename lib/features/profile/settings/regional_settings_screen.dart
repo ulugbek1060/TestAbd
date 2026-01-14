@@ -21,7 +21,55 @@ class _View extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Joylashuv"), centerTitle: true),
+      appBar: AppBar(
+        title: const Text("Joylashuv"),
+        centerTitle: true,
+        actions: [
+          BlocBuilder<RegionalSettingsCubit, RegionalSettingsState>(
+            builder: (context, state) {
+              return IconButton(
+                onPressed: context
+                    .read<RegionalSettingsCubit>()
+                    .toggleEditableMode,
+                icon: state.isEditable ? Icon(Icons.close) : Icon(Icons.edit),
+              );
+            },
+          ),
+        ],
+      ),
+
+      bottomNavigationBar:
+          BlocBuilder<RegionalSettingsCubit, RegionalSettingsState>(
+            builder: (context, state) {
+              if (!state.isEditable) return SizedBox.shrink();
+
+              return SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: SizedBox(
+                    height: 52,
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blueAccent,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      child: const Text(
+                        "O‘zgarishlarni saqlash",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+
       body: RefreshIndicator(
         onRefresh: context.read<RegionalSettingsCubit>().fetchCountries,
         child: ListView(
@@ -78,12 +126,14 @@ class CountriesSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<RegionalSettingsCubit, RegionalSettingsState>(
-      buildWhen: (s1, s2) => s1.countries != s2.countries,
+      buildWhen: (s1, s2) =>
+          s1.countries != s2.countries || s1.isEditable != s2.isEditable,
       builder: (context, state) {
         final countriesState = state.countries;
         return _DropdownField(
           label: "Davlat",
           hint: "Davlatni tanlang",
+          enabled: state.isEditable,
           value: countriesState.selected?.id,
           items: countriesState.countries
               .map(
@@ -106,12 +156,14 @@ class RegionSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<RegionalSettingsCubit, RegionalSettingsState>(
-      buildWhen: (s1, s2) => s1.regions != s2.regions,
+      buildWhen: (s1, s2) =>
+          s1.regions != s2.regions || s1.isEditable != s2.isEditable,
       builder: (context, state) {
         final regionState = state.regions;
         return _DropdownField(
           label: "Region",
           hint: "Regionni tanlang",
+          enabled: state.isEditable,
           isLoading: regionState.isLoading,
           value: regionState.selected?.id,
           items: regionState.regions
@@ -135,12 +187,14 @@ class DistrictsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<RegionalSettingsCubit, RegionalSettingsState>(
-      buildWhen: (s1, s2) => s1.districts != s2.districts,
+      buildWhen: (s1, s2) =>
+          s1.districts != s2.districts || s1.isEditable != s2.isEditable,
       builder: (context, state) {
         final districtState = state.districts;
         return _DropdownField(
           label: "District",
           hint: "Districtni tanlang",
+          enabled: state.isEditable,
           value: districtState.selected?.id,
           isLoading: districtState.isLoading,
           items: districtState.districts
@@ -164,12 +218,14 @@ class SettlementSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<RegionalSettingsCubit, RegionalSettingsState>(
-      buildWhen: (s1, s2) => s1.districts != s2.districts,
+      buildWhen: (s1, s2) =>
+          s1.districts != s2.districts || s1.isEditable != s2.isEditable,
       builder: (context, state) {
         final settlementState = state.settlement;
         return _DropdownField(
           label: "Settlement",
           hint: "Settlementni tanlang",
+          enabled: state.isEditable,
           value: settlementState.selected?.id,
           isLoading: settlementState.isLoading,
           items: settlementState.settlements

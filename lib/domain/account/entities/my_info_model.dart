@@ -99,33 +99,41 @@ class MyInfoModel extends Equatable {
   static MyInfoModel fromResponse(MyInfoResponse? response) {
     return MyInfoModel(
       id: response?.id,
-      country: CountryModel(
-        id: response?.country?.id,
-        name: response?.country?.name,
-        code: response?.country?.code,
-        lat: response?.country?.lat,
-        lon: response?.country?.lon,
-      ),
-      region: RegionModel(
-        id: response?.region?.id,
-        name: response?.region?.name,
-        lat: response?.region?.lat,
-        lon: response?.region?.lon,
-      ),
-      district: DistrictModel(
-        id: response?.district?.id,
-        name: response?.district?.name,
-        lat: response?.district?.lat,
-        lon: response?.district?.lon,
-        region: response?.district?.region,
-      ),
-      settlement: SettlementModel(
-        id: response?.settlement?.id,
-        name: response?.settlement?.name,
-        lat: response?.settlement?.lat,
-        lon: response?.settlement?.lon,
-        district: response?.settlement?.district,
-      ),
+      country: response?.country == null
+          ? null
+          : CountryModel(
+              id: response?.country?.id,
+              name: response?.country?.name,
+              code: response?.country?.code,
+              lat: response?.country?.lat,
+              lon: response?.country?.lon,
+            ),
+      region: response?.region == null
+          ? null
+          : RegionModel(
+              id: response?.region?.id,
+              name: response?.region?.name,
+              lat: response?.region?.lat,
+              lon: response?.region?.lon,
+            ),
+      district: response?.district == null
+          ? null
+          : DistrictModel(
+              id: response?.district?.id,
+              name: response?.district?.name,
+              lat: response?.district?.lat,
+              lon: response?.district?.lon,
+              region: response?.district?.region,
+            ),
+      settlement: response?.settlement == null
+          ? null
+          : SettlementModel(
+              id: response?.settlement?.id,
+              name: response?.settlement?.name,
+              lat: response?.settlement?.lat,
+              lon: response?.settlement?.lon,
+              district: response?.settlement?.district,
+            ),
       categoriesOfInterest: response?.categoriesOfInterest,
       coinPercentage: response?.coinPercentage,
       weeklyTestCount: WeeklyTestCountModel(
