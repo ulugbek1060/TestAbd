@@ -62,4 +62,9 @@ class PersonalInfoCubit extends Cubit<PersonalInfoState> {
   void toggleEditableMode() {
     emit(state.copyWith(isEditable: !state.isEditable, myInfo: state.myInfo));
   }
+
+  Future<void> changeProfileImage(String path) async {
+    final result = await _accountRepository.updateProfileImage(path);
+    
+  }
 }

@@ -27,6 +27,7 @@ abstract class AccountRepository {
   Future<Either<AppException, List<RegionModel>>> getRegions(int? countryId);
   Future<Either<AppException, List<SettlementModel>>> getSettlements(int? districtId);
   Future<Either<AppException, ReferralListModel>> getReferralsList();
+  Future<dynamic> updateProfileImage(String path);
 }
 
 abstract class LeaderboardRepository {

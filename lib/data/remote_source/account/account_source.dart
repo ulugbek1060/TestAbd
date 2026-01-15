@@ -35,6 +35,8 @@ abstract class AccountSource {
   Future<List<DistrictItemResponse>> getDistricts(int? regionId);
 
   Future<List<SettlementItemResponse>> getSettlements(int? districtId);
+
+  Future<dynamic> uploadUserImage(String path);
 }
 
 @Injectable(as: AccountSource)
@@ -195,4 +197,21 @@ class AccountSourceImpl implements AccountSource {
     }
   }
 
+  @override
+  Future<dynamic> uploadUserImage(String path) async {
+    try {
+      final formData = FormData.fromMap({
+        'profile_image': await MultipartFile.fromFile(
+          path,
+          filename: path.split('/').last,
+        ),
+      });
+      final response = await _dio.put('/accounts/me/update/', data: formData);
+      return response.data;
+    } on DioException catch (e) {
+      throw e.handleDioException();
+    } catch (e, stackTrace) {
+      throw UnknownException(e.toString(), stackTrace: stackTrace);
+    }
+  }
 }

@@ -37,7 +37,7 @@ class _ViewState extends State<_View> {
   late final TextEditingController _phoneNumberTextController;
   late final TextEditingController _bioTextController;
 
-  File? _image;
+  // File? _image;
   late final ImagePicker _picker;
 
   Future<void> _pickImage(ImageSource source) async {
@@ -47,9 +47,16 @@ class _ViewState extends State<_View> {
     );
 
     if (selectedFile != null) {
-      setState(() {
-        _image = File(selectedFile.path);
-      });
+      // final formData = FormData.fromMap({
+      //   'profile_image': await MultipartFile.fromFile(
+      //     imageFile.path,
+      //     filename: imageFile.path.split('/').last,
+      //   ),
+      // });
+      // setState(() {
+      //   _image = File(selectedFile.path);
+      // });
+      context.read<PersonalInfoCubit>().changeProfileImage(selectedFile.path);
     }
   }
 
@@ -141,8 +148,6 @@ class _ViewState extends State<_View> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-
-
                       _ProfileImagePicker(
                         enabled: state.isEditable,
                         imageUrl: state.myInfo?.profileImage ?? '',
@@ -174,7 +179,6 @@ class _ViewState extends State<_View> {
                           );
                         },
                       ),
-
 
                       const SizedBox(height: 24),
                       _InputField(

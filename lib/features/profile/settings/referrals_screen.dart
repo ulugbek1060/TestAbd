@@ -12,8 +12,7 @@ class ReferralsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => locator<ReferralsCubit>()
-        ..fetchReferrals(),
+      create: (context) => locator<ReferralsCubit>()..fetchReferrals(),
       child: const _View(),
     );
   }
@@ -24,37 +23,34 @@ class _View extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ReferralsCubit, ReferralsState>(
-      buildWhen: (s1, s2) => s1.isLoading != s2.isLoading,
-      builder: (context, state) {
-        return Scaffold(
-          appBar: AppBar(
-            title: const Text("Referral Dasturi"),
-            centerTitle: true,
-          ),
-          body: state.isLoading
-              ? ProgressView()
-              : ListView(
-                  padding: const EdgeInsets.all(16),
-                  children: const [
-                    _HeaderText(),
-                    SizedBox(height: 16),
+    return Scaffold(
+      appBar: AppBar(title: const Text("Referral Dasturi"), centerTitle: true),
+      body: BlocBuilder<ReferralsCubit, ReferralsState>(
+        buildWhen: (s1, s2) => s1.isLoading != s2.isLoading,
+        builder: (context, state) {
+          if (state.isLoading) const ProgressView();
 
-                    _StatsRow(),
-                    SizedBox(height: 24),
+          return ListView(
+            padding: const EdgeInsets.all(16),
+            children: const [
+              _HeaderText(),
+              SizedBox(height: 16),
 
-                    _ReferralCodeCard(),
-                    SizedBox(height: 24),
+              _StatsRow(),
+              SizedBox(height: 24),
 
-                    _ComingSoonCard(),
-                    SizedBox(height: 24),
+              _ReferralCodeCard(),
+              SizedBox(height: 24),
 
-                    _SectionTitle(title: "Taklif qilingan foydalanuvchilar"),
-                    _ReferralHistoryList(),
-                  ],
-                ),
-        );
-      },
+              _ComingSoonCard(),
+              SizedBox(height: 24),
+
+              _SectionTitle(title: "Taklif qilingan foydalanuvchilar"),
+              _ReferralHistoryList(),
+            ],
+          );
+        },
+      ),
     );
   }
 }

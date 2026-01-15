@@ -26,10 +26,8 @@ class _View extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-
           // TelegramBotCard(),
           // SizedBox(height: 24),
-
           _Section(title: "Profile Information"),
           _ProfileTile(
             title: "Personal Information",
@@ -77,14 +75,12 @@ class _View extends StatelessWidget {
             ),
             trailing: StreamBuilder(
               stream: locator<LanguageService>().stream,
-              builder: (context, asyncSnapshot) {
-                return CircleAvatar(
-                  backgroundImage: AssetImage(
-                    asyncSnapshot.data?.getFlag() ?? '',
-                  ),
-                  radius: 12,
-                );
-              },
+              builder: (context, asyncSnapshot) => CircleAvatar(
+                backgroundImage: AssetImage(
+                  asyncSnapshot.data?.getFlag() ?? '',
+                ),
+                radius: 12,
+              ),
             ),
           ),
 
@@ -160,7 +156,6 @@ class _ProfileTile extends StatelessWidget {
   }
 }
 
-
 /// -------------------- Telegram card ----------------------
 class TelegramBotCard extends StatelessWidget {
   const TelegramBotCard({super.key});
@@ -174,11 +169,7 @@ class TelegramBotCard extends StatelessWidget {
         gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [
-            Color(0xFF3B82F6),
-            Color(0xFF9333EA),
-            Color(0xFFEC4899),
-          ],
+          colors: [Color(0xFF3B82F6), Color(0xFF9333EA), Color(0xFFEC4899)],
         ),
       ),
       child: Column(
@@ -194,7 +185,11 @@ class TelegramBotCard extends StatelessWidget {
                   color: Colors.white.withOpacity(0.2),
                   borderRadius: BorderRadius.circular(16),
                 ),
-                child: const Icon(Icons.smart_toy, color: Colors.white, size: 28),
+                child: const Icon(
+                  Icons.smart_toy,
+                  color: Colors.white,
+                  size: 28,
+                ),
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -212,10 +207,7 @@ class TelegramBotCard extends StatelessWidget {
                     SizedBox(height: 6),
                     Text(
                       "Profil ma'lumotlaringizni yanada qulay boshqaring",
-                      style: TextStyle(
-                        color: Colors.white70,
-                        fontSize: 14,
-                      ),
+                      style: TextStyle(color: Colors.white70, fontSize: 14),
                     ),
                   ],
                 ),
@@ -244,7 +236,10 @@ class TelegramBotCard extends StatelessWidget {
                 ),
                 SizedBox(height: 12),
                 _FeatureItem(icon: "🔥", text: "Tezkor profil yangilash"),
-                _FeatureItem(icon: "📱", text: "Mobil qurilmada qulay foydalanish"),
+                _FeatureItem(
+                  icon: "📱",
+                  text: "Mobil qurilmada qulay foydalanish",
+                ),
                 _FeatureItem(icon: "🔔", text: "Real vaqtda bildirishnomalar"),
                 _FeatureItem(icon: "⚡", text: "Bir necha sekundda sozlash"),
               ],
@@ -292,10 +287,7 @@ class _FeatureItem extends StatelessWidget {
   final String icon;
   final String text;
 
-  const _FeatureItem({
-    required this.icon,
-    required this.text,
-  });
+  const _FeatureItem({required this.icon, required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -306,14 +298,10 @@ class _FeatureItem extends StatelessWidget {
           Text(icon, style: const TextStyle(fontSize: 18)),
           const SizedBox(width: 8),
           Expanded(
-            child: Text(
-              text,
-              style: const TextStyle(color: Colors.white70),
-            ),
+            child: Text(text, style: const TextStyle(color: Colors.white70)),
           ),
         ],
       ),
     );
   }
 }
-

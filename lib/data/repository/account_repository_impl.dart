@@ -210,6 +210,20 @@ class AccountRepositoryImpl implements AccountRepository {
     }
   }
 
+  @override
+  Future<dynamic> updateProfileImage(String path) async {
+    try {
+      final result = await _accountSource.uploadUserImage(path);
+      // final model = MyInfoModel.fromResponse(result);
+      // final dbModel = MyInfoModel.toDb(model);
+      // _hiveService.saveMyInfo(dbModel);
+      return Right(result);
+    } on AppException catch (e) {
+      return Left(e);
+    } catch (e, stackTrace) {
+      return Left(UnknownException(e.toString(), stackTrace: stackTrace));
+    }
+  }
 }
 
 @LazySingleton(as: LeaderboardRepository)
