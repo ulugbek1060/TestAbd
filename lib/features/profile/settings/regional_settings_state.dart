@@ -1,7 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:testabd/domain/account/entities/country_model.dart';
 import 'package:testabd/domain/account/entities/district_model.dart';
-import 'package:testabd/domain/account/entities/my_info_model.dart';
 import 'package:testabd/domain/account/entities/region_model.dart';
 import 'package:testabd/domain/account/entities/settlement_model.dart';
 
@@ -11,6 +10,8 @@ part 'regional_settings_state.freezed.dart';
 class RegionalSettingsState with _$RegionalSettingsState {
   const factory RegionalSettingsState({
     @Default(false) bool isEditable,
+    // main state loading
+    @Default(false) bool isLoading,
     @Default(CountriesState()) CountriesState countries,
     @Default(RegionsState()) RegionsState regions,
     @Default(DistrictsState()) DistrictsState districts,

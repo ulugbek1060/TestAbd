@@ -42,7 +42,7 @@ class PersonalInfoCubit extends Cubit<PersonalInfoState> {
     if (state.status == PersonalInfoStatus.loading) return;
 
     emit(state.copyWith(status: PersonalInfoStatus.loading));
-    final result = await _accountRepository.changePersonalInfo(personalInfoDto);
+    final result = await _accountRepository.updatePersonalInfo(personalInfoDto);
     result.fold(
       (error) {
         emit(

@@ -26,6 +26,15 @@ class DistrictModel extends Equatable {
     );
   }
 
+  // to json
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'name': name,
+    'lat': lat,
+    'lon': lon,
+    'region': region,
+  };
+
   @override
   List<Object?> get props => [id, name, lat, lon, region];
 }

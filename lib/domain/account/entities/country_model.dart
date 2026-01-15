@@ -21,6 +21,15 @@ class CountryModel with EquatableMixin {
     );
   }
 
+  // to json
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'name': name,
+    'code': code,
+    'lat': lat,
+    'lon': lon,
+  };
+
   @override
   List<Object?> get props => [id, name, code, lat, lon];
 }

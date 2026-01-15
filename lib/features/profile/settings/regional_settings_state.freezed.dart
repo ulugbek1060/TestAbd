@@ -16,7 +16,9 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$RegionalSettingsState {
-  bool get isEditable => throw _privateConstructorUsedError;
+  bool get isEditable =>
+      throw _privateConstructorUsedError; // main state loading
+  bool get isLoading => throw _privateConstructorUsedError;
   CountriesState get countries => throw _privateConstructorUsedError;
   RegionsState get regions => throw _privateConstructorUsedError;
   DistrictsState get districts => throw _privateConstructorUsedError;
@@ -35,6 +37,7 @@ abstract class $RegionalSettingsStateCopyWith<$Res> {
   @useResult
   $Res call(
       {bool isEditable,
+      bool isLoading,
       CountriesState countries,
       RegionsState regions,
       DistrictsState districts,
@@ -61,6 +64,7 @@ class _$RegionalSettingsStateCopyWithImpl<$Res,
   @override
   $Res call({
     Object? isEditable = null,
+    Object? isLoading = null,
     Object? countries = null,
     Object? regions = null,
     Object? districts = null,
@@ -70,6 +74,10 @@ class _$RegionalSettingsStateCopyWithImpl<$Res,
       isEditable: null == isEditable
           ? _value.isEditable
           : isEditable // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
       countries: null == countries
           ? _value.countries
@@ -134,6 +142,7 @@ abstract class _$$RegionalSettingsStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {bool isEditable,
+      bool isLoading,
       CountriesState countries,
       RegionsState regions,
       DistrictsState districts,
@@ -162,6 +171,7 @@ class __$$RegionalSettingsStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isEditable = null,
+    Object? isLoading = null,
     Object? countries = null,
     Object? regions = null,
     Object? districts = null,
@@ -171,6 +181,10 @@ class __$$RegionalSettingsStateImplCopyWithImpl<$Res>
       isEditable: null == isEditable
           ? _value.isEditable
           : isEditable // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
       countries: null == countries
           ? _value.countries
@@ -197,6 +211,7 @@ class __$$RegionalSettingsStateImplCopyWithImpl<$Res>
 class _$RegionalSettingsStateImpl implements _RegionalSettingsState {
   const _$RegionalSettingsStateImpl(
       {this.isEditable = false,
+      this.isLoading = false,
       this.countries = const CountriesState(),
       this.regions = const RegionsState(),
       this.districts = const DistrictsState(),
@@ -205,6 +220,10 @@ class _$RegionalSettingsStateImpl implements _RegionalSettingsState {
   @override
   @JsonKey()
   final bool isEditable;
+// main state loading
+  @override
+  @JsonKey()
+  final bool isLoading;
   @override
   @JsonKey()
   final CountriesState countries;
@@ -220,7 +239,7 @@ class _$RegionalSettingsStateImpl implements _RegionalSettingsState {
 
   @override
   String toString() {
-    return 'RegionalSettingsState(isEditable: $isEditable, countries: $countries, regions: $regions, districts: $districts, settlement: $settlement)';
+    return 'RegionalSettingsState(isEditable: $isEditable, isLoading: $isLoading, countries: $countries, regions: $regions, districts: $districts, settlement: $settlement)';
   }
 
   @override
@@ -230,6 +249,8 @@ class _$RegionalSettingsStateImpl implements _RegionalSettingsState {
             other is _$RegionalSettingsStateImpl &&
             (identical(other.isEditable, isEditable) ||
                 other.isEditable == isEditable) &&
+            (identical(other.isLoading, isLoading) ||
+                other.isLoading == isLoading) &&
             (identical(other.countries, countries) ||
                 other.countries == countries) &&
             (identical(other.regions, regions) || other.regions == regions) &&
@@ -240,8 +261,8 @@ class _$RegionalSettingsStateImpl implements _RegionalSettingsState {
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, isEditable, countries, regions, districts, settlement);
+  int get hashCode => Object.hash(runtimeType, isEditable, isLoading, countries,
+      regions, districts, settlement);
 
   @JsonKey(ignore: true)
   @override
@@ -254,6 +275,7 @@ class _$RegionalSettingsStateImpl implements _RegionalSettingsState {
 abstract class _RegionalSettingsState implements RegionalSettingsState {
   const factory _RegionalSettingsState(
       {final bool isEditable,
+      final bool isLoading,
       final CountriesState countries,
       final RegionsState regions,
       final DistrictsState districts,
@@ -261,6 +283,8 @@ abstract class _RegionalSettingsState implements RegionalSettingsState {
 
   @override
   bool get isEditable;
+  @override // main state loading
+  bool get isLoading;
   @override
   CountriesState get countries;
   @override

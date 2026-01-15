@@ -20,6 +20,17 @@ class RegionModel extends Equatable {
     );
   }
 
+  // to json
+  Map<String, dynamic> toJson(){
+    return {
+      'id': id,
+      'name': name,
+      'lat': lat,
+      'lon': lon,
+      'country': country,
+    };
+  }
+
   @override
   List<Object?> get props => [id, name, lat, lon, country];
 }

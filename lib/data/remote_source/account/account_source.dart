@@ -3,6 +3,7 @@ import 'package:injectable/injectable.dart';
 import 'package:testabd/core/errors/app_exception.dart';
 import 'package:testabd/data/remote_source/account/model/country_item_response.dart';
 import 'package:testabd/data/remote_source/account/model/district_item_response.dart';
+import 'package:testabd/data/remote_source/account/model/referrals_list_response.dart';
 import 'package:testabd/data/remote_source/account/model/region_item_response.dart';
 import 'package:testabd/data/remote_source/account/model/settlement_item_response.dart';
 import 'package:testabd/data/remote_source/account/model/user_connections_response.dart';
@@ -12,15 +13,27 @@ import 'package:testabd/data/remote_source/account/model/notifications_response.
 
 abstract class AccountSource {
   Future<MyInfoResponse> getUserInfo();
+
   Future<NotificationsResponse> notifications();
+
   Future<dynamic> getStories();
+
   Future<UserProfileResponse> getProfile(String username);
+
   Future<UserConnectionsResponse> getFollowers(int userId);
+
   Future<String> followUser(int userId);
+
   Future<MyInfoResponse> updateMyInfo(Map<String, dynamic> data);
+
   Future<List<CountryItemResponse>> getCountries();
+
+  Future<ReferralsListResponse> getReferralsList();
+
   Future<List<RegionItemResponse>> getRegions(int? countryId);
+
   Future<List<DistrictItemResponse>> getDistricts(int? regionId);
+
   Future<List<SettlementItemResponse>> getSettlements(int? districtId);
 }
 
@@ -163,6 +176,18 @@ class AccountSourceImpl implements AccountSource {
       return (response.data as List<dynamic>)
           .map((e) => SettlementItemResponse.fromJson(e))
           .toList();
+    } on DioException catch (e) {
+      throw e.handleDioException();
+    } catch (e, stackTrace) {
+      throw UnknownException(e.toString(), stackTrace: stackTrace);
+    }
+  }
+
+  @override
+  Future<ReferralsListResponse> getReferralsList() async {
+    try {
+      final response = await _dio.get("/accounts/my/referrals-list/");
+      return ReferralsListResponse.fromJson(response.data);
     } on DioException catch (e) {
       throw e.handleDioException();
     } catch (e, stackTrace) {

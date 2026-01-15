@@ -5,7 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:testabd/core/utils/app_message_handler.dart';
 import 'package:testabd/domain/account/account_repository.dart';
+import 'package:testabd/domain/account/entities/personal_info_dto.dart';
 import 'package:testabd/features/profile/settings/regional_settings_state.dart';
+import 'package:testabd/main.dart';
 
 @injectable
 class RegionalSettingsCubit extends Cubit<RegionalSettingsState> {
@@ -14,9 +16,15 @@ class RegionalSettingsCubit extends Cubit<RegionalSettingsState> {
 
   late final StreamSubscription<void> _subscription;
 
+  late PersonalInfoDto? _personalInfoDto;
+
   RegionalSettingsCubit(this._accountRepository, this._appMessageHandler)
     : super(RegionalSettingsState()) {
+    // personal info data holder
+    _personalInfoDto = PersonalInfoDto();
+
     _subscription = _accountRepository.userInfoStream.listen((event) {
+      // update ui
       emit(
         state.copyWith(
           countries: state.countries.copyWith(selected: event?.country),
@@ -26,6 +34,21 @@ class RegionalSettingsCubit extends Cubit<RegionalSettingsState> {
         ),
       );
 
+      // personal info data holder
+      _personalInfoDto = _personalInfoDto?.copyWith(
+        country: event?.country,
+        region: event?.region,
+        district: event?.district,
+        settlement: event?.settlement,
+        firstName: event?.firstName,
+        lastName: event?.lastName,
+        username: event?.username,
+        bio: event?.bio,
+        email: event?.email,
+        phoneNumber: event?.phoneNumber,
+      );
+
+      // fetch current data
       fetchRegions(event?.region?.country);
       fetchDistricts(event?.district?.region);
       fetchSettlements(event?.settlement?.district);
@@ -204,7 +227,36 @@ class RegionalSettingsCubit extends Cubit<RegionalSettingsState> {
     fetchSettlements(id);
   }
 
-  void toggleEditableMode() {
-    emit(state.copyWith(isEditable: !state.isEditable));
+  Future<void> toggleEditableMode() async =>
+      emit(state.copyWith(isEditable: !state.isEditable));
+
+  Future<void> save() async {
+    if (state.isLoading) return;
+    if (_personalInfoDto == null) return;
+
+    _personalInfoDto = _personalInfoDto?.copyWith(
+      country: state.countries.selected,
+      region: state.regions.selected,
+      district: state.districts.selected,
+      settlement: state.settlement.selected,
+    );
+
+    emit(state.copyWith(isLoading: true));
+
+    logger.d(_personalInfoDto);
+
+
+    final result = await _accountRepository.updatePersonalInfo(
+      _personalInfoDto!,
+    );
+    result.fold(
+      (error) {
+        emit(state.copyWith(isLoading: false));
+        _appMessageHandler.handleDialog(error);
+      },
+      (value) {
+        emit(state.copyWith(isLoading: false));
+      },
+    );
   }
 }

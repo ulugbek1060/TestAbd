@@ -129,7 +129,7 @@ class AccountRepositoryImpl implements AccountRepository {
   }
 
   @override
-  Future<Either<AppException, Unit>> changePersonalInfo(
+  Future<Either<AppException, Unit>> updatePersonalInfo(
     PersonalInfoDto personalInfoDto,
   ) async {
     try {
@@ -198,6 +198,23 @@ class AccountRepositoryImpl implements AccountRepository {
       final result = await _accountSource.getSettlements(districtId);
       final list = result.map((e) => SettlementModel.fromResponse(e)).toList();
       return Right(list);
+    } on AppException catch (e) {
+      return Left(e);
+    } catch (e, stackTrace) {
+      return Left(UnknownException(e.toString(), stackTrace: stackTrace));
+    }
+  }
+
+  @override
+  Future<Either<AppException, Unit>> updatePersonalInfo2(
+    Map<String, dynamic> data,
+  ) async {
+    try {
+      final result = await _accountSource.updateMyInfo(data);
+      final model = MyInfoModel.fromResponse(result);
+      final dbModel = MyInfoModel.toDb(model);
+      _hiveService.saveMyInfo(dbModel);
+      return Right(unit);
     } on AppException catch (e) {
       return Left(e);
     } catch (e, stackTrace) {

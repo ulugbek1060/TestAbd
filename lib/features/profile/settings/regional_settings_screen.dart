@@ -26,14 +26,12 @@ class _View extends StatelessWidget {
         centerTitle: true,
         actions: [
           BlocBuilder<RegionalSettingsCubit, RegionalSettingsState>(
-            builder: (context, state) {
-              return IconButton(
-                onPressed: context
-                    .read<RegionalSettingsCubit>()
-                    .toggleEditableMode,
-                icon: state.isEditable ? Icon(Icons.close) : Icon(Icons.edit),
-              );
-            },
+            builder: (context, state) => IconButton(
+              onPressed: context
+                  .read<RegionalSettingsCubit>()
+                  .toggleEditableMode,
+              icon: state.isEditable ? Icon(Icons.close) : Icon(Icons.edit),
+            ),
           ),
         ],
       ),
@@ -49,7 +47,7 @@ class _View extends StatelessWidget {
                   child: SizedBox(
                     height: 52,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: context.read<RegionalSettingsCubit>().save,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.blueAccent,
                         shape: RoundedRectangleBorder(
@@ -70,25 +68,32 @@ class _View extends StatelessWidget {
             },
           ),
 
-      body: RefreshIndicator(
-        onRefresh: context.read<RegionalSettingsCubit>().fetchCountries,
-        child: ListView(
-          padding: const EdgeInsets.all(16),
-          children: [
-            const _Header(),
+      body: BlocBuilder<RegionalSettingsCubit, RegionalSettingsState>(
+        buildWhen: (s1, s2) => s1.isLoading != s2.isLoading,
+        builder: (context, state) {
+          return RefreshIndicator(
+            onRefresh: context.read<RegionalSettingsCubit>().fetchCountries,
+            child: state.isLoading
+                ? ProgressView()
+                : ListView(
+                    padding: const EdgeInsets.all(16),
+                    children: [
+                      const _Header(),
 
-            // spacer
-            const SizedBox(height: 24),
+                      // spacer
+                      const SizedBox(height: 24),
 
-            CountriesSection(),
+                      CountriesSection(),
 
-            RegionSection(),
+                      RegionSection(),
 
-            DistrictsSection(),
+                      DistrictsSection(),
 
-            SettlementSection(),
-          ],
-        ),
+                      SettlementSection(),
+                    ],
+                  ),
+          );
+        },
       ),
     );
   }

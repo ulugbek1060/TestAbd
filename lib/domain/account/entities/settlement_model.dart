@@ -26,6 +26,15 @@ class SettlementModel extends Equatable {
     );
   }
 
+  // to json
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'name': name,
+    'lat': lat,
+    'lon': lon,
+    'district': district,
+  };
+
   @override
   List<Object?> get props => [id, name, lat, lon, district];
 }

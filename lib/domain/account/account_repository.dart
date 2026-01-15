@@ -20,7 +20,7 @@ abstract class AccountRepository {
   Future<Either<AppException, UserConnectionsModel>> getUserConnections(int userId);
   Future<Either<AppException, String>> followUser(int userId);
   Future<Either<AppException, LeaderboardModel>> getLeaderboard(int page, int pageSize);
-  Future<Either<AppException, Unit>> changePersonalInfo(PersonalInfoDto personalInfoDto);
+  Future<Either<AppException, Unit>> updatePersonalInfo(PersonalInfoDto personalInfoDto);
   Future<Either<AppException, List<CountryModel>>> getCountries();
   Future<Either<AppException, List<DistrictModel>>> getDistricts(int? regionId);
   Future<Either<AppException, List<RegionModel>>> getRegions(int? countryId);
