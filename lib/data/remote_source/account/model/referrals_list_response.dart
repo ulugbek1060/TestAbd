@@ -36,7 +36,7 @@ class Referred with _$Referred {
     @JsonKey(name: 'first_name') String? firstName,
     @JsonKey(name: 'last_name') String? lastName,
     @JsonKey(name: 'profile_image') String? profileImage,
-    @JsonKey(name: 'is_following') String? isFollowing,
+    @JsonKey(name: 'is_following') bool? isFollowing,
   }) = _Referred;
 
   factory Referred.fromJson(Map<String, dynamic> json) =>

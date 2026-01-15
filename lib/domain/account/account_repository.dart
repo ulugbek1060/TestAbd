@@ -6,6 +6,7 @@ import 'package:testabd/domain/account/entities/leaderboard_model.dart';
 import 'package:testabd/domain/account/entities/my_info_model.dart';
 import 'package:testabd/domain/account/entities/notification_model.dart';
 import 'package:testabd/domain/account/entities/personal_info_dto.dart';
+import 'package:testabd/domain/account/entities/referral_list_model.dart';
 import 'package:testabd/domain/account/entities/region_model.dart';
 import 'package:testabd/domain/account/entities/settlement_model.dart';
 import 'package:testabd/domain/account/entities/user_connections_model.dart';
@@ -25,6 +26,7 @@ abstract class AccountRepository {
   Future<Either<AppException, List<DistrictModel>>> getDistricts(int? regionId);
   Future<Either<AppException, List<RegionModel>>> getRegions(int? countryId);
   Future<Either<AppException, List<SettlementModel>>> getSettlements(int? districtId);
+  Future<Either<AppException, ReferralListModel>> getReferralsList();
 }
 
 abstract class LeaderboardRepository {

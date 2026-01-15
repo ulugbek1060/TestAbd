@@ -51,7 +51,7 @@ _$ReferredImpl _$$ReferredImplFromJson(Map<String, dynamic> json) =>
       firstName: json['first_name'] as String?,
       lastName: json['last_name'] as String?,
       profileImage: json['profile_image'] as String?,
-      isFollowing: json['is_following'] as String?,
+      isFollowing: json['is_following'] as bool?,
     );
 
 Map<String, dynamic> _$$ReferredImplToJson(_$ReferredImpl instance) =>

@@ -11,6 +11,7 @@ import 'package:testabd/domain/account/entities/leaderboard_model.dart';
 import 'package:testabd/domain/account/entities/my_info_model.dart';
 import 'package:testabd/domain/account/entities/notification_model.dart';
 import 'package:testabd/domain/account/entities/personal_info_dto.dart';
+import 'package:testabd/domain/account/entities/referral_list_model.dart';
 import 'package:testabd/domain/account/entities/region_model.dart';
 import 'package:testabd/domain/account/entities/settlement_model.dart';
 import 'package:testabd/domain/account/entities/user_connections_model.dart';
@@ -129,9 +130,7 @@ class AccountRepositoryImpl implements AccountRepository {
   }
 
   @override
-  Future<Either<AppException, Unit>> updatePersonalInfo(
-    PersonalInfoDto personalInfoDto,
-  ) async {
+  Future<Either<AppException, Unit>> updatePersonalInfo(PersonalInfoDto personalInfoDto,) async {
     try {
       final result = await _accountSource.updateMyInfo(
         personalInfoDto.toJson(),
@@ -161,9 +160,7 @@ class AccountRepositoryImpl implements AccountRepository {
   }
 
   @override
-  Future<Either<AppException, List<RegionModel>>> getRegions(
-    int? countryId,
-  ) async {
+  Future<Either<AppException, List<RegionModel>>> getRegions(int? countryId,) async {
     try {
       final result = await _accountSource.getRegions(countryId);
       final list = result.map((e) => RegionModel.fromResponse(e)).toList();
@@ -176,9 +173,7 @@ class AccountRepositoryImpl implements AccountRepository {
   }
 
   @override
-  Future<Either<AppException, List<DistrictModel>>> getDistricts(
-    int? regionId,
-  ) async {
+  Future<Either<AppException, List<DistrictModel>>> getDistricts(int? regionId,) async {
     try {
       final result = await _accountSource.getDistricts(regionId);
       final list = result.map((e) => DistrictModel.fromResponse(e)).toList();
@@ -191,9 +186,7 @@ class AccountRepositoryImpl implements AccountRepository {
   }
 
   @override
-  Future<Either<AppException, List<SettlementModel>>> getSettlements(
-    int? districtId,
-  ) async {
+  Future<Either<AppException, List<SettlementModel>>> getSettlements(int? districtId,) async {
     try {
       final result = await _accountSource.getSettlements(districtId);
       final list = result.map((e) => SettlementModel.fromResponse(e)).toList();
@@ -206,21 +199,17 @@ class AccountRepositoryImpl implements AccountRepository {
   }
 
   @override
-  Future<Either<AppException, Unit>> updatePersonalInfo2(
-    Map<String, dynamic> data,
-  ) async {
+  Future<Either<AppException, ReferralListModel>> getReferralsList() async {
     try {
-      final result = await _accountSource.updateMyInfo(data);
-      final model = MyInfoModel.fromResponse(result);
-      final dbModel = MyInfoModel.toDb(model);
-      _hiveService.saveMyInfo(dbModel);
-      return Right(unit);
+      final result = await _accountSource.getReferralsList();
+      return Right(ReferralListModel.fromResponse(result));
     } on AppException catch (e) {
       return Left(e);
     } catch (e, stackTrace) {
       return Left(UnknownException(e.toString(), stackTrace: stackTrace));
     }
   }
+
 }
 
 @LazySingleton(as: LeaderboardRepository)

@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:testabd/data/remote_source/account/model/referrals_list_response.dart';
 import 'package:testabd/data/remote_source/quiz/models/topic_related_questions_response.dart';
 
 class UserItemModel extends Equatable {
@@ -38,4 +39,5 @@ class UserItemModel extends Equatable {
       isFollowing: response?.is_following,
     );
   }
+
 }

@@ -466,7 +466,7 @@ mixin _$Referred {
   @JsonKey(name: 'profile_image')
   String? get profileImage => throw _privateConstructorUsedError;
   @JsonKey(name: 'is_following')
-  String? get isFollowing => throw _privateConstructorUsedError;
+  bool? get isFollowing => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -485,7 +485,7 @@ abstract class $ReferredCopyWith<$Res> {
       @JsonKey(name: 'first_name') String? firstName,
       @JsonKey(name: 'last_name') String? lastName,
       @JsonKey(name: 'profile_image') String? profileImage,
-      @JsonKey(name: 'is_following') String? isFollowing});
+      @JsonKey(name: 'is_following') bool? isFollowing});
 }
 
 /// @nodoc
@@ -532,7 +532,7 @@ class _$ReferredCopyWithImpl<$Res, $Val extends Referred>
       isFollowing: freezed == isFollowing
           ? _value.isFollowing
           : isFollowing // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as bool?,
     ) as $Val);
   }
 }
@@ -551,7 +551,7 @@ abstract class _$$ReferredImplCopyWith<$Res>
       @JsonKey(name: 'first_name') String? firstName,
       @JsonKey(name: 'last_name') String? lastName,
       @JsonKey(name: 'profile_image') String? profileImage,
-      @JsonKey(name: 'is_following') String? isFollowing});
+      @JsonKey(name: 'is_following') bool? isFollowing});
 }
 
 /// @nodoc
@@ -596,7 +596,7 @@ class __$$ReferredImplCopyWithImpl<$Res>
       isFollowing: freezed == isFollowing
           ? _value.isFollowing
           : isFollowing // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as bool?,
     ));
   }
 }
@@ -632,7 +632,7 @@ class _$ReferredImpl implements _Referred {
   final String? profileImage;
   @override
   @JsonKey(name: 'is_following')
-  final String? isFollowing;
+  final bool? isFollowing;
 
   @override
   String toString() {
@@ -678,13 +678,12 @@ class _$ReferredImpl implements _Referred {
 
 abstract class _Referred implements Referred {
   const factory _Referred(
-          {@JsonKey(name: 'id') final int? id,
-          @JsonKey(name: 'username') final String? username,
-          @JsonKey(name: 'first_name') final String? firstName,
-          @JsonKey(name: 'last_name') final String? lastName,
-          @JsonKey(name: 'profile_image') final String? profileImage,
-          @JsonKey(name: 'is_following') final String? isFollowing}) =
-      _$ReferredImpl;
+      {@JsonKey(name: 'id') final int? id,
+      @JsonKey(name: 'username') final String? username,
+      @JsonKey(name: 'first_name') final String? firstName,
+      @JsonKey(name: 'last_name') final String? lastName,
+      @JsonKey(name: 'profile_image') final String? profileImage,
+      @JsonKey(name: 'is_following') final bool? isFollowing}) = _$ReferredImpl;
 
   factory _Referred.fromJson(Map<String, dynamic> json) =
       _$ReferredImpl.fromJson;
@@ -706,7 +705,7 @@ abstract class _Referred implements Referred {
   String? get profileImage;
   @override
   @JsonKey(name: 'is_following')
-  String? get isFollowing;
+  bool? get isFollowing;
   @override
   @JsonKey(ignore: true)
   _$$ReferredImplCopyWith<_$ReferredImpl> get copyWith =>

@@ -1,6 +1,6 @@
 part of 'referral_cubit.dart';
 
 @immutable
-sealed class ReferalState {}
+sealed class ReferralState {}
 
-final class ReferalInitial extends ReferalState {}
+final class ReferalInitial extends ReferralState {}
