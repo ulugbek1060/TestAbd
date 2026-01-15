@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:testabd/core/services/session_service.dart';
+import 'package:testabd/core/services/token_service.dart';
 import 'package:testabd/core/utils/app_mode_service.dart';
 import 'package:testabd/core/utils/language_service.dart';
 import 'package:testabd/di/app_config.dart';
@@ -93,6 +95,20 @@ class _View extends StatelessWidget {
                 'Invite your network and stack up credits for your next purchase.',
             onTap: () => context.push(AppRouter.referrals),
             trailing: const Icon(Icons.history),
+          ),
+
+
+          SizedBox(height: 24),
+
+          _Section(title: "Account"),
+          _ProfileTile(
+            title: 'Logout',
+            description: 'Sign out from your account',
+            trailing: Icon(Icons.logout, color: Colors.red,),
+            onTap: (){
+              locator<SessionService>().clear();
+              locator<TokenService>().clear();
+            },
           ),
 
           // 100

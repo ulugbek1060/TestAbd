@@ -15,7 +15,6 @@ import 'package:testabd/main.dart';
 @injectable
 class ProfileCubit extends Cubit<ProfileState> {
   final AuthRepository _authRepository;
-  final AppSettingsService _appModeService;
   final AccountRepository _accountRepository;
   final QuizRepository _quizRepository;
   final AppMessageHandler _messageHandler;
@@ -26,12 +25,9 @@ class ProfileCubit extends Cubit<ProfileState> {
   ProfileCubit(
     this._authRepository,
     this._accountRepository,
-    this._appModeService,
     this._quizRepository,
     this._messageHandler,
   ) : super(ProfileState()) {
-
-
     // listen the my info subscription
     _myInfoSubscription = _accountRepository.userInfoStream.listen((event) {
       // fetch user connections
@@ -43,6 +39,7 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   Future<void> refresh() async {
     fetchUserInfo();
+    fetchMyQuestions();
   }
 
   @override
@@ -55,7 +52,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   Future<void> fetchUserInfo() async {
     if (state.isLoading) return;
     emit(state.copyWith(isLoading: true));
-    
+
     await Future.delayed(Duration(milliseconds: 500));
 
     final result = await _accountRepository.fetchMyInfo();
@@ -106,8 +103,6 @@ class ProfileCubit extends Cubit<ProfileState> {
         );
       },
     );
-
-
   }
 
   Future<void> fetchQuestionBookmark() async {
@@ -148,6 +143,42 @@ class ProfileCubit extends Cubit<ProfileState> {
     );
   }
 
+  Future<void> fetchMyQuestions() async {
+    if (state.myQuestionsState.isLoading) return;
+
+    emit(
+      state.copyWith(
+        myQuestionsState: state.myQuestionsState.copyWith(isLoading: true),
+      ),
+    );
+
+    final result = await _quizRepository.getMyQuestions();
+    result.fold(
+      (error) {
+        emit(
+          state.copyWith(
+            myQuestionsState: state.myQuestionsState.copyWith(
+              error: error.message,
+              isLoading: false,
+            ),
+          ),
+        );
+        _messageHandler.handleDialog(error);
+      },
+      (value) {
+        emit(
+          state.copyWith(
+            myQuestionsState: state.myQuestionsState.copyWith(
+              isLoading: false,
+              myQuestions: value,
+              error: null,
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   Future<void> fetchBlockQuizBookmark() async {
     // TODO fetch block quiz bookmark
   }
@@ -159,6 +190,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   Future<void> fetchRecent() async {
     // TODO fetch recent
   }
+
   // logout
   void logout() async {
     final result = await _authRepository.logout();

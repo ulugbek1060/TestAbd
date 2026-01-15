@@ -135,17 +135,16 @@ extension GetItInjectableX on _i174.GetIt {
         ));
     gh.factory<_i36.ForgotPswdCubit>(
         () => _i36.ForgotPswdCubit(gh<_i893.AuthRepository>()));
-    gh.factory<_i760.ProfileCubit>(() => _i760.ProfileCubit(
-          gh<_i893.AuthRepository>(),
-          gh<_i575.AccountRepository>(),
-          gh<_i555.AppSettingsService>(),
-          gh<_i156.QuizRepository>(),
-          gh<_i877.AppMessageHandler>(),
-        ));
     gh.factory<_i163.RegisterCubit>(
         () => _i163.RegisterCubit(gh<_i893.AuthRepository>()));
     gh.factory<_i958.LoginCubit>(
         () => _i958.LoginCubit(gh<_i893.AuthRepository>()));
+    gh.factory<_i760.ProfileCubit>(() => _i760.ProfileCubit(
+          gh<_i893.AuthRepository>(),
+          gh<_i575.AccountRepository>(),
+          gh<_i156.QuizRepository>(),
+          gh<_i877.AppMessageHandler>(),
+        ));
     gh.factoryParam<_i445.UserProfileCubit, String, dynamic>((
       username,
       _,

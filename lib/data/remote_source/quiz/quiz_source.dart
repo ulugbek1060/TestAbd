@@ -4,6 +4,7 @@ import 'package:testabd/core/errors/app_exception.dart';
 import 'package:testabd/data/remote_source/quiz/models/answer_response.dart';
 import 'package:testabd/data/remote_source/quiz/models/followed_questions_response.dart';
 import 'package:testabd/data/remote_source/quiz/models/bookmark_questions_response.dart';
+import 'package:testabd/data/remote_source/quiz/models/my_question_response.dart';
 import 'package:testabd/data/remote_source/quiz/models/random_questions_response.dart';
 import 'package:testabd/data/remote_source/quiz/models/topic_related_questions_response.dart';
 import 'package:testabd/data/remote_source/quiz/models/user_question_response.dart';
@@ -11,32 +12,15 @@ import 'package:testabd/data/remote_source/quiz/models/user_question_response.da
 import 'models/block_questions_response.dart';
 
 abstract class QuizSource {
-  Future<FollowedQuestionsResponse> getFollowedQuestions(
-    int page,
-    int pageSize,
-  );
-
-  Future<AnswerResponse> submitAnswer(
-    int questionId,
-    List<int> selectedAnswers,
-    int? duration,
-  );
-
-  Future<TopicRelatedQuestionsResponse> getTopics(
-    int userId, {
-    int? page,
-    int? pageSize,
-  });
-
+  Future<FollowedQuestionsResponse> getFollowedQuestions(int page, int pageSize,);
+  Future<AnswerResponse> submitAnswer(int questionId, List<int> selectedAnswers, int? duration,);
+  Future<TopicRelatedQuestionsResponse> getTopics(int userId, {int? page, int? pageSize,});
   Future<List<UserQuestionResponse>> getUserQuestions(int userId);
-
   Future<BlockQuestionsResponse> getBlockTests(int blockId);
-
   Future<dynamic> bookmarkQuestions(int questionId);
-
   Future<BookmarkQuestionsResponse> getQuestionsBookmark();
-
   Future<RandomQuestionModel> getRandomQuestion(int page, int pageSize);
+  Future<List<MyQuestionResponse>> getMyQuestions();
 }
 
 /// =========================> Source implementation <=========================
@@ -176,6 +160,20 @@ class QuizSourceImpl implements QuizSource {
     try {
       final response = await _dio.get('/quiz/question-bookmarks/');
       return BookmarkQuestionsResponse.fromJson(response.data);
+    } on DioException catch (error) {
+      throw error.handleDioException();
+    } catch (e, stackTrace) {
+      throw UnknownException(e.toString(), stackTrace: stackTrace);
+    }
+  }
+
+  @override
+  Future<List<MyQuestionResponse>> getMyQuestions() async {
+    try {
+      final response = await _dio.get('/quiz/tests/my_tests/');
+      return (response.data as List)
+          .map((e) => MyQuestionResponse.fromJson(e))
+          .toList();
     } on DioException catch (error) {
       throw error.handleDioException();
     } catch (e, stackTrace) {

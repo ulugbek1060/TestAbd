@@ -4,6 +4,7 @@ import 'package:testabd/core/errors/app_exception.dart';
 import 'package:testabd/data/remote_source/quiz/quiz_source.dart';
 import 'package:testabd/domain/entity/check_answer_model.dart';
 import 'package:testabd/domain/quiz/entities/global_quiz_model.dart';
+import 'package:testabd/domain/quiz/entities/my_qursion_model.dart';
 import 'package:testabd/domain/quiz/entities/questions_bookmark_model.dart';
 import 'package:testabd/domain/quiz/entities/quiz_item.dart';
 import 'package:testabd/domain/quiz/entities/topics_model.dart';
@@ -86,10 +87,24 @@ class QuizRepositoryImpl extends QuizRepository {
   }
 
   @override
-  Future<Either<AppException, QuestionsBookmarkModel>> getQuestionsBookmark() async {
+  Future<Either<AppException, QuestionsBookmarkModel>>
+  getQuestionsBookmark() async {
     try {
       final result = await _quizSource.getQuestionsBookmark();
       return Right(QuestionsBookmarkModel.fromResponse(result));
+    } on AppException catch (e) {
+      return Left(e);
+    } catch (e, stackTrace) {
+      return Left(UnknownException(e.toString(), stackTrace: stackTrace));
+    }
+  }
+
+  @override
+  Future<Either<AppException, List<MyQuestionModel>>> getMyQuestions() async {
+    try {
+      final result = await _quizSource.getMyQuestions();
+      final list = result.map(MyQuestionModel.fromResponse).toList();
+      return Right(list);
     } on AppException catch (e) {
       return Left(e);
     } catch (e, stackTrace) {

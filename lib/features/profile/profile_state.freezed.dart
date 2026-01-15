@@ -23,7 +23,8 @@ mixin _$ProfileState {
   UserConnectionsState get userConnectionsState =>
       throw _privateConstructorUsedError; // questions bookmark
   QuestionsBookmarkState get questionsBookmarkState =>
-      throw _privateConstructorUsedError;
+      throw _privateConstructorUsedError; // my questions
+  MyQuestionsState get myQuestionsState => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ProfileStateCopyWith<ProfileState> get copyWith =>
@@ -41,10 +42,12 @@ abstract class $ProfileStateCopyWith<$Res> {
       String? error,
       MyInfoModel? myInfoModel,
       UserConnectionsState userConnectionsState,
-      QuestionsBookmarkState questionsBookmarkState});
+      QuestionsBookmarkState questionsBookmarkState,
+      MyQuestionsState myQuestionsState});
 
   $UserConnectionsStateCopyWith<$Res> get userConnectionsState;
   $QuestionsBookmarkStateCopyWith<$Res> get questionsBookmarkState;
+  $MyQuestionsStateCopyWith<$Res> get myQuestionsState;
 }
 
 /// @nodoc
@@ -65,6 +68,7 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
     Object? myInfoModel = freezed,
     Object? userConnectionsState = null,
     Object? questionsBookmarkState = null,
+    Object? myQuestionsState = null,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
@@ -87,6 +91,10 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
           ? _value.questionsBookmarkState
           : questionsBookmarkState // ignore: cast_nullable_to_non_nullable
               as QuestionsBookmarkState,
+      myQuestionsState: null == myQuestionsState
+          ? _value.myQuestionsState
+          : myQuestionsState // ignore: cast_nullable_to_non_nullable
+              as MyQuestionsState,
     ) as $Val);
   }
 
@@ -107,6 +115,14 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
       return _then(_value.copyWith(questionsBookmarkState: value) as $Val);
     });
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $MyQuestionsStateCopyWith<$Res> get myQuestionsState {
+    return $MyQuestionsStateCopyWith<$Res>(_value.myQuestionsState, (value) {
+      return _then(_value.copyWith(myQuestionsState: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -122,12 +138,15 @@ abstract class _$$ProfileStateImplCopyWith<$Res>
       String? error,
       MyInfoModel? myInfoModel,
       UserConnectionsState userConnectionsState,
-      QuestionsBookmarkState questionsBookmarkState});
+      QuestionsBookmarkState questionsBookmarkState,
+      MyQuestionsState myQuestionsState});
 
   @override
   $UserConnectionsStateCopyWith<$Res> get userConnectionsState;
   @override
   $QuestionsBookmarkStateCopyWith<$Res> get questionsBookmarkState;
+  @override
+  $MyQuestionsStateCopyWith<$Res> get myQuestionsState;
 }
 
 /// @nodoc
@@ -146,6 +165,7 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
     Object? myInfoModel = freezed,
     Object? userConnectionsState = null,
     Object? questionsBookmarkState = null,
+    Object? myQuestionsState = null,
   }) {
     return _then(_$ProfileStateImpl(
       isLoading: null == isLoading
@@ -168,6 +188,10 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
           ? _value.questionsBookmarkState
           : questionsBookmarkState // ignore: cast_nullable_to_non_nullable
               as QuestionsBookmarkState,
+      myQuestionsState: null == myQuestionsState
+          ? _value.myQuestionsState
+          : myQuestionsState // ignore: cast_nullable_to_non_nullable
+              as MyQuestionsState,
     ));
   }
 }
@@ -180,7 +204,8 @@ class _$ProfileStateImpl implements _ProfileState {
       this.error = null,
       this.myInfoModel,
       this.userConnectionsState = const UserConnectionsState(),
-      this.questionsBookmarkState = const QuestionsBookmarkState()});
+      this.questionsBookmarkState = const QuestionsBookmarkState(),
+      this.myQuestionsState = const MyQuestionsState()});
 
   @override
   @JsonKey()
@@ -199,10 +224,14 @@ class _$ProfileStateImpl implements _ProfileState {
   @override
   @JsonKey()
   final QuestionsBookmarkState questionsBookmarkState;
+// my questions
+  @override
+  @JsonKey()
+  final MyQuestionsState myQuestionsState;
 
   @override
   String toString() {
-    return 'ProfileState(isLoading: $isLoading, error: $error, myInfoModel: $myInfoModel, userConnectionsState: $userConnectionsState, questionsBookmarkState: $questionsBookmarkState)';
+    return 'ProfileState(isLoading: $isLoading, error: $error, myInfoModel: $myInfoModel, userConnectionsState: $userConnectionsState, questionsBookmarkState: $questionsBookmarkState, myQuestionsState: $myQuestionsState)';
   }
 
   @override
@@ -218,12 +247,14 @@ class _$ProfileStateImpl implements _ProfileState {
             (identical(other.userConnectionsState, userConnectionsState) ||
                 other.userConnectionsState == userConnectionsState) &&
             (identical(other.questionsBookmarkState, questionsBookmarkState) ||
-                other.questionsBookmarkState == questionsBookmarkState));
+                other.questionsBookmarkState == questionsBookmarkState) &&
+            (identical(other.myQuestionsState, myQuestionsState) ||
+                other.myQuestionsState == myQuestionsState));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, isLoading, error, myInfoModel,
-      userConnectionsState, questionsBookmarkState);
+      userConnectionsState, questionsBookmarkState, myQuestionsState);
 
   @JsonKey(ignore: true)
   @override
@@ -234,12 +265,12 @@ class _$ProfileStateImpl implements _ProfileState {
 
 abstract class _ProfileState implements ProfileState {
   const factory _ProfileState(
-          {final bool isLoading,
-          final String? error,
-          final MyInfoModel? myInfoModel,
-          final UserConnectionsState userConnectionsState,
-          final QuestionsBookmarkState questionsBookmarkState}) =
-      _$ProfileStateImpl;
+      {final bool isLoading,
+      final String? error,
+      final MyInfoModel? myInfoModel,
+      final UserConnectionsState userConnectionsState,
+      final QuestionsBookmarkState questionsBookmarkState,
+      final MyQuestionsState myQuestionsState}) = _$ProfileStateImpl;
 
   @override
   bool get isLoading;
@@ -251,6 +282,8 @@ abstract class _ProfileState implements ProfileState {
   UserConnectionsState get userConnectionsState;
   @override // questions bookmark
   QuestionsBookmarkState get questionsBookmarkState;
+  @override // my questions
+  MyQuestionsState get myQuestionsState;
   @override
   @JsonKey(ignore: true)
   _$$ProfileStateImplCopyWith<_$ProfileStateImpl> get copyWith =>
@@ -592,4 +625,172 @@ abstract class _QuestionsBookmarkState implements QuestionsBookmarkState {
   @JsonKey(ignore: true)
   _$$QuestionsBookmarkStateImplCopyWith<_$QuestionsBookmarkStateImpl>
       get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+mixin _$MyQuestionsState {
+  bool get isLoading => throw _privateConstructorUsedError;
+  String? get error => throw _privateConstructorUsedError;
+  List<MyQuestionModel> get myQuestions => throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $MyQuestionsStateCopyWith<MyQuestionsState> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $MyQuestionsStateCopyWith<$Res> {
+  factory $MyQuestionsStateCopyWith(
+          MyQuestionsState value, $Res Function(MyQuestionsState) then) =
+      _$MyQuestionsStateCopyWithImpl<$Res, MyQuestionsState>;
+  @useResult
+  $Res call({bool isLoading, String? error, List<MyQuestionModel> myQuestions});
+}
+
+/// @nodoc
+class _$MyQuestionsStateCopyWithImpl<$Res, $Val extends MyQuestionsState>
+    implements $MyQuestionsStateCopyWith<$Res> {
+  _$MyQuestionsStateCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? isLoading = null,
+    Object? error = freezed,
+    Object? myQuestions = null,
+  }) {
+    return _then(_value.copyWith(
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      error: freezed == error
+          ? _value.error
+          : error // ignore: cast_nullable_to_non_nullable
+              as String?,
+      myQuestions: null == myQuestions
+          ? _value.myQuestions
+          : myQuestions // ignore: cast_nullable_to_non_nullable
+              as List<MyQuestionModel>,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$MyQuestionsStateImplCopyWith<$Res>
+    implements $MyQuestionsStateCopyWith<$Res> {
+  factory _$$MyQuestionsStateImplCopyWith(_$MyQuestionsStateImpl value,
+          $Res Function(_$MyQuestionsStateImpl) then) =
+      __$$MyQuestionsStateImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({bool isLoading, String? error, List<MyQuestionModel> myQuestions});
+}
+
+/// @nodoc
+class __$$MyQuestionsStateImplCopyWithImpl<$Res>
+    extends _$MyQuestionsStateCopyWithImpl<$Res, _$MyQuestionsStateImpl>
+    implements _$$MyQuestionsStateImplCopyWith<$Res> {
+  __$$MyQuestionsStateImplCopyWithImpl(_$MyQuestionsStateImpl _value,
+      $Res Function(_$MyQuestionsStateImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? isLoading = null,
+    Object? error = freezed,
+    Object? myQuestions = null,
+  }) {
+    return _then(_$MyQuestionsStateImpl(
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      error: freezed == error
+          ? _value.error
+          : error // ignore: cast_nullable_to_non_nullable
+              as String?,
+      myQuestions: null == myQuestions
+          ? _value._myQuestions
+          : myQuestions // ignore: cast_nullable_to_non_nullable
+              as List<MyQuestionModel>,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$MyQuestionsStateImpl implements _MyQuestionsState {
+  const _$MyQuestionsStateImpl(
+      {this.isLoading = false,
+      this.error = null,
+      final List<MyQuestionModel> myQuestions = const []})
+      : _myQuestions = myQuestions;
+
+  @override
+  @JsonKey()
+  final bool isLoading;
+  @override
+  @JsonKey()
+  final String? error;
+  final List<MyQuestionModel> _myQuestions;
+  @override
+  @JsonKey()
+  List<MyQuestionModel> get myQuestions {
+    if (_myQuestions is EqualUnmodifiableListView) return _myQuestions;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_myQuestions);
+  }
+
+  @override
+  String toString() {
+    return 'MyQuestionsState(isLoading: $isLoading, error: $error, myQuestions: $myQuestions)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MyQuestionsStateImpl &&
+            (identical(other.isLoading, isLoading) ||
+                other.isLoading == isLoading) &&
+            (identical(other.error, error) || other.error == error) &&
+            const DeepCollectionEquality()
+                .equals(other._myQuestions, _myQuestions));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, isLoading, error,
+      const DeepCollectionEquality().hash(_myQuestions));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MyQuestionsStateImplCopyWith<_$MyQuestionsStateImpl> get copyWith =>
+      __$$MyQuestionsStateImplCopyWithImpl<_$MyQuestionsStateImpl>(
+          this, _$identity);
+}
+
+abstract class _MyQuestionsState implements MyQuestionsState {
+  const factory _MyQuestionsState(
+      {final bool isLoading,
+      final String? error,
+      final List<MyQuestionModel> myQuestions}) = _$MyQuestionsStateImpl;
+
+  @override
+  bool get isLoading;
+  @override
+  String? get error;
+  @override
+  List<MyQuestionModel> get myQuestions;
+  @override
+  @JsonKey(ignore: true)
+  _$$MyQuestionsStateImplCopyWith<_$MyQuestionsStateImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

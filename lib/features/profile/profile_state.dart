@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:testabd/domain/account/entities/my_info_model.dart';
 import 'package:testabd/domain/account/entities/user_connections_model.dart';
+import 'package:testabd/domain/quiz/entities/my_qursion_model.dart';
 import 'package:testabd/domain/quiz/entities/questions_bookmark_model.dart';
 
 part 'profile_state.freezed.dart';
@@ -16,6 +17,8 @@ class ProfileState with _$ProfileState {
     @Default(UserConnectionsState()) UserConnectionsState userConnectionsState,
     // questions bookmark
     @Default(QuestionsBookmarkState()) QuestionsBookmarkState questionsBookmarkState,
+    // my questions
+    @Default(MyQuestionsState()) MyQuestionsState myQuestionsState,
   }) = _ProfileState;
 }
 
@@ -35,5 +38,14 @@ class QuestionsBookmarkState with _$QuestionsBookmarkState {
     @Default(null) String? error,
     @Default(QuestionsBookmarkModel()) QuestionsBookmarkModel questionsBookmark,
   }) = _QuestionsBookmarkState;
+}
+
+@freezed
+class MyQuestionsState with _$MyQuestionsState {
+  const factory MyQuestionsState({
+    @Default(false) bool isLoading,
+    @Default(null) String? error,
+    @Default([]) List<MyQuestionModel> myQuestions,
+  }) = _MyQuestionsState;
 }
 

@@ -11,12 +11,12 @@ class CategoryModel extends Equatable {
   final String? image;
 
   const CategoryModel({
-    required this.id,
-    required this.totalTests,
-    required this.totalQuestions,
-    required this.title,
-    required this.slug,
-    required this.description,
+    this.id,
+    this.totalTests,
+    this.totalQuestions,
+    this.title,
+    this.slug,
+    this.description,
     this.emoji,
     this.image,
   });
@@ -31,5 +31,4 @@ class CategoryModel extends Equatable {
     emoji,
     image,
   ];
-
 }
