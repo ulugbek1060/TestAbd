@@ -175,6 +175,7 @@ class ProfileCubit extends Cubit<ProfileState> {
             ),
           ),
         );
+        logger.d(value.length);
       },
     );
   }

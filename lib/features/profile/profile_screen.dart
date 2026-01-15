@@ -522,8 +522,6 @@ class MyQuestionsSection extends StatelessWidget {
   Widget build(BuildContext context) {
     if (!isEnabled) return const SliverToBoxAdapter(child: SizedBox.shrink());
 
-    logger.d(state.myQuestions.length);
-
     /// loading state
     if (state.isLoading) {
       return SliverPadding(
