@@ -1,32 +1,60 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:testabd/core/theme/app_colors.dart';
+import 'package:testabd/core/widgets/loading_widget.dart';
+import 'package:testabd/di/app_config.dart';
+import 'package:testabd/features/profile/settings/referrals_cubit.dart';
+import 'package:testabd/features/profile/settings/referrals_state.dart';
 
-class ReferralScreen extends StatelessWidget {
-  const ReferralScreen({super.key});
+class ReferralsScreen extends StatelessWidget {
+  const ReferralsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text("Referral Dasturi"), centerTitle: true),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: const [
-          _HeaderText(),
-          SizedBox(height: 16),
+    return BlocProvider(
+      create: (context) => locator<ReferralsCubit>()
+        ..fetchReferrals(),
+      child: const _View(),
+    );
+  }
+}
 
-          _StatsRow(),
-          SizedBox(height: 24),
+class _View extends StatelessWidget {
+  const _View({super.key});
 
-          _ReferralCodeCard(),
-          SizedBox(height: 24),
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ReferralsCubit, ReferralsState>(
+      buildWhen: (s1, s2) => s1.isLoading != s2.isLoading,
+      builder: (context, state) {
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text("Referral Dasturi"),
+            centerTitle: true,
+          ),
+          body: state.isLoading
+              ? ProgressView()
+              : ListView(
+                  padding: const EdgeInsets.all(16),
+                  children: const [
+                    _HeaderText(),
+                    SizedBox(height: 16),
 
-          _ComingSoonCard(),
-          SizedBox(height: 24),
+                    _StatsRow(),
+                    SizedBox(height: 24),
 
-          _SectionTitle(title: "Taklif qilingan foydalanuvchilar"),
-          _ReferralHistoryList(),
-        ],
-      ),
+                    _ReferralCodeCard(),
+                    SizedBox(height: 24),
+
+                    _ComingSoonCard(),
+                    SizedBox(height: 24),
+
+                    _SectionTitle(title: "Taklif qilingan foydalanuvchilar"),
+                    _ReferralHistoryList(),
+                  ],
+                ),
+        );
+      },
     );
   }
 }

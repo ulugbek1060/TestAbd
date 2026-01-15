@@ -42,7 +42,7 @@ import '../features/profile/bookmark_questions_cubit.dart' as _i137;
 import '../features/profile/profile_connection_cubit.dart' as _i570;
 import '../features/profile/profile_cubit.dart' as _i760;
 import '../features/profile/settings/personal_info_cubit.dart' as _i688;
-import '../features/profile/settings/referral_cubit.dart' as _i778;
+import '../features/profile/settings/referrals_cubit.dart' as _i168;
 import '../features/profile/settings/regional_settings_cubit.dart' as _i877;
 import '../features/users/user_connection_cubit.dart' as _i297;
 import '../features/users/user_profile_cubit.dart' as _i445;
@@ -195,7 +195,7 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i575.AccountRepository>(),
           gh<_i877.AppMessageHandler>(),
         ));
-    gh.factory<_i778.ReferralCubit>(() => _i778.ReferralCubit(
+    gh.factory<_i168.ReferralsCubit>(() => _i168.ReferralsCubit(
           gh<_i575.AccountRepository>(),
           gh<_i877.AppMessageHandler>(),
         ));

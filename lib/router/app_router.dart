@@ -17,7 +17,7 @@ import 'package:testabd/features/profile/settings/edit_profile_screen.dart';
 import 'package:testabd/features/profile/settings/edit_user_location_screen.dart';
 import 'package:testabd/features/profile/settings/language_bottom_sheet.dart';
 import 'package:testabd/features/profile/settings/personal_info_screen.dart';
-import 'package:testabd/features/profile/settings/referral_screen.dart';
+import 'package:testabd/features/profile/settings/referrals_screen.dart';
 import 'package:testabd/features/profile/settings/regional_settings_screen.dart';
 import 'package:testabd/features/root/shell_screen.dart';
 import 'package:testabd/features/search/search_screen.dart';
@@ -182,7 +182,7 @@ final appRouter = GoRouter(
       path: AppRouter.referrals,
       pageBuilder: (context, state) {
         // final connectionType = state.pathParameters['connection_type']!;
-        return CupertinoPage(child: ReferralScreen());
+        return CupertinoPage(child: ReferralsScreen());
       },
     ),
     GoRoute(
