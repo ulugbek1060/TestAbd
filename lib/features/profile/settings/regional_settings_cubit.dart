@@ -230,6 +230,17 @@ class RegionalSettingsCubit extends Cubit<RegionalSettingsState> {
   Future<void> toggleEditableMode() async =>
       emit(state.copyWith(isEditable: !state.isEditable));
 
+  /// {"first_name":"Ulug",
+    /// "last_name":"Ulashev",
+    /// "username":"devmaverick",
+    /// "bio":"Develop everything",
+    /// "email":"devmaverick8@gmail.com",
+    /// "phone_number":"+998911641060",
+    /// "country_id":"1",
+    /// "region_id":"14",
+    /// "district_id":"192",
+    /// "settlement_id":"9626"
+  /// }
   Future<void> save() async {
     if (state.isLoading) return;
     if (_personalInfoDto == null) return;
