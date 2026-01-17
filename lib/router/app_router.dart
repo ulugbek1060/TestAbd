@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:testabd/core/utils/connections_enum.dart';
+import 'package:testabd/di/app_config.dart';
 import 'package:testabd/features/auth/forgotpswd/forgot_pswd_screen.dart';
 import 'package:testabd/features/auth/login/login_screen.dart';
 import 'package:testabd/features/auth/register/register_screen.dart';
@@ -12,6 +14,7 @@ import 'package:testabd/features/init/init_screen.dart';
 import 'package:testabd/features/library/library_screen.dart';
 import 'package:testabd/features/profile/bookmark_questions_screen.dart';
 import 'package:testabd/features/profile/profile_connection_screen.dart';
+import 'package:testabd/features/profile/profile_cubit.dart';
 import 'package:testabd/features/profile/profile_screen.dart';
 import 'package:testabd/features/profile/settings/edit_profile_screen.dart';
 import 'package:testabd/features/profile/settings/edit_user_location_screen.dart';
@@ -253,7 +256,10 @@ final appRouter = GoRouter(
           routes: [
             GoRoute(
               path: AppRouter.profile,
-              builder: (_, state) => const ProfileScreen(),
+              builder: (_, state) => BlocProvider(
+                create: (_) => locator<ProfileCubit>(),
+                child: ProfileScreen(),
+              ),
             ),
           ],
         ),

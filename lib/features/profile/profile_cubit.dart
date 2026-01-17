@@ -35,6 +35,13 @@ class ProfileCubit extends Cubit<ProfileState> {
       // emit state
       emit(state.copyWith(myInfoModel: event));
     });
+
+    load();
+  }
+
+  load() {
+    fetchUserInfo();
+    fetchMyQuestions();
   }
 
   Future<void> refresh() async {
@@ -52,18 +59,8 @@ class ProfileCubit extends Cubit<ProfileState> {
   Future<void> fetchUserInfo() async {
     if (state.isLoading) return;
     emit(state.copyWith(isLoading: true));
-
-    await Future.delayed(Duration(milliseconds: 500));
-
     final result = await _accountRepository.fetchMyInfo();
-    result.fold(
-      (error) {
-        _messageHandler.handleDialog(error);
-      },
-      (value) {
-        // data fetched
-      },
-    );
+    result.fold((error) => _messageHandler.handleDialog(error), (value) {});
     emit(state.copyWith(isLoading: false));
   }
 
@@ -112,6 +109,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       state.copyWith(
         questionsBookmarkState: state.questionsBookmarkState.copyWith(
           isLoading: true,
+          error: null,
         ),
       ),
     );
@@ -136,6 +134,7 @@ class ProfileCubit extends Cubit<ProfileState> {
             questionsBookmarkState: state.questionsBookmarkState.copyWith(
               isLoading: false,
               questionsBookmark: value,
+              error: null,
             ),
           ),
         );
@@ -144,38 +143,39 @@ class ProfileCubit extends Cubit<ProfileState> {
   }
 
   Future<void> fetchMyQuestions() async {
-    if (state.myQuestionsState.isLoading) return;
+    final current = state.myQuestionsState;
+    if (current.isLoading) return;
 
     emit(
       state.copyWith(
-        myQuestionsState: state.myQuestionsState.copyWith(isLoading: true),
+        myQuestionsState: current.copyWith(isLoading: true, error: null),
       ),
     );
 
     final result = await _quizRepository.getMyQuestions();
+
     result.fold(
       (error) {
         emit(
           state.copyWith(
-            myQuestionsState: state.myQuestionsState.copyWith(
-              error: error.message,
+            myQuestionsState: current.copyWith(
               isLoading: false,
+              error: error.message,
             ),
           ),
         );
         _messageHandler.handleDialog(error);
       },
-      (value) {
+      (questions) {
         emit(
           state.copyWith(
-            myQuestionsState: state.myQuestionsState.copyWith(
+            myQuestionsState: current.copyWith(
               isLoading: false,
-              myQuestions: value,
+              myQuestions: questions,
               error: null,
             ),
           ),
         );
-        logger.d(value.length);
       },
     );
   }

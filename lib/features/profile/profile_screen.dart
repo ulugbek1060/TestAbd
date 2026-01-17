@@ -8,11 +8,9 @@ import 'package:testabd/core/theme/app_images.dart';
 import 'package:testabd/core/utils/connections_enum.dart';
 import 'package:testabd/core/utils/formatters.dart';
 import 'package:testabd/core/widgets/loading_widget.dart';
-import 'package:testabd/di/app_config.dart';
 import 'package:testabd/domain/question_difficulty.dart';
 import 'package:testabd/features/profile/profile_cubit.dart';
 import 'package:testabd/features/profile/profile_state.dart';
-import 'package:testabd/main.dart';
 import 'package:testabd/router/app_router.dart';
 
 enum PageType { questions, block, books }
@@ -22,12 +20,7 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => locator<ProfileCubit>()
-        ..fetchUserInfo()
-        ..fetchMyQuestions(),
-      child: const _View(),
-    );
+    return _View();
   }
 }
 
@@ -40,7 +33,7 @@ class _View extends StatefulWidget {
 
 class _ViewState extends State<_View> with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  late var pageTye = PageType.block;
+  late var pageTye;
   late var _blockKey;
   late var _questionsKey;
   late var _booksKey;
@@ -48,10 +41,11 @@ class _ViewState extends State<_View> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    pageTye = PageType.questions;
     _blockKey = PageStorageKey('blocksSection');
     _questionsKey = PageStorageKey('questionsSection');
     _booksKey = PageStorageKey('booksSection');
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 3, vsync: this, initialIndex: 0);
   }
 
   @override
@@ -59,6 +53,10 @@ class _ViewState extends State<_View> with SingleTickerProviderStateMixin {
     final cubit = context.read<ProfileCubit>();
 
     return BlocBuilder<ProfileCubit, ProfileState>(
+      buildWhen: (s1, s2) =>
+          s1.isLoading != s2.isLoading ||
+          s1.myInfoModel != s2.myInfoModel ||
+          s1.userConnectionsState != s2.userConnectionsState,
       builder: (context, state) {
         return RefreshIndicator(
           onRefresh: cubit.refresh,
@@ -128,29 +126,30 @@ class _ViewState extends State<_View> with SingleTickerProviderStateMixin {
                       TabsSection(
                         pageTye: pageTye,
                         onTabChange: (index) => setState(() {
-                          pageTye = PageType.values[index];
+                          switch (index) {
+                            case 0:
+                              pageTye = PageType.questions;
+                            case 1:
+                              pageTye = PageType.block;
+                            case 2:
+                              pageTye = PageType.books;
+                          }
                         }),
                         controller: _tabController,
                       ),
 
                       BlocBuilder<ProfileCubit, ProfileState>(
-                        buildWhen: (s1, s2) =>
-                            s1.myQuestionsState != s2.myQuestionsState,
-                        builder: (_, state) => MyQuestionsSection(
+                        buildWhen: (s1, s2) => s1.myQuestionsState != s2.myQuestionsState,
+                        builder: (_, s) => MyQuestionsSection(
                           key: _questionsKey,
                           isEnabled: pageTye == PageType.questions,
-                          state: state.myQuestionsState,
+                          state: s.myQuestionsState,
                         ),
                       ),
 
-                      BlocBuilder<ProfileCubit, ProfileState>(
-                        buildWhen: (s1, s2) =>
-                            s1.questionsBookmarkState !=
-                            s2.questionsBookmarkState,
-                        builder: (_, state) => QuestionsBlockSection(
-                          key: _blockKey,
-                          isEnabled: pageTye == PageType.block,
-                        ),
+                      QuestionsBlockSection(
+                        key: _blockKey,
+                        isEnabled: pageTye == PageType.block,
                       ),
 
                       MyBooksSection(
