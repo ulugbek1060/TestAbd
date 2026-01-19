@@ -211,24 +211,27 @@ class RegionHiveModelAdapter extends TypeAdapter<RegionHiveModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return RegionHiveModel(
-      name: fields[0] as String?,
-      lat: fields[1] as double?,
-      lon: fields[2] as double?,
-      country: fields[3] as int?,
+      id: fields[0] as int?,
+      name: fields[1] as String?,
+      lat: fields[2] as double?,
+      lon: fields[3] as double?,
+      country: fields[4] as int?,
     );
   }
 
   @override
   void write(BinaryWriter writer, RegionHiveModel obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(5)
       ..writeByte(0)
-      ..write(obj.name)
+      ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.lat)
+      ..write(obj.name)
       ..writeByte(2)
-      ..write(obj.lon)
+      ..write(obj.lat)
       ..writeByte(3)
+      ..write(obj.lon)
+      ..writeByte(4)
       ..write(obj.country);
   }
 
@@ -254,24 +257,27 @@ class DistrictHiveModelAdapter extends TypeAdapter<DistrictHiveModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return DistrictHiveModel(
-      name: fields[0] as String?,
-      lat: fields[1] as double?,
-      lon: fields[2] as double?,
-      region: fields[3] as int?,
+      id: fields[0] as int?,
+      name: fields[1] as String?,
+      lat: fields[2] as double?,
+      lon: fields[3] as double?,
+      region: fields[4] as int?,
     );
   }
 
   @override
   void write(BinaryWriter writer, DistrictHiveModel obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(5)
       ..writeByte(0)
-      ..write(obj.name)
+      ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.lat)
+      ..write(obj.name)
       ..writeByte(2)
-      ..write(obj.lon)
+      ..write(obj.lat)
       ..writeByte(3)
+      ..write(obj.lon)
+      ..writeByte(4)
       ..write(obj.region);
   }
 
@@ -297,24 +303,27 @@ class SettlementHiveModelAdapter extends TypeAdapter<SettlementHiveModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return SettlementHiveModel(
-      name: fields[0] as String?,
-      lat: fields[1] as double?,
-      lon: fields[2] as double?,
-      district: fields[3] as int?,
+      id: fields[0] as int?,
+      name: fields[1] as String?,
+      lat: fields[2] as double?,
+      lon: fields[3] as double?,
+      district: fields[4] as int?,
     );
   }
 
   @override
   void write(BinaryWriter writer, SettlementHiveModel obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(5)
       ..writeByte(0)
-      ..write(obj.name)
+      ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.lat)
+      ..write(obj.name)
       ..writeByte(2)
-      ..write(obj.lon)
+      ..write(obj.lat)
       ..writeByte(3)
+      ..write(obj.lon)
+      ..writeByte(4)
       ..write(obj.district);
   }
 

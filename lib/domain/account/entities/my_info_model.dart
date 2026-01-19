@@ -115,6 +115,7 @@ class MyInfoModel extends Equatable {
               name: response?.region?.name,
               lat: response?.region?.lat,
               lon: response?.region?.lon,
+              country: response?.region?.country,
             ),
       district: response?.district == null
           ? null
@@ -190,17 +191,21 @@ class MyInfoModel extends Equatable {
         lon: dbModel?.country?.lon,
       ),
       region: RegionModel(
+        id: dbModel?.region?.id,
         name: dbModel?.region?.name,
         lat: dbModel?.region?.lat,
         lon: dbModel?.region?.lon,
+        country: dbModel?.region?.country,
       ),
       district: DistrictModel(
+        id: dbModel?.district?.id,
         name: dbModel?.district?.name,
         lat: dbModel?.district?.lat,
         lon: dbModel?.district?.lon,
         region: dbModel?.district?.region,
       ),
       settlement: SettlementModel(
+        id: dbModel?.settlement?.id,
         name: dbModel?.settlement?.name,
         lat: dbModel?.settlement?.lat,
         lon: dbModel?.settlement?.lon,
@@ -262,18 +267,21 @@ class MyInfoModel extends Equatable {
         lon: model?.country?.lon,
       ),
       region: RegionHiveModel(
+        id: model?.region?.id,
         name: model?.region?.name,
         lat: model?.region?.lat,
         lon: model?.region?.lon,
         country: model?.region?.country,
       ),
       district: DistrictHiveModel(
+        id: model?.district?.id,
         name: model?.district?.name,
         lat: model?.district?.lat,
         lon: model?.district?.lon,
         region: model?.district?.region,
       ),
       settlement: SettlementHiveModel(
+        id: model?.settlement?.id,
         name: model?.settlement?.name,
         lat: model?.settlement?.lat,
         lon: model?.settlement?.lon,

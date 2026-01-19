@@ -205,19 +205,23 @@ class CountryHiveModel extends HiveObject with EquatableMixin {
 @HiveType(typeId: 2)
 class RegionHiveModel extends HiveObject with EquatableMixin {
   @HiveField(0)
-  final String? name;
+  final int? id;
 
   @HiveField(1)
-  final double? lat;
+  final String? name;
 
   @HiveField(2)
+  final double? lat;
+
+  @HiveField(3)
   final double? lon;
 
   /// Reference to country ID
-  @HiveField(3)
+  @HiveField(4)
   final int? country;
 
   RegionHiveModel({
+    this.id,
     this.name,
     this.lat,
     this.lon,
@@ -226,6 +230,7 @@ class RegionHiveModel extends HiveObject with EquatableMixin {
 
   @override
   List<Object?> get props => [
+    id,
     name,
     lat,
     lon,
@@ -236,19 +241,23 @@ class RegionHiveModel extends HiveObject with EquatableMixin {
 @HiveType(typeId: 3)
 class DistrictHiveModel extends HiveObject with EquatableMixin {
   @HiveField(0)
-  final String? name;
+  final int? id;
 
   @HiveField(1)
-  final double? lat;
+  final String? name;
 
   @HiveField(2)
+  final double? lat;
+
+  @HiveField(3)
   final double? lon;
 
   /// Reference to region ID
-  @HiveField(3)
+  @HiveField(4)
   final int? region;
 
   DistrictHiveModel({
+    this.id,
     this.name,
     this.lat,
     this.lon,
@@ -257,6 +266,7 @@ class DistrictHiveModel extends HiveObject with EquatableMixin {
 
   @override
   List<Object?> get props => [
+    id,
     name,
     lat,
     lon,
@@ -267,19 +277,23 @@ class DistrictHiveModel extends HiveObject with EquatableMixin {
 @HiveType(typeId: 4)
 class SettlementHiveModel extends HiveObject with EquatableMixin {
   @HiveField(0)
-  final String? name;
+  final int? id;
 
   @HiveField(1)
-  final double? lat;
+  final String? name;
 
   @HiveField(2)
+  final double? lat;
+
+  @HiveField(3)
   final double? lon;
 
   /// Reference to district ID
-  @HiveField(3)
+  @HiveField(4)
   final int? district;
 
   SettlementHiveModel({
+    this.id,
     this.name,
     this.lat,
     this.lon,
@@ -288,6 +302,7 @@ class SettlementHiveModel extends HiveObject with EquatableMixin {
 
   @override
   List<Object?> get props => [
+    id,
     name,
     lat,
     lon,

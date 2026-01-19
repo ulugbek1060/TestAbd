@@ -75,9 +75,7 @@ class AccountRepositoryImpl implements AccountRepository {
   }
 
   @override
-  Future<Either<AppException, UserProfileModel>> getUserProfile(
-    String username,
-  ) async {
+  Future<Either<AppException, UserProfileModel>> getUserProfile(String username) async {
     try {
       final result = await _accountSource.getProfile(username);
       return Right(UserProfileModel.fromResponse(result));
@@ -89,9 +87,7 @@ class AccountRepositoryImpl implements AccountRepository {
   }
 
   @override
-  Future<Either<AppException, UserConnectionsModel>> getUserConnections(
-    int userId,
-  ) async {
+  Future<Either<AppException, UserConnectionsModel>> getUserConnections(int userId) async {
     try {
       final result = await _accountSource.getFollowers(userId);
       return Right(UserConnectionsModel.fromResponse(result));
@@ -115,10 +111,7 @@ class AccountRepositoryImpl implements AccountRepository {
   }
 
   @override
-  Future<Either<AppException, LeaderboardModel>> getLeaderboard(
-    int page,
-    int pageSize,
-  ) async {
+  Future<Either<AppException, LeaderboardModel>> getLeaderboard(int page, int pageSize) async {
     try {
       final result = await _leaderboardSource.getLeaderboard(page, pageSize);
       return Right(LeaderboardModel.fromResponse(result));
@@ -130,10 +123,10 @@ class AccountRepositoryImpl implements AccountRepository {
   }
 
   @override
-  Future<Either<AppException, Unit>> updatePersonalInfo(PersonalInfoDto personalInfoDto,) async {
+  Future<Either<AppException, Unit>> updatePersonalInfo(PersonalInfoDto personalInfoDto) async {
     try {
       final result = await _accountSource.updateMyInfo(
-        personalInfoDto.toJson(),
+        personalInfoDto.toRequestBody(),
       );
       final model = MyInfoModel.fromResponse(result);
       final dbModel = MyInfoModel.toDb(model);
@@ -160,7 +153,7 @@ class AccountRepositoryImpl implements AccountRepository {
   }
 
   @override
-  Future<Either<AppException, List<RegionModel>>> getRegions(int? countryId,) async {
+  Future<Either<AppException, List<RegionModel>>> getRegions(int? countryId) async {
     try {
       final result = await _accountSource.getRegions(countryId);
       final list = result.map((e) => RegionModel.fromResponse(e)).toList();
@@ -173,7 +166,7 @@ class AccountRepositoryImpl implements AccountRepository {
   }
 
   @override
-  Future<Either<AppException, List<DistrictModel>>> getDistricts(int? regionId,) async {
+  Future<Either<AppException, List<DistrictModel>>> getDistricts(int? regionId) async {
     try {
       final result = await _accountSource.getDistricts(regionId);
       final list = result.map((e) => DistrictModel.fromResponse(e)).toList();
@@ -186,7 +179,7 @@ class AccountRepositoryImpl implements AccountRepository {
   }
 
   @override
-  Future<Either<AppException, List<SettlementModel>>> getSettlements(int? districtId,) async {
+  Future<Either<AppException, List<SettlementModel>>> getSettlements(int? districtId) async {
     try {
       final result = await _accountSource.getSettlements(districtId);
       final list = result.map((e) => SettlementModel.fromResponse(e)).toList();

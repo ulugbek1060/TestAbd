@@ -72,7 +72,7 @@ class _View extends StatelessWidget {
         buildWhen: (s1, s2) => s1.isLoading != s2.isLoading,
         builder: (context, state) {
           return RefreshIndicator(
-            onRefresh: context.read<RegionalSettingsCubit>().fetchCountries,
+            onRefresh: context.read<RegionalSettingsCubit>().refresh,
             child: state.isLoading
                 ? ProgressView()
                 : ListView(
@@ -115,7 +115,9 @@ class _Header extends StatelessWidget {
             color: Theme.of(context).colorScheme.onSurface,
           ),
         ),
+
         SizedBox(height: 6),
+
         Text(
           "O‘zingizning joylashuvingizni tanlang",
           style: TextStyle(color: Colors.grey),
@@ -141,12 +143,7 @@ class CountriesSection extends StatelessWidget {
           enabled: state.isEditable,
           value: countriesState.selected?.id,
           items: countriesState.countries
-              .map(
-                (e) => DropdownMenuEntry<int>(
-                  label: e.name ?? '',
-                  value: e.id ?? -1,
-                ),
-              )
+              .map((e) => DropdownItem(name: e.name ?? '', id: e.id))
               .toList(),
           onChanged: context.read<RegionalSettingsCubit>().selectCountry,
         );
@@ -172,12 +169,7 @@ class RegionSection extends StatelessWidget {
           isLoading: regionState.isLoading,
           value: regionState.selected?.id,
           items: regionState.regions
-              .map(
-                (e) => DropdownMenuEntry<int>(
-                  label: e.name ?? '',
-                  value: e.id ?? -1,
-                ),
-              )
+              .map((e) => DropdownItem(name: e.name ?? '', id: e.id))
               .toList(),
           onChanged: context.read<RegionalSettingsCubit>().selectRegion,
         );
@@ -203,12 +195,7 @@ class DistrictsSection extends StatelessWidget {
           value: districtState.selected?.id,
           isLoading: districtState.isLoading,
           items: districtState.districts
-              .map(
-                (e) => DropdownMenuEntry<int>(
-                  label: e.name ?? '',
-                  value: e.id ?? -1,
-                ),
-              )
+              .map((e) => DropdownItem(name: e.name ?? '', id: e.id))
               .toList(),
           onChanged: context.read<RegionalSettingsCubit>().selectDistrict,
         );
@@ -224,7 +211,7 @@ class SettlementSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<RegionalSettingsCubit, RegionalSettingsState>(
       buildWhen: (s1, s2) =>
-          s1.districts != s2.districts || s1.isEditable != s2.isEditable,
+          s1.settlement != s2.settlement || s1.isEditable != s2.isEditable,
       builder: (context, state) {
         final settlementState = state.settlement;
         return _DropdownField(
@@ -234,18 +221,20 @@ class SettlementSection extends StatelessWidget {
           value: settlementState.selected?.id,
           isLoading: settlementState.isLoading,
           items: settlementState.settlements
-              .map(
-                (e) => DropdownMenuEntry<int>(
-                  label: e.name ?? '',
-                  value: e.id ?? -1,
-                ),
-              )
+              .map((e) => DropdownItem(name: e.name ?? '', id: e.id))
               .toList(),
-          onChanged: context.read<RegionalSettingsCubit>().selectDistrict,
+          onChanged: context.read<RegionalSettingsCubit>().selectSettlement,
         );
       },
     );
   }
+}
+
+class DropdownItem {
+  final int? id;
+  final String name;
+
+  DropdownItem({required this.id, required this.name});
 }
 
 class _DropdownField extends StatelessWidget {
@@ -254,7 +243,7 @@ class _DropdownField extends StatelessWidget {
   final String? hint;
   final bool enabled;
   final bool isLoading;
-  final List<DropdownMenuEntry<int>> items;
+  final List<DropdownItem> items;
   final ValueChanged<int?> onChanged;
 
   const _DropdownField({
@@ -292,9 +281,9 @@ class _DropdownField extends StatelessWidget {
                     items: items
                         .map(
                           (e) => DropdownMenuItem<int>(
-                            value: e.value,
+                            value: e.id,
                             child: Text(
-                              e.label,
+                              e.name,
                               style: TextStyle(color: scheme.onSurface),
                             ),
                           ),
