@@ -13,6 +13,7 @@ import 'package:testabd/features/home/notifications_screen.dart';
 import 'package:testabd/features/init/init_screen.dart';
 import 'package:testabd/features/library/library_screen.dart';
 import 'package:testabd/features/profile/bookmark_questions_screen.dart';
+import 'package:testabd/features/profile/create_questions_screen.dart';
 import 'package:testabd/features/profile/profile_connection_screen.dart';
 import 'package:testabd/features/profile/profile_cubit.dart';
 import 'package:testabd/features/profile/profile_screen.dart';
@@ -50,6 +51,7 @@ abstract class AppRouter {
   static const personalInfo = '/personal_info';
   static const regionalInfo = '/regional_info';
   static const changePassword = '/change_password';
+  static const createQuestions = '/create_questions';
 
   static String userProfileWithUsername(String username) => '/users/$username';
 
@@ -206,6 +208,14 @@ final appRouter = GoRouter(
       pageBuilder: (context, state) {
         // final connectionType = state.pathParameters['connection_type']!;
         return CupertinoPage(child: PersonalInfoScreen());
+      },
+    ),
+
+    GoRoute(
+      path: AppRouter.createQuestions,
+      pageBuilder: (context, state) {
+        // final connectionType = state.pathParameters['connection_type']!;
+        return CupertinoPage(child: CreateQuestionsScreen());
       },
     ),
     // GoRoute(
