@@ -55,19 +55,6 @@ class PersonalInfoDto with EquatableMixin {
     );
   }
 
-  Map<String, dynamic> toJson() => {
-    'country': country?.toJson(),
-    'region': region?.toJson(),
-    'district': district?.toJson(),
-    'settlement': settlement?.toJson(),
-    'first_name': firstName,
-    'last_name': lastName,
-    'username': username,
-    'bio': bio,
-    'email': email,
-    'phone_number': phoneNumber,
-  };
-
   Map<String, dynamic> toRequestBody() => {
     if (country != null) 'country_id': country?.id,
     if (region != null) 'region_id': region?.id,
