@@ -192,7 +192,7 @@ class AccountRepositoryImpl implements AccountRepository {
   }
 
   @override
-  Future<Either<AppException, ReferralListModel>> getReferralsList() async {
+  Future<Either<AppException, ReferralListModel>> getReferralsList(int page) async {
     try {
       final result = await _accountSource.getReferralsList();
       return Right(ReferralListModel.fromResponse(result));

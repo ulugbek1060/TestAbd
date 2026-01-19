@@ -16,6 +16,7 @@ import 'package:testabd/features/profile/bookmark_questions_screen.dart';
 import 'package:testabd/features/profile/profile_connection_screen.dart';
 import 'package:testabd/features/profile/profile_cubit.dart';
 import 'package:testabd/features/profile/profile_screen.dart';
+import 'package:testabd/features/profile/settings/change_password_screen.dart';
 import 'package:testabd/features/profile/settings/edit_profile_screen.dart';
 import 'package:testabd/features/profile/settings/edit_user_location_screen.dart';
 import 'package:testabd/features/profile/settings/language_bottom_sheet.dart';
@@ -48,6 +49,7 @@ abstract class AppRouter {
   static const referrals = '/referrals';
   static const personalInfo = '/personal_info';
   static const regionalInfo = '/regional_info';
+  static const changePassword = '/change_password';
 
   static String userProfileWithUsername(String username) => '/users/$username';
 
@@ -105,6 +107,8 @@ final appRouter = GoRouter(
       pageBuilder: (context, state) =>
           CupertinoPage(child: const NotificationsScreen()),
     ),
+
+
     GoRoute(
       path: AppRouter.userProfile,
       pageBuilder: (context, state) {
@@ -188,6 +192,15 @@ final appRouter = GoRouter(
         return CupertinoPage(child: ReferralsScreen());
       },
     ),
+
+    GoRoute(
+      path: AppRouter.changePassword,
+      pageBuilder: (context, state) {
+        // final connectionType = state.pathParameters['connection_type']!;
+        return CupertinoPage(child: ChangePasswordScreen());
+      },
+    ),
+
     GoRoute(
       path: AppRouter.personalInfo,
       pageBuilder: (context, state) {

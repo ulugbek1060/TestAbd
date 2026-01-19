@@ -82,6 +82,7 @@ class _ViewState extends State<_View> {
       bio: _bioTextController.text,
     );
     context.read<PersonalInfoCubit>().changePersonalInfo(dto);
+    context.read<PersonalInfoCubit>().toggleEditableMode();
   }
 
   @override

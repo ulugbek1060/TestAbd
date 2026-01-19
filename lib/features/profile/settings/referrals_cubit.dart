@@ -17,10 +17,7 @@ class ReferralsCubit extends Cubit<ReferralsState> {
 
     emit(state.copyWith(isLoading: true));
 
-    //delay
-    await Future.delayed(const Duration(seconds: 1));
-
-    final result = await _accountRepository.getReferralsList();
+    final result = await _accountRepository.getReferralsList(1);
     result.fold(
       (error) {
         emit(state.copyWith(isLoading: false, error: error.message));

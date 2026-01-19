@@ -45,9 +45,9 @@ class RegionalSettingsCubit extends Cubit<RegionalSettingsState> {
         phoneNumber: event?.phoneNumber,
       );
 
-      fetchRegions(event?.region?.id);
-      fetchDistricts(event?.district?.id);
-      fetchSettlements(event?.settlement?.id);
+      if (event?.region?.id != null) fetchRegions(event?.country?.id);
+      if (event?.district?.id != null) fetchDistricts(event?.region?.id);
+      if (event?.settlement?.id != null) fetchSettlements(event?.district?.id);
     });
   }
 
@@ -88,7 +88,9 @@ class RegionalSettingsCubit extends Cubit<RegionalSettingsState> {
             countries: state.countries.copyWith(
               isLoading: false,
               countries: value,
-              selected: state.countries.selected,
+              selected: state.countries.selected?.id != null
+                  ? state.countries.selected
+                  : value.firstOrNull,
             ),
           ),
         );
@@ -100,11 +102,7 @@ class RegionalSettingsCubit extends Cubit<RegionalSettingsState> {
     if (districtId == null) return;
     if (state.regions.isLoading) return;
 
-    emit(
-      state.copyWith(
-        regions: state.regions.copyWith(isLoading: true),
-      ),
-    );
+    emit(state.copyWith(regions: state.regions.copyWith(isLoading: true)));
 
     final result = await _accountRepository.getRegions(districtId);
 
@@ -311,4 +309,5 @@ class RegionalSettingsCubit extends Cubit<RegionalSettingsState> {
       },
     );
   }
+
 }

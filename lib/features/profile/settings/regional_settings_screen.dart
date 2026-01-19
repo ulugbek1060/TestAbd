@@ -4,6 +4,7 @@ import 'package:testabd/core/widgets/loading_widget.dart';
 import 'package:testabd/di/app_config.dart';
 import 'package:testabd/features/profile/settings/regional_settings_cubit.dart';
 import 'package:testabd/features/profile/settings/regional_settings_state.dart';
+import 'package:testabd/main.dart';
 
 class RegionalSettingsScreen extends StatelessWidget {
   const RegionalSettingsScreen({super.key});
@@ -47,7 +48,10 @@ class _View extends StatelessWidget {
                   child: SizedBox(
                     height: 52,
                     child: ElevatedButton(
-                      onPressed: context.read<RegionalSettingsCubit>().save,
+                      onPressed: (){
+                        context.read<RegionalSettingsCubit>().save();
+                        context.read<RegionalSettingsCubit>().toggleEditableMode();
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.blueAccent,
                         shape: RoundedRectangleBorder(
@@ -136,7 +140,12 @@ class CountriesSection extends StatelessWidget {
       buildWhen: (s1, s2) =>
           s1.countries != s2.countries || s1.isEditable != s2.isEditable,
       builder: (context, state) {
+
+
         final countriesState = state.countries;
+
+        logger.d(countriesState.selected);
+
         return _DropdownField(
           label: "Davlat",
           hint: "Davlatni tanlang",
@@ -162,6 +171,9 @@ class RegionSection extends StatelessWidget {
           s1.regions != s2.regions || s1.isEditable != s2.isEditable,
       builder: (context, state) {
         final regionState = state.regions;
+
+        logger.d(regionState.selected);
+
         return _DropdownField(
           label: "Region",
           hint: "Regionni tanlang",
@@ -188,6 +200,9 @@ class DistrictsSection extends StatelessWidget {
           s1.districts != s2.districts || s1.isEditable != s2.isEditable,
       builder: (context, state) {
         final districtState = state.districts;
+
+        logger.d(districtState.selected);
+
         return _DropdownField(
           label: "District",
           hint: "Districtni tanlang",
@@ -214,6 +229,9 @@ class SettlementSection extends StatelessWidget {
           s1.settlement != s2.settlement || s1.isEditable != s2.isEditable,
       builder: (context, state) {
         final settlementState = state.settlement;
+
+        logger.d(settlementState.selected);
+
         return _DropdownField(
           label: "Settlement",
           hint: "Settlementni tanlang",

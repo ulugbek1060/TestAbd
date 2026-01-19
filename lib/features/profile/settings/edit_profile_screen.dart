@@ -38,7 +38,7 @@ class _View extends StatelessWidget {
             onTap: () => context.push(AppRouter.personalInfo),
           ),
 
-          SizedBox(height: 24),
+          const SizedBox(height: 24),
 
           _Section(title: "Location"),
           _ProfileTile(
@@ -48,7 +48,18 @@ class _View extends StatelessWidget {
             onTap: () => context.push(AppRouter.regionalInfo),
           ),
 
-          SizedBox(height: 24),
+          const SizedBox(height: 24),
+
+          const _Section(title: "Privacy"),
+          _ProfileTile(
+            title: "Change Password",
+            description:
+                "Update your account password to keep your profile secure.",
+            trailing: const Icon(Icons.lock),
+            onTap: () => context.push(AppRouter.changePassword),
+          ),
+
+          const SizedBox(height: 24),
 
           _Section(title: "App Preferences"),
           _ProfileTile(
@@ -65,7 +76,7 @@ class _View extends StatelessWidget {
               },
             ),
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           _ProfileTile(
             title: "Language",
             description:
@@ -86,7 +97,7 @@ class _View extends StatelessWidget {
             ),
           ),
 
-          SizedBox(height: 24),
+          const SizedBox(height: 24),
 
           _Section(title: "Referral"),
           _ProfileTile(
@@ -97,22 +108,21 @@ class _View extends StatelessWidget {
             trailing: const Icon(Icons.history),
           ),
 
-
-          SizedBox(height: 24),
+          const SizedBox(height: 24),
 
           _Section(title: "Account"),
           _ProfileTile(
             title: 'Logout',
             description: 'Sign out from your account',
-            trailing: Icon(Icons.logout, color: Colors.red,),
-            onTap: (){
+            trailing: Icon(Icons.logout, color: Colors.red),
+            onTap: () {
               locator<SessionService>().clear();
               locator<TokenService>().clear();
             },
           ),
 
           // 100
-          SizedBox(height: 100),
+          const SizedBox(height: 100),
         ],
       ),
     );

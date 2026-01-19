@@ -262,7 +262,7 @@ class HeaderSection extends StatelessWidget {
 
             // fullname bui section
             Text(
-              'Full name: $fullname',
+              fullname,
               style: TextStyle(
                 color: Theme.of(context).colorScheme.onSurface,
                 fontWeight: FontWeight.w600,
@@ -270,7 +270,7 @@ class HeaderSection extends StatelessWidget {
             ),
             SizedBox(height: 4),
             Text(
-              'Bio: $bio',
+              bio,
               style: TextStyle(
                 color: Theme.of(context).colorScheme.onSurface,
                 fontWeight: FontWeight.w600,
