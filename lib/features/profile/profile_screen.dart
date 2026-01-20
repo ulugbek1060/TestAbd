@@ -139,7 +139,8 @@ class _ViewState extends State<_View> with SingleTickerProviderStateMixin {
                       ),
 
                       BlocBuilder<ProfileCubit, ProfileState>(
-                        buildWhen: (s1, s2) => s1.myQuestionsState != s2.myQuestionsState,
+                        buildWhen: (s1, s2) =>
+                            s1.myQuestionsState != s2.myQuestionsState,
                         builder: (_, s) => MyQuestionsSection(
                           key: _questionsKey,
                           isEnabled: pageTye == PageType.questions,
@@ -554,6 +555,49 @@ class MyQuestionsSection extends StatelessWidget {
         ),
         delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
           final question = state.myQuestions[index];
+
+          if (question.id == -1) {
+            return GestureDetector(
+              onTap: (){
+                context.push(AppRouter.createQuestions);
+              },
+              child: Container(
+                margin: EdgeInsets.all(4),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.primary,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.onSurface.withOpacity(0.1),
+                      blurRadius: 12,
+                      offset: const Offset(0, 0),
+                    ),
+                  ],
+                ),
+                child: Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.add,
+                        color: Theme.of(context).colorScheme.onPrimary,
+                      ),
+                      const SizedBox(height: 8,),
+                      Text(
+                        'Add question',
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Theme.of(context).colorScheme.onPrimary,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          }
+
           return QuestionCard(
             title: question.title ?? '',
             description: question.description ?? '',

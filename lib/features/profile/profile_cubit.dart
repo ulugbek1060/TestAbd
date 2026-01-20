@@ -8,13 +8,13 @@ import 'package:testabd/core/utils/app_message_handler.dart';
 import 'package:testabd/core/utils/app_mode_service.dart';
 import 'package:testabd/domain/account/account_repository.dart';
 import 'package:testabd/domain/auth/auth_repository.dart';
+import 'package:testabd/domain/quiz/entities/my_qursion_model.dart';
 import 'package:testabd/domain/quiz/quiz_repository.dart';
 import 'package:testabd/features/profile/profile_state.dart';
 import 'package:testabd/main.dart';
 
 @injectable
 class ProfileCubit extends Cubit<ProfileState> {
-  final AuthRepository _authRepository;
   final AccountRepository _accountRepository;
   final QuizRepository _quizRepository;
   final AppMessageHandler _messageHandler;
@@ -23,7 +23,6 @@ class ProfileCubit extends Cubit<ProfileState> {
   late final StreamSubscription _myInfoSubscription;
 
   ProfileCubit(
-    this._authRepository,
     this._accountRepository,
     this._quizRepository,
     this._messageHandler,
@@ -39,7 +38,14 @@ class ProfileCubit extends Cubit<ProfileState> {
     load();
   }
 
-  load() {
+  @override
+  Future<void> close() {
+    _themeSubscription.cancel();
+    _myInfoSubscription.cancel();
+    return super.close();
+  }
+
+  Future<void> load() async {
     fetchUserInfo();
     fetchMyQuestions();
   }
@@ -47,13 +53,6 @@ class ProfileCubit extends Cubit<ProfileState> {
   Future<void> refresh() async {
     fetchUserInfo();
     fetchMyQuestions();
-  }
-
-  @override
-  Future<void> close() {
-    _themeSubscription.cancel();
-    _myInfoSubscription.cancel();
-    return super.close();
   }
 
   Future<void> fetchUserInfo() async {
@@ -167,11 +166,14 @@ class ProfileCubit extends Cubit<ProfileState> {
         _messageHandler.handleDialog(error);
       },
       (questions) {
+        final list = List.of(questions);
+        final itemForAddButton = MyQuestionModel(id: -1);
+        list.insert(0, itemForAddButton);
         emit(
           state.copyWith(
             myQuestionsState: current.copyWith(
               isLoading: false,
-              myQuestions: questions,
+              myQuestions: list,
               error: null,
             ),
           ),
@@ -190,18 +192,5 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   Future<void> fetchRecent() async {
     // TODO fetch recent
-  }
-
-  // logout
-  void logout() async {
-    final result = await _authRepository.logout();
-    result.fold(
-      (error) {
-        logger.e(error.message);
-      },
-      (_) {
-        logger.d('Logout success');
-      },
-    );
   }
 }

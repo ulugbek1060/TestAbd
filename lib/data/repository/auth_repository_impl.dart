@@ -65,7 +65,6 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<Either<AppException, Unit>> logout() async {
     try {
-      // await _accountSource.logout();
       _tokenService.clear();
       _sessionService.clear();
       return Right(unit);

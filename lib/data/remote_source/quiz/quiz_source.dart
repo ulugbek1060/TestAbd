@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:testabd/core/errors/app_exception.dart';
 import 'package:testabd/data/remote_source/quiz/models/answer_response.dart';
+import 'package:testabd/data/remote_source/quiz/models/category_response.dart';
 import 'package:testabd/data/remote_source/quiz/models/followed_questions_response.dart';
 import 'package:testabd/data/remote_source/quiz/models/bookmark_questions_response.dart';
 import 'package:testabd/data/remote_source/quiz/models/my_question_response.dart';
@@ -12,13 +13,25 @@ import 'package:testabd/data/remote_source/quiz/models/user_question_response.da
 import 'models/block_questions_response.dart';
 
 abstract class QuizSource {
-  Future<FollowedQuestionsResponse> getFollowedQuestions(int page, int pageSize,);
-  Future<AnswerResponse> submitAnswer(int questionId, List<int> selectedAnswers, int? duration,);
-  Future<TopicRelatedQuestionsResponse> getTopics(int userId, {int? page, int? pageSize,});
+  Future<FollowedQuestionsResponse> getFollowedQuestions(
+    int page,
+    int pageSize,
+  );
+  Future<AnswerResponse> submitAnswer(
+    int questionId,
+    List<int> selectedAnswers,
+    int? duration,
+  );
+  Future<TopicRelatedQuestionsResponse> getTopics(
+    int userId, {
+    int? page,
+    int? pageSize,
+  });
   Future<List<UserQuestionResponse>> getUserQuestions(int userId);
   Future<BlockQuestionsResponse> getBlockTests(int blockId);
   Future<dynamic> bookmarkQuestions(int questionId);
   Future<BookmarkQuestionsResponse> getQuestionsBookmark();
+  Future<List<CategoryResponse>> getCategories();
   Future<RandomQuestionModel> getRandomQuestion(int page, int pageSize);
   Future<List<MyQuestionResponse>> getMyQuestions();
 }
@@ -29,6 +42,21 @@ class QuizSourceImpl implements QuizSource {
   final Dio _dio;
 
   QuizSourceImpl(this._dio);
+
+  @override
+  Future<List<CategoryResponse>> getCategories() async {
+    try {
+      final response = await _dio.get('/quiz/categories/');
+      final list = (response.data as List<dynamic>)
+          .map((e) => CategoryResponse.fromJson(e))
+          .toList();
+      return list;
+    } on DioException catch (error) {
+      throw error.handleDioException();
+    } catch (e, stackTrace) {
+      throw UnknownException(e.toString(), stackTrace: stackTrace);
+    }
+  }
 
   @override
   Future<FollowedQuestionsResponse> getFollowedQuestions(
