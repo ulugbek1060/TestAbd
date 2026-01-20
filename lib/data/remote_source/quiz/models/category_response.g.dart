@@ -9,14 +9,14 @@ part of 'category_response.dart';
 _$CategoryResponseImpl _$$CategoryResponseImplFromJson(
         Map<String, dynamic> json) =>
     _$CategoryResponseImpl(
-      id: (json['id'] as num).toInt(),
-      totalTests: json['total_tests'] as String,
-      totalQuestions: json['total_questions'] as String,
-      title: json['title'] as String,
-      slug: json['slug'] as String,
-      description: json['description'] as String,
-      emoji: json['emoji'] as String,
-      image: json['image'] as String,
+      id: (json['id'] as num?)?.toInt(),
+      totalTests: (json['total_tests'] as num?)?.toInt(),
+      totalQuestions: (json['total_questions'] as num?)?.toInt(),
+      title: json['title'] as String?,
+      slug: json['slug'] as String?,
+      description: json['description'] as String?,
+      emoji: json['emoji'] as String?,
+      image: json['image'] as String?,
     );
 
 Map<String, dynamic> _$$CategoryResponseImplToJson(

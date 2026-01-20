@@ -21,21 +21,21 @@ CategoryResponse _$CategoryResponseFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$CategoryResponse {
   @JsonKey(name: 'id')
-  int get id => throw _privateConstructorUsedError;
+  int? get id => throw _privateConstructorUsedError;
   @JsonKey(name: 'total_tests')
-  String get totalTests => throw _privateConstructorUsedError;
+  int? get totalTests => throw _privateConstructorUsedError;
   @JsonKey(name: 'total_questions')
-  String get totalQuestions => throw _privateConstructorUsedError;
+  int? get totalQuestions => throw _privateConstructorUsedError;
   @JsonKey(name: 'title')
-  String get title => throw _privateConstructorUsedError;
+  String? get title => throw _privateConstructorUsedError;
   @JsonKey(name: 'slug')
-  String get slug => throw _privateConstructorUsedError;
+  String? get slug => throw _privateConstructorUsedError;
   @JsonKey(name: 'description')
-  String get description => throw _privateConstructorUsedError;
+  String? get description => throw _privateConstructorUsedError;
   @JsonKey(name: 'emoji')
-  String get emoji => throw _privateConstructorUsedError;
+  String? get emoji => throw _privateConstructorUsedError;
   @JsonKey(name: 'image')
-  String get image => throw _privateConstructorUsedError;
+  String? get image => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -50,14 +50,14 @@ abstract class $CategoryResponseCopyWith<$Res> {
       _$CategoryResponseCopyWithImpl<$Res, CategoryResponse>;
   @useResult
   $Res call(
-      {@JsonKey(name: 'id') int id,
-      @JsonKey(name: 'total_tests') String totalTests,
-      @JsonKey(name: 'total_questions') String totalQuestions,
-      @JsonKey(name: 'title') String title,
-      @JsonKey(name: 'slug') String slug,
-      @JsonKey(name: 'description') String description,
-      @JsonKey(name: 'emoji') String emoji,
-      @JsonKey(name: 'image') String image});
+      {@JsonKey(name: 'id') int? id,
+      @JsonKey(name: 'total_tests') int? totalTests,
+      @JsonKey(name: 'total_questions') int? totalQuestions,
+      @JsonKey(name: 'title') String? title,
+      @JsonKey(name: 'slug') String? slug,
+      @JsonKey(name: 'description') String? description,
+      @JsonKey(name: 'emoji') String? emoji,
+      @JsonKey(name: 'image') String? image});
 }
 
 /// @nodoc
@@ -73,48 +73,48 @@ class _$CategoryResponseCopyWithImpl<$Res, $Val extends CategoryResponse>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
-    Object? totalTests = null,
-    Object? totalQuestions = null,
-    Object? title = null,
-    Object? slug = null,
-    Object? description = null,
-    Object? emoji = null,
-    Object? image = null,
+    Object? id = freezed,
+    Object? totalTests = freezed,
+    Object? totalQuestions = freezed,
+    Object? title = freezed,
+    Object? slug = freezed,
+    Object? description = freezed,
+    Object? emoji = freezed,
+    Object? image = freezed,
   }) {
     return _then(_value.copyWith(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
-      totalTests: null == totalTests
+              as int?,
+      totalTests: freezed == totalTests
           ? _value.totalTests
           : totalTests // ignore: cast_nullable_to_non_nullable
-              as String,
-      totalQuestions: null == totalQuestions
+              as int?,
+      totalQuestions: freezed == totalQuestions
           ? _value.totalQuestions
           : totalQuestions // ignore: cast_nullable_to_non_nullable
-              as String,
-      title: null == title
+              as int?,
+      title: freezed == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      slug: null == slug
+              as String?,
+      slug: freezed == slug
           ? _value.slug
           : slug // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
+              as String?,
+      description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
-              as String,
-      emoji: null == emoji
+              as String?,
+      emoji: freezed == emoji
           ? _value.emoji
           : emoji // ignore: cast_nullable_to_non_nullable
-              as String,
-      image: null == image
+              as String?,
+      image: freezed == image
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ) as $Val);
   }
 }
@@ -128,14 +128,14 @@ abstract class _$$CategoryResponseImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: 'id') int id,
-      @JsonKey(name: 'total_tests') String totalTests,
-      @JsonKey(name: 'total_questions') String totalQuestions,
-      @JsonKey(name: 'title') String title,
-      @JsonKey(name: 'slug') String slug,
-      @JsonKey(name: 'description') String description,
-      @JsonKey(name: 'emoji') String emoji,
-      @JsonKey(name: 'image') String image});
+      {@JsonKey(name: 'id') int? id,
+      @JsonKey(name: 'total_tests') int? totalTests,
+      @JsonKey(name: 'total_questions') int? totalQuestions,
+      @JsonKey(name: 'title') String? title,
+      @JsonKey(name: 'slug') String? slug,
+      @JsonKey(name: 'description') String? description,
+      @JsonKey(name: 'emoji') String? emoji,
+      @JsonKey(name: 'image') String? image});
 }
 
 /// @nodoc
@@ -149,48 +149,48 @@ class __$$CategoryResponseImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
-    Object? totalTests = null,
-    Object? totalQuestions = null,
-    Object? title = null,
-    Object? slug = null,
-    Object? description = null,
-    Object? emoji = null,
-    Object? image = null,
+    Object? id = freezed,
+    Object? totalTests = freezed,
+    Object? totalQuestions = freezed,
+    Object? title = freezed,
+    Object? slug = freezed,
+    Object? description = freezed,
+    Object? emoji = freezed,
+    Object? image = freezed,
   }) {
     return _then(_$CategoryResponseImpl(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
-      totalTests: null == totalTests
+              as int?,
+      totalTests: freezed == totalTests
           ? _value.totalTests
           : totalTests // ignore: cast_nullable_to_non_nullable
-              as String,
-      totalQuestions: null == totalQuestions
+              as int?,
+      totalQuestions: freezed == totalQuestions
           ? _value.totalQuestions
           : totalQuestions // ignore: cast_nullable_to_non_nullable
-              as String,
-      title: null == title
+              as int?,
+      title: freezed == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      slug: null == slug
+              as String?,
+      slug: freezed == slug
           ? _value.slug
           : slug // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
+              as String?,
+      description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
-              as String,
-      emoji: null == emoji
+              as String?,
+      emoji: freezed == emoji
           ? _value.emoji
           : emoji // ignore: cast_nullable_to_non_nullable
-              as String,
-      image: null == image
+              as String?,
+      image: freezed == image
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
@@ -199,14 +199,14 @@ class __$$CategoryResponseImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$CategoryResponseImpl extends _CategoryResponse {
   const _$CategoryResponseImpl(
-      {@JsonKey(name: 'id') required this.id,
-      @JsonKey(name: 'total_tests') required this.totalTests,
-      @JsonKey(name: 'total_questions') required this.totalQuestions,
-      @JsonKey(name: 'title') required this.title,
-      @JsonKey(name: 'slug') required this.slug,
-      @JsonKey(name: 'description') required this.description,
-      @JsonKey(name: 'emoji') required this.emoji,
-      @JsonKey(name: 'image') required this.image})
+      {@JsonKey(name: 'id') this.id,
+      @JsonKey(name: 'total_tests') this.totalTests,
+      @JsonKey(name: 'total_questions') this.totalQuestions,
+      @JsonKey(name: 'title') this.title,
+      @JsonKey(name: 'slug') this.slug,
+      @JsonKey(name: 'description') this.description,
+      @JsonKey(name: 'emoji') this.emoji,
+      @JsonKey(name: 'image') this.image})
       : super._();
 
   factory _$CategoryResponseImpl.fromJson(Map<String, dynamic> json) =>
@@ -214,28 +214,28 @@ class _$CategoryResponseImpl extends _CategoryResponse {
 
   @override
   @JsonKey(name: 'id')
-  final int id;
+  final int? id;
   @override
   @JsonKey(name: 'total_tests')
-  final String totalTests;
+  final int? totalTests;
   @override
   @JsonKey(name: 'total_questions')
-  final String totalQuestions;
+  final int? totalQuestions;
   @override
   @JsonKey(name: 'title')
-  final String title;
+  final String? title;
   @override
   @JsonKey(name: 'slug')
-  final String slug;
+  final String? slug;
   @override
   @JsonKey(name: 'description')
-  final String description;
+  final String? description;
   @override
   @JsonKey(name: 'emoji')
-  final String emoji;
+  final String? emoji;
   @override
   @JsonKey(name: 'image')
-  final String image;
+  final String? image;
 
   @override
   String toString() {
@@ -282,15 +282,14 @@ class _$CategoryResponseImpl extends _CategoryResponse {
 
 abstract class _CategoryResponse extends CategoryResponse {
   const factory _CategoryResponse(
-      {@JsonKey(name: 'id') required final int id,
-      @JsonKey(name: 'total_tests') required final String totalTests,
-      @JsonKey(name: 'total_questions') required final String totalQuestions,
-      @JsonKey(name: 'title') required final String title,
-      @JsonKey(name: 'slug') required final String slug,
-      @JsonKey(name: 'description') required final String description,
-      @JsonKey(name: 'emoji') required final String emoji,
-      @JsonKey(name: 'image')
-      required final String image}) = _$CategoryResponseImpl;
+      {@JsonKey(name: 'id') final int? id,
+      @JsonKey(name: 'total_tests') final int? totalTests,
+      @JsonKey(name: 'total_questions') final int? totalQuestions,
+      @JsonKey(name: 'title') final String? title,
+      @JsonKey(name: 'slug') final String? slug,
+      @JsonKey(name: 'description') final String? description,
+      @JsonKey(name: 'emoji') final String? emoji,
+      @JsonKey(name: 'image') final String? image}) = _$CategoryResponseImpl;
   const _CategoryResponse._() : super._();
 
   factory _CategoryResponse.fromJson(Map<String, dynamic> json) =
@@ -298,28 +297,28 @@ abstract class _CategoryResponse extends CategoryResponse {
 
   @override
   @JsonKey(name: 'id')
-  int get id;
+  int? get id;
   @override
   @JsonKey(name: 'total_tests')
-  String get totalTests;
+  int? get totalTests;
   @override
   @JsonKey(name: 'total_questions')
-  String get totalQuestions;
+  int? get totalQuestions;
   @override
   @JsonKey(name: 'title')
-  String get title;
+  String? get title;
   @override
   @JsonKey(name: 'slug')
-  String get slug;
+  String? get slug;
   @override
   @JsonKey(name: 'description')
-  String get description;
+  String? get description;
   @override
   @JsonKey(name: 'emoji')
-  String get emoji;
+  String? get emoji;
   @override
   @JsonKey(name: 'image')
-  String get image;
+  String? get image;
   @override
   @JsonKey(ignore: true)
   _$$CategoryResponseImplCopyWith<_$CategoryResponseImpl> get copyWith =>

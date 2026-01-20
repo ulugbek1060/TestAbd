@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import 'package:testabd/core/errors/app_exception.dart';
 import 'package:testabd/data/remote_source/quiz/quiz_source.dart';
+import 'package:testabd/domain/entity/category_model.dart';
 import 'package:testabd/domain/entity/check_answer_model.dart';
 import 'package:testabd/domain/quiz/entities/global_quiz_model.dart';
 import 'package:testabd/domain/quiz/entities/my_qursion_model.dart';
@@ -104,6 +105,19 @@ class QuizRepositoryImpl extends QuizRepository {
     try {
       final result = await _quizSource.getMyQuestions();
       final list = result.map(MyQuestionModel.fromResponse).toList();
+      return Right(list);
+    } on AppException catch (e) {
+      return Left(e);
+    } catch (e, stackTrace) {
+      return Left(UnknownException(e.toString(), stackTrace: stackTrace));
+    }
+  }
+
+  @override
+  Future<Either<AppException, List<CategoryModel>>> getCategories() async {
+    try {
+      final result = await _quizSource.getCategories();
+      final list = result.map(CategoryModel.fromResponse).toList();
       return Right(list);
     } on AppException catch (e) {
       return Left(e);
