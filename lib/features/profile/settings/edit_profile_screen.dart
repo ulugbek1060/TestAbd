@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:testabd/core/services/session_service.dart';
-import 'package:testabd/core/services/token_service.dart';
 import 'package:testabd/core/utils/app_mode_service.dart';
 import 'package:testabd/core/utils/language_service.dart';
 import 'package:testabd/di/app_config.dart';
+import 'package:testabd/features/profile/settings/edit_profile_cubit.dart';
 import 'package:testabd/features/profile/settings/language_bottom_sheet.dart';
 import 'package:testabd/router/app_router.dart';
 
@@ -13,12 +13,112 @@ class EditProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _View();
+    return BlocProvider(
+      create: (context) => locator<EditProfileCubit>(),
+      child: const _View(),
+    );
   }
 }
 
 class _View extends StatelessWidget {
   const _View({super.key});
+
+  void showLogoutDialog(BuildContext context) {
+    showModalBottomSheet<bool>(
+      context: context,
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (context) {
+        final theme = Theme.of(context);
+
+        return Padding(
+          padding: const EdgeInsets.fromLTRB(16, 12, 16, 32),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              /// Drag Handle
+              Container(
+                width: 40,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: theme.dividerColor,
+                  borderRadius: BorderRadius.circular(4),
+                ),
+              ),
+
+              const SizedBox(height: 20),
+
+              /// Icon
+              Icon(
+                Icons.logout_rounded,
+                size: 48,
+                color: theme.colorScheme.error,
+              ),
+
+              const SizedBox(height: 12),
+
+              /// Title
+              Text(
+                "Log out of account?",
+                style: theme.textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: theme.colorScheme.onSurface,
+                ),
+                textAlign: TextAlign.center,
+              ),
+
+              const SizedBox(height: 8),
+
+              /// Message
+              Text(
+                "You will be signed out from this device. "
+                "You can log back in at any time using your credentials.",
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
+                textAlign: TextAlign.center,
+              ),
+
+              const SizedBox(height: 28),
+
+              /// Actions
+              Row(
+                children: [
+                  /// Cancel / Stay
+                  Expanded(
+                    child: OutlinedButton(
+                      onPressed: () => Navigator.pop(context, false),
+                      child: const Text("Stay Logged In"),
+                    ),
+                  ),
+
+                  const SizedBox(width: 12),
+
+                  /// Logout
+                  Expanded(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: theme.colorScheme.error,
+                        foregroundColor: theme.colorScheme.onError,
+                      ),
+                      onPressed: () => Navigator.pop(context, true),
+                      child: const Text("Log Out"),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
+    ).then((confirmed) {
+      if (confirmed == true) {
+        context.read<EditProfileCubit>().logout();
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -115,10 +215,7 @@ class _View extends StatelessWidget {
             title: 'Logout',
             description: 'Sign out from your account',
             trailing: Icon(Icons.logout, color: Colors.red),
-            onTap: () {
-              locator<SessionService>().clear();
-              locator<TokenService>().clear();
-            },
+            onTap: () => showLogoutDialog(context),
           ),
 
           // 100
