@@ -1,6 +1,14 @@
-part of 'create_question_cubit.dart';
 
-@immutable
-sealed class CreateQuestionState {}
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:testabd/domain/entity/category_model.dart';
 
-final class CreateQuestionInitial extends CreateQuestionState {}
+part 'create_question_state.freezed.dart';
+
+@freezed
+abstract class CreateQuestionState with _$CreateQuestionState {
+  const factory CreateQuestionState({
+    @Default(false) bool isLoading,
+    String? error,
+    @Default([]) List<CategoryModel> categories,
+  }) = _CreateQuestionState;
+}

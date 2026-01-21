@@ -78,7 +78,7 @@ class QuizRepositoryImpl extends QuizRepository {
   ) async {
     try {
       final result = await _quizSource.getUserQuestions(userId);
-      final list = result.map((e) => QuizItem.fromResponse(e)).toList();
+      final list = result.map(QuizItem.fromResponse).toList();
       return Right(list);
     } on AppException catch (e) {
       return Left(e);
